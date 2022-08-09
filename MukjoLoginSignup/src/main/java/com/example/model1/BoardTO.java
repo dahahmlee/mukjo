@@ -14,6 +14,7 @@ public class BoardTO{
 		private String content;
 		private String filename;
 		private long filesize;
+		private String file;
 		private String wdate;
 		private String hit;
 		

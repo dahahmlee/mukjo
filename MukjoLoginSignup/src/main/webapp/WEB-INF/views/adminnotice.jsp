@@ -52,7 +52,7 @@
 				
 				sb.append("<tr>");
 				sb.append("<td>공지</td>");
-				sb.append("<td><a href='#'>"+subject+"</td>");
+				sb.append("<td><a href='adminnotice_view.do?cpage="+cpage+"&bseq="+bseq+"'>"+subject+"</td>");
 				sb.append("<td>"+writer+"</td>");
 				sb.append("<td>"+wdate+"</td>");
 				sb.append("<td>"+hit+"</td>");

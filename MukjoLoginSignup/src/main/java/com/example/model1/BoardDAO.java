@@ -163,4 +163,45 @@ public class BoardDAO {
 			
 		return flag;
 	}
+	
+	//공지 view
+	public BoardTO noticeView(BoardTO to) { 
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		
+		try {
+			conn=this.dataSource.getConnection();
+			
+			//조회수 증가
+			String sql="update board set hit=hit+1 where bseq=?;";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1,to.getBseq());
+			rs=pstmt.executeQuery();
+			
+			//본문 조회
+			sql="select bseq, subject, member.name as writer, content, filename, date_format(wdate, '%Y-%m-%d %H:%i') wdate, hit from board inner join member on board.seq = member.seq where tseq = 1 and bseq = ?";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1,to.getBseq());
+			rs=pstmt.executeQuery();
+			
+			if (rs.next()) {
+				to.setBseq(rs.getString("bseq"));			
+				to.setSubject(rs.getString("subject"));
+				to.setWriter(rs.getString("writer"));
+				to.setWdate(rs.getString("wdate"));
+				to.setHit(rs.getString("hit"));
+				to.setContent(rs.getString("content") ==null ? "" : rs.getString("content").replaceAll("\n", "<br />"));
+				to.setFilename(rs.getString("filename"));
+				to.setFile("<a href='../../upload/"+rs.getString("filename")+"'>"+rs.getString("filename")+"</a>");
+			}
+		} catch (SQLException e) {
+			System.out.println("[에러]:"+e.getMessage());
+		} finally {
+			if (conn!=null) try{conn.close();} catch (SQLException e) {}
+			if (pstmt!=null) try{pstmt.close();} catch (SQLException e) {}
+			if (rs!=null) try{rs.close();} catch (SQLException e) {}
+		}
+		return to;
+	}
 }

@@ -481,6 +481,38 @@ public class MukjoController {
 	     return modelAndView;
 	 }
 	 
+	 @RequestMapping(value = "/adminnotice_view.do")
+	    public ModelAndView adminnotice_view(HttpServletRequest request, Model model) {
+	
+		int cpage = 1;
+		if ( request.getParameter( "cpage" ) != null && !request.getParameter( "cpage" ).equals("") ) {
+			cpage = Integer.parseInt( request.getParameter( "cpage" ) );
+		}
+		
+		BoardListTO listTO = new BoardListTO();
+		listTO.setCpage(cpage);
+		
+		BoardTO to=new BoardTO();
+		to.setBseq(request.getParameter("bseq"));
+		to=bdao.noticeView(to);
+			
+	    ModelAndView modelAndView = new ModelAndView();
+	    modelAndView.setViewName("adminnotice_view");
+	    modelAndView.addObject("to",to);
+		modelAndView.addObject("cpage",cpage);
+	
+	    return modelAndView;
+	 }
+		
+	@RequestMapping(value = "/adminnotice_modify.do")
+	    public ModelAndView adminnotice_modify(HttpServletRequest request, Model model) {
+	
+	    ModelAndView modelAndView = new ModelAndView();
+	    modelAndView.setViewName("adminnotice_modify");
+	
+	    return modelAndView;
+	 }
+	
 	 @RequestMapping(value = "/favorite.do")
 	    public ModelAndView favorite(HttpServletRequest request, Model model) {
 	
@@ -490,69 +522,69 @@ public class MukjoController {
 	    return modelAndView;
 	 }
 	 
-		@RequestMapping( "/somoimboard.do")	
-		public ModelAndView boardList(HttpServletRequest request,HttpServletResponse response,Model model) {
-			int cpage = 1;
-			if(request.getParameter( "cpage" ) != null && !request.getParameter( "cpage" ).equals( "" ) ) {
-				cpage = Integer.parseInt( request.getParameter( "cpage" ) );
-			}
-			
-			BoardListTO listTO = new BoardListTO();
-			// 파라미터 없어서 넣어놓음
-			listTO.setCpage(cpage);
-			listTO.setTseq("2");
-			
-			listTO = bdao.boardList(listTO);
-			
-			ArrayList<BoardTO> noticeLists = bdao.noticeList();
-			
-			model.addAttribute("noticeLists",noticeLists);
-			model.addAttribute("listTO",listTO);
-
-			return new ModelAndView("somoimboard_list"); 
+	@RequestMapping( "/somoimboard.do")	
+	public ModelAndView boardList(HttpServletRequest request,HttpServletResponse response,Model model) {
+		int cpage = 1;
+		if(request.getParameter( "cpage" ) != null && !request.getParameter( "cpage" ).equals( "" ) ) {
+			cpage = Integer.parseInt( request.getParameter( "cpage" ) );
 		}
 		
-		@RequestMapping( "/somoimboard_write.do")	
-		public ModelAndView boardWrite(HttpServletRequest request,HttpServletResponse response,Model model) {
+		BoardListTO listTO = new BoardListTO();
+		// 파라미터 없어서 넣어놓음
+		listTO.setCpage(cpage);
+		listTO.setTseq("2");
+		
+		listTO = bdao.boardList(listTO);
+		
+		ArrayList<BoardTO> noticeLists = bdao.noticeList();
+		
+		model.addAttribute("noticeLists",noticeLists);
+		model.addAttribute("listTO",listTO);
+
+		return new ModelAndView("somoimboard_list"); 
+	}
+	
+	@RequestMapping( "/somoimboard_write.do")	
+	public ModelAndView boardWrite(HttpServletRequest request,HttpServletResponse response,Model model) {
 
 
-			return new ModelAndView("somoimboard_write"); 
+		return new ModelAndView("somoimboard_write"); 
+	}
+	
+	@RequestMapping( "/somoimboard_writeOk.do")	
+	public ModelAndView boardWriteOk(HttpSession sess,HttpServletRequest request,HttpServletResponse response,Model model) throws IOException {
+		String uploadPath = "C:\\Users\\JungGyuJin\\Desktop\\mukjo_project\\새 폴더\\mukjo\\MukjoLoginSignup\\src\\main\\webapp\\upload";
+		int maxFileSize = 20 * 1024 * 1024;
+		String encoding = "utf-8";
+		int flag = 10;
+		
+		MultipartRequest multi = new MultipartRequest(request, uploadPath, maxFileSize, encoding, new DefaultFileRenamePolicy());
+		BoardTO bto = new BoardTO();
+		
+		// tseq 들어오면 바꿔야함
+		bto.setTseq("2");
+		
+		bto.setSeq((String)sess.getAttribute("loginedMemberSeq"));
+		bto.setWriter( (String)sess.getAttribute("loginedMemberName") );
+		
+		bto.setSubject( multi.getParameter( "subject" ) );
+		bto.setContent( multi.getParameter( "content" ) ); 
+
+		bto.setFilename( multi.getFilesystemName( "upload" ) );
+		File file = multi.getFile( "upload" ); 
+		if( file != null ) {
+			bto.setFilesize( file.length() );
 		}
 		
-		@RequestMapping( "/somoimboard_writeOk.do")	
-		public ModelAndView boardWriteOk(HttpSession sess,HttpServletRequest request,HttpServletResponse response,Model model) throws IOException {
-			String uploadPath = "C:\\Users\\JungGyuJin\\Desktop\\mukjo_project\\새 폴더\\mukjo\\MukjoLoginSignup\\src\\main\\webapp\\upload";
-			int maxFileSize = 20 * 1024 * 1024;
-			String encoding = "utf-8";
-			int flag = 10;
-			
-			MultipartRequest multi = new MultipartRequest(request, uploadPath, maxFileSize, encoding, new DefaultFileRenamePolicy());
-			BoardTO bto = new BoardTO();
-			
-			// tseq 들어오면 바꿔야함
-			bto.setTseq("2");
-			
-			bto.setSeq((String)sess.getAttribute("loginedMemberSeq"));
-			bto.setWriter( (String)sess.getAttribute("loginedMemberName") );
-			
-			bto.setSubject( multi.getParameter( "subject" ) );
-			bto.setContent( multi.getParameter( "content" ) ); 
+		
+		flag = bdao.boardWriteOk(bto);
+		
+		model.addAttribute("flag",flag);
+		
+		return new ModelAndView("somoimboard_writeok"); 
+	}
 
-			bto.setFilename( multi.getFilesystemName( "upload" ) );
-			File file = multi.getFile( "upload" ); 
-			if( file != null ) {
-				bto.setFilesize( file.length() );
-			}
-			
-			
-			flag = bdao.boardWriteOk(bto);
-			
-			model.addAttribute("flag",flag);
-			
-			return new ModelAndView("somoimboard_writeok"); 
-		}
-
-		@RequestMapping(value = "/myPage.do")
+	@RequestMapping(value = "/myPage.do")
 	    public ModelAndView myPage(HttpServletRequest request, Model model) {
 	
 	    ModelAndView modelAndView = new ModelAndView();
@@ -561,7 +593,7 @@ public class MukjoController {
 	    return modelAndView;
 	 }
 		
-		@RequestMapping(value = "/myPage_modify.do")
+	@RequestMapping(value = "/myPage_modify.do")
 	    public ModelAndView mypage_modify(HttpServletRequest request, Model model) {
 	
 	    ModelAndView modelAndView = new ModelAndView();
@@ -569,4 +601,6 @@ public class MukjoController {
 	
 	    return modelAndView;
 	 }
+		
+		
 }
