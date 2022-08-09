@@ -41,6 +41,7 @@
 	sbHtml.append("<p>");
 	sbHtml.append(content);
 	sbHtml.append("</p>");
+	
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -596,6 +597,12 @@ textarea {
 							<td><%=writer %></td>
 							<th>조회수</th>
 							<td><%=hit %></td>
+						</tr>
+						<tr>
+							<th>글쓴이</th>
+							<td>관리자</td>
+							<th>조회수</th>
+							<td>11</td>
 						</tr>
 						<tr>
 							<td colspan="4" height="400" valign="top"
