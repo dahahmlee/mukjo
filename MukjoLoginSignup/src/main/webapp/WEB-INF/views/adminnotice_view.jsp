@@ -36,7 +36,9 @@
 	String filename=to.getFilename();
 	
 	StringBuilder sbHtml=new StringBuilder();
-	sbHtml.append("<img src='../../upload/"+filename+"' width='900'/><br />");
+	if (filename!=null) {
+		sbHtml.append("<img src='../../upload/"+filename+"' width='900'/><br />");
+	}
 	sbHtml.append("</div>");
 	sbHtml.append("<p>");
 	sbHtml.append(content);
