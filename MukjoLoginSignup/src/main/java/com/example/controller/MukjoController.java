@@ -569,4 +569,22 @@ public class MukjoController {
 	
 	    return modelAndView;
 	 }
+		
+		@RequestMapping(value = "/adminnotice_view.do")
+	    public ModelAndView adminnotice_view(HttpServletRequest request, Model model) {
+	
+	    ModelAndView modelAndView = new ModelAndView();
+	    modelAndView.setViewName("adminnotice_view");
+	
+	    return modelAndView;
+	 }
+		
+		@RequestMapping(value = "/adminnotice_modify.do")
+	    public ModelAndView adminnotice_modify(HttpServletRequest request, Model model) {
+	
+	    ModelAndView modelAndView = new ModelAndView();
+	    modelAndView.setViewName("adminnotice_modify");
+	
+	    return modelAndView;
+	 }
 }
