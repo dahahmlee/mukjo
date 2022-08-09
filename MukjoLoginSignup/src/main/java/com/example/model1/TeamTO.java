@@ -11,5 +11,4 @@ public class TeamTO {
 	private String seq;
 	private String memcount;
 	private String name;
-	private String tleader;
 }

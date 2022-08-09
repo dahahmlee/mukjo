@@ -499,12 +499,12 @@ footer{
                 <div class="modal-content">
                     <a class="btn-close" href="#none">X</a>
                     <h2>소모임 가입신청</h2>
-                    <p style="font-weight: bold;"> 소모임 이름 :
+                    <p style="font-weight: bold; margin-top: 50px;"> 소모임 이름 :
                        
                          <span>코딩 모임</span>
                          <p style="font-weight: bold;">가입 신청하시겠습니까?</p>
                     </p>
-                     <div class="modal-make" style="margin-top: 80px;">
+                     <div class="modal-make" style="margin-top: 50px;">
                    <a class="btn-guide" id="joinbtn" href="#none" style="color : #fff; margin-right:10px; padding: 10px;">신청</a>
                    <a class="btn-guide btn-exit" href="#none" style="color : #fff; padding: 10px;">취소</a>
                      </div>

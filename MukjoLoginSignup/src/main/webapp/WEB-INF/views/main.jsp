@@ -494,7 +494,7 @@ footer{
         </section>
           
         <section id ="btnSec" >
-            <strong>내 소모임 <b>5</b></strong>
+            <strong>내 소모임 <b>(5)</b></strong>
 
             <div class="search-wrap">           
                 <input type="text" title="검색어 입력">

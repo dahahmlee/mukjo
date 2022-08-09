@@ -25,6 +25,7 @@ import com.example.model1.BoardTO;
 import com.example.model1.MemberDAO;
 import com.example.model1.MemberTO;
 import com.example.model1.PageAdminTeamTO;
+import com.example.model1.PageMainTeamTO;
 import com.example.model1.PageMemberTO;
 import com.example.model1.SignUpDAO;
 import com.example.model1.SignUpTO;
@@ -188,13 +189,21 @@ public class MukjoController {
 	
 	@RequestMapping(value = "/mainall.do")
 	public ModelAndView mainall(HttpServletRequest request, Model model) {
-
-		ArrayList<TeamTO> lists = tdao.mainteamList();
-
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("mainall");
-		modelAndView.addObject("lists",lists);
-		return modelAndView;
+		int cpage = 1;
+		if(request.getParameter("cpage") != null && !request.getParameter("cpage").equals("")) {
+			cpage = Integer.parseInt(request.getParameter("cpage"));
+		}
+		
+		PageMainTeamTO pageMainTeamTO = new PageMainTeamTO();
+		pageMainTeamTO.setCpage(cpage);
+		
+		pageMainTeamTO = tdao.mainteamList(pageMainTeamTO);
+		
+	    ModelAndView modelAndView = new ModelAndView();
+	    modelAndView.setViewName("mainall");
+	    modelAndView.addObject("pageMainTeamTO", pageMainTeamTO);
+	    
+	    return modelAndView;
 	}
 	
 	//구글 - 회원가입? 로그인?
@@ -516,8 +525,6 @@ public class MukjoController {
 			int maxFileSize = 20 * 1024 * 1024;
 			String encoding = "utf-8";
 			int flag = 10;
-			
-			
 			
 			MultipartRequest multi = new MultipartRequest(request, uploadPath, maxFileSize, encoding, new DefaultFileRenamePolicy());
 			BoardTO bto = new BoardTO();

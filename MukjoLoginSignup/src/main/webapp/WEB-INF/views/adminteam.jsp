@@ -578,7 +578,7 @@ footer{
 	} else {
 		out.println("<span>&nbsp;&nbsp;<a href='adminteam.do?cpage="+(startBlock+blockPerPage)+"'>&gt;&gt;</a></span>");
 	}
-%>     
+%>
                 </div><!-- board_pagetab -->
                 
             

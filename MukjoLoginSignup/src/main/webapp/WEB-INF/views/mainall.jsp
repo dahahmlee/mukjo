@@ -1,3 +1,4 @@
+<%@page import="com.example.model1.PageMainTeamTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="com.example.model1.TeamTO"%>
@@ -18,26 +19,42 @@
 		out.println ( "window.location.href = 'http://localhost:8080/login.do'");
 		out.println ( "</script>");
 	}
-
-	ArrayList<TeamTO> lists = (ArrayList)request.getAttribute( "lists" );
 	
-	int totalRecord = lists.size();
+	PageMainTeamTO pageMainTeamTO = (PageMainTeamTO)request.getAttribute("pageMainTeamTO");
+
+	int cpage = pageMainTeamTO.getCpage();
+	int recordPerPage = pageMainTeamTO.getRecordPerPage();
+	int totalRecord = pageMainTeamTO.getTotalRecord();
+	int totalPage = pageMainTeamTO.getTotalPage();
+	int blockPerPage = pageMainTeamTO.getBlockPerPage();
+	int startBlock = pageMainTeamTO.getStartBlock();
+	int endBlock = pageMainTeamTO.getEndBlock();
+	
+	ArrayList<TeamTO> memberLists = pageMainTeamTO.getMainTeamLists();
+
+	int num = 1;
 	
 	StringBuilder sbHtml = new StringBuilder();
 
-	for( TeamTO to : lists ) {
-		String seq = to.getSeq();
-		String tseq = to.getTseq();
-		String tname = to.getTname();
-		String memcount = to.getMemcount();
-		String tleader = to.getTleader();
-
-		sbHtml.append( "<tr>" );
-		sbHtml.append( "<td>" + tseq + "</td>" );
-		sbHtml.append( "<td><a href='./mainjoin.do'>" + tname + "</td>" );
-		sbHtml.append( "<td><a href='./mainjoin.do'>" + tleader + "</td>" );
-		sbHtml.append( "<td>" + memcount + "명</td>" );
-		sbHtml.append( "</tr>" );
+	for (int j = 0 ; j < memberLists.size() ; j = j+20) {
+		num = (pageMainTeamTO.getCpage() - 1) * 20+1;
+		for (int i = j ; i < j+20 ; i++) {
+			
+			if (i < memberLists.size()) {
+				String tseq = memberLists.get(i).getTseq();
+				String tname = memberLists.get(i).getTname();
+				String tleader = memberLists.get(i).getName();
+				String memcount = memberLists.get(i).getMemcount();
+				
+				sbHtml.append( "<tr>" );
+				sbHtml.append( "<td>" + num + "</td>" );
+				sbHtml.append( "<td><a href='./mainjoin.do'>" + tname + "</td>" );
+				sbHtml.append( "<td><a href='./mainjoin.do'>" + tleader + "</td>" );
+				sbHtml.append( "<td>" + memcount + "명</td>" );
+				sbHtml.append( "</tr>" );
+				num+=1;
+			}
+		}
 	}
 %>
     
@@ -481,7 +498,7 @@ footer{
 		</section>
 
 		<section id ="btnSec" >
-			<strong>전체 <b><%=totalRecord %></b></strong>
+			<strong>전체 <b>(<%=totalRecord %>)</b></strong>
 
 			<div class="search-wrap">           
 				<input type="text" title="검색어 입력" value="">
@@ -493,12 +510,12 @@ footer{
 				<div class="modal-content">
 					<a class="btn-close" href="#none">X</a>
 					<h2>소모임 새로 만들기</h2>
-					<p style="font-weight: bold;"> 소모임명
+					<p style="font-weight: bold; margin-top: 50px"> 소모임명
 						<input type="text" id="modal-search" name="tname" required
 							minlength="4" maxlength="20" size="10" style="width: 50% ; height : 30px; "/>
 						<button class="tnameChk btn btn-primary" type="button" id="tnamecheck" onclick="tnamechk(this.form)" value="">중복확인</button>
 					</p>
-					<div class="modal-make" style="margin-top: 100px;">
+					<div class="modal-make" style="margin-top: 70px;">
 						<a class="btn-guide" id="sbtn" href="#none" style="color : #fff; margin-right:10px; padding: 10px;">만들기</a>
 						<a class="btn-guide btn-exit" href="#none" style="color : #fff; padding: 10px;">취소</a>
 					</div>
@@ -588,7 +605,7 @@ footer{
 		<section id="pagingSec">
 			<div class="paginate_regular">
 				<div class="board_pagetab">
-					<span class="off"><a href="#">&lt;&lt;</a>&nbsp;&nbsp;</span>
+					<!-- <span class="off"><a href="#">&lt;&lt;</a>&nbsp;&nbsp;</span>
 					<span class="off"><a href="#">&lt;</a>&nbsp;&nbsp;</span>
 					<ul>
 						<li class="active"><a href="#">1</a></li>
@@ -598,7 +615,43 @@ footer{
 						<li><a href="#">5</a></li>
 					</ul>
 					<span class="off">&nbsp;&nbsp;<a href="#">&gt;</a></span>
-					<span class="off">&nbsp;&nbsp;<a href="#">&gt;&gt;</a></span>
+					<span class="off">&nbsp;&nbsp;<a href="#">&gt;&gt;</a></span> -->
+<%	
+	if (startBlock==1) { //<<
+		out.println("<span><a>&lt;&lt;</a>&nbsp;&nbsp;</span>");
+	} else {
+		out.println("<span><a href='mainall.do?cpage="+(startBlock-blockPerPage)+"'>&lt;&lt;</a>&nbsp;&nbsp;</span>");
+	}
+
+	if (cpage==1) { //<
+		out.println("<span><a>&lt;</a>&nbsp;&nbsp;</span>");
+	} else {
+		out.println("<span><a href='mainall.do?cpage="+(cpage-1)+"'>&lt;</a>&nbsp;&nbsp;</span>");
+	}
+	
+	out.println("<ul>");
+	for (int i=startBlock;i<=endBlock;i++) {
+		if (cpage==i) {
+			out.println("<li class='active'><a>"+i+"</a></li>");
+		} else {
+			out.println("<li><a href='mainall.do?cpage="+i+"'>"+i+"</a></span>");
+		}
+	}
+	
+	out.println("</ul>");
+	
+	if (cpage==totalPage) { //>
+		out.println("<span>&nbsp;&nbsp;<a>&gt;</a></span>");
+	} else {
+		out.println("<span>&nbsp;&nbsp;<a href='mainall.do?cpage="+(cpage+1)+"'>&gt;</a></span>");
+	}
+	
+	if (endBlock==totalPage) { //>>
+		out.println("<span>&nbsp;&nbsp;<a>&gt;&gt;</a></span>");
+	} else {
+		out.println("<span>&nbsp;&nbsp;<a href='mainall.do?cpage="+(startBlock+blockPerPage)+"'>&gt;&gt;</a></span>");
+	}
+%>
 				</div><!-- board_pagetab -->
 			</div><!-- paginate_regular -->
 		</section>
