@@ -1,0 +1,565 @@
+package com.example.controller;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.example.model1.AdminDAO;
+import com.example.model1.BoardDAO;
+import com.example.model1.BoardListTO;
+import com.example.model1.BoardTO;
+import com.example.model1.MemberDAO;
+import com.example.model1.MemberTO;
+import com.example.model1.PageAdminTeamTO;
+import com.example.model1.PageMemberTO;
+import com.example.model1.SignUpDAO;
+import com.example.model1.SignUpTO;
+import com.example.model1.TeamDAO;
+import com.example.model1.TeamTO;
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+
+@RestController
+
+public class MukjoController {
+	@Autowired
+	private SignUpDAO sdao;
+
+	@Autowired
+	private MemberDAO mdao;
+	
+	@Autowired
+	private AdminDAO adao;
+	
+	@Autowired
+	private BoardDAO bdao;
+
+	@Autowired
+	private TeamDAO tdao;
+	
+	@RequestMapping(value = "/login.do")
+	public ModelAndView login(HttpServletRequest request, Model model) {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("login");
+		
+		return modelAndView;
+	}
+
+	@RequestMapping(value = "/loginok.do")
+	public ModelAndView loginOk(HttpSession session, HttpServletRequest request, Model model) {
+		int flag = 10;
+
+		String userName = request.getParameter("username");
+		String password = request.getParameter("password");
+
+		MemberTO mto = new MemberTO();
+		mto.setEmail(userName);
+		mto.setPassword(password);
+
+		flag = mdao.CheckedLogin(mto);
+		String name = "";
+		if (flag == 1) {
+			mto = mdao.MemberLogin(mto);
+			session.setAttribute("loginedMemberSeq", mto.getSeq());
+			session.setAttribute("loginedMemberName", mto.getName());
+		}
+		
+		
+		ModelAndView modelAndView = new ModelAndView();
+
+		modelAndView.setViewName("loginok");
+		modelAndView.addObject("flag", flag);
+
+		return modelAndView;
+	}
+
+	@RequestMapping(value = "/logoutok.do")
+	public ModelAndView logoutOk(HttpSession session, HttpServletRequest request, Model model) {
+		String loginedMemberSeq = (String) session.getAttribute("loginedMemberSeq");
+
+
+		int flag = 10;
+		if (loginedMemberSeq != null) {
+			flag = 1;
+			session.removeAttribute("loginedMemberSeq");
+			session.removeAttribute("loginedMemberName");
+		}
+
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("logoutok");
+		modelAndView.addObject("flag", flag);
+
+		return modelAndView;
+	}
+
+	@RequestMapping(value="/forgotpw.do")
+	   public ModelAndView forgotPw(HttpSession session,HttpServletRequest request, Model model) {
+
+
+	      return new ModelAndView("forgotpw");
+    }
+	   
+	@RequestMapping(value="/forgotpw_ok.do")
+	public ModelAndView forgotPwOk(HttpSession session,HttpServletRequest request, Model model) {
+		  int flag = 10;
+	      
+	      
+		  String mail = request.getParameter("usermail");
+		  String name = request.getParameter("username");
+		  MemberTO mto = new MemberTO();
+		  mto.setEmail(mail);
+		  mto.setName(name);
+		  
+		  
+		  flag = mdao.forgotPw(mto);
+		  
+		  
+		  model.addAttribute("flag",flag);
+
+
+	      return new ModelAndView("forgotpw_ok");
+	}
+
+	@RequestMapping(value = "/signup.do")
+	public ModelAndView signup(HttpServletRequest request, Model model) {
+
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("signup");
+		return modelAndView;
+	}
+
+	@RequestMapping(value = "/signup_ok.do")
+	public ModelAndView signup_ok(HttpServletRequest request, Model model) {
+		SignUpTO sto = new SignUpTO();
+		sto.setEmail(request.getParameter("email"));
+		sto.setPassword(request.getParameter("password"));
+		sto.setName(request.getParameter("name"));
+		sto.setPhone(request.getParameter("phone"));
+		sto.setBirth(request.getParameter("birth"));
+
+		int flag = sdao.SignUpOk(sto);
+
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("signup_ok");
+		modelAndView.addObject("flag", flag);
+		return modelAndView;
+	}
+
+	@RequestMapping(value = "/checkmail.do")
+	public ModelAndView checkmail(HttpServletRequest request, Model model) {
+		String mail = request.getParameter("email");
+		boolean result = sdao.CheckMail(mail);
+
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("checkmail");
+		modelAndView.addObject("result", result);
+		return modelAndView;
+	}
+
+	@RequestMapping(value = "/main.do")
+	public ModelAndView main(HttpServletRequest request, Model model) {
+
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("main");
+		return modelAndView;
+	}
+	
+	@RequestMapping(value = "/mainjoin.do")
+	public ModelAndView mainjoin(HttpServletRequest request, Model model) {
+
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("mainjoin");
+		return modelAndView;
+	}
+	
+	@RequestMapping(value = "/mainall.do")
+	public ModelAndView mainall(HttpServletRequest request, Model model) {
+
+		ArrayList<TeamTO> lists = tdao.mainteamList();
+
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("mainall");
+		modelAndView.addObject("lists",lists);
+		return modelAndView;
+	}
+	
+	//구글 - 회원가입? 로그인?
+    @RequestMapping(value="/sociallogin/googlelogin.do")
+	public ModelAndView googlelogin(HttpSession session,HttpServletRequest request, Model model) {
+		
+		OAuth2User user = getCurrentUser();
+		
+		String email=(String)user.getAttributes().get("email");
+		int count=mdao.EmailCheck(email); 
+		//System.out.println(count);
+		//System.out.println(email);
+		
+		ModelAndView modelAndView=new ModelAndView();
+		
+		if(count==0) { //비회원 --> 회원 가입
+			modelAndView.setViewName("signup_google");
+			modelAndView.addObject("email",email);
+		} else if (count==1) { //회원 --> 로그인			
+			int flag=1;
+			
+			MemberTO mto = new MemberTO();
+			mto.setEmail(email);
+			
+			mto=mdao.EmailLogin(mto);
+			session.setAttribute("loginedMemberSeq", mto.getSeq());
+			session.setAttribute("loginedMemberName", mto.getName());
+			modelAndView.setViewName("loginok");
+			modelAndView.addObject("flag",flag);
+		} else {
+			System.out.println("대환장 에러");
+		}
+
+		return modelAndView;
+		
+	}
+	
+	public OAuth2User getCurrentUser() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		return ((OAuth2AuthenticationToken)auth).getPrincipal();
+	}
+		
+	//관리자 페이지
+	@RequestMapping(value = "/admin.do")
+    public ModelAndView admin(HttpServletRequest request, Model model) {
+
+		int btoday=adao.boardToday();
+		int bone=adao.boardOne();
+		int btwo=adao.boardTwo();
+		int bthree=adao.boardThree();
+		int bfour=adao.boardFour();
+		int bfive=adao.boardFive();
+		int bsix=adao.boardSix();
+		int bseven=adao.boardSeven();
+		int rtoday=adao.reviewToday();
+		int rone=adao.reviewOne();
+		int rtwo=adao.reviewTwo();
+		int rthree=adao.reviewThree();
+		int rfour=adao.reviewFour();
+		int rfive=adao.reviewFive();
+		int rsix=adao.reviewSix();
+		int rseven=adao.reviewSeven();
+		String today=adao.today();
+		String one=adao.one();
+		String two=adao.two();
+		String three=adao.three();
+		String four=adao.four();
+		String five=adao.five();
+		String six=adao.six();
+		String seven=adao.seven();
+
+	    ModelAndView mv = new ModelAndView();
+	    mv.setViewName("admin");
+	    mv.addObject("btoday",btoday);
+	    mv.addObject("bone",bone);
+	    mv.addObject("btwo",btwo);
+	    mv.addObject("bthree",bthree);
+	    mv.addObject("bfour",bfour);
+	    mv.addObject("bfive",bfive);
+	    mv.addObject("bsix",bsix);
+	    mv.addObject("bseven",bseven);
+	    mv.addObject("rtoday",rtoday);
+	    mv.addObject("rone",rone);
+	    mv.addObject("rtwo",rtwo);
+	    mv.addObject("rthree",rthree);
+	    mv.addObject("rfour",rfour);
+	    mv.addObject("rfive",rfive);
+	    mv.addObject("rsix",rsix);
+	    mv.addObject("rseven",rseven);
+	    mv.addObject("today",today);
+	    mv.addObject("one",one);
+	    mv.addObject("two",two);
+	    mv.addObject("three",three);
+	    mv.addObject("four",four);
+	    mv.addObject("five",five);
+	    mv.addObject("six",six);
+	    mv.addObject("seven",seven);
+	    
+	    return mv;
+	}
+ 
+	@RequestMapping(value = "/adminmemberlists.do")
+	    public ModelAndView adminmemberlists(HttpServletRequest request, Model model) {
+	
+		int cpage = 1;
+		if(request.getParameter("cpage") != null && !request.getParameter("cpage").equals("")) {
+			cpage = Integer.parseInt(request.getParameter("cpage"));
+		}
+		
+		PageMemberTO pageMemberTO=new PageMemberTO();
+		pageMemberTO.setCpage(cpage);
+		
+		pageMemberTO = mdao.memberList(pageMemberTO);
+		
+	    ModelAndView modelAndView = new ModelAndView();
+	    modelAndView.setViewName("adminmemberlists");
+	    modelAndView.addObject("pageMemberTO",pageMemberTO);
+	
+	    return modelAndView;
+	 }
+	 
+	 //회원 추방 확인
+	 @RequestMapping(value = "/addeletemember.do")
+	    public ModelAndView addeletemember(HttpServletRequest request, Model model) {
+	
+		String name=request.getParameter("name");
+		String seq=request.getParameter("seq");
+
+	    ModelAndView modelAndView = new ModelAndView();
+	    modelAndView.setViewName("addeletemember");
+	    modelAndView.addObject("name",name);
+	    modelAndView.addObject("seq",seq);
+	
+	    return modelAndView;
+	 }
+	 
+	 //회원 추방 확인 후 삭제
+	 @RequestMapping(value = "/addeletemember_ok.do")
+	    public ModelAndView adminmemberdeleteok(HttpServletRequest request, Model model) {
+	
+		String seq=request.getParameter("seq");
+
+	    ModelAndView modelAndView = new ModelAndView();
+	    modelAndView.setViewName("addeletemember_ok");
+	    int flag=mdao.adDeleteMember(seq);
+	    modelAndView.addObject("flag",flag);
+	
+	    return modelAndView;
+	 }
+	 
+	//소모임 목록
+	 @RequestMapping(value = "/adminteam.do")
+	    public ModelAndView adminteam(HttpServletRequest request, Model model) {
+	
+		int cpage = 1;
+		if(request.getParameter("cpage") != null && !request.getParameter("cpage").equals("")) {
+			cpage = Integer.parseInt(request.getParameter("cpage"));
+		}
+		
+		PageAdminTeamTO pageAdminTeamTO=new PageAdminTeamTO();
+		pageAdminTeamTO.setCpage(cpage);
+		
+		pageAdminTeamTO = tdao.teamList(pageAdminTeamTO);
+		
+	    ModelAndView modelAndView = new ModelAndView();
+	    modelAndView.setViewName("adminteam");
+	    modelAndView.addObject("pageAdminTeamTO",pageAdminTeamTO);
+	    
+	    return modelAndView;
+	 }
+	 
+	 //소모임 삭제 확인
+	 @RequestMapping(value = "/addeleteteam.do")
+	    public ModelAndView addeleteteam(HttpServletRequest request, Model model) {
+	
+		String tseq=request.getParameter("tseq");
+		String tname=request.getParameter("tname");
+		
+	    ModelAndView modelAndView = new ModelAndView();
+	    modelAndView.setViewName("addeleteteam");
+	    modelAndView.addObject("tname",tname);
+	    modelAndView.addObject("tseq",tseq);
+	
+	    return modelAndView;
+	 }
+	 
+	 //소모임 삭제 확인 후 삭제
+	 @RequestMapping(value = "/addeleteteam_ok.do")
+	    public ModelAndView addeleteteamok(HttpServletRequest request, Model model) {
+	
+		String tseq=request.getParameter("tseq");
+
+	    ModelAndView modelAndView = new ModelAndView();
+	    modelAndView.setViewName("addeleteteam_ok");
+	    int flag=tdao.adDeleteTeam(tseq);
+	    modelAndView.addObject("flag",flag);
+	
+	    return modelAndView;
+	 }
+	 
+	 @RequestMapping(value = "/adminnotice.do")
+	    public ModelAndView adminnotice(HttpServletRequest request, Model model) {
+	    
+		int cpage = 1;
+		if(request.getParameter( "cpage" ) != null && !request.getParameter( "cpage" ).equals( "" ) ) {
+			cpage = Integer.parseInt( request.getParameter( "cpage" ) );
+		}
+		
+		BoardListTO boardListTO = new BoardListTO();
+
+		boardListTO.setCpage(cpage);
+		//listTO.setTseq("1");
+		
+		boardListTO = bdao.noticeList(boardListTO);
+		
+		ModelAndView modelAndView = new ModelAndView();
+	    modelAndView.setViewName("adminnotice");
+	    modelAndView.addObject("boardListTO",boardListTO);
+	
+	    return modelAndView;
+	 }
+	 
+	 @RequestMapping(value = "/adminnotice_write.do")
+	    public ModelAndView adminnotice_write(HttpServletRequest request, Model model) {
+	
+		int cpage = 1;
+		if( request.getParameter("cpage") != null && !request.getParameter("cpage").equals("")) {
+			cpage = Integer.parseInt(request.getParameter("cpage"));
+		}
+		
+		BoardListTO listTO = new BoardListTO();		
+		listTO.setCpage(cpage);
+		
+	    ModelAndView modelAndView = new ModelAndView();
+	    modelAndView.setViewName("adminnotice_write");
+	    modelAndView.addObject("cpage",cpage);
+	
+	    return modelAndView;
+	 }
+	 
+	 @RequestMapping(value = "/adminnotice_writeok.do")
+	     public ModelAndView adminnotice_writeok(HttpSession sess,HttpServletRequest request,HttpServletResponse response,Model model) {
+	
+		 String uploadPath = "C:/github/MukjoLoginSignup/src/main/webapp/upload";
+		 int maxFileSize = 20 * 1024 * 1024;
+		 String encoding = "utf-8";
+	
+		 int flag = 10;
+	
+		 MultipartRequest multi = null;
+		 BoardTO bto = new BoardTO();
+		 try {
+			 multi=new MultipartRequest(request, uploadPath, maxFileSize, encoding, new DefaultFileRenamePolicy());
+			
+			 bto.setSeq((String)sess.getAttribute("loginedMemberSeq"));
+			 bto.setWriter( (String)sess.getAttribute("loginedMemberName") );
+			
+			 bto.setSubject( multi.getParameter( "subject" ) );
+			 bto.setContent( multi.getParameter( "content" ) ); 
+	
+			 bto.setFilename( multi.getFilesystemName( "upload" ) );
+			 if( multi.getFile( "upload" ) != null ) {
+				 bto.setFilesize( multi.getFile( "upload" ).length() );
+			 }
+			 
+			 flag = bdao.noticeWriteOk(bto);
+		} catch (IOException e) {
+			System.out.println( "[에러] " + e.getMessage() );
+		}
+	
+	     ModelAndView modelAndView = new ModelAndView();
+	     modelAndView.setViewName("adminnotice_writeok");
+	     modelAndView.addObject("flag",flag);
+	
+	     return modelAndView;
+	 }
+	 
+	 @RequestMapping(value = "/favorite.do")
+	    public ModelAndView favorite(HttpServletRequest request, Model model) {
+	
+	    ModelAndView modelAndView = new ModelAndView();
+	    modelAndView.setViewName("favorite");
+	
+	    return modelAndView;
+	 }
+	 
+		@RequestMapping( "/somoimboard.do")	
+		public ModelAndView boardList(HttpServletRequest request,HttpServletResponse response,Model model) {
+			int cpage = 1;
+			if(request.getParameter( "cpage" ) != null && !request.getParameter( "cpage" ).equals( "" ) ) {
+				cpage = Integer.parseInt( request.getParameter( "cpage" ) );
+			}
+			
+			BoardListTO listTO = new BoardListTO();
+			// 파라미터 없어서 넣어놓음
+			listTO.setCpage(cpage);
+			listTO.setTseq("2");
+			
+			listTO = bdao.boardList(listTO);
+			
+			ArrayList<BoardTO> noticeLists = bdao.noticeList();
+			
+			model.addAttribute("noticeLists",noticeLists);
+			model.addAttribute("listTO",listTO);
+
+			return new ModelAndView("somoimboard_list"); 
+		}
+		
+		@RequestMapping( "/somoimboard_write.do")	
+		public ModelAndView boardWrite(HttpServletRequest request,HttpServletResponse response,Model model) {
+
+
+			return new ModelAndView("somoimboard_write"); 
+		}
+		
+		@RequestMapping( "/somoimboard_writeOk.do")	
+		public ModelAndView boardWriteOk(HttpSession sess,HttpServletRequest request,HttpServletResponse response,Model model) throws IOException {
+			String uploadPath = "C:\\Users\\JungGyuJin\\Desktop\\mukjo_project\\새 폴더\\mukjo\\MukjoLoginSignup\\src\\main\\webapp\\upload";
+			int maxFileSize = 20 * 1024 * 1024;
+			String encoding = "utf-8";
+			int flag = 10;
+			
+			
+			
+			MultipartRequest multi = new MultipartRequest(request, uploadPath, maxFileSize, encoding, new DefaultFileRenamePolicy());
+			BoardTO bto = new BoardTO();
+			
+			// tseq 들어오면 바꿔야함
+			bto.setTseq("2");
+			
+			bto.setSeq((String)sess.getAttribute("loginedMemberSeq"));
+			bto.setWriter( (String)sess.getAttribute("loginedMemberName") );
+			
+			bto.setSubject( multi.getParameter( "subject" ) );
+			bto.setContent( multi.getParameter( "content" ) ); 
+
+			bto.setFilename( multi.getFilesystemName( "upload" ) );
+			File file = multi.getFile( "upload" ); 
+			if( file != null ) {
+				bto.setFilesize( file.length() );
+			}
+			
+			
+			flag = bdao.boardWriteOk(bto);
+			
+			model.addAttribute("flag",flag);
+			
+			return new ModelAndView("somoimboard_writeok"); 
+		}
+
+		@RequestMapping(value = "/myPage.do")
+	    public ModelAndView myPage(HttpServletRequest request, Model model) {
+	
+	    ModelAndView modelAndView = new ModelAndView();
+	    modelAndView.setViewName("myPage");
+	
+	    return modelAndView;
+	 }
+		
+		@RequestMapping(value = "/myPage_modify.do")
+	    public ModelAndView mypage_modify(HttpServletRequest request, Model model) {
+	
+	    ModelAndView modelAndView = new ModelAndView();
+	    modelAndView.setViewName("myPage_modify");
+	
+	    return modelAndView;
+	 }
+}
