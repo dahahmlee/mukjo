@@ -48,6 +48,7 @@ public class MukjoController {
 	
 	@Autowired
 	private BoardDAO bdao;
+	private String uploadPath="C:\\Users\\JungGyuJin\\Desktop\\mukjo_project\\gitMukjo\\mukjo\\MukjoLoginSignup\\src\\main\\webapp\\upload";
 
 	@Autowired
 	private TeamDAO tdao;
@@ -202,8 +203,19 @@ public class MukjoController {
 	    ModelAndView modelAndView = new ModelAndView();
 	    modelAndView.setViewName("mainall");
 	    modelAndView.addObject("pageMainTeamTO", pageMainTeamTO);
-	    
 	    return modelAndView;
+	}
+	
+	@RequestMapping(value = "/checktname.do")
+	public ModelAndView checktname(HttpServletRequest request, Model model) {
+		String tname = request.getParameter("tname");
+		String seq = request.getParameter("seq");
+		boolean result = tdao.CheckTname(tname, seq);
+
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("checktname");
+		modelAndView.addObject("result", result);
+		return modelAndView;
 	}
 	
 	//구글 - 회원가입? 로그인?
@@ -447,7 +459,8 @@ public class MukjoController {
 	 @RequestMapping(value = "/adminnotice_writeok.do")
 	     public ModelAndView adminnotice_writeok(HttpSession sess,HttpServletRequest request,HttpServletResponse response,Model model) {
 	
-		 String uploadPath = "C:/github/MukjoLoginSignup/src/main/webapp/upload";
+		 //String uploadPath = "C:\\Users\\JungGyuJin\\Desktop\\mukjo_project\\gitMukjo\\mukjo\\MukjoLoginSignup\\src\\main\\webapp\\upload";
+
 		 int maxFileSize = 20 * 1024 * 1024;
 		 String encoding = "utf-8";
 	
@@ -504,15 +517,106 @@ public class MukjoController {
 	    return modelAndView;
 	 }
 		
-	@RequestMapping(value = "/adminnotice_modify.do")
+	 @RequestMapping(value = "/adminnotice_modify.do")
 	    public ModelAndView adminnotice_modify(HttpServletRequest request, Model model) {
 	
+		int cpage = 1;
+		if( request.getParameter("cpage") != null && !request.getParameter("cpage").equals("")) {
+			cpage = Integer.parseInt(request.getParameter("cpage"));
+		}
+
+		BoardListTO listTO = new BoardListTO();		
+		listTO.setCpage(cpage);	
+		
+		BoardTO to = new BoardTO();
+		to.setBseq(request.getParameter("bseq"));
+		
+		to = bdao.noticeModify(to);
+		
 	    ModelAndView modelAndView = new ModelAndView();
 	    modelAndView.setViewName("adminnotice_modify");
-	
+	    modelAndView.addObject("to",to);
+		modelAndView.addObject("cpage",cpage);
+		
 	    return modelAndView;
 	 }
 	
+	 //공지 수정 - 확인 후 수정
+	 @RequestMapping(value = "/adminnotice_modifyok.do")
+	    public ModelAndView adminnotice_modifyok(HttpServletRequest request, Model model) {
+	
+		int cpage = 1;
+		if( request.getParameter("cpage") != null && !request.getParameter("cpage").equals("")) {
+			cpage = Integer.parseInt(request.getParameter("cpage"));
+		}
+
+		BoardListTO listTO = new BoardListTO();		
+		listTO.setCpage(cpage);	
+
+		int maxFileSize=2*1024*1024; //2메가
+		String encType="utf-8";
+		
+		MultipartRequest multi = null;
+		int flag=100;
+		String bseq="";
+		
+		try {
+			multi = new MultipartRequest(request, uploadPath, maxFileSize, encType, new DefaultFileRenamePolicy() );
+			
+			BoardTO to=new BoardTO();
+			to.setBseq(multi.getParameter("bseq"));
+			to.setSubject(multi.getParameter("subject"));
+			to.setContent(multi.getParameter("content"));
+
+			//새 파일명
+			to.setNewFileName(multi.getFilesystemName("upload"));
+			to.setNewFileSize(0);
+			if (multi.getFile("upload")!=null) {
+				to.setNewFileSize(multi.getFile("upload").length());
+			}
+			bseq = multi.getParameter("bseq");
+			flag=bdao.noticeModifyOk(to);
+		} catch (IOException e) {
+			System.out.println( "[에러] " + e.getMessage() );
+		}
+		
+	    ModelAndView modelAndView = new ModelAndView();
+	    modelAndView.setViewName("adminnotice_modifyok");
+	    modelAndView.addObject("flag",flag);
+		modelAndView.addObject("cpage",cpage);
+		modelAndView.addObject("bseq",bseq);
+		
+	    return modelAndView;
+	 }
+	
+	 
+	 //공지 삭제 확인
+	 @RequestMapping(value = "/adminnotice_delete.do")
+	    public ModelAndView adminnotice_delete(HttpServletRequest request, Model model) {
+	
+		String bseq=request.getParameter("bseq");
+
+	    ModelAndView modelAndView = new ModelAndView();
+	    modelAndView.setViewName("adminnotice_delete");
+	    modelAndView.addObject("bseq",bseq);
+	
+	    return modelAndView;
+	 }
+	 
+	 //공지 삭제 확인 후 삭제
+	 @RequestMapping(value = "/adminnotice_deleteok.do")
+	    public ModelAndView adminnotice_deleteok(HttpServletRequest request, Model model) {
+	
+		String bseq=request.getParameter("bseq");
+
+	    ModelAndView modelAndView = new ModelAndView();
+	    modelAndView.setViewName("adminnotice_deleteok");
+	    int flag=bdao.noticeDelete(bseq);
+	    modelAndView.addObject("flag",flag);
+	
+	    return modelAndView;
+	 }
+	 
 	 @RequestMapping(value = "/favorite.do")
 	    public ModelAndView favorite(HttpServletRequest request, Model model) {
 	
@@ -551,9 +655,11 @@ public class MukjoController {
 		return new ModelAndView("somoimboard_write"); 
 	}
 	
-	@RequestMapping( "/somoimboard_writeOk.do")	
+	@RequestMapping( "/somoimboard_writeok.do")	
 	public ModelAndView boardWriteOk(HttpSession sess,HttpServletRequest request,HttpServletResponse response,Model model) throws IOException {
-		String uploadPath = "C:\\Users\\JungGyuJin\\Desktop\\mukjo_project\\새 폴더\\mukjo\\MukjoLoginSignup\\src\\main\\webapp\\upload";
+		
+		//String uploadPath = "C:\\Users\\JungGyuJin\\Desktop\\mukjo_project\\새 폴더\\mukjo\\MukjoLoginSignup\\src\\main\\webapp\\upload";
+
 		int maxFileSize = 20 * 1024 * 1024;
 		String encoding = "utf-8";
 		int flag = 10;
@@ -584,6 +690,26 @@ public class MukjoController {
 		return new ModelAndView("somoimboard_writeok"); 
 	}
 
+	@RequestMapping( "/somoimboard_view.do")   
+	   public ModelAndView boardView(HttpServletRequest request,HttpServletResponse response,Model model) {
+
+		String tseq = request.getParameter("tseq");
+		String bseq = request.getParameter("bseq");
+		BoardTO bto = new BoardTO();
+		bto.setBseq(bseq);
+		bto.setTseq(tseq);
+		
+		bto = bdao.boardView(bto);
+		
+		model.addAttribute("subject",bto.getSubject());
+		model.addAttribute("wdate",bto.getWdate());
+		model.addAttribute("writer",bto.getWriter());
+		model.addAttribute("hit",bto.getHit());
+		model.addAttribute("content",bto.getContent());
+		
+	      return new ModelAndView("somoimboard_view"); 
+	}
+	
 	@RequestMapping(value = "/myPage.do")
 	    public ModelAndView myPage(HttpServletRequest request, Model model) {
 	
@@ -594,11 +720,35 @@ public class MukjoController {
 	 }
 		
 	@RequestMapping(value = "/myPage_modify.do")
-	    public ModelAndView mypage_modify(HttpServletRequest request, Model model) {
+	    public ModelAndView mypage_modify(HttpSession session, HttpServletRequest request, Model model) {
 	
+		String seq=(String) session.getAttribute("loginedMemberSeq");
+		MemberTO to=mdao.myPageModify(seq);
+		
 	    ModelAndView modelAndView = new ModelAndView();
 	    modelAndView.setViewName("myPage_modify");
+	    modelAndView.addObject("to",to);
+	    
+	    return modelAndView;
+	 }
 	
+	@RequestMapping(value = "/myPage_modifyok.do")
+	    public ModelAndView mypage_modifyok(HttpSession session, HttpServletRequest request, Model model) {
+	
+		String seq=(String) session.getAttribute("loginedMemberSeq");
+		MemberTO to=new MemberTO();
+		to.setSeq(seq);
+		to.setEmail(request.getParameter("email"));
+		to.setBirth(request.getParameter("birth"));
+		to.setPhone(request.getParameter("phone"));
+		to.setPassword(request.getParameter("pwd1"));
+	
+		int flag=mdao.myPageModifyOk(to);
+		
+	    ModelAndView modelAndView = new ModelAndView();
+	    modelAndView.setViewName("myPage_modifyok");
+	    modelAndView.addObject("flag",flag);
+	    
 	    return modelAndView;
 	 }
 }

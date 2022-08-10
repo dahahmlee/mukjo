@@ -1,5 +1,6 @@
 package com.example.model1;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,6 +24,7 @@ public class BoardDAO {
 	
 	@Autowired
 	private DataSource dataSource;
+	private String uploadPath="C:/github/MukjoLoginSignup/src/main/webapp/upload";
 	
 	public ArrayList<BoardTO> noticeList() {
 		
@@ -33,17 +35,30 @@ public class BoardDAO {
 	}
 	
 	public BoardListTO boardList(BoardListTO listTO) {
-
+		
+		ArrayList<BoardTO> noticeLists = this.noticeList();
 		
 		int cpage = listTO.getCpage();
 		int recordPerPage = listTO.getRecordPerPage();
+		
+		recordPerPage = listTO.getRecordPerPage();
+		
+		
 		int blockPerPage = listTO.getBlockPerPage();
 		
 		int skip = (cpage -1)* recordPerPage;
+			String sql = "";
 			
-			String sql = "select bseq, member.name as writer, subject, date_format(wdate, '%Y-%m-%d') wdate, hit from board inner join member on board.seq = member.seq where tseq = ? order by bseq desc limit ?,20";
-			ArrayList<BoardTO> lists = (ArrayList)jdbcTemplate.query(sql, new BeanPropertyRowMapper<BoardTO>(BoardTO.class),listTO.getTseq(),skip);
-
+			ArrayList<BoardTO> lists = new ArrayList<BoardTO>();
+			if (cpage == 1) {
+			sql = "select bseq, member.name as writer, subject, date_format(wdate, '%Y-%m-%d') wdate, hit from board inner join member on board.seq = member.seq where tseq = ? order by bseq desc limit ?,?";
+			lists = (ArrayList)jdbcTemplate.query(sql, new BeanPropertyRowMapper<BoardTO>(BoardTO.class),listTO.getTseq(),skip,recordPerPage - noticeLists.size());
+			} else {
+				sql = "select bseq, member.name as writer, subject, date_format(wdate, '%Y-%m-%d') wdate, hit from board inner join member on board.seq = member.seq where tseq = ? order by bseq desc limit ?,?";
+			lists = (ArrayList)jdbcTemplate.query(sql, new BeanPropertyRowMapper<BoardTO>(BoardTO.class),listTO.getTseq(),skip,recordPerPage);	
+				
+			}
+			
 			sql = "select count(*) from board inner join member on board.seq = member.seq where tseq=?";
 			
 			int totalRecord = jdbcTemplate.queryForObject(sql,int.class,listTO.getTseq());
@@ -78,6 +93,40 @@ public class BoardDAO {
 		
 		return flag;
 	}
+	
+	public BoardTO boardView(BoardTO to) {
+
+		
+		String sql = "update board set hit=hit+1 where bseq=?";
+		jdbcTemplate.update(sql,to.getBseq());
+
+		
+		sql = "select bseq,tseq, subject, member.name as writer, wdate, hit, content, filename, filesize from board inner join member on board.seq = member.seq where bseq=?";
+		to = jdbcTemplate.queryForObject(sql,new RowMapper<BoardTO>()  {
+			
+					@Override
+					public BoardTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+						BoardTO to2 = new BoardTO();
+						to2.setBseq(rs.getString("bseq"));
+						to2.setTseq(rs.getString("tseq"));
+						to2.setSubject(rs.getString("subject"));
+						to2.setWriter(rs.getString("writer"));
+						to2.setWdate(rs.getString("wdate"));
+						to2.setHit(rs.getString("hit"));
+						to2.setContent(rs.getString("content") == null ? "" : rs.getString("content").replaceAll("\n","</br>"));
+						to2.setFilename(rs.getString("filename"));
+						to2.setFilesize(rs.getLong("filesize"));
+
+
+						
+						return to2;
+
+					} },to.getBseq());		
+			
+
+		
+				return to;
+		}
 	
 	// Board Insert sql :  insert into board values  ( 0, 2, 3, 'test', 'test content' ,'','',now(),0 );
 	
@@ -136,6 +185,8 @@ public class BoardDAO {
 		return boardListTO;
 	}
 	
+	
+	
 	//공지 쓰기
 	public int noticeWriteOk(BoardTO to) {
 		Connection conn=null;
@@ -145,6 +196,10 @@ public class BoardDAO {
 		try {
 			conn=this.dataSource.getConnection();
 
+			String sql2 = "SET foreign_key_checks = 0";
+			pstmt = conn.prepareStatement(sql2);
+			pstmt.executeUpdate();
+			
 			String sql="insert into board values (0,1,1,?,?,?,?,now(),0)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, to.getSubject());
@@ -154,6 +209,10 @@ public class BoardDAO {
 			if(pstmt.executeUpdate() == 1) {
 				flag = 0;
 			}
+			
+			String sql3 = "SET foreign_key_checks = 1";
+			pstmt = conn.prepareStatement(sql3);
+			pstmt.executeUpdate();
 		} catch(SQLException e) {
 			System.out.println("[에러]: " + e.getMessage());
 		} finally {
@@ -203,5 +262,131 @@ public class BoardDAO {
 			if (rs!=null) try{rs.close();} catch (SQLException e) {}
 		}
 		return to;
+	}
+	
+	//공지 수정
+	public BoardTO noticeModify(BoardTO to) {
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		
+		try {
+			conn=this.dataSource.getConnection();
+			
+			String sql="select bseq, subject, content, filename from board where bseq=?;";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1,to.getBseq());
+			rs=pstmt.executeQuery();
+			
+			if (rs.next()) {
+				to.setBseq(rs.getString("bseq"));
+				to.setSubject(rs.getString("subject"));
+				to.setContent(rs.getString("content"));
+				to.setFilename(rs.getString("filename"));
+			}	
+		} catch (SQLException e) {
+			System.out.println("[에러]:"+e.getMessage());
+		} finally {
+			if (conn!=null) try{conn.close();} catch(SQLException e) {}
+			if (pstmt!=null) try{pstmt.close();} catch(SQLException e) {}
+			if (rs!=null) try{rs.close();} catch(SQLException e) {}
+		}
+		return to;
+	}
+	
+	//공지 modify_ok
+	public int noticeModifyOk(BoardTO to) {
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		
+		int flag=2; 
+		try {
+			conn=this.dataSource.getConnection();
+				
+			String sql="select filename from board where bseq=?";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1,to.getBseq());
+			rs=pstmt.executeQuery();
+			
+			to.setOldFileName("");
+			if (rs.next()) { //기존 파일명
+				to.setOldFileName(rs.getString("filename"));
+			}
+			if (to.getNewFileName()!=null) { //새 첨부파일 있는 경우
+				sql = "update board set subject=?, content=?, filename=?, filesize=? where bseq=?";
+				pstmt=conn.prepareStatement(sql);
+				pstmt.setString(1,to.getSubject());
+				pstmt.setString(2,to.getContent());
+				pstmt.setString(3,to.getNewFileName());
+				pstmt.setLong(4,to.getNewFileSize());
+				pstmt.setString(5,to.getBseq());
+				
+			} else { //새 첨부파일 없는 경우
+				sql = "update board set subject=?, content=? where bseq=?";
+				pstmt=conn.prepareStatement(sql);
+				pstmt.setString(1,to.getSubject());
+				pstmt.setString(2,to.getContent());
+				pstmt.setString(3,to.getBseq());
+			}
+			
+			int result=pstmt.executeUpdate();
+			if (result==1) {
+				flag=0;
+				//기존 파일 삭제
+				if (to.getNewFileName()!=null) {
+					File file=new File(uploadPath,to.getOldFileName());
+					file.delete();
+				}
+			}
+		} catch (SQLException e) {
+			System.out.println("[에러]:"+e.getMessage());
+		} finally {
+			if (conn!=null) try{conn.close();} catch(SQLException e) {}
+			if (pstmt!=null) try{pstmt.close();} catch(SQLException e) {}
+		}
+		return flag;
+	}
+	
+	//공지 삭제
+	public int noticeDelete(String bseq) {
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		
+		int flag=2; //비정상
+		try {
+			conn=this.dataSource.getConnection();
+			String sql="select filename from board where bseq=?";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1,bseq);
+			
+			rs=pstmt.executeQuery();
+			
+			BoardTO to=new BoardTO();
+			to.setBseq(bseq);
+			to.setFilename("");
+			if (rs.next()) {
+				to.setFilename(rs.getString("filename"));
+			}
+			
+			sql="delete from board where bseq=?";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1,to.getBseq());
+			pstmt.executeUpdate();
+			
+			flag=0;
+			if (to.getFilename()!=null) {
+				File file=new File(uploadPath, to.getFilename());
+				file.delete();
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("[에러]:"+e.getMessage());
+		} finally {
+			if (conn!=null) try{conn.close();} catch(SQLException e) {}
+			if (pstmt!=null) try{pstmt.close();} catch(SQLException e) {}
+		}
+		return flag;
 	}
 }

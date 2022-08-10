@@ -377,7 +377,7 @@ footer {
 			<h3><%=welcome %><a href="logoutok.do" id="logout" style="color : gray"> <br/><%=log %>	</a></h3>
 
 			<ul>
-				<li><b><a href="#">마이페이지</a></b></li>
+				<li><b><a href="myPage.do">마이페이지</a></b></li>
 				<li><b><a href="#">소모임장페이지</a></b></li>
 				<li><b><a href="admin.do">관리자페이지</b></li>
 				</a>

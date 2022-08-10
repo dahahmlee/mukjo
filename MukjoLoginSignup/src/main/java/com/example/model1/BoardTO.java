@@ -17,5 +17,7 @@ public class BoardTO{
 		private String file;
 		private String wdate;
 		private String hit;
-		
+		private long newFileSize;
+		private String newFileName;
+		private String oldFileName;
 }

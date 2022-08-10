@@ -1,23 +1,23 @@
-	<%@ page language="java" contentType="text/html; charset=UTF-8"
+   <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
     <%
 
-    	String log = "LOGIN";
+       String log = "LOGIN";
     
-    	HttpSession sess = request.getSession();
-    	
-    	String loginedMemberSeq = (String)sess.getAttribute("loginedMemberSeq");
-    	String welcome = "";
+       HttpSession sess = request.getSession();
+       
+       String loginedMemberSeq = (String)sess.getAttribute("loginedMemberSeq");
+       String welcome = "";
     
-    	if(loginedMemberSeq != null) {
-    		welcome = (String)sess.getAttribute("loginedMemberName")+"님 환영합니다.";
-    		log = "LOGOUT";
-    	} else {
-    		out.println ( "<script>");
-		out.println ( "window.location.href = 'http://localhost:8080/login.do'");
-		out.println ( "</script>");
-    	}
+       if(loginedMemberSeq != null) {
+          welcome = (String)sess.getAttribute("loginedMemberName")+"님 환영합니다.";
+          log = "LOGOUT";
+       } else {
+          out.println ( "<script>");
+      out.println ( "window.location.href = 'http://localhost:8080/login.do'");
+      out.println ( "</script>");
+       }
     
     %>
 
@@ -184,10 +184,10 @@ nav{
 }
 
 #headerWap h3 {
-	font-size: 15px;
-	justify-content: left;
-	position: absolute;
-	margin-left: 120px;
+   font-size: 15px;
+   justify-content: left;
+   position: absolute;
+   margin-left: 120px;
 }
 
 
@@ -372,9 +372,9 @@ nav{
 }
 
     .board_pagetab { text-align: center; display: inline-flex; position:relative;}
-	.board_pagetab a { text-decoration: none; font: 12px verdana; color: #000; padding: 0 3px 0 3px; }
+   .board_pagetab a { text-decoration: none; font: 12px verdana; color: #000; padding: 0 3px 0 3px; }
     /* .board_pagetab ul a:hover  { background-color:black; } */
-	.on a { font-weight: bold; }
+   .on a { font-weight: bold; }
 
 /***** footer  *****/
 footer{
@@ -385,7 +385,19 @@ footer{
 }
 
 .board-table td {
-	width: 100px;
+   width: 100px;
+}
+
+.th-tname {
+   width: 110px;
+}
+
+.th-title {
+   width: 350px;
+}
+
+.th-date {
+   width: 200px;
 }
 
 
@@ -430,6 +442,7 @@ footer{
                             <th scope="col" class="th-num">번호</th>
                             <th scope="col" class="th-tname">소모임 이름</th>
                             <th scope="col" class="th-title">제목</th>
+                            <th scope="col" class="th-date">등록일</th>
                             <th scope="col" class="th-admin">관리</th>
                         </tr>
                     </thead>
@@ -438,6 +451,7 @@ footer{
                             <td><a href="#">1</td>
                             <td><a href="#">맞찾사</a></td>
                             <td><a href="#">여기 맛있나요?</a></td>
+                            <td><a href="#">2022-07-25</a></td>
                             <td>
                             <a href="#"><button type="sumbit">수정</button>&nbsp;&nbsp;
                             <a href="#"><button type="sumbit">삭제</button>
@@ -448,7 +462,8 @@ footer{
                             <td><a href="#">2</a></td>
                             <td><a href="#">먹사모</a></td>
                             <td><a href="#">맛집 추천목록</a></td>
-							<td>
+                            <td><a href="#">2022-07-25</a></td>
+                     <td>
                             <a href="#"><button type="sumbit">수정</button>&nbsp;&nbsp;
                             <a href="#"><button type="sumbit">삭제</button>
                             </td>
@@ -458,6 +473,7 @@ footer{
                             <td><a href="#">3</a></td>
                             <td><a href="#">삼쏘파</a></td>
                             <td><a href="#">5명 가기 좋은 곳 추천 좀</a></td>
+                            <td><a href="#">2022-07-25</a></td>
                             <td>
                             <a href="#"><button type="sumbit">수정</button>&nbsp;&nbsp;
                             <a href="#"><button type="sumbit">삭제</button>
@@ -467,6 +483,7 @@ footer{
                             <td><a href="#">4</a></td>
                             <td><a href="#">산소먹방</a></td>
                             <td><a href="#">여기 가지마여</a></td>
+                            <td><a href="#">2022-07-25</a></td>
                             <td>
                             <a href="#"><button type="sumbit">수정</button>&nbsp;&nbsp;
                             <a href="#"><button type="sumbit">삭제</button>
@@ -476,6 +493,7 @@ footer{
                             <td><a href="#">5</a></td>
                             <td><a href="#">먹진남</a></td>
                             <td><a href="#">여기 꼭 가셈</a></td>
+                            <td><a href="#">2022-07-25</a></td>
                             <td>
                             <a href="#"><button type="sumbit">수정</button>&nbsp;&nbsp;
                             <a href="#"><button type="sumbit">삭제</button>

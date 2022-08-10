@@ -273,4 +273,64 @@ public class MemberDAO {
 		return flag;
 	}
 	
+	//내 정보 수정
+	public MemberTO myPageModify(String seq) {
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		
+		MemberTO to=new MemberTO();
+		try {
+			conn=this.dataSource.getConnection();
+			
+			String sql="select seq, email, birth, phone, password from member where seq=?;";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1,seq);
+			rs=pstmt.executeQuery();
+			
+			if (rs.next()) {
+				to.setSeq(rs.getString("seq"));
+				to.setEmail(rs.getString("email"));
+				to.setBirth(rs.getString("birth"));
+				to.setPhone(rs.getString("phone"));
+				to.setPassword(rs.getString("password"));
+			}	
+		} catch (SQLException e) {
+			System.out.println("[에러]:"+e.getMessage());
+		} finally {
+			if (conn!=null) try{conn.close();} catch(SQLException e) {}
+			if (pstmt!=null) try{pstmt.close();} catch(SQLException e) {}
+			if (rs!=null) try{rs.close();} catch(SQLException e) {}
+		}
+		return to;
+	}
+	
+	//myPage modify_ok
+	public int myPageModifyOk(MemberTO to) {
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		
+		int flag=2; 
+		try {
+			conn=this.dataSource.getConnection();
+				
+			String sql = "update member set birth=?, phone=?, password=? where seq=?";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1,to.getBirth());
+			pstmt.setString(2,to.getPhone());
+			pstmt.setString(3,to.getPassword());
+			pstmt.setString(4,to.getSeq());
+				
+			int result=pstmt.executeUpdate();
+			if (result==1) {
+				flag=0;
+			}
+		} catch (SQLException e) {
+			System.out.println("[에러]:"+e.getMessage());
+		} finally {
+			if (conn!=null) try{conn.close();} catch(SQLException e) {}
+			if (pstmt!=null) try{pstmt.close();} catch(SQLException e) {}
+		}
+		return flag;
+	}
 }

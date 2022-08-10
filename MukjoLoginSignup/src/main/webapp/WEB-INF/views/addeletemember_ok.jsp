@@ -32,9 +32,11 @@ if(loginedMemberSeq != null) {
 	out.println("<script type='text/javascript'>");
 	if(flag == 0) {
 		out.println("$().ready(function () {");
-		out.println("	Swal.fire(");
-		out.println("		'성공적으로 추방했습니다.',");
-		out.println("	).then(() => {");
+		out.println("	Swal.fire({");
+		out.println("		title: '추방 성공',");
+		out.println("		text: '성공적으로 추방했습니다.',");
+		out.println("		icon: 'success',");
+		out.println("	}).then(() => {");
 		out.println("		location.href='./adminmemberlists.do'");
 		out.println("	})");
 		out.println("});");

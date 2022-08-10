@@ -505,73 +505,53 @@ footer{
 				<button type="button">검색</button>
 			</div><!-- search-wrap -->
 
-			<button class="modal-notice">소모임 새로 만들기</button>
-			<div class="modal">
-				<div class="modal-content">
-					<a class="btn-close" href="#none">X</a>
-					<h2>소모임 새로 만들기</h2>
-					<p style="font-weight: bold; margin-top: 50px"> 소모임명
-						<input type="text" id="modal-search" name="tname" required
-							minlength="4" maxlength="20" size="10" style="width: 50% ; height : 30px; "/>
-						<button class="tnameChk btn btn-primary" type="button" id="tnamecheck" onclick="tnamechk(this.form)" value="">중복확인</button>
-					</p>
-					<div class="modal-make" style="margin-top: 70px;">
-						<a class="btn-guide" id="sbtn" href="#none" style="color : #fff; margin-right:10px; padding: 10px;">만들기</a>
-						<a class="btn-guide btn-exit" href="#none" style="color : #fff; padding: 10px;">취소</a>
-					</div>
-				</div>
-			</div>
+			<button id="newsomoim">소모임 새로 만들기</button>
 		</section>
 		<!-- 소모임 새로만들기 Modal -->
-		<script>
-			$('.modal-notice').click( function(){
-				$('.modal').fadeIn()
-			})
-			$('.btn-close').click( function(){
-				$('.modal').fadeOut()
-			})
-			$('.btn-exit').click( function(){
-				$('.modal').fadeOut()
-			})
-			
-			$("#tnamecheckbtn").click(function () {
-			// 중복검사 
-			const Toast = Swal.mixin({
-				toast: true,
-				position: 'center-center',
-				showConfirmButton: false,
-				timer: 2000,
-				timerProgressBar: true,
-				didOpen: (toast) => {
-					toast.addEventListener('mouseenter', Swal.stopTimer)
-					toast.addEventListener('mouseleave', Swal.resumeTimer)
-				}
-			})
-			Toast.fire({
-				icon: 'success', 
-				title: '사용하실 수 있는 소모임입니다. 잠시만 기다려주세요!'
-			})
-		});
-
-		$("#sbtn").click(function () {
-			// 모든 형식이 다 갖춰졌으면 데이터 받아서 버튼 클릭 후 confirm 실행
+		<script type="text/javascript">
+		$("#newsomoim").click(function () {
 			Swal.fire({
-				text: "소모임 만들기를 진행하시겠습니까?",
-				icon: 'confirm',
+				title: '소모임 새로 만들기',
+				text: '생성하고자하는 소모임 이름을 입력해주세요',
+				input: 'text',
 				showCancelButton: true,
-				confirmButtonColor: '#de5f47',
-				cancelButtonColor: '#de5f47',
-				confirmButtonText: '확인',
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: '생성',
 				cancelButtonText: '취소',
-				reverseButtons: false, // 버튼 순서 거꾸로
+				reverseButtons: false, // 버튼 순서 거꾸로    
 			}).then((result) => {
 				if (result.isConfirmed) {
-					Swal.fire(
-						'소모임 생성이 완료되었습니다.',
-						'Welcome to Mukjo',
-						'success'
-					)  
-					location.href="./main.do"; 
+					if(result.value.trim() != ''){
+						var tnamechk = result.value;
+						var seq = <%=loginedMemberSeq %>;
+						$.ajax({
+							type: 'get',
+				        	url: 'checktname.do',
+				        	data: { 'tname': tnamechk, 'seq': seq },
+				        	success: function(item) {
+				        		console.log($.trim(item));
+				        		if($.trim(item) == 'true') {
+				        			Swal.fire({
+				        				title: '소모임 생성 실패',
+				        				html: '생성하고자하는 소모임 이름이 존재합니다.<br />다른 이름으로 시도해주세요.',
+				        				icon: 'error',
+				        			})
+				        		} else {
+				        			Swal.fire({
+				        				title: '소모임 생성 성공',
+				        				html: '생성하신 소모임의 소모임장이 되셨습니다.<br />즐거운 소모임 활동이 되세요!',
+				        				icon: 'success',
+				        			}).then(() => {
+				        				location.href='./main.do';
+				        			})
+				        		}
+				        	},
+				        	error: function(data) {}
+						})
+					} else {
+						alert('공백은 사용 불가능');
+					}
 				}
 			}) 
 		});

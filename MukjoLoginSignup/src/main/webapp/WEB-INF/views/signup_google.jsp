@@ -24,38 +24,73 @@
 %>
 <script type="text/javascript">
 	window.onload = function() {
+		function checkSignUp() {
+			let result = confirm("가입 하시겠습니까?");
+				if(result == true) {
+					document.sfrm.submit();
+				}
+			}
+		
 		document.getElementById('sbtn').onclick = function() {
-			if(document.sfrm.agree.checked == false) {
-				alert('개인정보 수집 및 이용에 동의하셔야 합니다.');
-				return false;
-			}
-			if(document.sfrm.name.value.trim() == "") {
-				alert('이름을 입력하셔야 합니다.');
-				return false;				
-			}
-			//if(document.sfrm.email.value.trim() == "") {
-				//alert('이메일 입력하셔야 합니다.');
-				//return false;				
-			//}
-			//if(document.sfrm.mailDup.value != "mailchk") {
-				//alert('메일 중복확인을 하셔야 합니다.');
-				//return false;
-			//}
-			if(document.sfrm.password.value.trim() == "") {
-				alert( '비밀번호를 입력하셔야 합니다.' );
-				return false;				
-			}
-			if(document.sfrm.phone.value.trim() == "") {
-				alert('핸드폰 번호를 입력하셔야 합니다.');
-				return false;				
-			}
-			if(document.sfrm.birth.value.trim() == "") {
-				alert('생일을 입력하셔야 합니다.');
-				return false;
-			}
-			document.sfrm.submit();
-		};
-	};
+	         if(document.sfrm.agree.checked == false) {
+	            alert('개인정보 수집 및 이용에 동의하셔야 합니다.');
+	            return false;
+	         }
+	         if(document.sfrm.agree2.checked == false) {
+	               alert('이메일 수신에 동의하셔야 합니다.');
+	               return false;
+	            }
+	         let namePattern = /[a-zA-Z가-힣]/;
+	         if(document.sfrm.name.value.trim() == "") {
+	            alert('이름을 입력하셔야 합니다.');
+	            return false;            
+	         } else if(!namePattern.test(document.sfrm.name.value.trim())) {
+	            alert('한글이나 영문 대소문자를 사용하세요. (특수기호, 공백 사용 불가)');
+	            return false;
+	         }
+	         
+	         let emailPattern = /[a-z0-9]{2,}@[a-z0-9-]{2,}\.[a-z0-9]{2,}/;
+	         if(document.sfrm.email.value.trim() == "") {
+	            alert('이메일 입력하셔야 합니다.');
+	            return false;
+	         } else if(!emailPattern.test(document.sfrm.email.value.trim())) {
+	            alert('이메일 형식이 맞지 않습니다.');
+	            return false;
+	         }
+	         
+	         let pwPattern = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&]).*$/;
+	         if(document.sfrm.password.value.trim() == "") {
+	            alert('8~16자 영문, 숫자, 특수문자(!@#$%^&)를 사용하세요.');
+	            return false;            
+	         } else if(!pwPattern.test(document.sfrm.password.value.trim())) {
+	            alert('비밀번호 형식이 맞지 않습니다.\n8~16자 영문, 숫자, 특수문자(!@#$%^&)를 사용하세요.');
+	            return false;
+	         }
+	         if(document.getElementById('pwd1').value != document.getElementById('pwd2').value){
+	            alert('비밀번호를 일치하게 입력했는지 확인해주세요.');
+	            return false;
+	         }
+	         
+	         let isPhoneNum = /([01]{2})([01679]{1})([0-9]{4})([0-9]{4})/;
+	         if(document.sfrm.phone.value.trim() == "") {
+	            alert('핸드폰 번호를 입력하셔야 합니다.');
+	            return false;            
+	         } else if(!isPhoneNum.test(document.sfrm.phone.value.trim())) {
+	            alert('핸드폰 형식이 맞지 않습니다.');
+	            return false;
+	         }
+
+	         var checkBirthNum = /^(19[0-9][0-9]|20\d{2})-(0[0-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/;
+	         if(document.sfrm.birth.value.trim() == "") {
+	            alert('생일을 입력하셔야 합니다.');
+	            return false;
+	         } else if(!checkBirthNum.test(document.sfrm.birth.value.trim())) {
+	            alert('생일형식에 맞게 입력하셔야 합니다.');
+	            return false;
+	         }
+	         checkSignUp();
+	      };
+	   };
 /*
 	function mailchk() {
 		if(document.sfrm.email.value.trim() == "") {
@@ -64,7 +99,7 @@
 		}
 		location.href='./checkmail.do?email=' + document.sfrm.email.value;	
 	}
-	*/
+*/
 </script>
 <style>
 	body {
@@ -226,8 +261,8 @@
 				</div>
 
 				<div class="custom-control custom-checkbox">
-					<input type="checkbox" class="custom-control-input" id="agreement2">
-					<label class="custom-control-label" for="agreement2">이메일 수신에 동의합니다. (선택)</label>
+					<input type="checkbox" class="custom-control-input" id="agreement2" name="agree2" required>
+					<label class="custom-control-label" for="agreement2">이메일 수신에 동의합니다. (필수)</label>
 				</div>
 				<div class="mb-4"></div>
 				<input type="button" id="sbtn" value="가입 완료" class="btn btn-primary btn-lg btn-block" onclick="http://localhost:8080/signup_ok.do" />

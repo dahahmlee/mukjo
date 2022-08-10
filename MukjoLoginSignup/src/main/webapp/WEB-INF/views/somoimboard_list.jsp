@@ -5,74 +5,77 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%
-		String log = "LOGIN";
-	    
-		HttpSession sess = request.getSession();
-		
-		String loginedMemberSeq = (String)sess.getAttribute("loginedMemberSeq");
-		String welcome = "";
-	
-		if(loginedMemberSeq != null) {
-			welcome = (String)sess.getAttribute("loginedMemberName")+"님 환영합니다.";
-			log = "LOGOUT";
-			if (!loginedMemberSeq.equals("1")) {
-	   	   		out.println ( "<script>");
-	   	   		out.println( "alert('관리자만 관리자페이지에 들어갈 수 있습니다.');" );
-	   			out.println ( "window.location.href = 'http://localhost:8080/main.do'");
-	   			out.println ( "</script>");
-	   	   	}
-		} else {
-			out.println ( "<script>");
-			out.println ( "window.location.href = 'http://localhost:8080/login.do'");
-			out.println ( "</script>");
-		}	
+      String log = "LOGIN";
+       
+      HttpSession sess = request.getSession();
+      
+      String loginedMemberSeq = (String)sess.getAttribute("loginedMemberSeq");
+      String welcome = "";
+   
+      if(loginedMemberSeq != null) {
+         welcome = (String)sess.getAttribute("loginedMemberName")+"님 환영합니다.";
+         log = "LOGOUT";
+         if (!loginedMemberSeq.equals("1")) {
+                  out.println ( "<script>");
+                  out.println( "alert('관리자만 관리자페이지에 들어갈 수 있습니다.');" );
+               out.println ( "window.location.href = 'http://localhost:8080/main.do'");
+               out.println ( "</script>");
+               }
+      } else {
+         out.println ( "<script>");
+         out.println ( "window.location.href = 'http://localhost:8080/login.do'");
+         out.println ( "</script>");
+      }   
     
     
-		BoardListTO listTO = new BoardListTO();
-	
-		
-		BoardDAO dao = new BoardDAO();
-		listTO = (BoardListTO)request.getAttribute("listTO");
-		int cpage = listTO.getCpage();
-		int recordPerPage = listTO.getRecordPerPage();
-		
-		int totalRecord = listTO.getTotalRecord();
-		int totalPage = listTO.getTotalPage();
-		
-		int blockPerPage = listTO.getBlockPerPage();
-		int startBlock = listTO.getStartBlock();
-		int endBlock = listTO.getEndBlock();
-		
-		ArrayList<BoardTO> boardLists = listTO.getBoardLists();
-		
-		StringBuilder sb = new StringBuilder();
-		
-		String bseq = "";
-		String subject = "";
-		String content = "";
-		String writer = "";
-		String wdate = "";
-		String hit = "";
-		
-		for( int i = 0 ; i < boardLists.size(); i++ ) {
-			BoardTO to = boardLists.get(i);
-			bseq = to.getBseq();
-			subject = to.getSubject();
-			content = to.getContent();
-			writer = to.getWriter();
-			wdate = to.getWdate();
-			hit = to.getHit();
-			
-			sb.append("<tr>");
-			sb.append("		<td><a href='#'>일반</a></td>");
-			sb.append("		<td><a href='#'>"+ subject+"</a></td>");
-			sb.append("		<td><a href='#'>"+ writer+"</a></td>");
-			sb.append("		<td><a href='#'>"+ wdate+"</a></td>");
-			sb.append("		<td><a href='#'>"+ hit+"</a></td>");
-			sb.append("</tr>");
-		}
-		
-/* 		 <tr>
+      BoardListTO listTO = new BoardListTO();
+   
+      
+      BoardDAO dao = new BoardDAO();
+      listTO = (BoardListTO)request.getAttribute("listTO");
+      int cpage = listTO.getCpage();
+      int recordPerPage = listTO.getRecordPerPage();
+      
+      int totalRecord = listTO.getTotalRecord();
+      int totalPage = listTO.getTotalPage();
+      
+      int blockPerPage = listTO.getBlockPerPage();
+      int startBlock = listTO.getStartBlock();
+      int endBlock = listTO.getEndBlock();
+      
+      ArrayList<BoardTO> boardLists = listTO.getBoardLists();
+      
+      StringBuilder sb = new StringBuilder();
+      
+      String bseq = "";
+      String subject = "";
+      String content = "";
+      String writer = "";
+      String wdate = "";
+      String hit = "";
+      String tseq = "";
+      
+      for( int i = 0 ; i < boardLists.size(); i++ ) {
+         BoardTO to = boardLists.get(i);
+         bseq = to.getBseq();
+         // 이거 바꿔야함
+         tseq = "2";
+         subject = to.getSubject();
+         content = to.getContent();
+         writer = to.getWriter();
+         wdate = to.getWdate();
+         hit = to.getHit();
+         
+         sb.append("<tr>");
+         sb.append("      <td>일반</a></td>");
+         sb.append("      <td><a href='somoimboard_view.do?tseq="+tseq+"&bseq="+bseq+"'>"+ subject+"</a></td>");
+         sb.append("      <td>"+ writer+"</a></td>");
+         sb.append("      <td>"+ wdate+"</a></td>");
+         sb.append("      <td>"+ hit+"</a></td>");
+         sb.append("</tr>");
+      }
+      
+/*        <tr>
          <td><a href="#">일반</a></td>
          <td><a href="#">여기 가보신분 있어요?</a></td>
          <td><a href="#">이다함</a></td>
@@ -88,27 +91,27 @@
      <td><a href="#">13</a></td>
  </tr> --> */
  
- 	ArrayList<BoardTO> noticeLists = (ArrayList)request.getAttribute("noticeLists");
- 	
- 	StringBuilder noticeSb = new StringBuilder();
- 
-	for( BoardTO to : noticeLists ) {
-		bseq = to.getBseq();
-		subject = to.getSubject();
-		content = to.getContent();
-		writer = to.getWriter();
-		wdate = to.getWdate();
-		hit = to.getHit();
-		
-		noticeSb.append("<tr class='notice'>");
-		noticeSb.append("		<td><a href='#'>공지</a></td>");
-		noticeSb.append("		<td><a href='#'>"+ subject+"</a></td>");
-		noticeSb.append("		<td><a href='#'>"+ writer+"</a></td>");
-		noticeSb.append("		<td><a href='#'>"+ wdate+"</a></td>");
-		noticeSb.append("		<td><a href='#'>"+ hit+"</a></td>");
-		noticeSb.append("</tr>");
-	}
+    ArrayList<BoardTO> noticeLists = (ArrayList)request.getAttribute("noticeLists");
     
+    StringBuilder noticeSb = new StringBuilder();
+ 	if(cpage == 1) {
+   for( BoardTO to : noticeLists ) {
+      bseq = to.getBseq();
+      subject = to.getSubject();
+      content = to.getContent();
+      writer = to.getWriter();
+      wdate = to.getWdate();
+      hit = to.getHit();
+      
+      noticeSb.append("<tr class='notice'>");
+      noticeSb.append("      <td><a href='#'>공지</a></td>");
+      noticeSb.append("      <td><a href='#'>"+ subject+"</a></td>");
+      noticeSb.append("      <td><a href='#'>"+ writer+"</a></td>");
+      noticeSb.append("      <td><a href='#'>"+ wdate+"</a></td>");
+      noticeSb.append("      <td><a href='#'>"+ hit+"</a></td>");
+      noticeSb.append("</tr>");
+   }
+ 	}
     %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -154,7 +157,7 @@ ul{
     list-style:none;
 }
 
-a:link {  text-decoration: none }
+a:link {  color : black; text-decoration: none }
     a:visited {color: black; text-decoration: none;}
     a:hover {color: #5c3018; text-decoration: none;}
     a:active {color: #de5f47; text-decoration: none;}
@@ -203,6 +206,18 @@ button {
   cursor: pointer;
   
   transition: 0.5s;
+}
+
+.btn_list {
+   display: inline-block;
+   background: #5c3018;
+   border: 1px solid #404144;
+   padding: 6px 17px 7px 17px;
+}
+
+.btn_txt02 {
+   color: white;
+   font-weight: 600;
 }
 
 
@@ -380,9 +395,13 @@ nav{
 #tblWrap{
     padding-top: 30px;
 }
+.notice {
+	background-color: #F2FA8C;
+}
 
 .notice td>a:first-child{
-    color: red;
+
+    font-weight: bold;
 }
 
 /***** pagingSec  *****/
@@ -418,7 +437,6 @@ nav{
     box-sizing: border-box;
     padding-left: 10px;
     z-index: 1;
-    position: relative;
     background: transparent;
 }
 
@@ -495,9 +513,9 @@ nav{
 }
 
     .board_pagetab { text-align: center; display: inline-flex; position:relative;}
-	.board_pagetab a { text-decoration: none; font: 12px verdana; color: #000; padding: 0 3px 0 3px; }
+   .board_pagetab a { text-decoration: none; font: 12px verdana; color: #000; padding: 0 3px 0 3px; }
     /* .board_pagetab ul a:hover  { background-color:black; } */
-	.on a { font-weight: bold; }
+   .on a { font-weight: bold; }
 
 
 
@@ -640,52 +658,52 @@ footer{
         
         
             <div class="paginate_regular">
-                <div class="board_pagetab">
+                <div class="board_pagetab" style="margin-left: 300px; ">
                 
-                <%			
-					if( startBlock == 1 ) {
-						out.println( "<span class='on'>&lt;&lt;</span>" );
-					} else {
-						out.println( "<span class='off'><a href='somoimboard.do?cpage=" + ( startBlock - blockPerPage ) + "'>&lt;&lt;</a></span>" );
-					}
-					
-					out.println( "&nbsp;" );
-				
-					if( cpage == 1 ) {
-						out.println( "<span class='on'>&lt;</span>" );
-					} else {
-						out.println( "<span class='off'><a href='somoimboard.do?cpage=" + ( cpage - 1 )+ "'>&lt;&nbsp;</a></span>" );
-					}
-					
-					out.println( "&nbsp;&nbsp;" );
-					out.println( "<ul>");
-					
-					
-					for( int i=startBlock ; i<=endBlock ; i++ ) {
-						if( cpage == i ) {
-							out.println( "<li class='active'> " + i + " </li>" );
-						} else {
-							out.println( "<li class='off'><a href='somoimboard.do?cpage=" + i + "'>" + i + "</a></li>" );
-						}
-					}
-				
-					out.println( "</ul>");
-					
-					out.println( "&nbsp;&nbsp;" );
-					
-					if( cpage == totalPage ) {
-						out.println( "<span class='on'>&gt;</span>" );
-					} else {
-						out.println( "<span class='off'><a href='somoimboard.do?cpage=" + ( cpage + 1 )+ "'>&gt;</a></span>" );
-					}
-					
-					out.println( "&nbsp;" );
-					
-					if( endBlock == totalPage ) {
-						out.println( "<span class='on'>&gt;&gt;</span>" );
-					} else {
-						out.println( "<span class='off'><a href='somoimboard.do?cpage=" + ( startBlock + blockPerPage ) + "'>&gt;&gt;</a></span>" );
-					}
+                <%         
+               if( startBlock == 1 ) {
+                  out.println( "<span class='on'>&lt;&lt;</span>" );
+               } else {
+                  out.println( "<span class='off'><a href='somoimboard.do?cpage=" + ( startBlock - blockPerPage ) + "'>&lt;&lt;</a></span>" );
+               }
+               
+               out.println( "&nbsp;" );
+            
+               if( cpage == 1 ) {
+                  out.println( "<span class='on'>&lt;</span>" );
+               } else {
+                  out.println( "<span class='off'><a href='somoimboard.do?cpage=" + ( cpage - 1 )+ "'>&lt;&nbsp;</a></span>" );
+               }
+               
+               out.println( "&nbsp;&nbsp;" );
+               out.println( "<ul>");
+               
+               
+               for( int i=startBlock ; i<=endBlock ; i++ ) {
+                  if( cpage == i ) {
+                     out.println( "<li class='active'> " + i + " </li>" );
+                  } else {
+                     out.println( "<li class='off'><a href='somoimboard.do?cpage=" + i + "'>" + i + "</a></li>" );
+                  }
+               }
+            
+               out.println( "</ul>");
+               
+               out.println( "&nbsp;&nbsp;" );
+               
+               if( cpage == totalPage ) {
+                  out.println( "<span class='on'>&gt;</span>" );
+               } else {
+                  out.println( "<span class='off'><a href='somoimboard.do?cpage=" + ( cpage + 1 )+ "'>&gt;</a></span>" );
+               }
+               
+               out.println( "&nbsp;" );
+               
+               if( endBlock == totalPage ) {
+                  out.println( "<span class='on'>&gt;&gt;</span>" );
+               } else {
+                  out.println( "<span class='off'><a href='somoimboard.do?cpage=" + ( startBlock + blockPerPage ) + "'>&gt;&gt;</a></span>" );
+               }
 %>
                 
 <!--                     <span class="off"><a href="#">&lt;&lt;</a>&nbsp;&nbsp;</span>
@@ -699,7 +717,10 @@ footer{
                 </ul>
                     <span class="off">&nbsp;&nbsp;<a href="#">&gt;</a></span>
                     <span class="off">&nbsp;&nbsp;<a href="#">&gt;&gt;</a></span> -->
-                    
+                     <div style= "margin-left: 350px;">
+                        <input type="button" value="글쓰기" class="btn_list btn_txt02"   style="cursor: pointer;"
+                  onclick="location.href='somoimboard_write.do'" /> 
+                        </div>
                 </div><!-- board_pagetab -->
                 
             

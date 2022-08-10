@@ -28,23 +28,23 @@ if(loginedMemberSeq != null) {
 }
 
 	int flag=(int)request.getAttribute("flag");
-
+	
 	out.println("<script type='text/javascript'>");
 	if(flag == 0) {
 		out.println("$().ready(function () {");
 		out.println("	Swal.fire({");
-		out.println("		title: '삭제 성공',");
+		out.println("		title: '글삭제 성공',");
 		out.println("		text: '성공적으로 삭제했습니다.',");
 		out.println("		icon: 'success',");
 		out.println("	}).then(() => {");
-		out.println("		location.href='./adminteam.do'");
+		out.println("		location.href='./adminnotice.do'");
 		out.println("	})");
 		out.println("});");
 	} else {
 		out.println("$().ready(function () {");
 		out.println("	Swal.fire(");
-		out.println("		'추방하지 못했습니다.',");
-		out.println("		'error'");
+		out.println("		'error',");
+		out.println("		'삭제하지 못했습니다.'");
 		out.println("	).then(() => {");
 		out.println("		history.back();");
 		out.println("	})");

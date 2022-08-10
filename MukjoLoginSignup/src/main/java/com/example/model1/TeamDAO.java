@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import javax.sql.DataSource;
@@ -35,7 +36,7 @@ public class TeamDAO {
 				TeamTO to = new TeamTO();
 				to.setTseq(rs.getString("tseq"));
 				to.setTname(rs.getString("tname"));
-				to.setSeq(rs.getString("t.seq"));
+				to.setSeq(rs.getString("seq"));
 				to.setMemcount(rs.getString("memcount"));
 				to.setName(rs.getString("name"));
 				
@@ -49,6 +50,55 @@ public class TeamDAO {
 			if(conn != null) try{ conn.close(); } catch(SQLException e) {}
 		}
 		return lists;
+	}
+	
+	// 소모임 이름
+	public boolean CheckTname(String tname, String seq) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		boolean result = false;
+		
+		try {
+			conn = this.dataSource.getConnection();
+			
+			String sql = "select tname from team where tname = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, tname);
+			rs = pstmt.executeQuery();
+			
+			// 메일 주소가 있다면 true
+			if(rs.next()) {
+				result = true;
+			} else {
+				sql = "insert into team values (0, ?, ?, 1)";
+				pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+				pstmt.setString(1, tname);
+				pstmt.setString(2, seq);
+				
+				pstmt.executeUpdate();
+				rs = pstmt.getGeneratedKeys();
+				if(rs.next()) {
+					// tseq값 가져오기
+					int tseq = rs.getInt(1);
+					
+					String tsql = "insert into teammember values (1, ?, 1), (?, ?, 1)";
+					pstmt = conn.prepareStatement(tsql);
+					pstmt.setInt(1, tseq);
+					pstmt.setString(2, seq);
+					pstmt.setInt(3, tseq);
+					
+					pstmt.executeUpdate();
+				}
+			}
+		} catch(SQLException e) {
+			System.out.println("[에러]: " + e.getMessage());
+		} finally {
+			if(rs != null) try{ rs.close(); } catch(SQLException e) {}
+			if(pstmt != null) try{ pstmt.close(); } catch(SQLException e) {}
+			if(conn != null) try{ conn.close(); } catch(SQLException e) {}
+		}
+		return result;
 	}
 	
 	// 메인페이지 소모임리스트 - 페이징

@@ -548,7 +548,7 @@ textarea {
 	<!-- 전체 요소를 감싸는 div -->
 	<div id="wrap">
 		<div class="con_txt">
-			<form action="somoimboard_writeOk.do" method="post" name="wfrm" enctype="multipart/form-data">
+			<form action="somoimboard_writeok.do" method="post" name="wfrm" enctype="multipart/form-data">
 				<div class="contents_sub">
 					<!--게시판-->
 					<div class="board_write">

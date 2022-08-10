@@ -1,21 +1,36 @@
+<%@page import="com.example.model1.BoardTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
-String log = "LOGIN";
+	String log = "LOGIN";
 
-HttpSession sess = request.getSession();
+	HttpSession sess = request.getSession();
+	
+	String loginedMemberSeq = (String)sess.getAttribute("loginedMemberSeq");
+	String welcome = "";
 
-String loginedMemberSeq = (String) sess.getAttribute("loginedMemberSeq");
-String welcome = "";
+	if(loginedMemberSeq != null) {
+		welcome = (String)sess.getAttribute("loginedMemberName")+"님 환영합니다.";
+		log = "LOGOUT";
+		if (!loginedMemberSeq.equals("1")) {
+	   		out.println ( "<script>");
+	   		out.println( "alert('관리자만 관리자페이지에 들어갈 수 있습니다.');" );
+			out.println ( "window.location.href = 'http://localhost:8080/main.do'");
+			out.println ( "</script>");
+	   	}
+	} else {
+		    	out.println ( "<script>");
+	   		out.println ( "window.location.href = 'http://localhost:8080/login.do'");
+	   		out.println ( "</script>");
+	}
+	
+	int cpage = Integer.parseInt(request.getParameter("cpage"));
+	BoardTO to = (BoardTO)request.getAttribute("to");
 
-if (loginedMemberSeq != null) {
-	welcome = (String) sess.getAttribute("loginedMemberName") + "님 환영합니다.";
-	log = "LOGOUT";
-} else {
-	out.println("<script>");
-	out.println("window.location.href = 'http://localhost:8080/login.do'");
-	out.println("</script>");
-}
+	String bseq=to.getBseq();
+	String subject=to.getSubject();
+	String content=to.getContent();
+	String fileName=to.getFilename();	
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -29,6 +44,18 @@ if (loginedMemberSeq != null) {
 <link
 	href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css"
 	rel="stylesheet">
+<script type="text/javascript">
+	window.onload=function() {
+		document.getElementById('mbtn').onclick=function() { //버튼 이벤트
+			if (document.mfrm.subject.value.trim()=='') {
+				alert('제목을 입력하셔야 합니다.');
+				return false;
+			}
+			//데이터 전송
+			document.mfrm.submit();
+		}
+	}
+</script>
 <style>
 /** common **/
 body, ul, li, h1, h2, h3 {
@@ -551,23 +578,25 @@ textarea {
 	<!-- 전체 요소를 감싸는 div -->
 	<div id="wrap">
 		<div class="con_txt">
-			<form action="" method="post" name="">
+			<form action="./adminnotice_modifyok.do" method="post" name="mfrm" enctype="multipart/form-data">
+			<input type="hidden" name="bseq" value="<%=bseq %>" />
+			<input type="hidden" name="cpage" value="<%=cpage %>" />
 				<div class="contents_sub">
 					<!--게시판-->
 					<div class="board_write">
 						<table>
 							<tr>
 								<th>제&nbsp;&nbsp;목</th>
-								<td><input type="text" name="subject" value=""
+								<td><input type="text" name="subject" value="<%=subject %>"
 									class="board_view_input" /></td>
 							</tr>
 							<tr>
 								<th>내&nbsp;&nbsp;용</th>
-								<td><textarea name="content" class="board_editor_area"></textarea></td>
+								<td><textarea name="content" class="board_editor_area"><%=content %></textarea></td>
 							</tr>
 							<tr>
 								<th>파일첨부</th>
-								<td>기존이미지 : <!-- 글쓰기에서 파일첨부 했던거 여기에 들어가야함 --> <br /> <br />
+								<td>기존이미지 : <%=fileName %> <br /> <br />
 									<input type="file" name="upload" value=""
 									class="board_view_point">
 								</td>
@@ -578,13 +607,13 @@ textarea {
 								<div class="align_left">
 									<input type="button" value="목록" class="btn_list btn_txt02"
 										style="cursor: pointer;"
-										onclick="location.href='adminnotice.do'" /> <input
+										onclick="location.href='adminnotice.do?cpage=<%=cpage %>&bseq=<%=bseq %>'" /> <input
 										type="button" value="보기" class="btn_list btn_txt02"
 										style="cursor: pointer;"
-										onclick="location.href='adminnotice_view.do'" />
+										onclick="location.href='adminnotice_view.do?cpage=<%=cpage %>&bseq=<%=bseq %>'" />
 								</div>
 								<div class="align_right">
-									<input type="button" id="" value="완료"
+									<input type="button" id="mbtn" value="완료"
 										class="btn_write btn_txt01" style="cursor: pointer;" />
 								</div>
 							</div>

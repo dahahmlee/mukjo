@@ -1,67 +1,45 @@
-<%@page import="com.example.model1.BoardTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-   pageEncoding="UTF-8"%>
-<%
+    pageEncoding="UTF-8"%>
+    
+    <%
    String log = "LOGIN";
    
    HttpSession sess = request.getSession();
-   
+
    String loginedMemberSeq = (String)sess.getAttribute("loginedMemberSeq");
    String welcome = "";
-   
+
    if(loginedMemberSeq != null) {
       welcome = (String)sess.getAttribute("loginedMemberName")+"님 환영합니다.";
       log = "LOGOUT";
-      if (!loginedMemberSeq.equals("1")) {
-               out.println ( "<script>");
-               out.println( "alert('관리자만 관리자페이지에 들어갈 수 있습니다.');" );
-            out.println ( "window.location.href = 'http://localhost:8080/main.do'");
-            out.println ( "</script>");
-            }
    } else {
       out.println ( "<script>");
       out.println ( "window.location.href = 'http://localhost:8080/login.do'");
       out.println ( "</script>");
    }
-
-   int cpage = (Integer)request.getAttribute("cpage");
-   BoardTO to = (BoardTO)request.getAttribute("to");   
    
-   String bseq=to.getBseq();
-   String subject=to.getSubject();
-   String writer=to.getWriter();
-   String wdate=to.getWdate();
-   String hit=to.getHit();
-   String content=to.getContent();
-   String filename=to.getFilename();
+   String subject = (String)request.getAttribute("subject");
+   String wdate = (String)request.getAttribute("wdate");
+   String writer = (String)request.getAttribute("writer");
+   String hit = (String)request.getAttribute("hit");
+   String content = (String)request.getAttribute("content");
    
-   StringBuilder sbHtml=new StringBuilder();
-   if (filename!=null) {
-     // 이미지 크기 조정 여기서 하기 width: 500px;
-      sbHtml.append("<img style='width: 500px;' src='../../upload/"+filename+"'/><br />");
-      
-   }
-   sbHtml.append("<div>");
-   sbHtml.append("<p style='font-size:15px; color:black; word-break: break-all; '>");
-   sbHtml.append(content);
-   sbHtml.append("</p>");
-   sbHtml.append("</div>");
-%>
+   
+   %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Notice</title>
+<title>게시판 뷰</title>
 
 <!-- 나눔스퀘어 폰트 -->
 <link
    href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css"
    rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
-<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <style>
+/** common **/
 body, ul, li, h1, h2, h3 {
    margin: 0;
    padding: 0;
@@ -96,7 +74,7 @@ ul {
    list-style: none;
 }
 
-a:link {
+a:link { color : black;
    text-decoration: none
 }
 
@@ -120,14 +98,14 @@ img {
 }
 
 table {
-   text-align: center;
+   text-align: initial;
 }
 
-:root { -
-   -button-color: #ffffff; -
-   -button-bg-color: #5c3018; -
+:root { 
+   -button-color: #ffffff; 
+   -button-bg-color: #5c3018; 
    -button-hover-bg-color: #5c3018;
-}
+} 
 
 button {
    -webkit-appearance: none;
@@ -260,8 +238,8 @@ nav {
 }
 
 #locationSec {
-   width: 100%;
    background-color: #f7f7fd;
+   padding-left: 10%;
 }
 
 #locationSec button {
@@ -281,6 +259,7 @@ nav {
 
 #locationwrap button {
    font-family: 'NanumSquareBold';
+   margin-right :16%;
 }
 
 .allbtn {
@@ -402,7 +381,6 @@ footer {
 
 .contents_sub {
    width: 100%;
-   height: 500px;
    margin: 0;
 }
 
@@ -434,12 +412,11 @@ footer {
 }
 
 .board_view td {
-   font-family: 'NanumSquareBold';
    height: 25px;
    text-align: left;
    padding: 8px;
    border-bottom: 1px solid #dadada;
-   color: black;
+   color: #797979;
 }
 
 .board_view_input {
@@ -483,6 +460,16 @@ footer {
    padding: 6px 17px 7px 17px;
 }
 
+.btn_list2 {
+   display: inline-block;
+   background: #f3f3f3;
+   border: 1px solid;
+    border-color: #ccc #c6c6c6 #c3c3c3 #ccc;
+   padding: 6px 17px 7px 17px;
+}
+
+
+
 .board {
    width: 100%;
 }
@@ -519,6 +506,9 @@ footer {
 table {
    border-collapse: collapse;
    border-spacing: 0;
+   border-right: none;
+   border-left: none;
+   
 }
 
 textarea {
@@ -543,85 +533,27 @@ textarea {
    font-weight: 600;
 }
 
-.modal{
-    position: fixed;
-    background-color: rgba(0, 0, 0, 0.4);
-    top : 0;
-    left : 0;
-    height: 100vh;
-    width: 100%;
-    display: none;
+.btn_txt03 {
+   color: #000;
+   font-weight: 600;
 }
 
-.modal-content{
-    background-color: #f1b654;
-    width: 500px;
-    border-radius: 10px;
-    position: absolute;
-    top: 50%;
-    left : 50%;
-    transform: translate( -50%, -50%);
-    padding: 30px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
-    text-align: center;
-    height: 250px;
+.cmttable tr{
+   border-bottom: 2px solid #c4b2b2;
+   border-top: 2px solid #aa9d9d;
+
+   border-right: none;
+   border-left: none;
 }
 
-.modal-content h2{
-   color: #5c3018;
-}
-
-#modal-search{
-    border : 1px solid black;
-}
-
-.board_view_input_modal {
-   margin: 15px;
-   height: 20px;
-   width: 300px;
-   border: 1px solid black;
-}
-
-.board_modal th {
-   color : #5c3018;
-   font-size: 20px;
-   text-align: right;
-}
-
-.board_view_input_modal {
-   margin: 15px;
-   height: 20px;
-   width: 300px;
-   border: 1px solid black;
-}
-
-.board_modal th {
-   color : #5c3018;
-   font-size: 20px;
-   text-align: right;
-}
-
-.align_center {
-   margin-top: 20px;
-}
-
-.btn_list {
-   display: inline-block;
-   background: #5c3018;
-   border: 1px solid #404144;
-   padding: 6px 17px 7px 17px;
-}
-
-.btn_list_modal {
-   display: inline-block;
-   margin: 10px;
-   background: #5c3018;
-   border: 1px solid #404144;
-   padding: 6px 17px 7px 17px;
-}
-
-.img_size {
-   width: 1280px;
+.cmttable td{
+   vertical-align: top;
+   border-right: none;
+   border-left: none;
+    padding: 10px 0;
+   
+   
+   
 }
 </style>
 
@@ -638,9 +570,9 @@ textarea {
          </h3>
 
          <ul>
-            <li><b><a href="myPage.do">마이페이지</a></b></li>
+            <li><b><a href="#">마이페이지</a></b></li>
             <li><b><a href="#">소모임장페이지</a></b></li>
-            <li><b><a href="admin.do" style="color: #de5f47">관리자페이지</a></b></li>
+            <li><b><a href="admin.do">관리자페이지</a></b></li>
             <li><b><a href="favorite.do">즐겨찾기</a></b></li>
             <li id="bell"><a href="#"><b><img src="images/bell.png"></a></b>1</li>
 
@@ -651,18 +583,10 @@ textarea {
       <!--locationSec -->
       <section id="locationSec">
          <div id="locationwrap">
-            <button class="allbtn">
-               <a href="admin.do">리뷰&게시물 수</a>
-            </button>
-            <button class="active">
-               <a href="adminmemberlists.do">전체 회원 목록</a>
-            </button>
-            <button class="active">
-               <a href="adminteam.do">소모임 목록</a>
-            </button>
-            <button class="active">
-               <a href="adminnotice.do" style="color: #de5f47">공지사항</a>
-            </button>
+            <button class="active"><a href="#" style="color : #de5f47">게시판</a></button>
+            <button class="allbtn"><a href="#">식당검색</a></button>
+            <button class="allbtn"><a href="#">소모임 회원 목록</a></button>
+            <button class="allbtn"><a href="#">소모임 탈퇴</a></button>
          </div>
       </section>
    </nav>
@@ -676,7 +600,7 @@ textarea {
                <table>
                   <tr>
                      <th width="10%">제목</th>
-                     <td width="30%"><%=subject %></td>
+                     <td width="60%"><%=subject %></td>
                      <th width="10%">등록일</th>
                      <td width="20%"><%=wdate %></td>
                   </tr>
@@ -687,31 +611,103 @@ textarea {
                      <td><%=hit %></td>
                   </tr>
                   <tr>
-                     <td colspan="4" height="100" valign="top"
-                        style="padding: 10px; line-height: 150% overflow: auto;">
-                        <div class="img_size">
-                        <%=sbHtml.toString() %>
-                        </div>
+                     <td colspan="4" height="400" valign="top"
+                        style="padding: 20px; line-height: 160%">
+                        <div>
+                           <!-- 이미지 불러오기 -->
+                           <!--  <img src="./upload/파일네임" width="900" onerror="" /><br /> -->
+                           <img src="" width="600" onerror="" /><br />
+                        </div> <!-- 글 내용 --> <!-- <p></p>는 예시니까 지우기 -->
+                        <p><%=content %></p>
+
                      </td>
                   </tr>
                </table>
             </div>
 
-            <div class="btn_area">
+            <div class="cmttable" style="clear: both;
+            margin-bottom: 8px;
+            overflow: hidden;
+            _height: 1%;
+            background: #fff;
+            margin-top:20px;
+            display: table;
+            border-collapse: separate;">
+            <div class="tablewrap" style="display : table-cell;">
+            <table width="100%" cellpadding="0" cellspacing="0" style="table-layout : fixed; ">
+               <tbody>
+                  <tr>
+                     <td class="nick" style="padding-left: 10px;
+                     width: 114px; color:blue">김영규</td>
+                     <td class="comment">맛있음 굿굿</td>
+                     <td class="data" style="padding-left: 400px;">2022-08-09&nbsp;&nbsp;&nbsp;&nbsp;X</td>
+                     
+                  </tr>
+
+                  <tr>
+                     <td class="nick" style="padding-left: 10px;
+                     width: 114px; color:blue">정규진</td>
+                     <td class="comment">예전에 가봤는데 별로였음</td>
+                     <td class="data" style="padding-left: 400px;">2022-08-09&nbsp;&nbsp;&nbsp;&nbsp;X</td>
+                     
+                  </tr>
+
+
+               </tbody>
+
+            </table>
+            </div>
+         </div><!-- cmttable -->
+
+            <div class="cmteditor" style="margin-top: 80px;margin-bottom: 15px;
+            padding: 12px 16px 20px;
+            background: #fcfcfc;
+            border: 1px solid #ddd;
+            border-bottom-color: #ccc;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px -1px rgb(0 0 0 / 10%);">
+
+            <label for="editorlabel" style="cursor: pointer; position: relative;
+            margin-bottom: 10px;"> 
+               <strong style="padding-left:5px;font-size:16px;line-height:1.5;">댓글 쓰기</strong>
+            </label>
+
+            <form style="display: block;
+            position: relative;
+            clear: both;">
+            <div class="textcmt" style="display: flex; margin-top: 10px;">
+               <textarea style="background: rgb(255, 255, 255);
+               overflow: hidden;
+               min-height: 4em;
+               height: 49px;
+               width: 85%;
+               margin-left: 3px;"></textarea>
+
+            <input type="button" value="등록" class="btn_list2 btn_txt03"
+            style="cursor: pointer; margin-left:40px ;" onclick="location.href='somoimboard_view.do'" />
+            </div>
+
+            </form>
+
+
+
+            </div> <!-- cmteditor -->
+
+            <div class="btn_area" >
                <div class="align_left">
                   <input type="button" value="목록" class="btn_list btn_txt02"
-                     style="cursor: pointer;" onclick="location.href='adminnotice.do?cpage=<%=cpage %>&bseq=<%=bseq %>'" />
+                     style="cursor: pointer; " onclick="location.href='somoimboard.do'" />
                </div>
                
                <div class="align_right">
                   <input type="button" value="수정" class="btn_list btn_txt02"   style="cursor: pointer;"
-                  onclick="location.href='adminnotice_modify.do?cpage=<%=cpage %>&bseq=<%=bseq %>'" /> 
+                  onclick="location.href='somoimboard_modify.do'" /> 
                      
-                  <input type="button" value="삭제" class="btn_list btn_txt02" style="cursor: pointer;" 
-                  onclick="location.href='adminnotice_delete.do?cpage=<%=cpage %>&bseq=<%=bseq %>'"/>
+                  <input type="button" id="deletebtn" value="삭제" class="btn_list btn_txt02" style="cursor: pointer;" 
+                  onclick="" />
                      
                   <input type="button" value="새 글 쓰기" class="btn_write btn_txt01" style="cursor: pointer;"
-                  onclick="location.href='adminnotice_write.do?cpage=<%=cpage %>&bseq=<%=bseq %>'" />
+                  onclick="location.href='somoimboard.write.do'" />
                </div>
             </div>
             <!--//게시판-->
@@ -719,5 +715,8 @@ textarea {
       </div>
    </div>
 </body>
+<script>
+
+</script>
 
 </html>
