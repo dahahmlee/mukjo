@@ -455,7 +455,7 @@ footer {
 }
 
 .pwd1 input {
-   width: 340px;
+   width: 350px;
    height: 40px;
    border-radius: 0px;
    margin-top: 10px;
