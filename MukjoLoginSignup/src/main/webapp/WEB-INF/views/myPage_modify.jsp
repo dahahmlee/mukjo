@@ -383,7 +383,7 @@ footer {
 
 .user_id {
    margin-top: 20px;
-   width: 500px;
+   width: 800px;
    display: flex;
 }
 
@@ -392,11 +392,10 @@ footer {
 }
 
 .user_id input {
-   width: 340px;
-   height: 40px;
+   width: 400px;
    border-radius: 0px;
    margin-top: 10px;
-   margin-left: 70px;
+   margin-left: 80px;
    padding: 0px 20px;
    border: 1px solid lightgray;
    outline: none;
@@ -404,7 +403,7 @@ footer {
 
 .birth {
    margin-top: 20px;
-   width: 700px;
+   width: 800px;
    display: flex;
 }
 
@@ -413,11 +412,11 @@ footer {
 }
 
 .birth input {
-   width: 340px;
+   width: 400px;
    height: 40px;
    border-radius: 0px;
    margin-top: 10px;
-   margin-left: 30px;
+   margin-left: 40px;
    padding: 0px 20px;
    border: 1px solid lightgray;
    outline: none;
@@ -425,7 +424,7 @@ footer {
 
 .phone {
    margin-top: 20px;
-   width: 700px;
+   width: 800px;
    display: flex;
 }
 
@@ -434,11 +433,11 @@ footer {
 }
 
 .phone input {
-   width: 340px;
+   width: 400px;
    height: 40px;
    border-radius: 0px;
    margin-top: 10px;
-   margin-left: 10px;
+   margin-left: 20px;
    padding: 0px 20px;
    border: 1px solid lightgray;
    outline: none;
@@ -446,7 +445,7 @@ footer {
 
 .pwd1 {
    margin-top: 20px;
-   width: 700px;
+   width: 800px;
    display: flex;
 }
 
@@ -455,20 +454,20 @@ footer {
 }
 
 .pwd1 input {
-   width: 350px;
+   width: 400px;
    height: 40px;
    border-radius: 0px;
    margin-top: 10px;
-   margin-left: 30px;
+   margin-left: 40px;
    padding: 0px 20px;
-   padding-left: 10px;
+   padding-left: 20px;
    border: 1px solid lightgray;
    outline: none;
 }
 
 .pwd2 {
    margin-top: 20px;
-   width: 700px;
+   width: 800px;
    display: flex;
 }
 
@@ -477,19 +476,20 @@ footer {
 }
 
 .pwd2 input {
-   width: 360px;
+   width: 400px;
    height: 40px;
    border-radius: 0px;
    margin-top: 10px;
-   margin-left: 10px;
-   padding: 0px 10px;
+   margin-left: 15px;
+   padding: 0px 20px;
+   padding-left: 20px;
    border: 1px solid lightgray;
    outline: none;
 }
 
 .submit {
    margin-top: 20px;
-   width: 350px;
+   width: 500px;
    text-align: right;
    justify-cotent: center;
 }
@@ -526,7 +526,7 @@ footer {
 }
 
 .validation-form h2 {
-   color: #5c3018;
+    color: #5c3018;
 }
 
 .chkbox1 {
@@ -550,7 +550,7 @@ footer {
 }
 
 .validation-form {
-   width: 700px;
+   width: 800px;
    
 }
 </style>
@@ -564,29 +564,36 @@ footer {
          }
        
        document.querySelector('#mpBtn1').onclick = function() {
-          if( document.mpfrm.birth.value.trim() == "" ) {
-             alert( '생년월일을 입력해주세요.' );
+
+          var checkBirthNum = /^(19[0-9][0-9]|20\d{2})-(0[0-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/;
+          if(document.mpfrm.birth.value.trim() == "") {
+             alert('생일을 입력하셔야 합니다.');
+             return false;
+          } else if(!checkBirthNum.test(document.mpfrm.birth.value.trim())) {
+             alert('생일형식에 맞게 입력하셔야 합니다.');
              return false;
           }
           
+          let isPhoneNum = /([01]{2})([01679]{1})([0-9]{4})([0-9]{4})/;
           if( document.mpfrm.phone.value.trim() == "" ) {
              alert( '핸드폰 번호를 입력해주세요.' );
              return false;            
+          } else if(!isPhoneNum.test(document.mpfrm.phone.value.trim())) {
+              alert('핸드폰 형식이 맞지 않습니다.');
+              return false;
+           }    
+          let pwPattern = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&]).*$/;
+          if(document.mpfrm.pwd1.value.trim() == "") {
+             alert('비밀번호를 입력하셔야 합니다.');
+             return false;            
+          } else if(!pwPattern.test(document.mpfrm.pwd1.value.trim())) {
+             alert('비밀번호 형식이 맞지 않습니다.');
+             return false;
           }
-          
-          if( document.mpfrm.pwd1.value.trim() == "" ) {
-              alert( '비밀번호를 입력해주세요.' );
-              return false;            
-           }
-          
-          if( document.mpfrm.pwd2.value.trim() == "" ) {
-              alert( '비밀번호를 재확인해주세요.' );
-              return false;            
-           }
-          if(document.mpfrm.agree.checked == false) {
-            alert('이메일 수신에 동의하셔야 합니다.');
-            return false;
-         }          
+          if(document.getElementById('pwd1').value != document.getElementById('pwd2').value){
+             alert('비밀번호를 일치하게 입력했는지 확인해주세요.');
+             return false;
+          }
           checkModify();
        };  
     };
@@ -664,12 +671,6 @@ footer {
             <div class="pwd2">
                <h4>비밀번호 확인</h4>
                <input type="password" name="pwd2" id="pwd2" maxlength="20"/>
-               <span class="error_next_box"></span>
-            </div>
-            
-            <div class="chkbox1">
-            <input type="checkbox" class="custom-control-input" id="agreement" name="agree" required/>
-            <label class="custom-control-label" for="agreement">이메일 수신에 동의합니다. (필수)</label>
                <span class="error_next_box"></span>
             </div>
             
