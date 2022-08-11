@@ -48,7 +48,6 @@
     				String email = memberLists.get(i).getEmail();
     				String birth = memberLists.get(i).getBirth();
     				tname = memberLists.get(i).getTname();
-    				System.out.println(seq);
     				
     				sbHtml.append( "<tr>" );
     				sbHtml.append( "<td>" + num + "</td>" );

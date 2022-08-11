@@ -67,7 +67,7 @@ public class TeamDAO {
 			pstmt.setString(1, tname);
 			rs = pstmt.executeQuery();
 			
-			// 메일 주소가 있다면 true
+			// 소모임 이름이 있다면 true
 			if(rs.next()) {
 				result = true;
 			} else {
@@ -263,6 +263,12 @@ public class TeamDAO {
 			String sql3 = "SET foreign_key_checks = 1";
 			pstmt = conn.prepareStatement(sql3);
 			pstmt.executeUpdate();
+			
+			String sql4="delete from teammember where tseq=?";
+			pstmt = conn.prepareStatement(sql4);
+			pstmt.setString(1, tseq);
+			pstmt.executeUpdate();
+			
 		} catch(SQLException e) {
 			System.out.println("[에러]: " + e.getMessage());
 		} finally {
