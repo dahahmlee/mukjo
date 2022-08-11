@@ -59,7 +59,6 @@ public class AdminDAO {
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			
-			
 			if(rs.next()) {
 				count=rs.getInt("count(*)");
 			}
