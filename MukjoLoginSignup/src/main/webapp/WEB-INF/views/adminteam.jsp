@@ -434,6 +434,10 @@ footer{
     margin-top: 5%;
 }
 
+.board-table th  {
+   padding-bottom: 10px;
+   border-bottom: 1px solid black;
+}
 </style>
 
 </head>
