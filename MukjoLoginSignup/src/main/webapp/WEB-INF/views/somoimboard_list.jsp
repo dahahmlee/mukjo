@@ -48,7 +48,8 @@
       String writer = "";
       String wdate = "";
       String hit = "";
-      String tseq = request.getParameter("tseq");
+      String tseq = (String)request.getAttribute("tseq");
+      
       
       for( int i = 0 ; i < boardLists.size(); i++ ) {
          BoardTO to = boardLists.get(i);
@@ -69,7 +70,7 @@
          sb.append("      <td>"+ hit+"</a></td>");
          sb.append("</tr>");
       }
-      
+      tseq = request.getParameter("tseq");
 /*        <tr>
          <td><a href="#">일반</a></td>
          <td><a href="#">여기 가보신분 있어요?</a></td>
@@ -89,7 +90,7 @@
     ArrayList<BoardTO> noticeLists = (ArrayList)request.getAttribute("noticeLists");
     
     StringBuilder noticeSb = new StringBuilder();
- 	if(cpage == 1) {
+    if(cpage == 1) {
    for( BoardTO to : noticeLists ) {
       bseq = to.getBseq();
       subject = to.getSubject();
@@ -106,7 +107,7 @@
       noticeSb.append("      <td><a href='#'>"+ hit+"</a></td>");
       noticeSb.append("</tr>");
    }
- 	}
+    }
     %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -284,10 +285,17 @@ nav{
 }
 
 #headerWap h3 {
+<<<<<<< HEAD
 	font-size: 15px;
 	justify-content: left;
 	position: absolute;
 	margin-left: 120px;
+=======
+   font-size: 15px;
+   justify-content: left;
+   position: absolute;
+   margin-left: 120px;
+>>>>>>> ed203b2c5662acd81f0b690d2552f9a0bf0f0844
 }
 
 /***** warp  *****/
@@ -376,7 +384,7 @@ nav{
     padding-top: 30px;
 }
 .notice {
-	background-color: #F2F2F2;
+   background-color: #F2F2F2;
 }
 
 .notice td>a:first-child{

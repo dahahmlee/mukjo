@@ -6,6 +6,8 @@
     	HttpSession sess = request.getSession();
     	String tseq = request.getParameter("tseq");
     	
+    	
+    	
     	String loginedMemberSeq = (String)sess.getAttribute("loginedMemberSeq");
     	String welcome = "";
     

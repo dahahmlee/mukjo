@@ -51,10 +51,10 @@ public class BoardDAO {
 			
 			ArrayList<BoardTO> lists = new ArrayList<BoardTO>();
 			if (cpage == 1) {
-			sql = "select bseq, member.name as writer, subject, date_format(wdate, '%Y-%m-%d') wdate, hit from board inner join member on board.seq = member.seq where tseq = ? order by bseq desc limit ?,?";
+			sql = "select bseq,tseq, member.name as writer, subject, date_format(wdate, '%Y-%m-%d') wdate, hit from board inner join member on board.seq = member.seq where tseq = ? order by bseq desc limit ?,?";
 			lists = (ArrayList)jdbcTemplate.query(sql, new BeanPropertyRowMapper<BoardTO>(BoardTO.class),listTO.getTseq(),skip,recordPerPage - noticeLists.size());
 			} else {
-				sql = "select bseq, member.name as writer, subject, date_format(wdate, '%Y-%m-%d') wdate, hit from board inner join member on board.seq = member.seq where tseq = ? order by bseq desc limit ?,?";
+				sql = "select bseq,tseq, member.name as writer, subject, date_format(wdate, '%Y-%m-%d') wdate, hit from board inner join member on board.seq = member.seq where tseq = ? order by bseq desc limit ?,?";
 			lists = (ArrayList)jdbcTemplate.query(sql, new BeanPropertyRowMapper<BoardTO>(BoardTO.class),listTO.getTseq(),skip,recordPerPage);	
 				
 			}

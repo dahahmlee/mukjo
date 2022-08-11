@@ -732,7 +732,7 @@ textarea {
             <div class="btn_area" >
                <div class="align_left">
                   <input type="button" value="목록" class="btn_list btn_txt02"
-                     style="cursor: pointer; " onclick="location.href='somoimboard.do'" />
+                     style="cursor: pointer; " onclick="location.href='somoimboard.do?tseq=<%=tseq %>'" />
                </div>
                
                <div class="align_right">

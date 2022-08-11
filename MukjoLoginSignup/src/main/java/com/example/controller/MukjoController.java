@@ -653,9 +653,10 @@ public class MukjoController {
 		}
 		
 		BoardListTO listTO = new BoardListTO();
-		// 파라미터 없어서 넣어놓음
 		listTO.setCpage(cpage);
 		listTO.setTseq(request.getParameter("tseq"));
+		
+		model.addAttribute("tseq",listTO.getTseq());
 		
 		listTO = bdao.boardList(listTO);
 		
@@ -686,9 +687,9 @@ public class MukjoController {
 		MultipartRequest multi = new MultipartRequest(request, uploadPath, maxFileSize, encoding, new DefaultFileRenamePolicy());
 		BoardTO bto = new BoardTO();
 		
-		// tseq 들어오면 바꿔야함
-		bto.setTseq("2");
 		
+		bto.setTseq(multi.getParameter("tseq"));
+		model.addAttribute("tseq",bto.getTseq());
 		bto.setSeq((String)sess.getAttribute("loginedMemberSeq"));
 		bto.setWriter( (String)sess.getAttribute("loginedMemberName") );
 		
@@ -705,6 +706,7 @@ public class MukjoController {
 		flag = bdao.boardWriteOk(bto);
 		
 		model.addAttribute("flag",flag);
+		
 		
 		return new ModelAndView("somoimboard_writeok"); 
 	}
