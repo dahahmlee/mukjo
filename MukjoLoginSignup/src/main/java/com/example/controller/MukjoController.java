@@ -22,6 +22,10 @@ import com.example.model1.AdminDAO;
 import com.example.model1.BoardDAO;
 import com.example.model1.BoardListTO;
 import com.example.model1.BoardTO;
+import com.example.model1.CommentDAO;
+import com.example.model1.CommentTO;
+import com.example.model1.MainTeamPageTO;
+import com.example.model1.MainTeamTO;
 import com.example.model1.MemberDAO;
 import com.example.model1.MemberTO;
 import com.example.model1.PageAdminTeamTO;
@@ -52,6 +56,9 @@ public class MukjoController {
 
 	@Autowired
 	private TeamDAO tdao;
+	
+	@Autowired
+	private CommentDAO cdao;
 	
 	@RequestMapping(value = "/login.do")
 	public ModelAndView login(HttpServletRequest request, Model model) {
@@ -172,11 +179,29 @@ public class MukjoController {
 		return modelAndView;
 	}
 
+	//가입한 소모임 리스트
 	@RequestMapping(value = "/main.do")
-	public ModelAndView main(HttpServletRequest request, Model model) {
+	public ModelAndView main(HttpSession session, HttpServletRequest request, Model model) {
+		
+		String seq=(String) session.getAttribute("loginedMemberSeq");
 
+		int cpage = 1;
+		if(request.getParameter("cpage") != null && !request.getParameter("cpage").equals("")) {
+			cpage = Integer.parseInt(request.getParameter("cpage"));
+		}
+		
+		MainTeamPageTO mainTeamPageTO=new MainTeamPageTO();
+		mainTeamPageTO.setCpage(cpage);
+		
+		mainTeamPageTO = tdao.teamList(mainTeamPageTO, seq);
+		ArrayList<MainTeamTO> to=mainTeamPageTO.getTeamLists();
+		String jangseq="";
+		String jangName=tdao.jangName("");
+		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("main");
+		modelAndView.addObject("mainTeamPageTO", mainTeamPageTO);
+
 		return modelAndView;
 	}
 	
@@ -544,12 +569,8 @@ public class MukjoController {
 	    public ModelAndView adminnotice_modifyok(HttpServletRequest request, Model model) {
 	
 		int cpage = 1;
-		if( request.getParameter("cpage") != null && !request.getParameter("cpage").equals("")) {
-			cpage = Integer.parseInt(request.getParameter("cpage"));
-		}
 
 		BoardListTO listTO = new BoardListTO();		
-		listTO.setCpage(cpage);	
 
 		int maxFileSize=2*1024*1024; //2메가
 		String encType="utf-8";
@@ -560,6 +581,9 @@ public class MukjoController {
 		
 		try {
 			multi = new MultipartRequest(request, uploadPath, maxFileSize, encType, new DefaultFileRenamePolicy() );
+			
+			cpage=Integer.parseInt(multi.getParameter("cpage"));
+			listTO.setCpage(cpage);	
 			
 			BoardTO to=new BoardTO();
 			to.setBseq(multi.getParameter("bseq"));
@@ -699,13 +723,27 @@ public class MukjoController {
 		
 		bto = bdao.boardView(bto);
 		
-		model.addAttribute("subject",bto.getSubject());
-		model.addAttribute("wdate",bto.getWdate());
-		model.addAttribute("writer",bto.getWriter());
-		model.addAttribute("hit",bto.getHit());
-		model.addAttribute("content",bto.getContent());
+		model.addAttribute("bto",bto);
+
 		
 	      return new ModelAndView("somoimboard_view"); 
+	}
+	
+	@RequestMapping( "/somoimcmt_writeok.do")   
+	   public ModelAndView cmtWriteOk(HttpSession sess,HttpServletRequest request,HttpServletResponse response,Model model) {
+		CommentTO cto = new CommentTO();
+		
+		cto.setSeq((String)sess.getAttribute("loginedMemberSeq"));
+		cto.setBseq( request.getParameter("bseq") );
+		cto.setCContent( request.getParameter( "cContent" ) ); 
+
+		int flag = cdao.commentWrite(cto);
+		
+		model.addAttribute("flag",flag);
+		
+
+		
+	      return new ModelAndView("somoimboardcmt_writeok"); 
 	}
 	
 	@RequestMapping(value = "/myPage.do")
@@ -813,13 +851,9 @@ public class MukjoController {
 	    public ModelAndView myPage_modifyok(HttpServletRequest request, Model model) {
 	
 		int cpage = 1;
-		if( request.getParameter("cpage") != null && !request.getParameter("cpage").equals("")) {
-			cpage = Integer.parseInt(request.getParameter("cpage"));
-		}
-		System.out.println("controller modifyok: "+request.getParameter("cpage"));
-		BoardListTO listTO = new BoardListTO();		
-		listTO.setCpage(cpage);	
 
+		BoardListTO listTO = new BoardListTO();		
+			
 		int maxFileSize=2*1024*1024; //2메가
 		String encType="utf-8";
 		
@@ -829,6 +863,9 @@ public class MukjoController {
 		
 		try {
 			multi = new MultipartRequest(request, uploadPath, maxFileSize, encType, new DefaultFileRenamePolicy() );
+			
+			cpage=Integer.parseInt(multi.getParameter("cpage"));
+			listTO.setCpage(cpage);
 			
 			BoardTO to=new BoardTO();
 			to.setBseq(multi.getParameter("bseq"));

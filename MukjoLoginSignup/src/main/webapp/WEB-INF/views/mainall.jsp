@@ -441,6 +441,7 @@ a{
 	border-radius: 10%;
 }
 
+
 #pagingSec .active{
 	color:white;
 	background-color: #de5f47;
@@ -458,12 +459,6 @@ footer{
 	background-color: #d7d7d7;
 	margin-top: 5%;
 }
-
-.board-table th  {
-   padding-bottom: 10px;
-   border-bottom: 1px solid black;
-}
-
 </style>
 </head>
 

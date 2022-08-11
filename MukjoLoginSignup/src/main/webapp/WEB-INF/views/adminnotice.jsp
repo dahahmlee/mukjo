@@ -421,13 +421,8 @@ footer{
    width: 1200px;
 }
 
-.board-table th  {
-   padding-bottom: 10px;
-   border-bottom: 1px solid black;
-}
-
 .th-title {
-   width: 40%;
+   width: 2600px;
 }
 
 </style>
@@ -465,6 +460,9 @@ footer{
     <!-- 전체 요소를 감싸는 div -->
     <div id="wrap">
    		<section id="tblSec">
+   		<div id="btn_write">
+			<button type="submit" onclick="location.href='http://localhost:8080/adminnotice_write.do?cpage=<%=cpage %>'">글쓰기</button>
+		</div>
             <div id="tblWrap">
                 <table class="board-table">
                     <thead>
@@ -506,9 +504,6 @@ footer{
                     </tbody>
                 </table>
             </div>
-            <div id="btn_write">
-				<button type="submit" onclick="location.href='http://localhost:8080/adminnotice_write.do?cpage=<%=cpage %>'">글쓰기</button>
-			</div>
 
         </section>
 		<!--tblSec-->

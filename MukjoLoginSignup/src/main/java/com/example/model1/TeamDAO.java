@@ -101,7 +101,7 @@ public class TeamDAO {
 		return result;
 	}
 	
-	// 메인페이지 소모임리스트 - 페이징
+	// 메인페이지 전체소모임리스트 - 페이징
 	public PageMainTeamTO mainteamList(PageMainTeamTO pageMainTeamTO) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -270,6 +270,91 @@ public class TeamDAO {
 			if(conn != null) try{ conn.close(); } catch(SQLException e) {}
 		}
 		return flag;
+	}
+	
+	//메인페이지 - 가입한 소모임 - 페이징
+	public MainTeamPageTO teamList(MainTeamPageTO mainTeamPageTO, String seq) {
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+
+		int cpage=mainTeamPageTO.getCpage();
+		int recordPerPage=mainTeamPageTO.getRecordPerPage();
+		int blockPerPage=mainTeamPageTO.getBlockPerPage();
+
+		try {
+			conn=this.dataSource.getConnection();
+			String sql="select teammember.tseq as tseq, tname, team.seq as jangseq, memcount from teammember inner join team where teammember.tseq=team.tseq and teammember.seq=? order by tname";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1,seq);
+			
+			rs=pstmt.executeQuery();
+		
+			rs.last(); //읽기 커서를 맨 마지막 행으로 이동
+			mainTeamPageTO.setTotalRecord(rs.getRow());
+			rs.beforeFirst(); //읽기 커서를 맨 첫행으로 이동
+
+			//전체 페이지
+			mainTeamPageTO.setTotalPage((mainTeamPageTO.getTotalRecord()-1)/recordPerPage+1);
+
+			//시작번호 - 읽을 데이터 위치 지정
+			int skip=(cpage-1)*recordPerPage;
+			if (skip!=0) rs.absolute(skip); //커서를 주어진 행으로 이동
+
+			ArrayList<MainTeamTO> teamLists=new ArrayList<MainTeamTO>();
+			for (int i=0;i<recordPerPage && rs.next();i++) {
+				MainTeamTO to=new MainTeamTO();
+				to.setSeq(rs.getString("seq"));
+				to.setTseq(rs.getString("tseq"));
+				to.setTname(rs.getString("tname"));
+				to.setJangseq(rs.getString("jangseq"));
+				to.setMemcount(rs.getString("memcount"));
+
+				teamLists.add(to);
+			}
+			mainTeamPageTO.setTeamLists(teamLists);
+			mainTeamPageTO.setStartBlock((cpage-1)/blockPerPage*blockPerPage+1);
+			mainTeamPageTO.setEndBlock((cpage-1)/blockPerPage*blockPerPage+blockPerPage);
+			if (mainTeamPageTO.getEndBlock()>=mainTeamPageTO.getTotalPage()) {
+				mainTeamPageTO.setEndBlock(mainTeamPageTO.getTotalPage());
+			}
+		} catch (SQLException e) {
+			System.out.println("[에러]:"+e.getMessage());
+		} finally {
+			if (conn!=null) try {conn.close();} catch (SQLException e) {}
+			if (pstmt!=null) try {pstmt.close();} catch (SQLException e) {}
+			if (rs!=null) try {rs.close();} catch (SQLException e) {}
+		}
+		return mainTeamPageTO;
+	}
+	
+	//메인페이지 - 가입한 소모임 - 소모임장이름
+	public String jangName(String jangseq) {
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+
+		String jangName="";
+		
+		try {
+			conn=this.dataSource.getConnection();
+			String sql=" select name from member where seq=?";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1,jangseq);
+			
+			rs=pstmt.executeQuery();
+		
+			if (rs.next()) {
+				jangName=rs.getString("jangseq");
+			}	
+		} catch (SQLException e) {
+			System.out.println("[에러]:"+e.getMessage());
+		} finally {
+			if (conn!=null) try {conn.close();} catch (SQLException e) {}
+			if (pstmt!=null) try {pstmt.close();} catch (SQLException e) {}
+			if (rs!=null) try {rs.close();} catch (SQLException e) {}
+		}
+		return jangName;
 	}
 }
 
