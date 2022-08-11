@@ -108,7 +108,7 @@ ul{
     list-style:none;
 }
 
-a:link {  text-decoration: none}
+a:link {text-decoration: none; color:black;}
     a:visited {color: black; text-decoration: none;}
     a:hover {color: #5c3018; text-decoration: none;}
     a:active {color: #de5f47; text-decoration: none;}
