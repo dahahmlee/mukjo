@@ -48,7 +48,7 @@ public class MukjoController {
 	
 	@Autowired
 	private BoardDAO bdao;
-	private String uploadPath="C:\\Users\\JungGyuJin\\Desktop\\mukjo_project\\gitMukjo\\mukjo\\MukjoLoginSignup\\src\\main\\webapp\\upload";
+	private String uploadPath="C:/github/MukjoLoginSignup/src/main/webapp/upload";
 
 	@Autowired
 	private TeamDAO tdao;
