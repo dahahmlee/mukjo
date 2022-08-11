@@ -1,5 +1,3 @@
-<%@page import="com.example.model1.BoardTO"%>
-<%@page import="ch.qos.logback.core.recovery.ResilientSyslogOutputStream"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
@@ -20,31 +18,13 @@
       out.println ( "</script>");
    }
    
-   BoardTO bto = (BoardTO)request.getAttribute("bto");
-   String subject = bto.getSubject();
-   String wdate = bto.getWdate();
-   String writer = bto.getWriter();
-   String hit = bto.getHit();
-   String content = bto.getContent();
-   String filename = bto.getFilename();
-   StringBuilder sbHtml = new StringBuilder();
+   String subject = (String)request.getAttribute("subject");
+   String wdate = (String)request.getAttribute("wdate");
+   String writer = (String)request.getAttribute("writer");
+   String hit = (String)request.getAttribute("hit");
+   String content = (String)request.getAttribute("content");
    
-   if (filename!=null) {
-	     // 이미지 크기 조정 여기서 하기 width: 500px;
-	      sbHtml.append("<img style='width: 500px;' src='../../upload/"+filename+"'/><br />");
-	      
-	   }
-	   sbHtml.append("<div>");
-	   sbHtml.append("<p style='font-size:15px; color:black; word-break: break-all; '>");
-	   sbHtml.append(content);
-	   sbHtml.append("</p>");
-	   sbHtml.append("</div>");
-	   
-	   
-	   String tseq = request.getParameter("tseq");
-	   String bseq = request.getParameter("bseq");
-	   String cpage = request.getParameter("cpage");
-
+   
    %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -630,12 +610,16 @@ textarea {
                      <th>조회수</th>
                      <td><%=hit %></td>
                   </tr>
-					<tr>
-                     <td colspan="4" height="100" valign="top"
-                        style="padding: 10px; line-height: 150% overflow: auto;">
-                        <div class="img_size">
-                        <%=sbHtml %>
-                        </div>
+                  <tr>
+                     <td colspan="4" height="400" valign="top"
+                        style="padding: 20px; line-height: 160%">
+                        <div>
+                           <!-- 이미지 불러오기 -->
+                           <!--  <img src="./upload/파일네임" width="900" onerror="" /><br /> -->
+                           <img src="" width="600" onerror="" /><br />
+                        </div> <!-- 글 내용 --> <!-- <p></p>는 예시니까 지우기 -->
+                        <p><%=content %></p>
+
                      </td>
                   </tr>
                </table>
@@ -690,21 +674,17 @@ textarea {
 
             <form style="display: block;
             position: relative;
-            clear: both;"
-            action="somoimcmt_writeok.do" name="cfrm">
-            <input type="hidden" name="bseq" value="<%=tseq %>" />         
-            <input type="hidden" name="cpage" value="<%=cpage %>" />
-            <input type="hidden" name="bseq" value="<%=bseq %>" />
+            clear: both;">
             <div class="textcmt" style="display: flex; margin-top: 10px;">
-               <textarea name="cContent" style="background: rgb(255, 255, 255);
+               <textarea style="background: rgb(255, 255, 255);
                overflow: hidden;
                min-height: 4em;
                height: 49px;
                width: 85%;
                margin-left: 3px;"></textarea>
 
-            <input type="button" id="cbtn" value="등록" class="btn_list2 btn_txt03"
-            style="cursor: pointer; margin-left:40px ;" />
+            <input type="button" value="등록" class="btn_list2 btn_txt03"
+            style="cursor: pointer; margin-left:40px ;" onclick="location.href='somoimboard_view.do'" />
             </div>
 
             </form>
@@ -734,21 +714,9 @@ textarea {
          </div>
       </div>
    </div>
-   	<script type="text/javascript">
-	window.onload = function() {
-		document.getElementById( 'cbtn' ).onclick = function() {
-
-			if( document.cfrm.cContent.value.trim() == "" ) {
-				alert( '내용을 입력하셔야 합니다.' );
-				return false;
-			}
-			
-			document.cfrm.submit();
-		};
-	};
+</body>
+<script>
 
 </script>
-</body>
-
 
 </html>
