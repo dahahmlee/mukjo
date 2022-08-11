@@ -1,4 +1,3 @@
-
 <%@page import="com.example.model1.MemberTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
@@ -383,7 +382,8 @@ footer {
 
 .user_id {
    margin-top: 20px;
-   width: 800px;
+   width: 1000px;
+   justify-content:center;
    display: flex;
 }
 
@@ -403,7 +403,8 @@ footer {
 
 .birth {
    margin-top: 20px;
-   width: 800px;
+   width: 1000px;
+   justify-content:center;
    display: flex;
 }
 
@@ -424,7 +425,8 @@ footer {
 
 .phone {
    margin-top: 20px;
-   width: 800px;
+   width: 1000px;
+   justify-content:center;
    display: flex;
 }
 
@@ -445,7 +447,8 @@ footer {
 
 .pwd1 {
    margin-top: 20px;
-   width: 800px;
+   width: 1000px;
+   justify-content:center;
    display: flex;
 }
 
@@ -467,7 +470,8 @@ footer {
 
 .pwd2 {
    margin-top: 20px;
-   width: 800px;
+   width: 1000px;
+   justify-content:center;
    display: flex;
 }
 
@@ -488,8 +492,8 @@ footer {
 }
 
 .submit {
-   margin-top: 20px;
-   width: 500px;
+   margin-top: 40px;
+   width: 650px;
    text-align: right;
    justify-cotent: center;
 }
@@ -526,6 +530,7 @@ footer {
 }
 
 .validation-form h2 {
+   text-align: center;
     color: #5c3018;
 }
 
@@ -540,9 +545,10 @@ footer {
 }
 
 .error_next_box {
-   width: 200px;
-   margin-left: 10px;
-   margin-top: 20px;
+   width: 500px;
+   position: absolute;
+   margin-top: 60px;
+   margin-left: 180px;
    font-size: 5px;
    text-align: left;
    color: red;
@@ -550,8 +556,7 @@ footer {
 }
 
 .validation-form {
-   width: 800px;
-   
+   width: 1000px;
 }
 </style>
 <script type="text/javascript">
