@@ -576,7 +576,7 @@ textarea {
 
          <ul>
             <li><b><a href="myPage.do">마이페이지</a></b></li>
-            <li><b><a href="#">소모임장페이지</a></b></li>
+            <li><b><a href="#" style="color: black;">소모임장페이지</a></b></li>
             <li><b><a href="admin.do" style="color: #de5f47">관리자페이지</a></b></li>
             <li><b><a href="favorite.do">즐겨찾기</a></b></li>
             <li id="bell"><a href="#"><b><img src="images/bell.png"></a></b>1</li>
