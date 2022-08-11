@@ -333,4 +333,96 @@ public class MemberDAO {
 		}
 		return flag;
 	}
+
+	// 소모임 회원 리스트
+	public ArrayList<MemberTO> teamMemberList(String tseq) {
+		ArrayList<MemberTO> lists = new ArrayList<MemberTO>();
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = this.dataSource.getConnection();
+			
+			String sql="select tm.tseq, tm.seq, t.tname, m.name, m.email, date_format(m.birth,'%y%m%d') as birth from teammember as tm join team as t on tm.tseq = t.tseq join member as m on tm.seq = m.seq where tm.tseq = ?";
+			pstmt=conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			pstmt.setInt(1, Integer.parseInt(tseq));
+			pstmt.executeUpdate();
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				MemberTO to = new MemberTO();
+				to.setSeq(rs.getString("tm.seq"));
+				to.setName(rs.getString("m.name"));
+				to.setEmail(rs.getString("m.email"));
+				to.setBirth(rs.getString("birth"));
+				to.setTname(rs.getString("t.tname"));
+				
+				lists.add(to);
+			}
+		} catch(SQLException e) {
+			System.out.println("[에러]: " + e.getMessage());
+		} finally {
+			if(rs != null) try{ rs.close(); } catch(SQLException e) {}
+			if(pstmt != null) try{ pstmt.close(); } catch(SQLException e) {}
+			if(conn != null) try{ conn.close(); } catch(SQLException e) {}
+		}
+		return lists;
+	}
+	
+	// 소모임 회원리스트 - 페이징
+	public PageTeamMemberTO teamMemberList(PageTeamMemberTO pageTeamMemberTO, String tseq) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		int cpage = pageTeamMemberTO.getCpage();
+		int recordPerPage = pageTeamMemberTO.getRecordPerPage();
+		int blockPerPage = pageTeamMemberTO.getBlockPerPage();
+
+		try {
+			conn = this.dataSource.getConnection();
+			String sql="select tm.tseq, tm.seq, t.tname, m.name, m.email, date_format(m.birth,'%y%m%d') as birth from teammember as tm join team as t on tm.tseq = t.tseq join member as m on tm.seq = m.seq where tm.tseq = ?";
+			pstmt=conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			pstmt.setInt(1, Integer.parseInt(tseq));
+			pstmt.executeUpdate();
+			
+			rs = pstmt.executeQuery();
+			
+			rs.last(); //읽기 커서를 맨 마지막 행으로 이동
+			pageTeamMemberTO.setTotalRecord(rs.getRow());
+			rs.beforeFirst(); //읽기 커서를 맨 첫행으로 이동
+			
+			//전체 페이지
+			pageTeamMemberTO.setTotalPage((pageTeamMemberTO.getTotalRecord()-1)/recordPerPage+1);
+			//시작번호 - 읽을 데이터 위치 지정
+			int skip=(cpage-1)*recordPerPage;
+			if (skip!=0) rs.absolute(skip); //커서를 주어진 행으로 이동
+				ArrayList<MemberTO> teamMemberLists = new ArrayList<MemberTO>();
+			for (int i=0;i<recordPerPage && rs.next();i++) {
+				MemberTO to = new MemberTO();
+				to.setSeq(rs.getString("tm.seq"));
+				to.setName(rs.getString("m.name"));
+				to.setEmail(rs.getString("m.email"));
+				to.setBirth(rs.getString("birth"));
+				to.setTname(rs.getString("t.tname"));
+				
+				teamMemberLists.add(to);
+			}
+			pageTeamMemberTO.setTeamMemberLists(teamMemberLists);
+			pageTeamMemberTO.setStartBlock((cpage-1)/blockPerPage*blockPerPage+1);
+			pageTeamMemberTO.setEndBlock((cpage-1)/blockPerPage*blockPerPage+blockPerPage);
+			if (pageTeamMemberTO.getEndBlock()>=pageTeamMemberTO.getTotalPage()) {
+				pageTeamMemberTO.setEndBlock(pageTeamMemberTO.getTotalPage());
+			}
+		} catch (SQLException e) {
+			System.out.println("[에러]:"+e.getMessage());
+		} finally {
+			if (conn!=null) try {conn.close();} catch (SQLException e) {}
+			if (pstmt!=null) try {pstmt.close();} catch (SQLException e) {}
+			if (rs!=null) try {rs.close();} catch (SQLException e) {}
+		}
+		return pageTeamMemberTO;
+	}
 }

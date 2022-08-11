@@ -31,6 +31,7 @@ import com.example.model1.MemberTO;
 import com.example.model1.PageAdminTeamTO;
 import com.example.model1.PageMainTeamTO;
 import com.example.model1.PageMemberTO;
+import com.example.model1.PageTeamMemberTO;
 import com.example.model1.SignUpDAO;
 import com.example.model1.SignUpTO;
 import com.example.model1.TeamDAO;
@@ -204,10 +205,22 @@ public class MukjoController {
 	
 	@RequestMapping(value = "/mainjoin.do")
 	public ModelAndView mainjoin(HttpServletRequest request, Model model) {
-
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("mainjoin");
-		return modelAndView;
+		String tseq = request.getParameter("tseq");
+		
+		int cpage = 1;
+		if(request.getParameter("cpage") != null && !request.getParameter("cpage").equals("")) {
+			cpage = Integer.parseInt(request.getParameter("cpage"));
+		}
+		
+		PageTeamMemberTO pageTeamMemberTO = new PageTeamMemberTO();
+		pageTeamMemberTO.setCpage(cpage);
+		
+		pageTeamMemberTO = mdao.teamMemberList(pageTeamMemberTO, tseq);
+		
+	    ModelAndView modelAndView = new ModelAndView();
+	    modelAndView.setViewName("mainjoin");
+	    modelAndView.addObject("pageTeamMemberTO", pageTeamMemberTO);
+	    return modelAndView;
 	}
 	
 	@RequestMapping(value = "/mainall.do")

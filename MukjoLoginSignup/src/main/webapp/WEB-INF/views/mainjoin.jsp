@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@page import="com.example.model1.PageTeamMemberTO"%>
+<%@page import="com.example.model1.MemberTO"%>
+<%@page import="java.util.ArrayList"%>
      <%
 
     	String log = "LOGIN";
@@ -18,6 +21,45 @@
 			   		out.println ( "</script>");
     	}
     
+    	PageTeamMemberTO pageTeamMemberTO = (PageTeamMemberTO)request.getAttribute("pageTeamMemberTO");
+
+    	int cpage = pageTeamMemberTO.getCpage();
+    	int recordPerPage = pageTeamMemberTO.getRecordPerPage();
+    	int totalRecord = pageTeamMemberTO.getTotalRecord();
+    	int totalPage = pageTeamMemberTO.getTotalPage();
+    	int blockPerPage = pageTeamMemberTO.getBlockPerPage();
+    	int startBlock = pageTeamMemberTO.getStartBlock();
+    	int endBlock = pageTeamMemberTO.getEndBlock();
+    	
+    	ArrayList<MemberTO> memberLists = pageTeamMemberTO.getTeamMemberLists();
+
+    	int num = 1;
+    	String tname = "";
+    	
+    	StringBuilder sbHtml = new StringBuilder();
+
+    	for (int j = 1 ; j < memberLists.size() ; j = j+20) {
+    		num = (pageTeamMemberTO.getCpage() - 1) * 20+1;
+    		for (int i = j ; i < j+20 ; i++) {
+    			
+    			if (i < memberLists.size()) {
+    				String seq = memberLists.get(i).getSeq();
+    				String name = memberLists.get(i).getName();
+    				String email = memberLists.get(i).getEmail();
+    				String birth = memberLists.get(i).getBirth();
+    				tname = memberLists.get(i).getTname();
+    				System.out.println(seq);
+    				
+    				sbHtml.append( "<tr>" );
+    				sbHtml.append( "<td>" + num + "</td>" );
+    				sbHtml.append( "<td>" + name + "</td>" );
+    				sbHtml.append( "<td>" + email + "</td>" );
+    				sbHtml.append( "<td>" + birth + "</td>" );
+    				sbHtml.append( "</tr>" );
+    				num+=1;
+    			}
+    		}
+    	}
     %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -32,9 +74,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
     <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
-
-
-
 <style>
 /** common **/
 
@@ -491,7 +530,7 @@ footer{
         </section>
           
         <section id ="btnSec" >
-            <strong>소모임 : <b>코딩모임</b></strong>
+            <strong>소모임 : <b><%=tname %></b></strong>
 
          
             <button class="modal-notice">가입신청</button>
@@ -501,7 +540,7 @@ footer{
                     <h2>소모임 가입신청</h2>
                     <p style="font-weight: bold; margin-top: 50px;"> 소모임 이름 :
                        
-                         <span>코딩 모임</span>
+                         <span><%=tname %></span>
                          <p style="font-weight: bold;">가입 신청하시겠습니까?</p>
                     </p>
                      <div class="modal-make" style="margin-top: 50px;">
@@ -564,6 +603,8 @@ footer{
                         </tr>
                     </thead>
                     <tbody>
+                    <%=sbHtml.toString() %>
+                    <!-- 
                         <tr>
                             <td><a href="#">1</td>
                             <td><a href="#">김영주</a></td>
@@ -595,7 +636,7 @@ footer{
                             <td><a href="#">김영규</a></td>
                             <td><a href="#">dudrb7795@gmail.com</a></td>
                             <td><a href="#">930207</a></td>
-                        </tr>   
+                        </tr>  -->  
                     </tbody>
                 </table>
             </div>
@@ -608,19 +649,53 @@ footer{
 
             <div class="paginate_regular">
                 <div class="board_pagetab">
-                
-                    <span class="off"><a href="#">&lt;&lt;</a>&nbsp;&nbsp;</span>
-                    <span class="off"><a href="#">&lt;</a>&nbsp;&nbsp;</span>
-                <ul>
-                    <li class="active"><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                </ul>
-                    <span class="off">&nbsp;&nbsp;<a href="#">&gt;</a></span>
-                    <span class="off">&nbsp;&nbsp;<a href="#">&gt;&gt;</a></span>
-                    
+					<!-- <span class="off"><a href="#">&lt;&lt;</a>&nbsp;&nbsp;</span>
+					<span class="off"><a href="#">&lt;</a>&nbsp;&nbsp;</span>
+					<ul>
+						<li class="active"><a href="#">1</a></li>
+						<li><a href="#">2</a></li>
+						<li><a href="#">3</a></li>
+						<li><a href="#">4</a></li>
+						<li><a href="#">5</a></li>
+					</ul>
+					<span class="off">&nbsp;&nbsp;<a href="#">&gt;</a></span>
+					<span class="off">&nbsp;&nbsp;<a href="#">&gt;&gt;</a></span> -->
+<%	
+	if (startBlock==1) { //<<
+		out.println("<span><a>&lt;&lt;</a>&nbsp;&nbsp;</span>");
+	} else {
+		out.println("<span><a href='mainall.do?cpage="+(startBlock-blockPerPage)+"'>&lt;&lt;</a>&nbsp;&nbsp;</span>");
+	}
+
+	if (cpage==1) { //<
+		out.println("<span><a>&lt;</a>&nbsp;&nbsp;</span>");
+	} else {
+		out.println("<span><a href='mainall.do?cpage="+(cpage-1)+"'>&lt;</a>&nbsp;&nbsp;</span>");
+	}
+	
+	out.println("<ul>");
+	for (int i=startBlock;i<=endBlock;i++) {
+		if (cpage==i) {
+			out.println("<li class='active'><a>"+i+"</a></li>");
+		} else {
+			out.println("<li><a href='mainall.do?cpage="+i+"'>"+i+"</a></span>");
+		}
+	}
+	
+	out.println("</ul>");
+	
+	if (cpage==totalPage) { //>
+		out.println("<span>&nbsp;&nbsp;<a>&gt;</a></span>");
+	} else {
+		out.println("<span>&nbsp;&nbsp;<a href='mainall.do?cpage="+(cpage+1)+"'>&gt;</a></span>");
+	}
+	
+	if (endBlock==totalPage) { //>>
+		out.println("<span>&nbsp;&nbsp;<a>&gt;&gt;</a></span>");
+	} else {
+		out.println("<span>&nbsp;&nbsp;<a href='mainall.do?cpage="+(startBlock+blockPerPage)+"'>&gt;&gt;</a></span>");
+	}
+%>
                 </div><!-- board_pagetab -->
                 
             
