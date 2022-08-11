@@ -736,7 +736,7 @@ textarea {
                </div>
                
                <div class="align_right">
-                   <input type='button' value='수정' class='btn_list btn_txt02'   style='cursor: pointer;'
+                   <input type='button' value='수정' class='btn_list btn_txt02' style='cursor: pointer;'
                   onclick="location.href='somoimboard_modify.do'" /> 
                      
                   <input type='button' id='deletebtn' value='삭제' class='btn_list btn_txt02' style='cursor: pointer;' 
