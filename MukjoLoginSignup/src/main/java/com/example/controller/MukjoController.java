@@ -194,9 +194,6 @@ public class MukjoController {
 		mainTeamPageTO.setCpage(cpage);
 		
 		mainTeamPageTO = tdao.teamList(mainTeamPageTO, seq);
-		ArrayList<MainTeamTO> to=mainTeamPageTO.getTeamLists();
-		String jangseq="";
-		String jangName=tdao.jangName("");
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("main");
