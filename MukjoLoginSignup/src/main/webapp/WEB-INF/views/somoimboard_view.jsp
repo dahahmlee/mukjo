@@ -1,3 +1,4 @@
+<%@page import="com.example.model1.BoardTO"%>
 <%@page import="ch.qos.logback.core.recovery.ResilientSyslogOutputStream"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -19,20 +20,20 @@
       out.println ( "</script>");
    }
    
-   String subject = (String)request.getAttribute("subject");
-   String wdate = (String)request.getAttribute("wdate");
-   String writer = (String)request.getAttribute("writer");
-   String hit = (String)request.getAttribute("hit");
-   String content = (String)request.getAttribute("content");
-   String filename = (String)request.getAttribute("filename");
+   BoardTO bto = (BoardTO)request.getAttribute("bto");
+   String subject = bto.getSubject();
+   String wdate = bto.getWdate();
+   String writer = bto.getWriter();
+   String hit = bto.getHit();
+   String content = bto.getContent();
+   String filename = bto.getFilename();
    StringBuilder sbHtml = new StringBuilder();
    
-   if (filename != null) {
-
+   if (filename!=null) {
+	     // 이미지 크기 조정 여기서 하기 width: 500px;
 	      sbHtml.append("<img style='width: 500px;' src='../../upload/"+filename+"'/><br />");
 	      
 	   }
-   
 	   sbHtml.append("<div>");
 	   sbHtml.append("<p style='font-size:15px; color:black; word-break: break-all; '>");
 	   sbHtml.append(content);

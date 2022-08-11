@@ -627,7 +627,7 @@ textarea {
                      <td colspan="4" height="100" valign="top"
                         style="padding: 10px; line-height: 150% overflow: auto;">
                         <div class="img_size">
-                        <%=sbHtml %>
+                        <%=sbHtml.toString() %>
                         </div>
                      </td>
                   </tr>
