@@ -346,7 +346,7 @@ public class BoardDAO {
 		return flag;
 	}
 	
-	//공지 삭제
+	//게시물 삭제
 	public int noticeDelete(String bseq) {
 		Connection conn=null;
 		PreparedStatement pstmt=null;

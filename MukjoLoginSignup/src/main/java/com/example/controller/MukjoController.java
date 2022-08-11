@@ -758,6 +758,34 @@ public class MukjoController {
 	    return modelAndView;
 	 }
 	
+	//내가 쓴 글 보기에서 게시물 삭제 확인
+	 @RequestMapping(value = "/myPage_delete.do")
+	    public ModelAndView myPage_delete(HttpServletRequest request, Model model) {
+	
+		String bseq=request.getParameter("bseq");
+
+	    ModelAndView modelAndView = new ModelAndView();
+	    modelAndView.setViewName("myPage_delete");
+	    modelAndView.addObject("bseq",bseq);
+	
+	    return modelAndView;
+	 }
+	 
+	 //내가 쓴 글 보기에서 게시물 삭제 
+	 @RequestMapping(value = "/myPage_deleteok.do")
+	    public ModelAndView myPage_deleteok(HttpServletRequest request, Model model) {
+	
+		String bseq=request.getParameter("bseq");
+
+	    ModelAndView modelAndView = new ModelAndView();
+	    modelAndView.setViewName("myPage_deleteok");
+	    int flag=bdao.noticeDelete(bseq);
+	    modelAndView.addObject("flag",flag);
+	
+	    return modelAndView;
+	 }
+		 
+	//내 정보수정 확인
 	@RequestMapping(value = "/myPage_info_modify.do")
 	    public ModelAndView mypage_modify(HttpSession session, HttpServletRequest request, Model model) {
 	
@@ -771,6 +799,7 @@ public class MukjoController {
 	    return modelAndView;
 	 }
 	
+	//내정보수정 
 	@RequestMapping(value = "/myPage_info_modifyok.do")
 	    public ModelAndView mypage_modifyok(HttpSession session, HttpServletRequest request, Model model) {
 	
