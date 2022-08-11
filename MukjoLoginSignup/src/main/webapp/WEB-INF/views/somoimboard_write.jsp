@@ -4,6 +4,7 @@
     	String log = "LOGIN";
     
     	HttpSession sess = request.getSession();
+    	String tseq = request.getParameter("tseq");
     	
     	String loginedMemberSeq = (String)sess.getAttribute("loginedMemberSeq");
     	String welcome = "";
@@ -549,6 +550,7 @@ textarea {
 	<div id="wrap">
 		<div class="con_txt">
 			<form action="somoimboard_writeok.do" method="post" name="wfrm" enctype="multipart/form-data">
+			<input type="hidden" name="tseq" value=<%=tseq %> >
 				<div class="contents_sub">
 					<!--게시판-->
 					<div class="board_write">
@@ -575,7 +577,7 @@ textarea {
 							<div class="align_left">
 								<input type="button" value="목록" class="btn_list btn_txt02"
 									style="cursor: pointer;"
-									onclick="location.href='somoimboard.do'" />
+									onclick="location.href='somoimboard.do?tseq=<%=tseq %>'" />
 							</div>
 							<div class="align_right">
 								<input type="button" id="wbtn" value="완료"

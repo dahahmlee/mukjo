@@ -610,5 +610,5 @@ textarea {
 		</div>
 	</div>
 </body>
-<script>
+
 	</html>

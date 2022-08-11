@@ -277,11 +277,13 @@ public class TeamDAO {
 		Connection conn=null;
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
+		ResultSet rs2=null;
 
 		int cpage=mainTeamPageTO.getCpage();
 		int recordPerPage=mainTeamPageTO.getRecordPerPage();
 		int blockPerPage=mainTeamPageTO.getBlockPerPage();
 
+		String jangseq="";
 		try {
 			conn=this.dataSource.getConnection();
 			String sql="select teammember.tseq as tseq, tname, team.seq as jangseq, memcount from teammember inner join team where teammember.tseq=team.tseq and teammember.seq=? order by tname";
@@ -309,7 +311,18 @@ public class TeamDAO {
 				to.setTname(rs.getString("tname"));
 				to.setJangseq(rs.getString("jangseq"));
 				to.setMemcount(rs.getString("memcount"));
-
+				jangseq=rs.getString("jangseq");
+				
+				sql="select name from member where seq=?";
+				pstmt=conn.prepareStatement(sql);
+				pstmt.setString(1,jangseq);
+				
+				rs2=pstmt.executeQuery();
+			
+				if (rs2.next()) {
+					to.setJangname(rs2.getString("name"));
+				}
+				
 				teamLists.add(to);
 			}
 			mainTeamPageTO.setTeamLists(teamLists);
@@ -318,6 +331,9 @@ public class TeamDAO {
 			if (mainTeamPageTO.getEndBlock()>=mainTeamPageTO.getTotalPage()) {
 				mainTeamPageTO.setEndBlock(mainTeamPageTO.getTotalPage());
 			}
+			
+				
+			
 		} catch (SQLException e) {
 			System.out.println("[에러]:"+e.getMessage());
 		} finally {
@@ -326,35 +342,6 @@ public class TeamDAO {
 			if (rs!=null) try {rs.close();} catch (SQLException e) {}
 		}
 		return mainTeamPageTO;
-	}
-	
-	//메인페이지 - 가입한 소모임 - 소모임장이름
-	public String jangName(String jangseq) {
-		Connection conn=null;
-		PreparedStatement pstmt=null;
-		ResultSet rs=null;
-
-		String jangName="";
-		
-		try {
-			conn=this.dataSource.getConnection();
-			String sql=" select name from member where seq=?";
-			pstmt=conn.prepareStatement(sql);
-			pstmt.setString(1,jangseq);
-			
-			rs=pstmt.executeQuery();
-		
-			if (rs.next()) {
-				jangName=rs.getString("jangseq");
-			}	
-		} catch (SQLException e) {
-			System.out.println("[에러]:"+e.getMessage());
-		} finally {
-			if (conn!=null) try {conn.close();} catch (SQLException e) {}
-			if (pstmt!=null) try {pstmt.close();} catch (SQLException e) {}
-			if (rs!=null) try {rs.close();} catch (SQLException e) {}
-		}
-		return jangName;
 	}
 }
 

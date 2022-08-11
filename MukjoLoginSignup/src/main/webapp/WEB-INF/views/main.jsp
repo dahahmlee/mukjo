@@ -1,3 +1,6 @@
+<%@page import="com.example.model1.MainTeamTO"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.example.model1.MainTeamPageTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
      <%
@@ -18,6 +21,42 @@
 			   		out.println ( "</script>");
     	}
     
+    	MainTeamPageTO mainTeamPageTO = (MainTeamPageTO)request.getAttribute("mainTeamPageTO");
+       	int cpage = mainTeamPageTO.getCpage();
+       	int recordPerPage = mainTeamPageTO.getRecordPerPage();
+       	int totalRecord = mainTeamPageTO.getTotalRecord();
+       	int totalPage = mainTeamPageTO.getTotalPage();
+       	int blockPerPage = mainTeamPageTO.getBlockPerPage();
+       	int startBlock = mainTeamPageTO.getStartBlock();
+       	int endBlock = mainTeamPageTO.getEndBlock();
+       	ArrayList<MainTeamTO> teamLists = mainTeamPageTO.getTeamLists();
+       	
+       	StringBuilder sb = new StringBuilder();
+       	int num=1;
+       	
+       	for (int j=0; j<teamLists.size(); j=j+20) {
+       		num=(mainTeamPageTO.getCpage()-1)*20+1;
+       		for (int i=j; i<j+20; i++) {
+       			
+       			if (i>=teamLists.size()) {
+
+       			} else {
+       				String tseq=teamLists.get(i).getTseq();
+       				String tname=teamLists.get(i).getTname();
+       				String jangname=teamLists.get(i).getJangname();
+       				String memcount=teamLists.get(i).getMemcount();
+       				
+       				sb.append("<tr>");
+       				sb.append("<td>"+num+"</td>");
+       				sb.append("<td><a href='somoimboard.do?tseq="+tseq+"'>"+tname+"</td>");
+       				sb.append("<td>"+jangname+"</td>");
+       				sb.append("<td>"+memcount+"</td>");
+       				sb.append("</tr>");
+       				
+       				num+=1;
+       			}
+       		}
+       	}
     %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -605,6 +644,8 @@ footer{
                         </tr>
                     </thead>
                     <tbody>
+                    <%=sb %>
+                    <!--  
                         <tr>
                             <td><a href="#">1</td>
                             <td><a href="./somoimboard.do">먹진남</a></td>
@@ -636,7 +677,8 @@ footer{
                             <td><a href="#">먹진남</a></td>
                             <td><a href="#">박지성</a></td>
                             <td><a href="#">20명</a></td>
-                        </tr>   
+                        </tr> 
+                       -->   
                     </tbody>
                 </table>
             </div>
@@ -649,7 +691,7 @@ footer{
 
             <div class="paginate_regular">
                 <div class="board_pagetab">
-                
+                <!--  
                     <span class="off"><a href="#">&lt;&lt;</a>&nbsp;&nbsp;</span>
                     <span class="off"><a href="#">&lt;</a>&nbsp;&nbsp;</span>
                 <ul>
@@ -661,6 +703,43 @@ footer{
                 </ul>
                     <span class="off">&nbsp;&nbsp;<a href="#">&gt;</a></span>
                     <span class="off">&nbsp;&nbsp;<a href="#">&gt;&gt;</a></span>
+                -->
+<%	
+	if (startBlock==1) { //<<
+		out.println("<span><a>&lt;&lt;</a>&nbsp;&nbsp;</span>");
+	} else {
+		out.println("<span><a href='main.do?cpage="+(startBlock-blockPerPage)+"'>&lt;&lt;</a>&nbsp;&nbsp;</span>");
+	}
+
+	if (cpage==1) { //<
+		out.println("<span><a>&lt;</a>&nbsp;&nbsp;</span>");
+	} else {
+		out.println("<span><a href='main.do?cpage="+(cpage-1)+"'>&lt;</a>&nbsp;&nbsp;</span>");
+	}
+	
+	out.println("<ul>");
+	for (int i=startBlock;i<=endBlock;i++) {
+		if (cpage==i) {
+			out.println("<li class='active'><a>"+i+"</a></li>");
+		} else {
+			out.println("<li><a href='main.do?cpage="+i+"'>"+i+"</a></span>");
+		}
+	}
+	
+	out.println("</ul>");
+	
+	if (cpage==totalPage) { //>
+		out.println("<span>&nbsp;&nbsp;<a>&gt;</a></span>");
+	} else {
+		out.println("<span>&nbsp;&nbsp;<a href='main.do?cpage="+(cpage+1)+"'>&gt;</a></span>");
+	}
+	
+	if (endBlock==totalPage) { //>>
+		out.println("<span>&nbsp;&nbsp;<a>&gt;&gt;</a></span>");
+	} else {
+		out.println("<span>&nbsp;&nbsp;<a href='main.do?cpage="+(startBlock+blockPerPage)+"'>&gt;&gt;</a></span>");
+	}
+%>                         
                     
                 </div><!-- board_pagetab -->
                 

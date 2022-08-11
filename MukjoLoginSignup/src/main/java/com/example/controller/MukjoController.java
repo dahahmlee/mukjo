@@ -52,7 +52,7 @@ public class MukjoController {
 	
 	@Autowired
 	private BoardDAO bdao;
-	private String uploadPath="C:/github/MukjoLoginSignup/src/main/webapp/upload";
+	private String uploadPath="C:\\Users\\JungGyuJin\\Desktop\\mukjo_project\\git\\mukjo\\MukjoLoginSignup\\src\\main\\webapp\\upload";
 
 	@Autowired
 	private TeamDAO tdao;
@@ -194,9 +194,6 @@ public class MukjoController {
 		mainTeamPageTO.setCpage(cpage);
 		
 		mainTeamPageTO = tdao.teamList(mainTeamPageTO, seq);
-		ArrayList<MainTeamTO> to=mainTeamPageTO.getTeamLists();
-		String jangseq="";
-		String jangName=tdao.jangName("");
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("main");
@@ -658,7 +655,7 @@ public class MukjoController {
 		BoardListTO listTO = new BoardListTO();
 		// 파라미터 없어서 넣어놓음
 		listTO.setCpage(cpage);
-		listTO.setTseq("2");
+		listTO.setTseq(request.getParameter("tseq"));
 		
 		listTO = bdao.boardList(listTO);
 		

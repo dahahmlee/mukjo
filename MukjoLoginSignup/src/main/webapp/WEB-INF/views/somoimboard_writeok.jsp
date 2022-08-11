@@ -5,6 +5,7 @@
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <%
 	int flag = (int)request.getAttribute("flag");
+	String tseq = request.getParameter("tseq");
 
 	out.println("<script type='text/javascript'>");
 	out.println("$().ready(function () {");
@@ -19,7 +20,7 @@
 		out.println("		reverseButtons: false,");
 		out.println("	}).then((result) => {");
 		out.println("		if (result.isConfirmed) {");
-		out.println("		location.href='./somoimboard.do'");
+		out.println("		location.href='./somoimboard.do?tseq"+tseq+"'");
 		out.println("		}");
 		out.println("	})");
 	} else {

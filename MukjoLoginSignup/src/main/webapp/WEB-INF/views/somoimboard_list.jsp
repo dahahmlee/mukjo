@@ -48,13 +48,13 @@
       String writer = "";
       String wdate = "";
       String hit = "";
-      String tseq = "";
+      String tseq = request.getParameter("tseq");
       
       for( int i = 0 ; i < boardLists.size(); i++ ) {
          BoardTO to = boardLists.get(i);
          bseq = to.getBseq();
          // 이거 바꿔야함
-         tseq = "2";
+         tseq = to.getTseq();
          subject = to.getSubject();
          content = to.getContent();
          writer = to.getWriter();
@@ -692,7 +692,7 @@ footer{
                     <span class="off">&nbsp;&nbsp;<a href="#">&gt;&gt;</a></span> -->
                      <div style= "margin-left: 350px;">
                         <input type="button" value="글쓰기" class="btn_list btn_txt02"   style="cursor: pointer;"
-                  onclick="location.href='somoimboard_write.do'" /> 
+                  onclick="location.href='somoimboard_write.do?tseq=<%=tseq %>'" /> 
                         </div>
                 </div><!-- board_pagetab -->
                 
