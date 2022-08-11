@@ -431,6 +431,11 @@ footer{
    width: 100px;
 }
 
+.board-table th  {
+   padding-bottom: 10px;
+   border-bottom: 1px solid black;
+}
+
 .th-tname {
    width: 20%;
 }
