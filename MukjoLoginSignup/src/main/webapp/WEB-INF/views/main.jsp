@@ -438,17 +438,18 @@ a{
 	.board_pagetab a { text-decoration: none; font: 12px verdana; color: #000; padding: 0 3px 0 3px; }
     /* .board_pagetab ul a:hover  { background-color:black; } */
 	.on a { font-weight: bold; }
-
-
-
-
-
+	
 /***** footer  *****/
 footer{
     width: 100%;
     height: 163px;
     background-color: #d7d7d7;
     margin-top: 5%;
+}
+
+.board-table th  {
+   padding-bottom: 10px;
+   border-bottom: 1px solid black;
 }
 
 </style>

@@ -283,14 +283,18 @@ nav{
     background-color: white;
 }
 
-
+#headerWap h3 {
+	font-size: 15px;
+	justify-content: left;
+	position: absolute;
+	margin-left: 120px;
+}
 
 /***** warp  *****/
 #wrap{
     width: 1280px; 
     margin : auto;
 }
-
 
 /* 타이틀 섹션 */
 #titSec strong{
@@ -299,8 +303,6 @@ nav{
   padding: 30px 0 30px 0;
   display: inline-block;
 }
-
-
 
 /* 버튼 섹션*/
 #btnSec {
@@ -322,7 +324,6 @@ nav{
   padding-left: 20px;
 }
 
-
 #locationSec{
     width: 100%;
     background-color: #f7f7fd;
@@ -343,7 +344,6 @@ nav{
     margin: 0 auto;
     height: 55px;
     padding-top: 13px;
-
 }
 
 #locationwrap button{
@@ -355,25 +355,10 @@ nav{
     color : #333;
     position : relative;
 }
-/*
-.allbtn:before{
-    position: absolute;
-    left: 0;
-    top : 0;
-    margin : auto 0;
-    width: 1px;
-    height: 18px;
-    background-color: #000;
-    content: "";
-    margin-top: 8%;
-}
-*/
 
 .active{
     color: #de5f47;
 }
-
-
 
 /* 테이블 섹션 */
 #tblSec table{
@@ -403,7 +388,6 @@ nav{
 #pagingSec ul{
     display: flex;
 }
-
 
 #pagingSec{
     display: flex;
@@ -443,13 +427,10 @@ nav{
     padding: 0px 2px 1px;
 }
 
-
-
 #pagingSec .search-wrap #search{
     height: 37.6px;
     margin-right: 4px;
 }
-
 
 .search-wrap .input{
     width: 282px;
@@ -476,7 +457,6 @@ nav{
     box-sizing: border-box;
 }
 
-
 /* width : 30, height : 45 */
 .search-wrap button{
     width: 30px;
@@ -501,20 +481,14 @@ nav{
     border-radius: 10%;
 }
 
-
 #pagingSec .active{
     color:white;
     background-color: #de5f47;
 }
-
     .board_pagetab { text-align: center; display: inline-flex; position:relative;}
    .board_pagetab a { text-decoration: none; font: 12px verdana; color: #000; padding: 0 3px 0 3px; }
     /* .board_pagetab ul a:hover  { background-color:black; } */
    .on a { font-weight: bold; }
-
-
-
-
 
 /***** footer  *****/
 footer{
@@ -524,6 +498,10 @@ footer{
     margin-top: 5%;
 }
 
+.board-table th  {
+   padding-bottom: 10px;
+   border-bottom: 1px solid black;
+}
 </style>
 
 </head>
