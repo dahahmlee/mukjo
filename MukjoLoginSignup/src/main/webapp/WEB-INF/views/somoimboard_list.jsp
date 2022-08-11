@@ -645,7 +645,7 @@ footer{
                if( startBlock == 1 ) {
                   out.println( "<span class='on'>&lt;&lt;</span>" );
                } else {
-                  out.println( "<span class='off'><a href='somoimboard.do?cpage=" + ( startBlock - blockPerPage ) + "'>&lt;&lt;</a></span>" );
+                  out.println( "<span class='off'><a href='somoimboard.do?tseq="+tseq+"&cpage=" + ( startBlock - blockPerPage ) + "'>&lt;&lt;</a></span>" );
                }
                
                out.println( "&nbsp;" );
@@ -653,7 +653,7 @@ footer{
                if( cpage == 1 ) {
                   out.println( "<span class='on'>&lt;</span>" );
                } else {
-                  out.println( "<span class='off'><a href='somoimboard.do?cpage=" + ( cpage - 1 )+ "'>&lt;&nbsp;</a></span>" );
+                  out.println( "<span class='off'><a href='somoimboard.do?tseq="+tseq+"&cpage=" + ( cpage - 1 )+ "'>&lt;&nbsp;</a></span>" );
                }
                
                out.println( "&nbsp;&nbsp;" );
@@ -664,7 +664,7 @@ footer{
                   if( cpage == i ) {
                      out.println( "<li class='active'> " + i + " </li>" );
                   } else {
-                     out.println( "<li class='off'><a href='somoimboard.do?cpage=" + i + "'>" + i + "</a></li>" );
+                     out.println( "<li class='off'><a href='somoimboard.do?tseq="+tseq+"&cpage=" + i + "'>" + i + "</a></li>" );
                   }
                }
             
@@ -675,7 +675,7 @@ footer{
                if( cpage == totalPage ) {
                   out.println( "<span class='on'>&gt;</span>" );
                } else {
-                  out.println( "<span class='off'><a href='somoimboard.do?cpage=" + ( cpage + 1 )+ "'>&gt;</a></span>" );
+                  out.println( "<span class='off'><a href='somoimboard.do?tseq="+tseq+"&cpage=" + ( cpage + 1 )+ "'>&gt;</a></span>" );
                }
                
                out.println( "&nbsp;" );
@@ -683,7 +683,7 @@ footer{
                if( endBlock == totalPage ) {
                   out.println( "<span class='on'>&gt;&gt;</span>" );
                } else {
-                  out.println( "<span class='off'><a href='somoimboard.do?cpage=" + ( startBlock + blockPerPage ) + "'>&gt;&gt;</a></span>" );
+                  out.println( "<span class='off'><a href='somoimboard.do?tseq="+tseq+"cpage=" + ( startBlock + blockPerPage ) + "'>&gt;&gt;</a></span>" );
                }
 %>
                 
