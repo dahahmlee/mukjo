@@ -544,12 +544,8 @@ public class MukjoController {
 	    public ModelAndView adminnotice_modifyok(HttpServletRequest request, Model model) {
 	
 		int cpage = 1;
-		if( request.getParameter("cpage") != null && !request.getParameter("cpage").equals("")) {
-			cpage = Integer.parseInt(request.getParameter("cpage"));
-		}
 
 		BoardListTO listTO = new BoardListTO();		
-		listTO.setCpage(cpage);	
 
 		int maxFileSize=2*1024*1024; //2메가
 		String encType="utf-8";
@@ -560,6 +556,9 @@ public class MukjoController {
 		
 		try {
 			multi = new MultipartRequest(request, uploadPath, maxFileSize, encType, new DefaultFileRenamePolicy() );
+			
+			cpage=Integer.parseInt(multi.getParameter("cpage"));
+			listTO.setCpage(cpage);	
 			
 			BoardTO to=new BoardTO();
 			to.setBseq(multi.getParameter("bseq"));
@@ -813,13 +812,9 @@ public class MukjoController {
 	    public ModelAndView myPage_modifyok(HttpServletRequest request, Model model) {
 	
 		int cpage = 1;
-		if( request.getParameter("cpage") != null && !request.getParameter("cpage").equals("")) {
-			cpage = Integer.parseInt(request.getParameter("cpage"));
-		}
-		System.out.println("controller modifyok: "+request.getParameter("cpage"));
-		BoardListTO listTO = new BoardListTO();		
-		listTO.setCpage(cpage);	
 
+		BoardListTO listTO = new BoardListTO();		
+			
 		int maxFileSize=2*1024*1024; //2메가
 		String encType="utf-8";
 		
@@ -829,6 +824,9 @@ public class MukjoController {
 		
 		try {
 			multi = new MultipartRequest(request, uploadPath, maxFileSize, encType, new DefaultFileRenamePolicy() );
+			
+			cpage=Integer.parseInt(multi.getParameter("cpage"));
+			listTO.setCpage(cpage);
 			
 			BoardTO to=new BoardTO();
 			to.setBseq(multi.getParameter("bseq"));
