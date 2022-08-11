@@ -743,7 +743,7 @@ textarea {
                   onclick="" /> 
                      
                   <input type="button" value="새 글 쓰기" class="btn_write btn_txt01" style="cursor: pointer;"
-                  onclick="location.href='somoimboard.write.do'" />
+                  onclick="location.href='somoimboard_write.do?tseq=<%=tseq %>&bseq=<%=bseq %>'" />
                </div>
             </div>
             <!--//게시판-->

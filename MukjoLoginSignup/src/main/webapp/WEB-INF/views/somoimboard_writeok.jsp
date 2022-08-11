@@ -6,7 +6,7 @@
 <%
 	int flag = (int)request.getAttribute("flag");
 	String tseq = (String)request.getAttribute("tseq");
-	System.out.println(tseq);
+
 
 	out.println("<script type='text/javascript'>");
 	out.println("$().ready(function () {");
