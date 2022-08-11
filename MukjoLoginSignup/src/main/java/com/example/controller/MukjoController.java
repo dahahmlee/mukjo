@@ -24,6 +24,8 @@ import com.example.model1.BoardListTO;
 import com.example.model1.BoardTO;
 import com.example.model1.CommentDAO;
 import com.example.model1.CommentTO;
+import com.example.model1.MainTeamPageTO;
+import com.example.model1.MainTeamTO;
 import com.example.model1.MemberDAO;
 import com.example.model1.MemberTO;
 import com.example.model1.PageAdminTeamTO;
@@ -50,7 +52,7 @@ public class MukjoController {
 	
 	@Autowired
 	private BoardDAO bdao;
-	private String uploadPath="C:\\Users\\JungGyuJin\\Desktop\\mukjo_project\\git\\mukjo\\MukjoLoginSignup\\src\\main\\webapp\\upload";
+	private String uploadPath="C:/github/MukjoLoginSignup/src/main/webapp/upload";
 
 	@Autowired
 	private TeamDAO tdao;
@@ -177,11 +179,29 @@ public class MukjoController {
 		return modelAndView;
 	}
 
+	//가입한 소모임 리스트
 	@RequestMapping(value = "/main.do")
-	public ModelAndView main(HttpServletRequest request, Model model) {
+	public ModelAndView main(HttpSession session, HttpServletRequest request, Model model) {
+		
+		String seq=(String) session.getAttribute("loginedMemberSeq");
 
+		int cpage = 1;
+		if(request.getParameter("cpage") != null && !request.getParameter("cpage").equals("")) {
+			cpage = Integer.parseInt(request.getParameter("cpage"));
+		}
+		
+		MainTeamPageTO mainTeamPageTO=new MainTeamPageTO();
+		mainTeamPageTO.setCpage(cpage);
+		
+		mainTeamPageTO = tdao.teamList(mainTeamPageTO, seq);
+		ArrayList<MainTeamTO> to=mainTeamPageTO.getTeamLists();
+		String jangseq="";
+		String jangName=tdao.jangName("");
+		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("main");
+		modelAndView.addObject("mainTeamPageTO", mainTeamPageTO);
+
 		return modelAndView;
 	}
 	

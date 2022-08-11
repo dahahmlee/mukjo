@@ -30,7 +30,6 @@
    String content = bto.getContent();
    String filename = bto.getFilename();
    String seq = bto.getSeq();
-   System.out.println(seq);
    StringBuilder sbHtml = new StringBuilder();
    
    if (filename!=null) {
@@ -737,11 +736,11 @@ textarea {
                </div>
                
                <div class="align_right">
-                  <input type="button" value="수정" class="btn_list btn_txt02"   style="cursor: pointer;"
+                   <input type='button' value='수정' class='btn_list btn_txt02'   style='cursor: pointer;'
                   onclick="location.href='somoimboard_modify.do'" /> 
                      
-                  <input type="button" id="deletebtn" value="삭제" class="btn_list btn_txt02" style="cursor: pointer;" 
-                  onclick="" />
+                  <input type='button' id='deletebtn' value='삭제' class='btn_list btn_txt02' style='cursor: pointer;' 
+                  onclick="" /> 
                      
                   <input type="button" value="새 글 쓰기" class="btn_write btn_txt01" style="cursor: pointer;"
                   onclick="location.href='somoimboard.write.do'" />
