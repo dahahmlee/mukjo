@@ -2,27 +2,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
 <%
-   String log = "LOGIN";
-   
-   HttpSession sess = request.getSession();
-   
-   String loginedMemberSeq = (String)sess.getAttribute("loginedMemberSeq");
-   String welcome = "";
-   
-   if(loginedMemberSeq != null) {
-      welcome = (String)sess.getAttribute("loginedMemberName")+"님 환영합니다.";
-      log = "LOGOUT";
-      if (!loginedMemberSeq.equals("1")) {
-               out.println ( "<script>");
-               out.println( "alert('관리자만 관리자페이지에 들어갈 수 있습니다.');" );
-            out.println ( "window.location.href = 'http://localhost:8080/main.do'");
-            out.println ( "</script>");
-            }
-   } else {
-      out.println ( "<script>");
-      out.println ( "window.location.href = 'http://localhost:8080/login.do'");
-      out.println ( "</script>");
-   }
+	String log = "LOGIN";
+	
+	HttpSession sess = request.getSession();
+	
+	String loginedMemberSeq = (String)sess.getAttribute("loginedMemberSeq");
+	String welcome = "";
+	
+	if(loginedMemberSeq != null) {
+	   welcome = (String)sess.getAttribute("loginedMemberName")+"님 환영합니다.";
+	   log = "LOGOUT";
+	} else {
+	   	out.println ( "<script>");
+			out.println ( "window.location.href = 'http://localhost:8080/login.do'");
+			out.println ( "</script>");
+	}
 
    int cpage = (Integer)request.getAttribute("cpage");
    BoardTO to = (BoardTO)request.getAttribute("to");   

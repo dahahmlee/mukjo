@@ -48,8 +48,8 @@
 				
 				sbHtml.append( "<tr>" );
 				sbHtml.append( "<td>" + num + "</td>" );
-				sbHtml.append( "<td><a href='./mainjoin.do'>" + tname + "</td>" );
-				sbHtml.append( "<td><a href='./mainjoin.do'>" + tleader + "</td>" );
+				sbHtml.append( "<td><a href='./mainjoin.do?tseq=" + tseq + "' />" + tname + "</td>" );
+				sbHtml.append( "<td><a href='./mainjoin.do?tseq=" + tseq + "' />" + tleader + "</td>" );
 				sbHtml.append( "<td>" + memcount + "명</td>" );
 				sbHtml.append( "</tr>" );
 				num+=1;
@@ -512,12 +512,12 @@ footer{
 
 			<button id="newsomoim">소모임 새로 만들기</button>
 		</section>
-		<!-- 소모임 새로만들기 Modal -->
+		<!-- 소모임 새로만들기 -->
 		<script type="text/javascript">
 		$("#newsomoim").click(function () {
 			Swal.fire({
 				title: '소모임 새로 만들기',
-				text: '생성하고자하는 소모임 이름을 입력해주세요',
+				html: '생성하고자하는 소모임 이름을 입력해주세요<br />(띄어쓰기 포함 최대 12자까지 가능)',
 				input: 'text',
 				showCancelButton: true,
 				confirmButtonColor: '#3085d6',
@@ -528,32 +528,37 @@ footer{
 			}).then((result) => {
 				if (result.isConfirmed) {
 					if(result.value.trim() != ''){
-						var tnamechk = result.value;
-						var seq = <%=loginedMemberSeq %>;
-						$.ajax({
-							type: 'get',
-				        	url: 'checktname.do',
-				        	data: { 'tname': tnamechk, 'seq': seq },
-				        	success: function(item) {
-				        		console.log($.trim(item));
-				        		if($.trim(item) == 'true') {
-				        			Swal.fire({
-				        				title: '소모임 생성 실패',
-				        				html: '생성하고자하는 소모임 이름이 존재합니다.<br />다른 이름으로 시도해주세요.',
-				        				icon: 'error',
-				        			})
-				        		} else {
-				        			Swal.fire({
-				        				title: '소모임 생성 성공',
-				        				html: '생성하신 소모임의 소모임장이 되셨습니다.<br />즐거운 소모임 활동이 되세요!',
-				        				icon: 'success',
-				        			}).then(() => {
-				        				location.href='./main.do';
-				        			})
-				        		}
-				        	},
-				        	error: function(data) {}
-						})
+						if(result.value.length < 13) {
+							var tnamechk = result.value;
+							var seq = <%=loginedMemberSeq %>;
+							$.ajax({
+								type: 'get',
+					        	url: 'checktname.do',
+					        	data: { 'tname': tnamechk, 'seq': seq },
+					        	success: function(item) {
+					        		console.log($.trim(item));
+					        		if($.trim(item) == 'true') {
+					        			Swal.fire({
+					        				title: '소모임 생성 실패',
+					        				html: '생성하고자하는 소모임 이름이 존재합니다.<br />다른 이름으로 시도해주세요.',
+					        				icon: 'error',
+					        			})
+					        		} else {
+					        			Swal.fire({
+					        				title: '소모임 생성 성공',
+					        				html: '생성하신 소모임의 소모임장이 되셨습니다.',
+					        				icon: 'success',
+					        			}).then(() => {
+					        				location.href='./main.do';
+					        			})
+					        		}
+					        	},
+					        	error: function(data) {}
+							})
+						} else {
+							alert('소모임 이름은 띄어쓰기 포함 최대 12자까지 가능합니다.');
+							return false;
+						}
 					} else {
 						alert('공백은 사용 불가능');
 					}

@@ -43,9 +43,9 @@
    			out.println ( "</script>");
    	   	}
    	} else {
-   		    	out.println ( "<script>");
-		   		out.println ( "window.location.href = 'http://localhost:8080/login.do'");
-		   		out.println ( "</script>");
+   		out.println ( "<script>");
+		out.println ( "window.location.href = 'http://localhost:8080/login.do'");
+		out.println ( "</script>");
    	}
     
     
@@ -63,7 +63,6 @@
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet">
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript">
-	google.load('visualization', '1', { packages: ['corechart'] });     
 
 	window.onload = function () {
 	    var chart = new CanvasJS.Chart("chartContainer",

@@ -13,4 +13,5 @@ public class MemberTO {
 	private String phone;
 	private String date;
 	private String birth;
+	private String tname;
 }
