@@ -1,3 +1,5 @@
+<%@page import="com.example.model1.CommentTO"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="com.example.model1.BoardTO"%>
 <%@page import="ch.qos.logback.core.recovery.ResilientSyslogOutputStream"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -27,6 +29,8 @@
    String hit = bto.getHit();
    String content = bto.getContent();
    String filename = bto.getFilename();
+   String seq = bto.getSeq();
+   System.out.println(seq);
    StringBuilder sbHtml = new StringBuilder();
    
    if (filename!=null) {
@@ -44,6 +48,17 @@
 	   String tseq = request.getParameter("tseq");
 	   String bseq = request.getParameter("bseq");
 	   String cpage = request.getParameter("cpage");
+	   
+	   ArrayList<CommentTO> commentLists = (ArrayList)request.getAttribute("commentLists");
+
+		StringBuilder commentSb = new StringBuilder();
+	   for (CommentTO cto : commentLists) {
+		   commentSb.append("<tr>");
+		   commentSb.append("<td class='nick' style='padding-left: 10px; width: 114px; color:blue'>"+cto.getWriter()+"</td>");
+		   commentSb.append("<td class='comment'>"+cto.getCContent()+"</td>");
+		   commentSb.append("<td class='data' style='padding-left: 400px;'>"+cto.getCDate()+"&nbsp;&nbsp;&nbsp;X</td>");
+		   
+	   }
 
    %>
 <!DOCTYPE html>
@@ -652,7 +667,9 @@ textarea {
             <div class="tablewrap" style="display : table-cell;">
             <table width="100%" cellpadding="0" cellspacing="0" style="table-layout : fixed; ">
                <tbody>
-                  <tr>
+               
+               <%=commentSb %>
+<!--                   <tr>
                      <td class="nick" style="padding-left: 10px;
                      width: 114px; color:blue">김영규</td>
                      <td class="comment">맛있음 굿굿</td>
@@ -666,7 +683,7 @@ textarea {
                      <td class="comment">예전에 가봤는데 별로였음</td>
                      <td class="data" style="padding-left: 400px;">2022-08-09&nbsp;&nbsp;&nbsp;&nbsp;X</td>
                      
-                  </tr>
+                  </tr> -->
 
 
                </tbody>
@@ -692,7 +709,7 @@ textarea {
             position: relative;
             clear: both;"
             action="somoimcmt_writeok.do" name="cfrm">
-            <input type="hidden" name="bseq" value="<%=tseq %>" />         
+            <input type="hidden" name="tseq" value="<%=tseq %>" />         
             <input type="hidden" name="cpage" value="<%=cpage %>" />
             <input type="hidden" name="bseq" value="<%=bseq %>" />
             <div class="textcmt" style="display: flex; margin-top: 10px;">

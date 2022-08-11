@@ -8,6 +8,8 @@
 
 	out.println("<script type='text/javascript'>");
 	out.println("$().ready(function () {");
+	String tseq = request.getParameter("tseq");
+	String bseq =request.getParameter("bseq");
 	
 	if(flag == 1) {
 		out.println("	Swal.fire({");
@@ -19,7 +21,7 @@
 		out.println("		reverseButtons: false,");
 		out.println("	}).then((result) => {");
 		out.println("		if (result.isConfirmed) {");
-		out.println("		location.href='./somoimboard.do'");
+		out.println("		location.href='somoimboard_view.do?tseq="+tseq+"&bseq="+bseq+"'");
 		out.println("		}");
 		out.println("	})");
 	} else {

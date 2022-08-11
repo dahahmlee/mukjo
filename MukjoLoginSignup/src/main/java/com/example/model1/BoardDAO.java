@@ -101,7 +101,7 @@ public class BoardDAO {
 		jdbcTemplate.update(sql,to.getBseq());
 
 		
-		sql = "select bseq,tseq, subject, member.name as writer, wdate, hit, content, filename, filesize from board inner join member on board.seq = member.seq where bseq=?";
+		sql = "select bseq,tseq, subject, member.seq, member.name as writer, wdate, hit, content, filename, filesize from board inner join member on board.seq = member.seq where bseq=?";
 		to = jdbcTemplate.queryForObject(sql,new RowMapper<BoardTO>()  {
 			
 					@Override
@@ -110,6 +110,7 @@ public class BoardDAO {
 						to2.setBseq(rs.getString("bseq"));
 						to2.setTseq(rs.getString("tseq"));
 						to2.setSubject(rs.getString("subject"));
+						to2.setSeq(rs.getString("member.seq"));
 						to2.setWriter(rs.getString("writer"));
 						to2.setWdate(rs.getString("wdate"));
 						to2.setHit(rs.getString("hit"));

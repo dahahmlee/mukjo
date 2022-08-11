@@ -702,12 +702,15 @@ public class MukjoController {
 		bto.setTseq(tseq);
 		
 		bto = bdao.boardView(bto);
+		ArrayList<CommentTO> commentLists = cdao.commentView(bseq);
 		
 		model.addAttribute("bto",bto);
-
+		model.addAttribute("commentLists",commentLists);
 		
 	      return new ModelAndView("somoimboard_view"); 
 	}
+	
+	
 	
 	@RequestMapping( "/somoimcmt_writeok.do")   
 	   public ModelAndView cmtWriteOk(HttpSession sess,HttpServletRequest request,HttpServletResponse response,Model model) {
