@@ -25,6 +25,7 @@ import com.example.model1.BoardTO;
 import com.example.model1.MemberDAO;
 import com.example.model1.MemberTO;
 import com.example.model1.MyBoardListTO;
+import com.example.model1.MyBoardTO;
 import com.example.model1.PageAdminTeamTO;
 import com.example.model1.PageMainTeamTO;
 import com.example.model1.PageMemberTO;
@@ -732,20 +733,45 @@ public class MukjoController {
 	    return modelAndView;
 	 }
 		
-	@RequestMapping(value = "/myPage_modify.do")
+	@RequestMapping(value = "/myPage_view.do")
+	    public ModelAndView myPage_view(HttpServletRequest request, Model model) {
+	
+		int cpage = 1;
+		if ( request.getParameter( "cpage" ) != null && !request.getParameter( "cpage" ).equals("") ) {
+			cpage = Integer.parseInt( request.getParameter( "cpage" ) );
+		}
+		
+		MyBoardListTO listTO = new MyBoardListTO();
+		listTO.setCpage(cpage);
+		
+		MyBoardTO to=new MyBoardTO();
+		to.setBseq(request.getParameter("bseq"));
+		to=bdao.myPageView(to);
+		String tname=bdao.myPageViewTname(to.getTseq());
+			
+	    ModelAndView modelAndView = new ModelAndView();
+	    modelAndView.setViewName("myPage_view");
+	    modelAndView.addObject("to",to);
+		modelAndView.addObject("cpage",cpage);
+		modelAndView.addObject("tname",tname);
+	
+	    return modelAndView;
+	 }
+	
+	@RequestMapping(value = "/myPage_info_modify.do")
 	    public ModelAndView mypage_modify(HttpSession session, HttpServletRequest request, Model model) {
 	
 		String seq=(String) session.getAttribute("loginedMemberSeq");
 		MemberTO to=mdao.myPageModify(seq);
 		
 	    ModelAndView modelAndView = new ModelAndView();
-	    modelAndView.setViewName("myPage_modify");
+	    modelAndView.setViewName("myPage_info_modify");
 	    modelAndView.addObject("to",to);
 	    
 	    return modelAndView;
 	 }
 	
-	@RequestMapping(value = "/myPage_modifyok.do")
+	@RequestMapping(value = "/myPage_info_modifyok.do")
 	    public ModelAndView mypage_modifyok(HttpSession session, HttpServletRequest request, Model model) {
 	
 		String seq=(String) session.getAttribute("loginedMemberSeq");
@@ -759,7 +785,7 @@ public class MukjoController {
 		int flag=mdao.myPageModifyOk(to);
 		
 	    ModelAndView modelAndView = new ModelAndView();
-	    modelAndView.setViewName("myPage_modifyok");
+	    modelAndView.setViewName("myPage_info_modifyok");
 	    modelAndView.addObject("flag",flag);
 	    
 	    return modelAndView;

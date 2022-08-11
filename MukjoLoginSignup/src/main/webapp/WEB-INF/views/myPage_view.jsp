@@ -1,4 +1,4 @@
-<%@page import="com.example.model1.BoardTO"%>
+<%@page import="com.example.model1.MyBoardTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
 <%
@@ -25,8 +25,9 @@
    }
 
    int cpage = (Integer)request.getAttribute("cpage");
-   BoardTO to = (BoardTO)request.getAttribute("to");   
-   
+   MyBoardTO to = (MyBoardTO)request.getAttribute("to");   
+   String tname = (String)request.getAttribute("tname");
+
    String bseq=to.getBseq();
    String subject=to.getSubject();
    String writer=to.getWriter();
@@ -222,9 +223,9 @@ nav {
 }
 
 /***** warp  *****/
-#wrap{
-    width: 1000px; 
-    margin : auto;
+#wrap {
+   width: 1000px;
+   margin: auto;
 }
 
 /* 타이틀 섹션 */
@@ -628,42 +629,28 @@ textarea {
 </head>
 <body>
    <nav id="header">
-      <div id="headerWap">
-         <h1 id="logoSec">
-            <a href="main.do"><img src="images/logo.png" alt="logo"></a>
-         </h1>
-         <h3><%=welcome%><a href="logoutok.do" id="logout"
-               style="color: gray"> <br /><%=log%>
-            </a>
-         </h3>
+        <div id="headerWap">
+            <h1 id="logoSec">
+                <a href="main.do"><img src="images/logo.png" alt="logo"></a>
+            </h1>
+            <h3><%=welcome %><a href="logoutok.do" id="logout" style="color : gray"><br/><%=log %></a></h3>
+            <ul>
+                <li><b><a href="myPage.do" style="color : #de5f47;">마이페이지</a></b></li>
+                <li><b><a href="#">소모임장페이지</a></b></li>
+                <li><b><a href="admin.do">관리자페이지</b></li></a>
+                <li><b><a href="favorite.do">즐겨찾기</b></li></a>
+                <li id="bell"><a href="#"><b><img src="images/bell.png"></a></b>1</li>
 
-         <ul>
-            <li><b><a href="myPage.do">마이페이지</a></b></li>
-            <li><b><a href="#">소모임장페이지</a></b></li>
-            <li><b><a href="admin.do" style="color: #de5f47">관리자페이지</a></b></li>
-            <li><b><a href="favorite.do">즐겨찾기</a></b></li>
-            <li id="bell"><a href="#"><b><img src="images/bell.png"></a></b>1</li>
-
-         </ul>
-      </div>
-      <!--headerWap-->
-
+            </ul>
+        </div> <!--headerWap-->
+   
+   
       <!--locationSec -->
       <section id="locationSec">
-         <div id="locationwrap">
-            <button class="allbtn">
-               <a href="admin.do">리뷰&게시물 수</a>
-            </button>
-            <button class="active">
-               <a href="adminmemberlists.do">전체 회원 목록</a>
-            </button>
-            <button class="active">
-               <a href="adminteam.do">소모임 목록</a>
-            </button>
-            <button class="active">
-               <a href="adminnotice.do" style="color: #de5f47">공지사항</a>
-            </button>
-         </div>
+        <div id = "locationwrap">
+             <button class="allbtn"><a href="myPage.do" style="color : #de5f47;">내가 쓴 글 보기</a></button>
+             <button class="active"><a href="myPage_info_modify.do" >내 정보 수정</a></button>
+        </div>
       </section>
    </nav>
 
@@ -678,14 +665,18 @@ textarea {
                      <th width="10%">제목</th>
                      <td width="30%"><%=subject %></td>
                      <th width="10%">등록일</th>
-                     <td width="20%"><%=wdate %></td>         
+                     <td width="20%"><%=wdate %></td>
                   </tr>
                   <tr>
                      <th>글쓴이</th>
                      <td><%=writer %></td>
                      <th>조회수</th>
                      <td><%=hit %></td>
-                  </tr>   
+                  </tr>
+                  <tr>
+                  	 <th width="10%">소모임</th>
+                     <td width="20%" colspan="3"><%=tname %></td>
+                  </tr>
                   <tr>
                      <td colspan="4" height="100" valign="top"
                         style="padding: 10px; line-height: 150% overflow: auto;">
@@ -700,18 +691,16 @@ textarea {
             <div class="btn_area">
                <div class="align_left">
                   <input type="button" value="목록" class="btn_list btn_txt02"
-                     style="cursor: pointer;" onclick="location.href='adminnotice.do?cpage=<%=cpage %>&bseq=<%=bseq %>'" />
+                     style="cursor: pointer;" onclick="location.href='myPage.do?cpage=<%=cpage %>&bseq=<%=bseq %>'" />
                </div>
                
                <div class="align_right">
                   <input type="button" value="수정" class="btn_list btn_txt02"   style="cursor: pointer;"
-                  onclick="location.href='adminnotice_modify.do?cpage=<%=cpage %>&bseq=<%=bseq %>'" /> 
+                  onclick="location.href='myPage_modify.do?cpage=<%=cpage %>&bseq=<%=bseq %>'" /> 
                      
                   <input type="button" value="삭제" class="btn_list btn_txt02" style="cursor: pointer;" 
-                  onclick="location.href='adminnotice_delete.do?cpage=<%=cpage %>&bseq=<%=bseq %>'"/>
-                     
-                  <input type="button" value="새 글 쓰기" class="btn_write btn_txt01" style="cursor: pointer;"
-                  onclick="location.href='adminnotice_write.do?cpage=<%=cpage %>&bseq=<%=bseq %>'" />
+                  onclick="location.href='myPage_delete.do?cpage=<%=cpage %>&bseq=<%=bseq %>'"/>
+                   
                </div>
             </div>
             <!--//게시판-->

@@ -198,9 +198,9 @@ nav {
 }
 
 /***** warp  *****/
-#wrap {
-	width: 1280px;
-	margin: auto;
+#wrap{
+    width: 1000px; 
+    margin : auto;
 }
 
 /* 타이틀 섹션 */

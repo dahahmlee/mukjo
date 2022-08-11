@@ -237,7 +237,7 @@ nav{
 
 /***** warp  *****/
 #wrap{
-    width: 1280px; 
+    width: 1000px; 
     margin : auto;
 }
 
@@ -432,15 +432,15 @@ footer{
 }
 
 .th-tname {
-   width: 110px;
+   width: 20%;
 }
 
 .th-title {
-   width: 350px;
+   width: 40%;
 }
 
 .th-date {
-   width: 200px;
+   width: 20%;
 }
 
 
@@ -469,7 +469,7 @@ footer{
       <section id="locationSec">
         <div id = "locationwrap">
              <button class="allbtn"><a href="#" style="color : #de5f47;">내가 쓴 글 보기</a></button>
-             <button class="active"><a href="myPage_modify.do" >내 정보 수정</a></button>
+             <button class="active"><a href="myPage_info_modify.do" >내 정보 수정</a></button>
         </div>
       </section>
     </nav>  
