@@ -24,6 +24,7 @@ import com.example.model1.BoardListTO;
 import com.example.model1.BoardTO;
 import com.example.model1.MemberDAO;
 import com.example.model1.MemberTO;
+import com.example.model1.MyBoardListTO;
 import com.example.model1.PageAdminTeamTO;
 import com.example.model1.PageMainTeamTO;
 import com.example.model1.PageMemberTO;
@@ -226,8 +227,6 @@ public class MukjoController {
 		
 		String email=(String)user.getAttributes().get("email");
 		int count=mdao.EmailCheck(email); 
-		//System.out.println(count);
-		//System.out.println(email);
 		
 		ModelAndView modelAndView=new ModelAndView();
 		
@@ -711,10 +710,24 @@ public class MukjoController {
 	}
 	
 	@RequestMapping(value = "/myPage.do")
-	    public ModelAndView myPage(HttpServletRequest request, Model model) {
+	    public ModelAndView myPage(HttpSession session, HttpServletRequest request, Model model) {
 	
+		String seq=(String) session.getAttribute("loginedMemberSeq");
+		
+		int cpage = 1;
+		if(request.getParameter( "cpage" ) != null && !request.getParameter( "cpage" ).equals( "" ) ) {
+			cpage = Integer.parseInt( request.getParameter( "cpage" ) );
+		}
+		
+		MyBoardListTO boardListTO = new MyBoardListTO();
+	
+		boardListTO.setCpage(cpage);
+		
+		boardListTO = bdao.myPageList(boardListTO, seq);
+		
 	    ModelAndView modelAndView = new ModelAndView();
 	    modelAndView.setViewName("myPage");
+	    modelAndView.addObject("boardListTO",boardListTO);
 	
 	    return modelAndView;
 	 }

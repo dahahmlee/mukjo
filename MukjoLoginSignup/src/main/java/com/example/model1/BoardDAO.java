@@ -185,8 +185,6 @@ public class BoardDAO {
 		return boardListTO;
 	}
 	
-	
-	
 	//공지 쓰기
 	public int noticeWriteOk(BoardTO to) {
 		Connection conn=null;
@@ -388,5 +386,63 @@ public class BoardDAO {
 			if (pstmt!=null) try{pstmt.close();} catch(SQLException e) {}
 		}
 		return flag;
+	}
+	
+	//마이페이지 - 내가 쓴 글 보기 - 페이징
+	public MyBoardListTO myPageList(MyBoardListTO boardListTO, String seq) {
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+
+		int cpage=boardListTO.getCpage();
+		int recordPerPage=boardListTO.getRecordPerPage();
+		int blockPerPage=boardListTO.getBlockPerPage();
+
+		try {
+			conn=this.dataSource.getConnection();
+			String sql="select bseq, board.seq, board.tseq, tname, subject, date_format(wdate, '%Y-%m-%d %H:%i') wdate, hit from board inner join team on (board.tseq=team.tseq) where board.seq=? order by bseq desc";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1,seq);
+			
+			rs=pstmt.executeQuery();
+		
+			rs.last(); //읽기 커서를 맨 마지막 행으로 이동
+			boardListTO.setTotalRecord(rs.getRow());
+			rs.beforeFirst(); //읽기 커서를 맨 첫행으로 이동
+
+			//전체 페이지
+			boardListTO.setTotalPage((boardListTO.getTotalRecord()-1)/recordPerPage+1);
+
+			//시작번호 - 읽을 데이터 위치 지정
+			int skip=(cpage-1)*recordPerPage;
+			if (skip!=0) rs.absolute(skip); //커서를 주어진 행으로 이동
+
+			ArrayList<MyBoardTO> boardLists=new ArrayList<MyBoardTO>();
+			for (int i=0;i<recordPerPage && rs.next();i++) {
+				MyBoardTO to=new MyBoardTO();
+				to.setBseq(rs.getString("bseq"));
+				to.setSeq(rs.getString("seq"));
+				to.setTseq(rs.getString("tseq"));
+				to.setTname(rs.getString("tname"));
+				to.setSubject(rs.getString("subject"));
+				to.setWdate(rs.getString("wdate"));
+				to.setHit(rs.getString("hit"));
+
+				boardLists.add(to);
+			}
+			boardListTO.setBoardLists(boardLists);
+			boardListTO.setStartBlock((cpage-1)/blockPerPage*blockPerPage+1);
+			boardListTO.setEndBlock((cpage-1)/blockPerPage*blockPerPage+blockPerPage);
+			if (boardListTO.getEndBlock()>=boardListTO.getTotalPage()) {
+				boardListTO.setEndBlock(boardListTO.getTotalPage());
+			}
+		} catch (SQLException e) {
+			System.out.println("[에러]:"+e.getMessage());
+		} finally {
+			if (conn!=null) try {conn.close();} catch (SQLException e) {}
+			if (pstmt!=null) try {pstmt.close();} catch (SQLException e) {}
+			if (rs!=null) try {rs.close();} catch (SQLException e) {}
+		}
+		return boardListTO;
 	}
 }

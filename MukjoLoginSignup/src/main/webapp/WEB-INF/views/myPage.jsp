@@ -1,4 +1,7 @@
-   <%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@page import="com.example.model1.MyBoardListTO"%>
+<%@page import="com.example.model1.MyBoardTO"%>
+<%@page import="java.util.ArrayList"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
     <%
@@ -14,11 +17,51 @@
           welcome = (String)sess.getAttribute("loginedMemberName")+"님 환영합니다.";
           log = "LOGOUT";
        } else {
-          out.println ( "<script>");
-      out.println ( "window.location.href = 'http://localhost:8080/login.do'");
-      out.println ( "</script>");
+          	out.println ( "<script>");
+      		out.println ( "window.location.href = 'http://localhost:8080/login.do'");
+      		out.println ( "</script>");
        }
     
+    MyBoardListTO boardListTO = (MyBoardListTO)request.getAttribute("boardListTO");
+   	int cpage = boardListTO.getCpage();
+   	int recordPerPage = boardListTO.getRecordPerPage();
+   	int totalRecord = boardListTO.getTotalRecord();
+   	int totalPage = boardListTO.getTotalPage();
+   	int blockPerPage = boardListTO.getBlockPerPage();
+   	int startBlock = boardListTO.getStartBlock();
+   	int endBlock = boardListTO.getEndBlock();
+   	ArrayList<MyBoardTO> boardLists = boardListTO.getBoardLists();
+   	
+   	StringBuilder sb = new StringBuilder();
+   	int num=1;
+   	
+   	for (int j=0; j<boardLists.size(); j=j+20) {
+   		num=(boardListTO.getCpage()-1)*20+1;
+   		for (int i=j; i<j+20; i++) {
+   			
+   			if (i>=boardLists.size()) {
+
+   			} else {
+   				String bseq=boardLists.get(i).getBseq();
+   				String tseq=boardLists.get(i).getTseq();
+   				String tname=boardLists.get(i).getTname();
+   				String subject=boardLists.get(i).getSubject();
+   				String wdate=boardLists.get(i).getWdate();
+   				String hit=boardLists.get(i).getHit();
+   				
+   				sb.append("<tr>");
+   				sb.append("<td>"+num+"</td>");
+   				sb.append("<td>"+tname+"</td>");
+   				sb.append("<td><a href='myPage_view.do?cpage="+cpage+"&bseq="+bseq+"'>"+subject+"</td>");
+   				sb.append("<td>"+wdate+"</td>");
+   				sb.append("<td>"+hit+"</td>");
+   				sb.append("</tr>");
+   				
+   				num+=1;
+   			}
+   		}
+   	}
+
     %>
 
 <!DOCTYPE html>
@@ -447,6 +490,8 @@ footer{
                         </tr>
                     </thead>
                     <tbody>
+                    <%=sb %>
+                    <!--  
                         <tr>
                             <td>1</td>
                             <td>맞찾사</td>
@@ -483,7 +528,8 @@ footer{
                             <td><a href="#">여기 꼭 가셈</a></td>
                             <td>2022-07-25 08:11</td>
                             <td>12</td>
-                        </tr>   
+                        </tr>
+                        -->   
                     </tbody>
                 </table>
             </div>
@@ -494,7 +540,7 @@ footer{
 
             <div class="paginate_regular">
                 <div class="board_pagetab">
-                
+                <!--  
                     <span class="off"><a href="#">&lt;&lt;</a>&nbsp;&nbsp;</span>
                     <span class="off"><a href="#">&lt;</a>&nbsp;&nbsp;</span>
                 <ul>
@@ -506,7 +552,43 @@ footer{
                 </ul>
                     <span class="off">&nbsp;&nbsp;<a href="#">&gt;</a></span>
                     <span class="off">&nbsp;&nbsp;<a href="#">&gt;&gt;</a></span>
-                    
+				-->
+<%	
+	if (startBlock==1) { //<<
+		out.println("<span><a>&lt;&lt;</a>&nbsp;&nbsp;</span>");
+	} else {
+		out.println("<span><a href='myPage.do?cpage="+(startBlock-blockPerPage)+"'>&lt;&lt;</a>&nbsp;&nbsp;</span>");
+	}
+
+	if (cpage==1) { //<
+		out.println("<span><a>&lt;</a>&nbsp;&nbsp;</span>");
+	} else {
+		out.println("<span><a href='myPage.do?cpage="+(cpage-1)+"'>&lt;</a>&nbsp;&nbsp;</span>");
+	}
+	
+	out.println("<ul>");
+	for (int i=startBlock;i<=endBlock;i++) {
+		if (cpage==i) {
+			out.println("<li class='active'><a>"+i+"</a></li>");
+		} else {
+			out.println("<li><a href='myPage.do?cpage="+i+"'>"+i+"</a></span>");
+		}
+	}
+	
+	out.println("</ul>");
+	
+	if (cpage==totalPage) { //>
+		out.println("<span>&nbsp;&nbsp;<a>&gt;</a></span>");
+	} else {
+		out.println("<span>&nbsp;&nbsp;<a href='myPage.do?cpage="+(cpage+1)+"'>&gt;</a></span>");
+	}
+	
+	if (endBlock==totalPage) { //>>
+		out.println("<span>&nbsp;&nbsp;<a>&gt;&gt;</a></span>");
+	} else {
+		out.println("<span>&nbsp;&nbsp;<a href='myPage.do?cpage="+(startBlock+blockPerPage)+"'>&gt;&gt;</a></span>");
+	}
+%>                   
                 </div><!-- board_pagetab -->
                 
             
