@@ -443,40 +443,46 @@ footer{
                             <th scope="col" class="th-tname">소모임 이름</th>
                             <th scope="col" class="th-title">제목</th>
                             <th scope="col" class="th-date">등록일</th>
+                            <th scope="col">조회수</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td>1</td>
-                            <td>맞찾사</a></td>
+                            <td>맞찾사</td>
                             <td><a href="#">여기 맛있나요?</a></td>
-                            <td>2022-07-25</a></td>
+                            <td>2022-07-25 08:11</td>
+                            <td>12</td>
                         </tr>
 
                         <tr>
-                            <td>2</a></td>
-                            <td>먹사모</a></td>
+                            <td>2</td>
+                            <td>먹사모</td>
                             <td><a href="#">맛집 추천목록</a></td>
-                            <td>2022-07-25</a></td>
+                            <td>2022-07-25 08:11</td>
+                            <td>12</td>
                         </tr>         
 
                         <tr>
-                            <td>3</a></td>
-                            <td>삼쏘파</a></td>
+                            <td>3</td>
+                            <td>삼쏘파</td>
                             <td><a href="#">5명 가기 좋은 곳 추천 좀</a></td>
-                            <td>2022-07-25</a></td>
+                            <td>2022-07-25 08:11</td>
+                            <td>12</td>
                         </tr>   
                         <tr>
-                            <td>4</a></td>
-                            <td>산소먹방</a></td>
+                            <td>4</td>
+                            <td>산소먹방</td>
                             <td><a href="#">여기 가지마여</a></td>
-                            <td>2022-07-25</a></td>
+                            <td>2022-07-25 08:11</td>
+                            <td>12</td>
                         </tr>   
                         <tr>
-                            <td>5</a></td>
-                            <td>먹진남</a></td>
+                            <td>5</td>
+                            <td>먹진남</td>
                             <td><a href="#">여기 꼭 가셈</a></td>
-                            <td>2022-07-25</a></td>
+                            <td>2022-07-25 08:11</td>
+                            <td>12</td>
                         </tr>   
                     </tbody>
                 </table>
