@@ -69,8 +69,9 @@ body, ul, li, h1, h2, h3 {
 }
 
 p {
-   font-size: 0.7rem;
-   color: grey;
+   width:980px;
+   font-size: 1rem;
+   color: black;
    font-family: 'Noto Sans KR', sans-serif;
 }
 
@@ -225,6 +226,7 @@ nav {
 /***** warp  *****/
 #wrap {
    width: 1000px;
+   
    margin: auto;
 }
 
@@ -402,8 +404,7 @@ footer {
 }
 
 .contents_sub {
-   width: 100%;
-   height: 500px;
+   width: 1000px;
    margin: 0;
 }
 
@@ -417,11 +418,11 @@ footer {
 }
 
 .board_view {
-   border-top: 1px solid #464646;
+   border-top: 0px solid #464646;
 }
 
 .board_view table {
-   border-collapse: collapse;
+    border-collapse: collapse;
 }
 
 .board_view th {
@@ -544,64 +545,6 @@ textarea {
    font-weight: 600;
 }
 
-.modal{
-    position: fixed;
-    background-color: rgba(0, 0, 0, 0.4);
-    top : 0;
-    left : 0;
-    height: 100vh;
-    width: 100%;
-    display: none;
-}
-
-.modal-content{
-    background-color: #f1b654;
-    width: 500px;
-    border-radius: 10px;
-    position: absolute;
-    top: 50%;
-    left : 50%;
-    transform: translate( -50%, -50%);
-    padding: 30px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
-    text-align: center;
-    height: 250px;
-}
-
-.modal-content h2{
-   color: #5c3018;
-}
-
-#modal-search{
-    border : 1px solid black;
-}
-
-.board_view_input_modal {
-   margin: 15px;
-   height: 20px;
-   width: 300px;
-   border: 1px solid black;
-}
-
-.board_modal th {
-   color : #5c3018;
-   font-size: 20px;
-   text-align: right;
-}
-
-.board_view_input_modal {
-   margin: 15px;
-   height: 20px;
-   width: 300px;
-   border: 1px solid black;
-}
-
-.board_modal th {
-   color : #5c3018;
-   font-size: 20px;
-   text-align: right;
-}
-
 .align_center {
    margin-top: 20px;
 }
@@ -613,16 +556,10 @@ textarea {
    padding: 6px 17px 7px 17px;
 }
 
-.btn_list_modal {
-   display: inline-block;
-   margin: 10px;
-   background: #5c3018;
-   border: 1px solid #404144;
-   padding: 6px 17px 7px 17px;
-}
-
 .img_size {
-   width: 1280px;
+   width: 1000px;
+   height: 400px;
+   overflow: auto;
 }
 </style>
 
