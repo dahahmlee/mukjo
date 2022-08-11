@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 public class BoardTO{
 		private String bseq;
+		private String tname;
 		private String tseq;
 		private String seq;
 		private String writer;

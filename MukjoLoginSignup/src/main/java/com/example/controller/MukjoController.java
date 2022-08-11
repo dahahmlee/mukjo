@@ -24,8 +24,6 @@ import com.example.model1.BoardListTO;
 import com.example.model1.BoardTO;
 import com.example.model1.MemberDAO;
 import com.example.model1.MemberTO;
-import com.example.model1.MyBoardListTO;
-import com.example.model1.MyBoardTO;
 import com.example.model1.PageAdminTeamTO;
 import com.example.model1.PageMainTeamTO;
 import com.example.model1.PageMemberTO;
@@ -720,7 +718,7 @@ public class MukjoController {
 			cpage = Integer.parseInt( request.getParameter( "cpage" ) );
 		}
 		
-		MyBoardListTO boardListTO = new MyBoardListTO();
+		BoardListTO boardListTO = new BoardListTO();
 	
 		boardListTO.setCpage(cpage);
 		
@@ -741,10 +739,10 @@ public class MukjoController {
 			cpage = Integer.parseInt( request.getParameter( "cpage" ) );
 		}
 		
-		MyBoardListTO listTO = new MyBoardListTO();
+		BoardListTO listTO = new BoardListTO();
 		listTO.setCpage(cpage);
 		
-		MyBoardTO to=new MyBoardTO();
+		BoardTO to=new BoardTO();
 		to.setBseq(request.getParameter("bseq"));
 		to=bdao.myPageView(to);
 		String tname=bdao.myPageViewTname(to.getTseq());
@@ -784,7 +782,80 @@ public class MukjoController {
 	
 	    return modelAndView;
 	 }
-		 
+	
+	 //글 수정
+	 @RequestMapping(value = "/myPage_modify.do")
+	    public ModelAndView myPage_modify(HttpServletRequest request, Model model) {
+	
+		int cpage = 1;
+		if( request.getParameter("cpage") != null && !request.getParameter("cpage").equals("")) {
+			cpage = Integer.parseInt(request.getParameter("cpage"));
+		}
+
+		BoardListTO listTO = new BoardListTO();		
+		listTO.setCpage(cpage);	
+		
+		BoardTO to = new BoardTO();
+		to.setBseq(request.getParameter("bseq"));
+		
+		to = bdao.noticeModify(to);
+		
+	    ModelAndView modelAndView = new ModelAndView();
+	    modelAndView.setViewName("myPage_modify");
+	    modelAndView.addObject("to",to);
+		modelAndView.addObject("cpage",cpage);
+		
+	    return modelAndView;
+	 }
+	
+	 //글 수정 - 확인 후 수정
+	 @RequestMapping(value = "/myPage_modifyok.do")
+	    public ModelAndView myPage_modifyok(HttpServletRequest request, Model model) {
+	
+		int cpage = 1;
+		if( request.getParameter("cpage") != null && !request.getParameter("cpage").equals("")) {
+			cpage = Integer.parseInt(request.getParameter("cpage"));
+		}
+		System.out.println("controller modifyok: "+request.getParameter("cpage"));
+		BoardListTO listTO = new BoardListTO();		
+		listTO.setCpage(cpage);	
+
+		int maxFileSize=2*1024*1024; //2메가
+		String encType="utf-8";
+		
+		MultipartRequest multi = null;
+		int flag=100;
+		String bseq="";
+		
+		try {
+			multi = new MultipartRequest(request, uploadPath, maxFileSize, encType, new DefaultFileRenamePolicy() );
+			
+			BoardTO to=new BoardTO();
+			to.setBseq(multi.getParameter("bseq"));
+			to.setSubject(multi.getParameter("subject"));
+			to.setContent(multi.getParameter("content"));
+
+			//새 파일명
+			to.setNewFileName(multi.getFilesystemName("upload"));
+			to.setNewFileSize(0);
+			if (multi.getFile("upload")!=null) {
+				to.setNewFileSize(multi.getFile("upload").length());
+			}
+			bseq = multi.getParameter("bseq");
+			flag=bdao.noticeModifyOk(to);
+		} catch (IOException e) {
+			System.out.println( "[에러] " + e.getMessage() );
+		}
+		
+	    ModelAndView modelAndView = new ModelAndView();
+	    modelAndView.setViewName("myPage_modifyok");
+	    modelAndView.addObject("flag",flag);
+		modelAndView.addObject("cpage",cpage);
+		modelAndView.addObject("bseq",bseq);
+		
+	    return modelAndView;
+	 }
+	 
 	//내 정보수정 확인
 	@RequestMapping(value = "/myPage_info_modify.do")
 	    public ModelAndView mypage_modify(HttpSession session, HttpServletRequest request, Model model) {

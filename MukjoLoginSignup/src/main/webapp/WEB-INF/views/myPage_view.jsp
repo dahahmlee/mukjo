@@ -1,4 +1,4 @@
-<%@page import="com.example.model1.MyBoardTO"%>
+<%@page import="com.example.model1.BoardTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
 <%
@@ -25,7 +25,7 @@
    }
 
    int cpage = (Integer)request.getAttribute("cpage");
-   MyBoardTO to = (MyBoardTO)request.getAttribute("to");   
+   BoardTO to = (BoardTO)request.getAttribute("to");   
    String tname = (String)request.getAttribute("tname");
 
    String bseq=to.getBseq();

@@ -1,5 +1,5 @@
-<%@page import="com.example.model1.MyBoardListTO"%>
-<%@page import="com.example.model1.MyBoardTO"%>
+<%@page import="com.example.model1.BoardListTO"%>
+<%@page import="com.example.model1.BoardTO"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -22,7 +22,7 @@
       		out.println ( "</script>");
        }
     
-    MyBoardListTO boardListTO = (MyBoardListTO)request.getAttribute("boardListTO");
+    BoardListTO boardListTO = (BoardListTO)request.getAttribute("boardListTO");
    	int cpage = boardListTO.getCpage();
    	int recordPerPage = boardListTO.getRecordPerPage();
    	int totalRecord = boardListTO.getTotalRecord();
@@ -30,7 +30,7 @@
    	int blockPerPage = boardListTO.getBlockPerPage();
    	int startBlock = boardListTO.getStartBlock();
    	int endBlock = boardListTO.getEndBlock();
-   	ArrayList<MyBoardTO> boardLists = boardListTO.getBoardLists();
+   	ArrayList<BoardTO> boardLists = boardListTO.getBoardLists();
    	
    	StringBuilder sb = new StringBuilder();
    	int num=1;

@@ -262,7 +262,7 @@ public class BoardDAO {
 		return to;
 	}
 	
-	//공지 수정
+	//글 수정
 	public BoardTO noticeModify(BoardTO to) {
 		Connection conn=null;
 		PreparedStatement pstmt=null;
@@ -292,7 +292,7 @@ public class BoardDAO {
 		return to;
 	}
 	
-	//공지 modify_ok
+	//글 modify_ok
 	public int noticeModifyOk(BoardTO to) {
 		Connection conn=null;
 		PreparedStatement pstmt=null;
@@ -389,7 +389,7 @@ public class BoardDAO {
 	}
 	
 	//마이페이지 - 내가 쓴 글 보기 - 페이징
-	public MyBoardListTO myPageList(MyBoardListTO boardListTO, String seq) {
+	public BoardListTO myPageList(BoardListTO boardListTO, String seq) {
 		Connection conn=null;
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
@@ -417,9 +417,9 @@ public class BoardDAO {
 			int skip=(cpage-1)*recordPerPage;
 			if (skip!=0) rs.absolute(skip); //커서를 주어진 행으로 이동
 
-			ArrayList<MyBoardTO> boardLists=new ArrayList<MyBoardTO>();
+			ArrayList<BoardTO> boardLists=new ArrayList<BoardTO>();
 			for (int i=0;i<recordPerPage && rs.next();i++) {
-				MyBoardTO to=new MyBoardTO();
+				BoardTO to=new BoardTO();
 				to.setBseq(rs.getString("bseq"));
 				to.setSeq(rs.getString("seq"));
 				to.setTseq(rs.getString("tseq"));
@@ -447,7 +447,7 @@ public class BoardDAO {
 	}
 	
 	//내가쓴글보기 view
-	public MyBoardTO myPageView(MyBoardTO to) { 
+	public BoardTO myPageView(BoardTO to) { 
 		Connection conn=null;
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
@@ -502,7 +502,6 @@ public class BoardDAO {
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setString(1,tseq);
 			rs=pstmt.executeQuery();
-
 			
 			if (rs.next()) {
 				tname=rs.getString("tname");	

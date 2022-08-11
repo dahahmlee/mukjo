@@ -619,7 +619,7 @@ footer {
                style="color: gray"><br /><%=log %></a>
          </h3>
          <ul>
-            <li><b><a href="#" style="color : #de5f47;">마이페이지</a></b></li>
+            <li><b><a href="myPage.do" style="color : #de5f47;">마이페이지</a></b></li>
             <li><b><a href="#">소모임장페이지</a></b></li>
             <li><b><a href="admin.do">관리자페이지</b></li>
             </a>
