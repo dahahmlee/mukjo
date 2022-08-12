@@ -647,7 +647,7 @@ textarea {
                   <input type="button" value="삭제" class="btn_list btn_txt02" style="cursor: pointer;" 
                   onclick="location.href='adminnotice_delete.do?cpage=<%=cpage %>&bseq=<%=bseq %>'"/>
                      
-                  <input type="button" value="새 글 쓰기" class="btn_write btn_txt01" style="cursor: pointer;"
+                  <input type="button" value="글 쓰기" class="btn_write btn_txt01" style="cursor: pointer;"
                   onclick="location.href='adminnotice_write.do?cpage=<%=cpage %>&bseq=<%=bseq %>'" />
                </div>
             </div>
