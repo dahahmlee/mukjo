@@ -418,7 +418,7 @@ public class MemberDAO {
 
 		try {
 			conn = this.dataSource.getConnection();
-			String sql="select tm.tseq, tm.seq, t.tname, m.name, m.email, date_format(m.birth,'%y%m%d') as birth from teammember as tm join team as t on tm.tseq = t.tseq join member as m on tm.seq = m.seq where tm.tseq = ?";
+			String sql="select tm.tseq, tm.seq, t.tname, m.name, m.email, date_format(m.birth,'%y%m%d') as birth from teammember as tm join team as t on tm.tseq = t.tseq join member as m on tm.seq = m.seq where tm.tseq = ? order by m.name";
 			pstmt=conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			pstmt.setInt(1, Integer.parseInt(tseq));
 			pstmt.executeUpdate();

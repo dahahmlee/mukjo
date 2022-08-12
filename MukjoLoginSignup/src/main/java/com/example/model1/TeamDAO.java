@@ -28,7 +28,7 @@ public class TeamDAO {
 		try {
 			conn = this.dataSource.getConnection();
 			
-			String sql = "select tseq, tname, name, memcount from team inner join member where team.seq=member.seq";
+			String sql = "select tseq, tname, name, memcount from team inner join member where team.seq=member.seq order by tname";
 			pstmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			rs = pstmt.executeQuery();
 			
@@ -114,7 +114,7 @@ public class TeamDAO {
 		try {
 			conn = this.dataSource.getConnection();
 			
-			String sql = "select tseq, tname, name, memcount from team inner join member where team.seq=member.seq";
+			String sql = "select tseq, tname, name, memcount from team inner join member where team.seq=member.seq order by tname";
 			pstmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			rs = pstmt.executeQuery();
 
