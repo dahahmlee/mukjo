@@ -253,6 +253,19 @@ public class MukjoController {
 		return modelAndView;
 	}
 	
+	// 소모임 가입
+	@RequestMapping(value = "/jointeam.do")
+	public ModelAndView jointeam(HttpServletRequest request, Model model) {
+		String tseq = request.getParameter("tseq");
+		String seq = request.getParameter("seq");
+		int flag = tdao.Jointeam(tseq, seq);
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("jointeam");
+		modelAndView.addObject("flag", flag);
+		return modelAndView;
+	}
+	
 	//구글 - 회원가입? 로그인?
     @RequestMapping(value="/sociallogin/googlelogin.do")
 	public ModelAndView googlelogin(HttpSession session,HttpServletRequest request, Model model) {

@@ -19,6 +19,8 @@ phone varchar(20) not null,
 birth date not null
 );
 
+alter table member add constraint unique (email);
+
 insert into member values (0, 'dahahmlee@gmail.com', 'qwer1234!', '관리자', '01012341234', '1996-09-20');
 
 create table team (
@@ -28,12 +30,16 @@ seq int not null,
 memcount int not null
 );
 
+alter table team add constraint unique (tname);
+
 insert into team values (0, '관리자 소모임', 1, 1);
 
 create table teammember (
 seq int not null,
 tseq int not null
 );
+
+alter table teammember add accept boolean;
 
 create table favorite (
 seq int not null,
@@ -89,12 +95,6 @@ alter table reviewcmt add constraint foreign key (seq) references member (seq);
 alter table reviewcmt add constraint foreign key (rseq) references review (rseq);
 alter table review add constraint foreign key (seq) references member (seq);
 alter table review add constraint foreign key (tseq) references team (tseq);
-
-alter table teammember add accept boolean;
-alter table teammember add accept boolean;
-
-alter table member add constraint unique (email);
-alter table team add constraint unique (tname);
 
 SET foreign_key_checks = 0;    # 외래키 체크 설정 해제
 drop table .... # 테이블 삭제

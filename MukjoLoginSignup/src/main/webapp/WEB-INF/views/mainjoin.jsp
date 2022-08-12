@@ -35,6 +35,7 @@
 
     	int num = 1;
     	String tname = "";
+    	String tseq = request.getParameter("tseq");
     	
     	StringBuilder sbHtml = new StringBuilder();
 
@@ -47,15 +48,18 @@
     				String name = memberLists.get(i).getName();
     				String email = memberLists.get(i).getEmail();
     				String birth = memberLists.get(i).getBirth();
+    				String accept = memberLists.get(i).getAccept();
     				tname = memberLists.get(i).getTname();
-    				
-    				sbHtml.append( "<tr>" );
-    				sbHtml.append( "<td>" + num + "</td>" );
-    				sbHtml.append( "<td>" + name + "</td>" );
-    				sbHtml.append( "<td>" + email + "</td>" );
-    				sbHtml.append( "<td>" + birth + "</td>" );
-    				sbHtml.append( "</tr>" );
-    				num+=1;
+    				// 소모임 장 가입 승인 필요 
+    				if(accept.equals("1")) {
+    					sbHtml.append( "<tr>" );
+        				sbHtml.append( "<td>" + num + "</td>" );
+        				sbHtml.append( "<td>" + name + "</td>" );
+        				sbHtml.append( "<td>" + email + "</td>" );
+        				sbHtml.append( "<td>" + birth + "</td>" );
+        				sbHtml.append( "</tr>" );
+        				num+=1;
+    				}
     			}
     		}
     	}
@@ -532,60 +536,52 @@ footer{
             <strong>소모임 : <b><%=tname %></b></strong>
 
          
-            <button class="modal-notice">가입신청</button>
-            <div class="modal">
-                <div class="modal-content">
-                    <a class="btn-close" href="#none">X</a>
-                    <h2>소모임 가입신청</h2>
-                    <p style="font-weight: bold; margin-top: 50px;"> 소모임 이름 :
-                       
-                         <span><%=tname %></span>
-                         <p style="font-weight: bold;">가입 신청하시겠습니까?</p>
-                    </p>
-                     <div class="modal-make" style="margin-top: 50px;">
-                   <a class="btn-guide" id="joinbtn" href="#none" style="color : #fff; margin-right:10px; padding: 10px;">신청</a>
-                   <a class="btn-guide btn-exit" href="#none" style="color : #fff; padding: 10px;">취소</a>
-                     </div>
-                </div>
-               
-            </div>
+            <button id="joinsomoim">가입신청</button>
         </section>
-        <!-- 소모임 새로만들기 Modal -->
-        <script>
-            $('.modal-notice').click( function(){
-                $('.modal').fadeIn()
-            })
-            $('.btn-close').click( function(){
-                $('.modal').fadeOut()
-            })
-            $('.btn-exit').click( function(){
-                $('.modal').fadeOut()
-            })
-
-
-        $("#joinbtn").click(function () {
-         // 모든 형식이 다 갖춰졌으면 데이터 받아서 버튼 클릭 후 confirm 실행
-
-         Swal.fire({
-         text: "가입신청이 완료되었습니다.",
-         icon: 'confirm',
-       
-         confirmButtonColor: '#de5f47',
-
-         confirmButtonText: '확인',
-        
-         reverseButtons: false, // 버튼 순서 거꾸로
-      
-         }).then((result) => {
-         if (result.isConfirmed) {
-      
-        location.href="./main.do"; 
-         }
-      
-         }) 
-    
-         });
-        </script>
+        <!-- 소모임 가입하기 -->
+		<script type="text/javascript">
+		
+		$("#joinsomoim").click(function () {
+			Swal.fire({
+				title: '소모임 가입 신청',
+				html: '소모임 이름: ' + '<%=tname %>' + '<br />가입을 신청하시겠습니까?',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: '가입',
+				cancelButtonText: '취소',
+				reverseButtons: false, // 버튼 순서 거꾸로    
+			}).then((result) => {
+				if (result.isConfirmed) {
+					var tseq = <%=tseq %>;
+					var seq = <%=loginedMemberSeq %>;
+					
+					$.ajax({
+						type: 'get',
+			        	url: 'jointeam.do',
+			        	data: { 'tseq': tseq, 'seq': seq },
+			        	success: function(flag) {
+			        		console.log($.trim(flag));
+			        		if($.trim(flag) == 2) {
+			        			Swal.fire({
+			        				title: '가입 신청 완료',
+			        				html: '가입 신청이 완료되었습니다.<br />소모임장의 승인을 기다려주세요.',
+			        				icon: 'success',
+			        			})
+			        		} else if($.trim(flag) == 1) {
+			        			Swal.fire({
+			        				title: '가입 신청 완료',
+			        				html: '가입을 신청하신 소모임입니다.<br />소모임장의 승인을 기다려주세요.',
+			        				icon: 'error',
+			        			})
+			        		}
+			        	},
+			        	error: function(data) {}
+					})
+				}
+			}) 
+		});
+		</script>
 
         <!-- 테이블 목록이 있는 섹션입니다 -->
         <section id="tblSec">

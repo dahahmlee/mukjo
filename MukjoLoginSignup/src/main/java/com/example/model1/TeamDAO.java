@@ -52,6 +52,59 @@ public class TeamDAO {
 		return lists;
 	}
 	
+	// 메인페이지 전체소모임리스트 - 페이징
+	public PageMainTeamTO mainteamList(PageMainTeamTO pageMainTeamTO) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+			
+		int cpage = pageMainTeamTO.getCpage();
+		int recordPerPage = pageMainTeamTO.getRecordPerPage();
+		int blockPerPage = pageMainTeamTO.getBlockPerPage();
+
+		try {
+			conn = this.dataSource.getConnection();
+			
+			String sql = "select tseq, tname, name, memcount from team inner join member where team.seq=member.seq order by tname";
+			pstmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			rs = pstmt.executeQuery();
+			
+			rs.last(); //읽기 커서를 맨 마지막 행으로 이동
+			pageMainTeamTO.setTotalRecord(rs.getRow());
+			rs.beforeFirst(); //읽기 커서를 맨 첫행으로 이동
+
+			//전체 페이지
+			pageMainTeamTO.setTotalPage((pageMainTeamTO.getTotalRecord() - 1) / recordPerPage + 1);
+
+			//시작번호 - 읽을 데이터 위치 지정
+			int skip = (cpage - 1) * recordPerPage;
+			if(skip != 0) rs.absolute(skip); //커서를 주어진 행으로 이동
+				ArrayList<TeamTO> mainteamLists = new ArrayList<TeamTO>();
+			for(int i = 0 ; i < recordPerPage && rs.next() ; i++) {
+				TeamTO to = new TeamTO();
+				to.setTseq(rs.getString("tseq"));
+				to.setTname(rs.getString("tname"));
+				to.setName(rs.getString("name"));
+				to.setMemcount(rs.getString("memcount"));
+					
+				mainteamLists.add(to);
+			}
+			pageMainTeamTO.setMainTeamLists(mainteamLists);
+			pageMainTeamTO.setStartBlock((cpage-1)/blockPerPage*blockPerPage+1);
+			pageMainTeamTO.setEndBlock((cpage-1)/blockPerPage*blockPerPage+blockPerPage);
+			if (pageMainTeamTO.getEndBlock()>=pageMainTeamTO.getTotalPage()) {
+				pageMainTeamTO.setEndBlock(pageMainTeamTO.getTotalPage());
+			}
+		} catch (SQLException e) {
+			System.out.println("[에러]:"+e.getMessage());
+		} finally {
+			if(conn != null) try { conn.close(); } catch(SQLException e) {}
+			if(pstmt != null) try { pstmt.close(); } catch(SQLException e) {}
+			if(rs != null) try { rs.close(); } catch(SQLException e) {}
+		}
+		return pageMainTeamTO;
+	}
+	
 	// 소모임 이름
 	public boolean CheckTname(String tname, String seq) {
 		Connection conn = null;
@@ -101,57 +154,49 @@ public class TeamDAO {
 		return result;
 	}
 	
-	// 메인페이지 전체소모임리스트 - 페이징
-	public PageMainTeamTO mainteamList(PageMainTeamTO pageMainTeamTO) {
+	// 소모임 가입
+	public int Jointeam(String tseq, String seq) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
-		int cpage = pageMainTeamTO.getCpage();
-		int recordPerPage = pageMainTeamTO.getRecordPerPage();
-		int blockPerPage = pageMainTeamTO.getBlockPerPage();
-
+		int flag = 0;
+			
 		try {
 			conn = this.dataSource.getConnection();
-			
-			String sql = "select tseq, tname, name, memcount from team inner join member where team.seq=member.seq order by tname";
-			pstmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			String sql = "select tseq from team where tseq = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, tseq);
 			rs = pstmt.executeQuery();
-
-			rs.last(); //읽기 커서를 맨 마지막 행으로 이동
-			pageMainTeamTO.setTotalRecord(rs.getRow());
-			rs.beforeFirst(); //읽기 커서를 맨 첫행으로 이동
-
-			//전체 페이지
-			pageMainTeamTO.setTotalPage((pageMainTeamTO.getTotalRecord() - 1) / recordPerPage + 1);
-
-			//시작번호 - 읽을 데이터 위치 지정
-			int skip = (cpage - 1) * recordPerPage;
-			if(skip != 0) rs.absolute(skip); //커서를 주어진 행으로 이동
-				ArrayList<TeamTO> mainteamLists = new ArrayList<TeamTO>();
-			for(int i = 0 ; i < recordPerPage && rs.next() ; i++) {
-				TeamTO to = new TeamTO();
-				to.setTseq(rs.getString("tseq"));
-				to.setTname(rs.getString("tname"));
-				to.setName(rs.getString("name"));
-				to.setMemcount(rs.getString("memcount"));
+			
+			// 소모임 이름이 있다면 true
+			if(rs.next()) {
+				sql = "select seq, tseq from teammember where seq = ? and tseq = ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, seq);
+				pstmt.setString(2, tseq);
+				rs = pstmt.executeQuery();
 				
-				mainteamLists.add(to);
+				// 소모임 가입 신청 중복 확인
+				if(rs.next()) {
+					flag = 1;
+				} else {
+					sql = "insert into teammember values (?, ?, 2)";
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, seq);
+					pstmt.setString(2, tseq);
+					pstmt.executeUpdate();
+					
+					flag = 2;
+				}
 			}
-			pageMainTeamTO.setMainTeamLists(mainteamLists);
-			pageMainTeamTO.setStartBlock((cpage-1)/blockPerPage*blockPerPage+1);
-			pageMainTeamTO.setEndBlock((cpage-1)/blockPerPage*blockPerPage+blockPerPage);
-			if (pageMainTeamTO.getEndBlock()>=pageMainTeamTO.getTotalPage()) {
-				pageMainTeamTO.setEndBlock(pageMainTeamTO.getTotalPage());
-			}
-		} catch (SQLException e) {
-			System.out.println("[에러]:"+e.getMessage());
+		} catch(SQLException e) {
+			System.out.println("[에러]: " + e.getMessage());
 		} finally {
-			if(conn != null) try { conn.close(); } catch(SQLException e) {}
-			if(pstmt != null) try { pstmt.close(); } catch(SQLException e) {}
-			if(rs != null) try { rs.close(); } catch(SQLException e) {}
+			if(rs != null) try{ rs.close(); } catch(SQLException e) {}
+			if(pstmt != null) try{ pstmt.close(); } catch(SQLException e) {}
+			if(conn != null) try{ conn.close(); } catch(SQLException e) {}
 		}
-		return pageMainTeamTO;
+		return flag;
 	}
 
 	//관리자 페이지 - 소모임 리스트
