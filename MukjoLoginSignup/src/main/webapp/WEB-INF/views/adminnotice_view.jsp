@@ -68,7 +68,7 @@ body, ul, li, h1, h2, h3 {
 }
 
 p {
-   width:980px;
+   width:1250px;
    font-size: 1rem;
    color: black;
    font-family: 'Noto Sans KR', sans-serif;
@@ -224,8 +224,7 @@ nav {
 
 /***** warp  *****/
 #wrap {
-   width: 1000px;
-   
+   width: 1280px;
    margin: auto;
 }
 
@@ -403,7 +402,7 @@ footer {
 }
 
 .contents_sub {
-   width: 1000px;
+   width: 1280px;
    margin: 0;
 }
 
@@ -556,7 +555,7 @@ textarea {
 }
 
 .img_size {
-   width: 1000px;
+   width: 1280px;
    height: 400px;
    overflow: auto;
 }
@@ -647,7 +646,7 @@ textarea {
                   <input type="button" value="삭제" class="btn_list btn_txt02" style="cursor: pointer;" 
                   onclick="location.href='adminnotice_delete.do?cpage=<%=cpage %>&bseq=<%=bseq %>'"/>
                      
-                  <input type="button" value="새 글 쓰기" class="btn_write btn_txt01" style="cursor: pointer;"
+                  <input type="button" value="글 쓰기" class="btn_write btn_txt01" style="cursor: pointer;"
                   onclick="location.href='adminnotice_write.do?cpage=<%=cpage %>&bseq=<%=bseq %>'" />
                </div>
             </div>

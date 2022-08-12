@@ -249,25 +249,27 @@ public class TeamDAO {
 		try {
 			conn = this.dataSource.getConnection();
 			
-			String sql = "SET foreign_key_checks = 0";
+			String sql = "delete from teammember where tseq=?";
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, tseq);
 			pstmt.executeUpdate();
 			
-			String sql2 = "delete from team where tseq=?";
+			String sql2 = "delete from review where tseq=?";
 			pstmt = conn.prepareStatement(sql2);
+			pstmt.setString(1, tseq);
+			pstmt.executeUpdate();
+			
+			String sql3 = "delete from board where tseq=?";
+			pstmt = conn.prepareStatement(sql3);
+			pstmt.setString(1, tseq);
+			pstmt.executeUpdate();
+			
+			String sql4="delete from team where tseq=?";
+			pstmt = conn.prepareStatement(sql4);
 			pstmt.setString(1, tseq);
 			if(pstmt.executeUpdate() == 1) {
 				flag = 0;
 			}
-			
-			String sql3 = "SET foreign_key_checks = 1";
-			pstmt = conn.prepareStatement(sql3);
-			pstmt.executeUpdate();
-			
-			String sql4="delete from teammember where tseq=?";
-			pstmt = conn.prepareStatement(sql4);
-			pstmt.setString(1, tseq);
-			pstmt.executeUpdate();
 			
 		} catch(SQLException e) {
 			System.out.println("[에러]: " + e.getMessage());

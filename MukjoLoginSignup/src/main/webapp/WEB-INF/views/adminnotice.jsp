@@ -233,7 +233,7 @@ nav{
 
 /***** warp  *****/
 #wrap{
-    width: 1000px; 
+    width: 1280px; 
     margin : auto;
 }
 
