@@ -668,9 +668,9 @@ public class MukjoController {
 		BoardListTO listTO = new BoardListTO();
 		listTO.setCpage(cpage);
 		listTO.setTseq(request.getParameter("tseq"));
-		
+		TeamTO tto = bdao.teamName(listTO.getTseq());
 		model.addAttribute("tseq",listTO.getTseq());
-		
+		model.addAttribute("tname",tto.getTname());
 		listTO = bdao.boardList(listTO);
 		
 		ArrayList<BoardTO> noticeLists = bdao.noticeList();

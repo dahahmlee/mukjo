@@ -49,6 +49,7 @@
       String wdate = "";
       String hit = "";
       String tseq = (String)request.getAttribute("tseq");
+	  String tname = (String)request.getAttribute("tname");
       
       
       for( int i = 0 ; i < boardLists.size(); i++ ) {
@@ -64,7 +65,7 @@
          
          sb.append("<tr>");
          sb.append("      <td>일반</a></td>");
-         sb.append("      <td><a href='somoimboard_view.do?tseq="+tseq+"&bseq="+bseq+"'>"+ subject+"</a></td>");
+         sb.append("      <td><a href='somoimboard_view.do?tseq="+tseq+"&bseq="+bseq+"&cpage="+cpage+"'>"+ subject+"</a></td>");
          sb.append("      <td>"+ writer+"</a></td>");
          sb.append("      <td>"+ wdate+"</a></td>");
          sb.append("      <td>"+ hit+"</a></td>");
@@ -553,7 +554,7 @@ footer{
         </section>
           
         <section id ="btnSec" >
-            <strong>소모임 : <b>코딩모임</b></strong>
+            <strong>소모임 : <b><%=tname %></b></strong>
 
             <div class="search-wrap">  
                 <div class="select">
@@ -683,7 +684,7 @@ footer{
                if( endBlock == totalPage ) {
                   out.println( "<span class='on'>&gt;&gt;</span>" );
                } else {
-                  out.println( "<span class='off'><a href='somoimboard.do?tseq="+tseq+"cpage=" + ( startBlock + blockPerPage ) + "'>&gt;&gt;</a></span>" );
+                  out.println( "<span class='off'><a href='somoimboard.do?tseq="+tseq+"&cpage=" + ( startBlock + blockPerPage ) + "'>&gt;&gt;</a></span>" );
                }
 %>
                 
@@ -700,7 +701,7 @@ footer{
                     <span class="off">&nbsp;&nbsp;<a href="#">&gt;&gt;</a></span> -->
                      <div style= "margin-left: 350px;">
                         <input type="button" value="글쓰기" class="btn_list btn_txt02"   style="cursor: pointer;"
-                  onclick="location.href='somoimboard_write.do?tseq=<%=tseq %>'" /> 
+                  onclick="location.href='somoimboard_write.do?tseq=<%=tseq %>&cpage=<%=cpage %>'" /> 
                         </div>
                 </div><!-- board_pagetab -->
                 

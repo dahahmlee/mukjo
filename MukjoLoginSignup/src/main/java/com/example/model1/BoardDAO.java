@@ -26,6 +26,26 @@ public class BoardDAO {
 	private DataSource dataSource;
 	private String uploadPath="C:\\Users\\JungGyuJin\\Desktop\\mukjo_project\\git\\mukjo\\MukjoLoginSignup\\src\\main\\webapp\\upload";
 	
+	public TeamTO teamName(String tseq) {
+		TeamTO tto = new TeamTO();
+		String sql = "select tname from team where tseq = ?";
+		tto = jdbcTemplate.queryForObject(sql,new RowMapper<TeamTO>()  {
+			
+			@Override
+			public TeamTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+				TeamTO to2 = new TeamTO();			
+				to2.setTname(rs.getString("tname"));
+
+
+
+				
+				return to2;
+
+			} },tseq);		
+		
+		return tto;
+	}
+	
 	public ArrayList<BoardTO> noticeList() {
 		
 		String sql = "select subject, member.name as writer, date_format(wdate, '%Y-%m-%d') wdate, hit from board inner join member on board.seq = member.seq where tseq = 1 order by bseq desc";
