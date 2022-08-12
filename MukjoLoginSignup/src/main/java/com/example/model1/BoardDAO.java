@@ -164,7 +164,7 @@ public class BoardDAO {
 		try {
 			conn=this.dataSource.getConnection();
 
-			String sql="select bseq, subject, member.name as writer, date_format(wdate, '%Y-%m-%d %H:%i') wdate, hit from board inner join member on board.seq = member.seq where tseq = 1 order by bseq desc";
+			String sql="select bseq, subject, member.name as writer, date_format(wdate, '%Y-%m-%d') wdate, hit from board inner join member on board.seq = member.seq where tseq = 1 order by bseq desc";
 			pstmt=conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			rs=pstmt.executeQuery();
 
