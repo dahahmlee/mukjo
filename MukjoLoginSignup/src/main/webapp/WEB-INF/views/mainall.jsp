@@ -46,13 +46,15 @@
 				String tleader = memberLists.get(i).getName();
 				String memcount = memberLists.get(i).getMemcount();
 				
-				sbHtml.append( "<tr>" );
-				sbHtml.append( "<td>" + num + "</td>" );
-				sbHtml.append( "<td><a href='./mainjoin.do?tseq=" + tseq + "' />" + tname + "</td>" );
-				sbHtml.append( "<td><a href='./mainjoin.do?tseq=" + tseq + "' />" + tleader + "</td>" );
-				sbHtml.append( "<td>" + memcount + "명</td>" );
-				sbHtml.append( "</tr>" );
-				num+=1;
+				if(!tname.equals("관리자 소모임")) {
+					sbHtml.append( "<tr>" );
+					sbHtml.append( "<td>" + num + "</td>" );
+					sbHtml.append( "<td><a href='./mainjoin.do?tseq=" + tseq + "' />" + tname + "</td>" );
+					sbHtml.append( "<td><a href='./mainjoin.do?tseq=" + tseq + "' />" + tleader + "</td>" );
+					sbHtml.append( "<td>" + memcount + "명</td>" );
+					sbHtml.append( "</tr>" );
+					num+=1;
+				}
 			}
 		}
 	}
