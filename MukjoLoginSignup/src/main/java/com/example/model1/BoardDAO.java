@@ -24,7 +24,7 @@ public class BoardDAO {
 	
 	@Autowired
 	private DataSource dataSource;
-	private String uploadPath="C:\\Users\\JungGyuJin\\Desktop\\mukjo_project\\git\\mukjo\\MukjoLoginSignup\\src\\main\\webapp\\upload";
+	private String uploadPath="C:/github/MukjoLoginSignup/src/main/webapp/upload";
 	
 	public ArrayList<BoardTO> noticeList() {
 		
@@ -195,9 +195,9 @@ public class BoardDAO {
 		try {
 			conn=this.dataSource.getConnection();
 
-			String sql2 = "SET foreign_key_checks = 0";
-			pstmt = conn.prepareStatement(sql2);
-			pstmt.executeUpdate();
+			//String sql2 = "SET foreign_key_checks = 0";
+			//pstmt = conn.prepareStatement(sql2);
+			//pstmt.executeUpdate();
 			
 			String sql="insert into board values (0,1,1,?,?,?,?,now(),0)";
 			pstmt = conn.prepareStatement(sql);
@@ -209,9 +209,9 @@ public class BoardDAO {
 				flag = 0;
 			}
 			
-			String sql3 = "SET foreign_key_checks = 1";
-			pstmt = conn.prepareStatement(sql3);
-			pstmt.executeUpdate();
+			//String sql3 = "SET foreign_key_checks = 1";
+			//pstmt = conn.prepareStatement(sql3);
+			//pstmt.executeUpdate();
 		} catch(SQLException e) {
 			System.out.println("[에러]: " + e.getMessage());
 		} finally {
