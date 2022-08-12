@@ -121,7 +121,7 @@ public class BoardDAO {
 		jdbcTemplate.update(sql,to.getBseq());
 
 		
-		sql = "select bseq,tseq, subject, member.seq, member.name as writer, wdate, hit, content, filename, filesize from board inner join member on board.seq = member.seq where bseq=?";
+		sql = "select bseq,tseq, subject, member.seq, member.name as writer, date_format(wdate, '%Y-%m-%d %H:%i') wdate, hit, content, filename, filesize from board inner join member on board.seq = member.seq where bseq=?";
 		to = jdbcTemplate.queryForObject(sql,new RowMapper<BoardTO>()  {
 			
 					@Override
