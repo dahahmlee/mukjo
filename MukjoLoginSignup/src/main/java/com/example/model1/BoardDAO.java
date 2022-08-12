@@ -24,7 +24,7 @@ public class BoardDAO {
 	
 	@Autowired
 	private DataSource dataSource;
-	private String uploadPath="C:/git/MukjoLoginSignup/src/main/webapp/upload";
+	private String uploadPath="C:/github/MukjoLoginSignup/src/main/webapp/upload";
 	
 	public TeamTO teamName(String tseq) {
 		TeamTO tto = new TeamTO();

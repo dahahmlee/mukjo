@@ -65,7 +65,7 @@ public class TeamDAO {
 		try {
 			conn = this.dataSource.getConnection();
 			
-			String sql = "select tseq, tname, name, memcount from team inner join member where team.seq=member.seq order by tname";
+			String sql = "select tseq, tname, name, memcount from team inner join member where team.seq=member.seq and tseq!=1 order by tname";
 			pstmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			rs = pstmt.executeQuery();
 			
@@ -154,7 +154,7 @@ public class TeamDAO {
 		return result;
 	}
 	
-	// 소모임 가입
+	// 소모임 가입 신청
 	public int Jointeam(String tseq, String seq) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -180,7 +180,7 @@ public class TeamDAO {
 				if(rs.next()) {
 					flag = 1;
 				} else {
-					sql = "insert into teammember values (?, ?, 2)";
+					sql = "insert into teammember values (?, ?, 0)";
 					pstmt = conn.prepareStatement(sql);
 					pstmt.setString(1, seq);
 					pstmt.setString(2, tseq);
