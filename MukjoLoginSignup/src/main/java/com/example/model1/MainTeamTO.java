@@ -12,4 +12,5 @@ public class MainTeamTO{
 		private String jangseq;
 		private String jangname;
 		private String memcount;
+		private String accept;
 }

@@ -337,9 +337,10 @@ public class TeamDAO {
 		int blockPerPage=mainTeamPageTO.getBlockPerPage();
 
 		String jangseq="";
+		int accept = 0;
 		try {
 			conn=this.dataSource.getConnection();
-			String sql="select teammember.tseq as tseq, tname, team.seq as jangseq, memcount from teammember inner join team where teammember.tseq=team.tseq and teammember.seq=? order by tname";
+			String sql="select teammember.tseq as tseq, accept, tname, team.seq as jangseq, memcount from teammember inner join team where teammember.tseq=team.tseq and teammember.seq=? order by tname";
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setString(1,seq);
 			
@@ -364,6 +365,7 @@ public class TeamDAO {
 				to.setTname(rs.getString("tname"));
 				to.setJangseq(rs.getString("jangseq"));
 				to.setMemcount(rs.getString("memcount"));
+				to.setAccept(rs.getString("accept"));
 				jangseq=rs.getString("jangseq");
 				
 				sql="select name from member where seq=?";

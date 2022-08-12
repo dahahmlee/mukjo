@@ -45,15 +45,18 @@
        				String tname=teamLists.get(i).getTname();
        				String jangname=teamLists.get(i).getJangname();
        				String memcount=teamLists.get(i).getMemcount();
+       				String accept = teamLists.get(i).getAccept();
        				
-       				sb.append("<tr>");
-       				sb.append("<td>"+num+"</td>");
-       				sb.append("<td><a href='somoimboard.do?tseq="+tseq+"'>"+tname+"</td>");
-       				sb.append("<td>"+jangname+"</td>");
-       				sb.append("<td>"+memcount+"명</td>");
-       				sb.append("</tr>");
-       				
-       				num+=1;
+       				if(accept.equals("1")) {
+	       				sb.append("<tr>");
+	       				sb.append("<td>"+num+"</td>");
+	       				sb.append("<td><a href='somoimboard.do?tseq="+tseq+"'>"+tname+"</td>");
+	       				sb.append("<td>"+jangname+"</td>");
+	       				sb.append("<td>"+memcount+"명</td>");
+	       				sb.append("</tr>");
+	       				
+	       				num+=1;
+       				}
        			}
        		}
        	}

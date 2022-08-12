@@ -39,7 +39,7 @@
     	
     	StringBuilder sbHtml = new StringBuilder();
 
-    	for (int j = 1 ; j < memberLists.size() ; j = j+20) {
+    	for (int j = 0 ; j < memberLists.size() ; j = j+20) {
     		num = (pageTeamMemberTO.getCpage() - 1) * 20+1;
     		for (int i = j ; i < j+20 ; i++) {
     			

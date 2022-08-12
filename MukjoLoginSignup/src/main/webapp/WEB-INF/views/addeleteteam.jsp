@@ -34,7 +34,8 @@
 	out.println("$().ready(function () {");
 	out.println("	Swal.fire({");
 	out.println("		title: '삭제 확인',");
-	out.println("		text: '"+tname.toString()+" 소모임을 삭제하시겠습니까?',");	out.println("		icon: 'warning',");
+	out.println("		text: '"+tname.toString()+" 소모임을 삭제하시겠습니까?',");
+	out.println("		icon: 'warning',");
 	out.println("		showCancelButton: true,");
 	out.println("		confirmButtonColor: '#3085d6',");
 	out.println("		cancelButtonColor: '#d33',");
