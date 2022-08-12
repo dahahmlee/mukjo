@@ -52,8 +52,8 @@
 				
 				sb.append("<tr>");
 				sb.append("<td>공지</td>");
-				sb.append("<td><a href='adminnotice_view.do?cpage="+cpage+"&bseq="+bseq+"'>"+subject+"</td>");
 				sb.append("<td>"+writer+"</td>");
+				sb.append("<td><a href='adminnotice_view.do?cpage="+cpage+"&bseq="+bseq+"'>"+subject+"</td>");
 				sb.append("<td>"+wdate+"</td>");
 				sb.append("<td>"+hit+"</td>");
 				sb.append("</tr>");
@@ -471,8 +471,8 @@ footer{
                     <thead>
                         <tr>
                             <th scope="col" class="th-num">분류</th>
-                            <th scope="col" class="th-title">제목</th>
                             <th scope="col" class="th-id">글쓴이</th>
+                            <th scope="col" class="th-title">제목</th>
                             <th scope="col" class="th-date">등록일</th>
                             <th scope="col" class="th-hit">조회수</th>
                         </tr>

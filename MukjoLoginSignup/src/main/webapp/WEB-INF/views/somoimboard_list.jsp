@@ -65,8 +65,8 @@
          
          sb.append("<tr>");
          sb.append("      <td>일반</a></td>");
-         sb.append("      <td><a href='somoimboard_view.do?tseq="+tseq+"&bseq="+bseq+"&cpage="+cpage+"'>"+ subject+"</a></td>");
          sb.append("      <td>"+ writer+"</a></td>");
+         sb.append("      <td><a href='somoimboard_view.do?tseq="+tseq+"&bseq="+bseq+"&cpage="+cpage+"'>"+ subject+"</a></td>");
          sb.append("      <td>"+ wdate+"</a></td>");
          sb.append("      <td>"+ hit+"</a></td>");
          sb.append("</tr>");
@@ -102,8 +102,8 @@
       
       noticeSb.append("<tr class='notice'>");
       noticeSb.append("      <td><a href='#'>공지</a></td>");
-      noticeSb.append("      <td><a href='#'>"+ subject+"</a></td>");
       noticeSb.append("      <td><a href='#'>"+ writer+"</a></td>");
+      noticeSb.append("      <td><a href='#'>"+ subject+"</a></td>");
       noticeSb.append("      <td><a href='#'>"+ wdate+"</a></td>");
       noticeSb.append("      <td><a href='#'>"+ hit+"</a></td>");
       noticeSb.append("</tr>");
@@ -576,8 +576,8 @@ footer{
                     <thead>
                         <tr>
                             <th scope="col" class="th-num">분류</th>
-                            <th scope="col" class="th-title">제목</th>
                             <th scope="col" class="th-date">글쓴이</th>
+                            <th scope="col" class="th-title">제목</th>
                             <th scope="col" class="th-date">등록일</th>
                             <th scope="col" class="th-date">조회수</th>
                         </tr>
