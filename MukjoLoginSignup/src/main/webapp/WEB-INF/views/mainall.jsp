@@ -505,7 +505,7 @@ footer{
 		</section>
 
 		<section id ="btnSec" >
-			<strong>전체 <b>(<%=totalRecord - 1 %>)</b></strong>
+			<strong>전체 <b>(<%=totalRecord%>)</b></strong>
 
 			<div class="search-wrap">           
 				<input type="text" title="검색어 입력" value="">
