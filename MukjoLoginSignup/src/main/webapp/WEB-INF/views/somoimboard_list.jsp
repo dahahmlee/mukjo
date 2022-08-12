@@ -286,17 +286,14 @@ nav{
 }
 
 #headerWap h3 {
-<<<<<<< HEAD
 	font-size: 15px;
 	justify-content: left;
 	position: absolute;
 	margin-left: 120px;
-=======
    font-size: 15px;
    justify-content: left;
    position: absolute;
    margin-left: 120px;
->>>>>>> ed203b2c5662acd81f0b690d2552f9a0bf0f0844
 }
 
 /***** warp  *****/
@@ -336,7 +333,6 @@ nav{
 #locationSec{
     width: 100%;
     background-color: #f7f7fd;
-    padding-left: 10%;
     overflow: hidden;
 }
 
@@ -357,7 +353,6 @@ nav{
 
 #locationwrap button{
     font-family: 'NanumSquareBold';
-    margin-right :16%;
 }
 
 .allbtn{
@@ -536,8 +531,8 @@ footer{
       <!--locationSec -->
       <section id="locationSec">
         <div id = "locationwrap">
-             <button class="active"><a href="#" style="color : #de5f47">게시판</a></button>
-             <button class="allbtn"><a href="#">식당검색</a></button>
+             <button class="active"><a href="./somoimboard.do" style="color : #de5f47">게시판</a></button>
+             <button class="allbtn"><a href="./somoimboard_search.do">식당검색</a></button>
              <button class="allbtn"><a href="#">소모임 회원 목록</a></button>
              <button class="allbtn"><a href="#">소모임 탈퇴</a></button>
         </div>

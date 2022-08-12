@@ -34,7 +34,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>식당검색</title>
+    <title>세부내용 MENU</title>
     <style href="css/common.css"></style>
     <!-- 나눔스퀘어 폰트 -->
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet">
@@ -45,7 +45,7 @@
 <style>
 /** common **/
 
-a:link {  color : black; text-decoration: none}
+a:link {  color: black; text-decoration: none}
     a:visited {color: black; text-decoration: none;}
     a:hover {color: #5c3018; text-decoration: none;}
     a:active {color: #de5f47; text-decoration: none;}
@@ -239,52 +239,6 @@ font-size: 15px;
 }
 
 
-#btnSec .search-wrap{
-    right: 0;
-    font-size: 0; 
-    margin-bottom : 8px;
-    margin-left : 150px;
-}
-
-.search-wrap .input{
-    width: 282px;
-    height: 36px;
-    box-sizing: border-box;
-    -webkit-border-radius: 24px;
-    -moz-border-radius: 24px;
-    border-radius: 24px;
-    border: 2px solid #5c3018;
-    display: inline-block;
-    overflow: hidden;
-    vertical-align: top;
-    position: relative;
-    padding-left: 14px;
-    padding-right: 42px;
-    margin-left: 10px;
-}
-
-.search-wrap .input input{
-    height: 32px;
-    width: 100%;
-    color: #000;
-    font-size: 16px;
-    box-sizing: border-box;
-}
-
-
-/* width : 30, height : 45 */
-.search-wrap button{
-    width: 30px;
-    height: 25px;
-    right: 5%;
-    top: 10%;
-    text-indent: -9999px;
-    overflow: hidden;
-    background: url( ./images/search2.png) no-repeat ;
-    position: absolute;
-    background-size: 38px 25px;
- 
-}
 
 #locationSec{
     width: 100%;
@@ -337,98 +291,28 @@ font-size: 15px;
 
 /* 테이블 섹션 */
 
-
-
-#tblWrap{
-    display: flex;
-    overflow: hidden;
-    border-top: 1px solid;
-    border-color: #ecf0f2;
-    border-color: rgba(var(--place-color-border2), 1);
-    
-}
-
-
-
-.scrollbar{
-    height:450px;
-    overflow: hidden;
+#itemBox{
+    height: 380px;
     overflow-y: auto;
-   
-   
 }
 
-
-.scrollbar li{
-    display: list-item;
-    text-align: -webkit-match-parent;
-    position: relative;
-    margin-top: 20px;
-    margin-left : 30px;
-    
+.mainmenu{
+    border: 1px solid #fff;
+    border-radius: 4px;
+    margin-right: 20px;
+    font-size: 12px;
+    padding: 0 5px 0 5px;
+    background: #de5f47;
+    color: #ffffff;
 }
 
-.scrollbar li a{
-    overflow: hidden;
-    flex: 1;
-}
+#good td:nth-child(2n+1){
+     width: 50%;
+		}
 
-.list1{
-    width: 150px; height: 150px;
-    background-repeat: no-repeat; background-position: 50% 50%; background-size: cover;
-    margin-right: 35px;
-}
-.lists1{
-    position: relative;
-    margin-top: 30px;
-}
-
-.scrollbar .write1{
-    position: absolute;
-    font-size: 1.3rem;
-    font-weight: 700;
-    letter-spacing: -1px;
-    color : #0068c3;
-    bottom: 105px;
-}
-
-.scrollbar .write1::before{
-    width: 200px;
-    position: absolute;
-    right: -2px;
-    bottom: 0;
-    left: -2px;
-    height: 11px;
-    top: 47px;
-    border-radius: 6px;
-    background: rgba(43,152,235,.1);
-    content: "";
-}
-
-.write2{
-    color:#0068c3;
-    margin-top : 55px;
-    position: absolute;
-    
-}
-.write3{
-    position: absolute;
-    top: 120px;
-    color: #de5f47;
-}
-
-.maps img{
-    width:100%;
-}
-
-
-
-
-
-
-
-
-
+#good td:nth-child(2n+0){
+    width: 50%;
+		}
 
 /***** footer  *****/
 footer{
@@ -445,12 +329,12 @@ footer{
     <nav id="header">
         <div id="headerWap">
             <h1 id="logoSec">
-                <a href="main.do"><img src="images/logo.png" alt="logo"></a>
+                 <a href="main.do"><img src="images/logo.png" alt="logo"></a>
             </h1>
-             <h3 > <%=welcome %> <a href="logoutok.do" id="logout" style="color : gray"> <br/><%=log %>	</a></h3>
+            <h3 > <%=welcome %> <a href="logoutok.do" id="logout" style="color : gray"> <br/><%=log %>	</a></h3>
             
             <ul>
-               <li><b><a href="myPage.do">마이페이지</a></b></li>
+                <li><b><a href="myPage.do">마이페이지</a></b></li>
                 <li><b><a href="#">소모임장페이지</a></b></li>
                  <li><b><a href="admin.do">관리자페이지</b></li></a>
 				<li><b><a href="favorite.do">즐겨찾기</b></li></a>
@@ -463,13 +347,12 @@ footer{
       <section id="locationSec">
         <div id = "locationwrap">
              <button class="active"><a href="./somoimboard.do" >게시판</a></button>
-             <button class="allbtn"><a href="./somoimboard_search.do" style="color : #de5f47">식당검색</a></button>
+             <button class="allbtn"><a href="#" style="color : #de5f47">식당검색</a></button>
              <button class="allbtn"><a href="#">소모임 회원 목록</a></button>
              <button class="allbtn"><a href="#">소모임 탈퇴</a></button>
         </div>
       </section>
     </nav>  
-
 
     <!-- 전체 요소를 감싸는 div -->
     <div id="wrap">
@@ -480,73 +363,73 @@ footer{
             <strong></strong>
         </section>
           
-        <section id ="btnSec" >
-          
-            <div class="search-wrap">  
-             
-            <div class="input">
-                <input type="text" title="검색어 입력">
-                <button type="button">검색</button>
-            </div><!-- input -->
-         </div><!-- search-wrap -->
-           
-        </section>
     
-        <!-- 테이블 목록이 있는 섹션입니다 -->
-       
-           
-            <div id="tblWrap" style= "display: flex; justify-content: space-around;">
-              
-             
-                <div class="scrollwrap" style="width: 50%;">
-                 <div class="scrollbar" >
-                    <ul>
-                        <li>
 
-                            <div class="lists1">
-                            <a href="./somoimboard_home.do"><img class="list1" style="background-image: url('https://search.pstatic.net/common/?autoRotate=true&type=w278_sharpen&src=https%3A%2F%2Fsearchad-phinf.pstatic.net%2FMjAyMjA0MThfMTYx%2FMDAxNjUwMjc2MTI4OTEz.Iwfc3HzhfZYcIfdtiWx7f4L1x9lOoGg1EUKGy2ZCxAwg.2S0g3cV4uNkldREs__6NEt5ChSUE2EOOV4EwCxJRtv8g.PNG%2F2355050-adba00da-0fad-4f6d-8d3d-9ade8109773c.png');">
-                                <span class="write1">경양가츠 강남점</span>
-                                <span class="write2">줄서서 먹는 돈까스맛집</span>
-                                <span class="write3"><i class="fa fa-star" style="font-size:20px;color:red"></i>    4.8점</span>
-                            </div>
-                            </a>
+               <div class="tblmain" style= "display: flex; justify-content: space-around;">
+                    <div style="width: 50%;">
+                         <table border="1" style="width: 100%;    height: 20%;">  
+                             <thead>
+                               <td colspan="4"><a href="#">모리가츠</a></td>
+                                  <tr id="tabBox">
+                                    <th scope="col" class="th-title"><a href="./somoimboard_home.do" >홈</a></th>
+                                    <th scope="col" class="th-date"><a href="./somoimboard_review.do">리뷰</a></th>
+                                    <th scope="col" class="th-num"><a href="./somoimboard_menu.do" style="color : #de5f47">메뉴</a></th>
+                                    <th scope="col" class="th-date"><a href="./somoimboard_picture.do">사진</a></th>
+                                 
+                                </tr> 
+                            </thead>
 
-                            <div class="lists1">
-                                <a href="./somoimboard_home.do"><img class="list1" style="background-image: url('https://search.pstatic.net/common/?autoRotate=true&type=w278_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20220427_237%2F165102764126107Ghf_JPEG%2F1.jpg');">
-                                    <span class="write1">을지다락 강남</span>
-                                    <span class="write2">깔끔한 분위기의 파스타</span>
-                                    <span class="write3"><i class="fa fa-star" style="font-size:20px;color:red"></i>    4.9점</span>
-                                </div>
-                                </a>
+                            
+                         </table>
+                         <div id="itemBox">
+                            <table border="1" id="good">  
+                               
+                                
+                                <tbody>
+                                    <tr>
+                                        <td ><a href="#"><img src='https://search.pstatic.net/common/?autoRotate=true&quality=95&type=f320_320&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20200415_277%2F1586927108266gELTf_JPEG%2F4tmjr09h2qk8Wqi3nI7_Mxeo.jpg' class="_img" alt="사진" width="100%" height="auto" id="visitor_3"></a></td>
+                                        <td><span class="mainmenu">대표</span><a href="#"><span>왕 돈까스 </br></br>10000원</span> </a></td>
+                            
+                                    </tr>
 
-                                <div class="lists1">
-                                    <a href="./somoimboard_home.do"><img class="list1" style="background-image: url('https://search.pstatic.net/common/?autoRotate=true&type=w278_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20161112_233%2F147894152004419V1R_PNG%2F177062583539881_0.png');">
-                                        <span class="write1">장인닭갈비 강남점</span>
-                                        <span class="write2">순수 모짜렐라 치즈를 사용한 닭갈비</span>
-                                        <span class="write3"><i class="fa fa-star" style="font-size:20px;color:red"></i>    4.5점</span>
-                                    </div>
-                                    </a>
+                                    <tr>
+                                        <td ><a href="#"><img src='https://search.pstatic.net/common/?autoRotate=true&quality=95&type=f320_320&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20200415_277%2F1586927108266gELTf_JPEG%2F4tmjr09h2qk8Wqi3nI7_Mxeo.jpg' class="_img" alt="사진" width="100%" height="auto" id="visitor_3"></a></td>
+                                        <td><span class="mainmenu">대표</span><a href="#"><span>왕 돈까스 </br></br>10000원</span> </a></td>
+                            
+                                    </tr>
 
-                        </li>
+                                  
 
-                    </ul>
+                                    <tr>
+                                        <td><a href="#"><img src='https://search.pstatic.net/common/?autoRotate=true&quality=95&type=f320_320&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20200415_277%2F1586927108266gELTf_JPEG%2F4tmjr09h2qk8Wqi3nI7_Mxeo.jpg' class="_img" alt="사진" width="100%" height="auto" id="visitor_3"></a></td>
+                                        <td colspan="2"><span class="mainmenu">대표</span><a href="#">행운 정식 <span></br></br>11000원</span> </a></td>
+                                    </tr>
 
-                   
-                    
-                </div><!--scrollbar-->
-              
-            </div><!-- scrollwrap -->
+                                    <tr>
+                                        <td><a href="#"><img src='https://search.pstatic.net/common/?autoRotate=true&quality=95&type=f320_320&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20200415_277%2F1586927108266gELTf_JPEG%2F4tmjr09h2qk8Wqi3nI7_Mxeo.jpg' class="_img" alt="사진" width="100%" height="auto" id="visitor_3"></a></td>
+                                        <td colspan="2"><span class="mainmenu">대표</span><a href="#">행운 정식 <span></br></br>11000원</span> </a></td>
+                                       
+                                    </tr>
 
-           
+                                
+                                   
+                                    </tbody>
+    
+   
+                                   </table>
+                        </div>
+                    </div>
 
-           
-          
 
-            <div class="maps" style="width:50%;">
-                <img src="images/mapsearch2.png">
-            </div>
+                    <div class="maps" style="width: 50%;">  
+                        <img src="images/mapsearch2.png">
+                    </div> 
+
+
+
                
-        </div><!-- tblWrap -->
+            </div><!-- tblmain -->
+          
     
     </div>
 

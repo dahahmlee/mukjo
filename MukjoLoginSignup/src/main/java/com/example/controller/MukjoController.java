@@ -53,7 +53,7 @@ public class MukjoController {
 	
 	@Autowired
 	private BoardDAO bdao;
-	private String uploadPath="C:/github/MukjoLoginSignup/src/main/webapp/upload";
+	private String uploadPath="C:/git/MukjoLoginSignup/src/main/webapp/upload";
 
 	@Autowired
 	private TeamDAO tdao;
@@ -942,4 +942,35 @@ public class MukjoController {
 	    
 	    return modelAndView;
 	 }
+	
+	// 소모임페이지
+		@RequestMapping( "/somoimboard_home.do")	
+		public ModelAndView boardHome(HttpServletRequest request,HttpServletResponse response,Model model) {
+
+			return new ModelAndView("somoimboard_home"); 
+		}
+		
+		@RequestMapping( "/somoimboard_review.do")	
+		public ModelAndView boardReview(HttpServletRequest request,HttpServletResponse response,Model model) {
+
+			return new ModelAndView("somoimboard_review"); 
+		}
+		
+		@RequestMapping( "/somoimboard_menu.do")	
+		public ModelAndView boardMenu(HttpServletRequest request,HttpServletResponse response,Model model) {
+
+			return new ModelAndView("somoimboard_menu"); 
+		}
+		
+		@RequestMapping( "/somoimboard_picture.do")	
+		public ModelAndView boardPicture(HttpServletRequest request,HttpServletResponse response,Model model) {
+
+			return new ModelAndView("somoimboard_picture"); 
+		}
+		
+		@RequestMapping( "/somoimboard_search.do")	
+		public ModelAndView boardSearch(HttpServletRequest request,HttpServletResponse response,Model model) {
+
+			return new ModelAndView("somoimboard_search"); 
+		}
 }
