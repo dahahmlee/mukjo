@@ -1,9 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@page import="com.example.model1.BoardTO"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="com.example.model1.BoardDAO"%>
-<%@page import="com.example.model1.BoardListTO"%>
     <%
     String log = "LOGIN";
     
@@ -16,12 +13,57 @@
        welcome = (String)sess.getAttribute("loginedMemberName")+"님 환영합니다.";
        log = "LOGOUT";
     } else {
-       	out.println ( "<script>");
-   		out.println ( "window.location.href = 'http://localhost:8080/login.do'");
-   		out.println ( "</script>");
+          out.println ( "<script>");
+         out.println ( "window.location.href = 'http://localhost:8080/login.do'");
+         out.println ( "</script>");
     }  
     
+   ArrayList<String> resDetail=(ArrayList)request.getAttribute("resDetail");
+   String tseq=request.getParameter("tseq");
+   String id=request.getParameter("id");
+   String latitude=request.getParameter("latitude");
+   String longitude=request.getParameter("longitude");
+
+   String rname="";
+   String rloc="";
+   String rfac="";
+   String rphone="";
+   String rtime="";
+   String rsite="";
+   
+
+    rname = resDetail.get(0);
+    rloc = resDetail.get(1);
+    rfac = resDetail.get(2);
+    rphone = resDetail.get(3);
+    rtime = resDetail.get(4);
+    rsite = resDetail.get(5);
+    
+    StringBuilder sb=new StringBuilder();
+    sb.append("<tr>");
+    sb.append("      <td>위치</td>");
+    sb.append("      <td>"+rloc+"</td>");
+    sb.append("</tr>");
+    sb.append("<tr>");
+    sb.append("      <td>전화번호</td>");
+    sb.append("      <td>"+rphone+"</td>");
+    sb.append("</tr>");
+    sb.append("<tr>");
+    sb.append("      <td>홈페이지</td>");
+    sb.append("      <td>"+rsite+"</td>");
+    sb.append("</tr>");
+    sb.append("<tr>");
+    sb.append("      <td>영업시간</td>");
+    sb.append("      <td>"+rtime+"</td>");
+    sb.append("</tr>");
+    sb.append("<tr>");
+    sb.append("      <td>편의시설</td>");
+    sb.append("      <td>"+rfac+"</td>");
+    sb.append("</tr>");
+      
+    
     %>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -34,7 +76,12 @@
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet">
     <!-- 부트스트랩 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+	<!-- Bootstrap (for modal) -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<!-- 지도 -->
+<script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=f8b62z9xjz&amp;submodules=geocoder"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 
 <style>
 /** common **/
@@ -78,10 +125,15 @@ ul{
 
 img{
     width: 100%;
+    padding-bottom: 5px;
 }
 
 table{
     text-align: center;
+    border-spacing: 0px;
+    table-layout: fixed;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 :root {
@@ -114,8 +166,6 @@ button {
   display: inline-block;
   width: auto;
   
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  
   cursor: pointer;
   
   transition: 0.5s;
@@ -142,7 +192,7 @@ nav{
 
 #header{
     border-bottom: #c7bebe 1px solid;
-    z-index: 1;
+    z-index: 1050;
 }
 
 #header ul{
@@ -151,14 +201,12 @@ nav{
 }
 
 #header ul li{
-    margin-left: 73px;
+    margin-left: 65px;
 }
 
 #header ul li b{
     line-height: 41.5px;
 }
-
-
 
 #logoSec{
     width: 8%;
@@ -172,7 +220,7 @@ nav{
 }
 
 #bell{
-    width: 5%;
+    width: 60px;
     display:flex;
     align-items: center;
     color: red;
@@ -192,7 +240,8 @@ nav{
 }
 
 #headerWap h3{
-font-size: 15px;
+	font-weight: bold;
+    font-size: 15px;
     justify-content: left;
     position: absolute;
     margin-left: 120px;
@@ -292,10 +341,15 @@ font-size: 15px;
     overflow-y: auto;
 }
 
-#good tr:nth-child(1) td:nth-child(2n+1){
-     width: 32%;
-		}
 
+#tabBox th{
+    width : 23%;
+}
+
+#good tr td:nth-child(2n+1){
+     width: 32%;
+      font-weight: bold;
+}
 
 #good tr:nth-child(2) td:nth-child(2n+0){
     width: 66%;
@@ -304,6 +358,29 @@ font-size: 15px;
 .picture td{
    width: 33%;
 }
+
+.tblmain table th{
+    background-color: #f7f7fd;
+}
+
+
+td { word-break: break-all; }
+
+#star {
+  display: flex;
+}
+
+.star {
+  font-size: 2rem;
+  margin: 10px 0;
+  cursor: pointer;
+}
+
+.clicked {
+        color: gold;
+      }
+
+
 
 
 /***** footer  *****/
@@ -314,36 +391,108 @@ footer{
     margin-top: 5%;
 }
 
+.tblmain table td {
+	border: 1px solid black;
+}
+
+.tblmain table th {
+	border: 1px solid black;
+	border-bottom: none;
+}
+
+.tblmain table tr {
+	border: 1px solid black;
+}
+
+.modal-dialog {
+    position: fixed;
+    margin: auto;
+    width: 320px;
+    height: 100%;
+    right: 0px;
+}
+
+.modal-content {
+	border: 1px solid black;
+    height: 100%;
+}
+
+#noticelogo {
+	width: 25%;
+}
+
+.modal-body span {
+	float: right;
+	margin-right: 15px;
+}
+
+
 </style>
 
 </head>
 <body>
     <nav id="header">
+        <div class="headermake" style="width:100%; background-color: #fff;">
         <div id="headerWap">
             <h1 id="logoSec">
-                 <a href="main.do"><img src="images/logo.png" alt="logo"></a>
+                <a href="main.do"><img src="images/logo.png" alt="logo"></a>
             </h1>
-             <h3 > <%=welcome %> <a href="logoutok.do" id="logout" style="color : gray"> <br/><%=log %>	</a></h3>
-        
-            
+            <h3><%=welcome %><a href="logoutok.do" id="logout" style="color : gray"><br/><%=log %></a></h3>
             <ul>
                 <li><b><a href="myPage.do">마이페이지</a></b></li>
-                <li><b><a href="#">소모임장페이지</a></b></li>
-                 <li><b><a href="admin.do">관리자페이지</b></li></a>
-				<li><b><a href="favorite.do">즐겨찾기</b></li></a>
-                <li id="bell"><a href="#"><b><img src="images/bell.png"></a></b>1</li>
+                <li><b><a href="boss.do">소모임장페이지</a></b></li>
+                <li><b><a href="admin.do">관리자페이지</b></li></a>
+                <li><b><a href="favorite.do">즐겨찾기</b></li></a>
+                <li id="bell" style="margin-left: 20px;">
+                	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+						<img src="images/bell.png">
+					</button>1
+				</li>
             </ul>
+          </div>
         </div> <!--headerWap-->
+        
+        <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="exampleModalLabel"><b>알림</b></h4>
+          <span id="noticelogo"><img src="images/logo.png"></span>
+        </div>
+
+        <div class="modal-body">
+          <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
+          	<span>2022.07.13</span>
+          </p>
+          <hr />
+          <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
+          	<span>2022.07.13</span>
+          </p>
+          <hr />
+          <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
+          	<span>2022.07.13</span>
+          </p>
+          <hr />
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><b>읽음</b></button>
+          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><b>닫기</b></button>
+        </div>
+      </div>
+    </div>
+  </div>
    
    
-      <!--locationSec -->
+       <!--locationSec -->
      
       <section id="locationSec" >
         <div id = "locationwrap" >
-             <button class="active"><a href="./somoimboard.do" >게시판</a></button>
-             <button class="allbtn"><a href="#" style="color : #de5f47">식당검색</a></button>
-             <button class="allbtn"><a href="#">소모임 회원 목록</a></button>
-             <button class="allbtn"><a href="#">소모임 탈퇴</a></button>
+             <button class="active"><a href="./somoimboard.do?tseq=<%=tseq %>" >게시판</a></button>
+             <button class="allbtn"><a href="./somoimboard_search.do?tseq=<%=tseq %>" style="color : #de5f47">식당검색</a></button>
+             <button class="allbtn"><a href="./somoimboard_memberlist.do?tseq=<%=tseq %>">소모임 회원 목록</a></button>
+             <button class="allbtn bsbtn"><a href="./somoimboard_memberexit.do?tseq=<%=tseq %>" id="bstn">소모임 탈퇴</a></button>
         </div>
       </section>
     </nav>  
@@ -364,12 +513,21 @@ footer{
                     <div style="width: 50%;">
                          <table border="1" style="width: 100%;    height: 20%;">  
                              <thead>
-                               <td colspan="4"><a href="#">모리가츠</a></td>
+                             <tr style="position:relative">
+                               <td colspan="4" class="homesub"><a href="#" style=" font-weight:bold;"><%=rname %></a>
+                                <div class="star-container" id="star" style="width: 5%;
+                                      position: absolute;
+                                      right: 1%;
+                                      top: -19%;">
+                                         <a class="star">★</a>
+                                        </div>  
+                               </td>
+                               </tr>
                                   <tr id="tabBox">
-                                    <th scope="col" class="th-title"><a href="./somoimboard_home.do" style="color : #de5f47">홈</a></th>
-                                    <th scope="col" class="th-date"><a href="./somoimboard_review.do">리뷰</a></th>
-                                    <th scope="col" class="th-num"><a href="./somoimboard_menu.do">메뉴</a></th>
-                                    <th scope="col" class="th-date"><a href="./somoimboard_picture.do">사진</a></th>
+                                    <th scope="col" class="th-title"><a href="./somoimboard_home.do?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" style="color : #de5f47">홈</a></th>
+                                    <th scope="col" class="th-date"><a href="./somoimboard_review.do?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>">리뷰</a></th>
+                                    <th scope="col" class="th-num"><a href="./somoimboard_menu.do?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>">메뉴</a></th>
+                                    <th scope="col" class="th-date"><a href="./somoimboard_picture.do?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>">사진</a></th>
                                  
                                 </tr> 
                             </thead>
@@ -381,7 +539,8 @@ footer{
                                
                                 
                                 <tbody>
-
+                                <%=sb.toString() %>
+                        <!-- 
                                    <tr>
                                     <td>위치</td>
                                     <td>서울 강남구 테헤란로1길 40 지하 1층</td>
@@ -393,8 +552,8 @@ footer{
                                    </tr>
 
                                    <tr>
-                                    <td>추가정보</td>
-                                    <td>강남역 11번출구 도보 3~5분거리입니다.놀부부대찌개 건물 지하 1층에 위치하고 있습니다.</td>   
+                                    <td>홈페이지</td>
+                                    <td>http://www.naver.com</td>   
                                    </tr>
 
                                    <tr>
@@ -406,42 +565,53 @@ footer{
                                     <td>편의시설</td>
                                     <td>단체석, 포장, 예약, 무선 인터넷, 남/녀 화장실 구분, 국민지원금</td>
                                    </tr>
-
-                                  <table width="100%";>
-                                   <tr class="picture">
-                                    <td colspan="2"><img src="https://search.pstatic.net/common/?autoRotate=true&amp;quality=95&amp;type=f180_180&amp;src=https%3A%2F%2Fnaverbooking-phinf.pstatic.net%2F20220804_213%2F1659540983719DJg8F_JPEG%2Fimage.jpg" class="_img" alt="사진" width="100%" height="auto" id="visitor_1"></td>
-                                    <td colspan="2"><img src="https://search.pstatic.net/common/?autoRotate=true&amp;quality=95&amp;type=f180_180&amp;src=https%3A%2F%2Fnaverbooking-phinf.pstatic.net%2F20220804_213%2F1659540983719DJg8F_JPEG%2Fimage.jpg" class="_img" alt="사진" width="100%" height="auto" id="visitor_1"></td>
-                                    <td colspan="3"><img src="https://search.pstatic.net/common/?autoRotate=true&amp;quality=95&amp;type=f180_180&amp;src=https%3A%2F%2Fnaverbooking-phinf.pstatic.net%2F20220804_213%2F1659540983719DJg8F_JPEG%2Fimage.jpg" class="_img" alt="사진" width="100%" height="auto" id="visitor_1"></td>
-                                    
-                                    
-                                    </tr>
-                                </table>
-                                   
+                                 -->   
                                     </tbody>
     
    
                                    </table>
+
+                                 
+                                   
+                                   
                         </div>
                     </div>
+                    
+                       <script type="text/javascript">
+                                $('#star a').click(function(){ 
+                                $(this).parent().children("a").removeClass("on");    
+                                $(this).addClass("on").prevAll("a").addClass("on");
+                                console.log($(this).attr("value"));
+                                });
+                        </script>
 
 
-                    <div class="maps" style="width: 50%;">  
-                        <img src="images/mapsearch2.png">
-                    </div> 
+			<div class="maps" style="width:50%;">
+				<div id="map" style="width:100%;height:450px;"></div>
+			</div>
+		</div><!-- tblWrap -->
+	</div>
+<!-- footer 
+<footer>
 
-
-
-               
-            </div><!-- tblmain -->
-          
-    
-    </div>
-
-    <!-- footer 
-    <footer>
-
-    </footer>
-    -->
-
+</footer>
+ -->
 </body>
+<script type="text/javascript">
+$(function() {
+	initMap();
+})
+
+function initMap() {
+	var map = new naver.maps.Map('map', {
+	    center: new naver.maps.LatLng(<%=latitude %>, <%=longitude %>),
+	    zoom: 17
+	});
+	
+	var marker = new naver.maps.Marker({
+	   	position: new naver.maps.LatLng(<%=latitude %>, <%=longitude %>),
+	   	map: map
+	});
+}
+</script>
 </html>

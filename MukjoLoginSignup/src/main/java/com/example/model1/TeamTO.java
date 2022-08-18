@@ -9,6 +9,6 @@ public class TeamTO {
 	private String tseq;
 	private String tname;
 	private String seq;
-	private String memcount;
+	private int memcount;
 	private String name;
 }

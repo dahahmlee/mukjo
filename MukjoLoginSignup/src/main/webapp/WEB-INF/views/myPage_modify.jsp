@@ -32,7 +32,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Notice</title>
+<title>마이페이지 수정</title>
 
 <!-- 나눔스퀘어 폰트 -->
 <link
@@ -87,6 +87,7 @@ ul {
 }
 
 a:link {
+	color : black;
 	text-decoration: none
 }
 
@@ -537,7 +538,7 @@ textarea {
             <h3><%=welcome %><a href="logoutok.do" id="logout" style="color : gray"><br/><%=log %></a></h3>
             <ul>
                 <li><b><a href="myPage.do" style="color : #de5f47;">마이페이지</a></b></li>
-                <li><b><a href="#">소모임장페이지</a></b></li>
+                <li><b><a href="boss.do">소모임장페이지</a></b></li>
                 <li><b><a href="admin.do">관리자페이지</b></li></a>
                 <li><b><a href="favorite.do">즐겨찾기</b></li></a>
                 <li id="bell"><a href="#"><b><img src="images/bell.png"></a></b>1</li>

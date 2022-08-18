@@ -34,14 +34,20 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Main</title>
+<title>내 정보 수정</title>
+
 <style href="css/common.css"></style>
 <!-- 나눔스퀘어 폰트 -->
 <link
    href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css"
    rel="stylesheet">
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<!-- Bootstrap (for modal) -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
 <style>
+
 /** common **/
 body, ul, li, h1, h2, h3 {
    margin: 0;
@@ -92,6 +98,7 @@ a:active {
 
 img {
    width: 100%;
+   padding-bottom: 5px;
 }
 
 table {
@@ -122,8 +129,6 @@ button {
    border-radius: 4px;
    display: inline-block;
    width: auto;
-   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px
-      rgba(0, 0, 0, 0.06);
    cursor: pointer;
    transition: 0.5s;
 }
@@ -145,7 +150,7 @@ nav {
 
 #header {
    border-bottom: #c7bebe 1px solid;
-   z-index: 1;
+   z-index: 1050;
 }
 
 #header ul {
@@ -154,7 +159,7 @@ nav {
 }
 
 #header ul li {
-   margin-left: 73px;
+   margin-left: 65px;
 }
 
 #header ul li b {
@@ -173,7 +178,7 @@ nav {
 }
 
 #bell {
-   width: 5%;
+   width: 60px;
    display: flex;
    align-items: center;
    color: red;
@@ -190,6 +195,7 @@ nav {
 }
 
 #headerWap h3 {
+   font-weight: bold;
    font-size: 15px;
    justify-content: left;
    position: absolute;
@@ -388,13 +394,12 @@ footer {
 }
 
 .user_id h4 {
-   margin-bottom: 10px;
+   margin-top: 15px;
 }
 
 .user_id input {
    width: 400px;
    border-radius: 0px;
-   margin-top: 10px;
    margin-left: 80px;
    padding: 0px 20px;
    border: 1px solid lightgray;
@@ -409,7 +414,7 @@ footer {
 }
 
 .birth h4 {
-   margin-bottom: 10px;
+	margin-top: 25px;
 }
 
 .birth input {
@@ -431,7 +436,7 @@ footer {
 }
 
 .phone h4 {
-   margin-bottom: 10px;
+	margin-top: 25px;
 }
 
 .phone input {
@@ -453,7 +458,7 @@ footer {
 }
 
 .pwd1 h4 {
-   margin-bottom: 10px;
+   margin-top: 25px;
 }
 
 .pwd1 input {
@@ -476,7 +481,7 @@ footer {
 }
 
 .pwd2 h4 {
-   margin-bottom: 10px;
+   margin-top: 20px;
 }
 
 .pwd2 input {
@@ -492,9 +497,10 @@ footer {
 }
 
 .submit {
-   margin-top: 40px;
-   width: 650px;
-   text-align: right;
+   margin-top: 30px;
+   margin-left: 120px;
+   width: 800px;
+   text-align: center;
    justify-cotent: center;
 }
 
@@ -526,12 +532,14 @@ footer {
 
 
 .validation-form h4 {
+   font-weight: bold;
    font-size: 0.9em;
 }
 
 .validation-form h2 {
    text-align: center;
-    color: #5c3018;
+   font-weight: bold;
+   color: #5c3018;
 }
 
 .chkbox1 {
@@ -548,7 +556,7 @@ footer {
    width: 500px;
    position: absolute;
    margin-top: 60px;
-   margin-left: 180px;
+   margin-left: 220px;
    font-size: 5px;
    text-align: left;
    color: red;
@@ -557,6 +565,26 @@ footer {
 
 .validation-form {
    width: 1000px;
+}
+
+.modal-dialog {
+    position: fixed;
+    margin: auto;
+    width: 320px;
+    height: 100%;
+    right: 0px;
+}
+.modal-content {
+	border: 1px solid black;
+    height: 100%;
+}
+#noticelogo {
+	width: 25%;
+}
+
+.modal-body span {
+	float: right;
+	margin-right: 15px;
 }
 </style>
 <script type="text/javascript">
@@ -603,33 +631,59 @@ footer {
        };  
     };
  </script>
-<link
-   href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap"
-   rel="stylesheet">
-<script src="https://kit.fontawesome.com/53a8c415f1.js"
-   crossorigin="anonymous"></script>
 </head>
 <body>
    <nav id="header">
-      <div id="headerWap">
-         <h1 id="logoSec">
-            <a href="main.do"><img src="images/logo.png" alt="logo"></a>
-         </h1>
-         <h3><%=welcome %><a href="logoutok.do" id="logout"
-               style="color: gray"><br /><%=log %></a>
-         </h3>
-         <ul>
-            <li><b><a href="myPage.do" style="color : #de5f47;">마이페이지</a></b></li>
-            <li><b><a href="#">소모임장페이지</a></b></li>
-            <li><b><a href="admin.do">관리자페이지</b></li>
-            </a>
-            <li><b><a href="favorite.do">즐겨찾기</b></li>
-            </a>
-            <li id="bell"><a href="#"><b><img src="images/bell.png"></a></b>1</li>
+      <div class="headermake" style="width:100%; background-color: #fff;">
+        <div id="headerWap">
+            <h1 id="logoSec">
+                <a href="main.do"><img src="images/logo.png" alt="logo"></a>
+            </h1>
+            <h3><%=welcome %><a href="logoutok.do" id="logout" style="color : gray"><br/><%=log %></a></h3>
+            <ul>
+                <li><b><a href="myPage.do">마이페이지</a></b></li>
+                <li><b><a href="boss.do">소모임장페이지</a></b></li>
+                <li><b><a href="admin.do">관리자페이지</b></li></a>
+                <li><b><a href="favorite.do">즐겨찾기</b></li></a>
+                <li id="bell" style="margin-left: 20px;">
+                	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+						<img src="images/bell.png">
+					</button>1
+				</li>
+            </ul>
+          </div>
+        </div> <!--headerWap-->
+      <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="exampleModalLabel"><b>알림</b></h4>
+          <span id="noticelogo"><img src="images/logo.png"></span>
+        </div>
 
-         </ul>
+        <div class="modal-body">
+          <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
+          	<span>2022.07.13</span>
+          </p>
+          <hr />
+          <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
+          	<span>2022.07.13</span>
+          </p>
+          <hr />
+          <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
+          	<span>2022.07.13</span>
+          </p>
+          <hr />
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><b>읽음</b></button>
+          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><b>닫기</b></button>
+        </div>
       </div>
-      <!--headerWap-->
+    </div>
+  </div>
 
       <!--locationSec -->
       <section id="locationSec">
@@ -681,7 +735,9 @@ footer {
             
             <div class="submit">
                     <input type="button" id="mpBtn1" value="수정" >
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;
+                    <input type="button" id="mpBtn2" value="회원탈퇴">
+            </div>
       </form>
    </div>
 

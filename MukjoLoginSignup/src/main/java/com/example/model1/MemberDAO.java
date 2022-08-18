@@ -278,10 +278,12 @@ public class MemberDAO {
 				pstmt.setString(1, seq);
 				pstmt.executeUpdate();
 				
+				/*
 				sql = "delete from reviewcmt where seq=?";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, seq);
 				pstmt.executeUpdate();
+				*/
 				
 				sql = "delete from review where seq=?";
 				pstmt = conn.prepareStatement(sql);

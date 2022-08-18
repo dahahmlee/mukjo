@@ -1,42 +1,75 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@page import="com.example.model1.BoardTO"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="com.example.model1.BoardDAO"%>
-<%@page import="com.example.model1.BoardListTO"%>
-    <%
-      String log = "LOGIN";
-       
-      HttpSession sess = request.getSession();
-      
-      String loginedMemberSeq = (String)sess.getAttribute("loginedMemberSeq");
-      String welcome = "";
-   
-      if(loginedMemberSeq != null) {
-         welcome = (String)sess.getAttribute("loginedMemberName")+"님 환영합니다.";
-         log = "LOGOUT";
+<%@page import="com.example.model1.FoodTO"%>
+<%
+	String log = "LOGIN";
 
-      } else {
-         out.println ( "<script>");
-         out.println ( "window.location.href = 'http://localhost:8080/login.do'");
-         out.println ( "</script>");
-      }   
-    
-    %>
+	HttpSession sess = request.getSession();
+
+	String loginedMemberSeq = (String)sess.getAttribute("loginedMemberSeq");
+	String welcome = "";
+
+	if(loginedMemberSeq != null) {
+		welcome = (String)sess.getAttribute("loginedMemberName")+"님 환영합니다.";
+		log = "LOGOUT";
+	} else {
+		out.println ( "<script>");
+		out.println ( "window.location.href = 'http://localhost:8080/login.do'");
+		out.println ( "</script>");
+	}
+
+	String tseq = request.getParameter("tseq");
+	
+	String tname = (String)request.getAttribute("tname");
+	ArrayList<FoodTO> lists = (ArrayList<FoodTO>)request.getAttribute("lists");
+	
+	StringBuilder sbHtml = new StringBuilder();
+	StringBuilder mHtml = new StringBuilder();
+	
+	mHtml.append( "var loc = [" );
+	
+	for(FoodTO to : lists) {
+		String id = to.getId().replaceAll("[^0-9]", "");
+		String name = to.getName();
+		String category = to.getCategory();
+		String longitude = to.getLongitude();
+		String latitude = to.getLatitude();
+		String thumurl = to.getThumurl();
+		
+		sbHtml.append( "<div class='lists1'>" );
+    	sbHtml.append( "<a href='./somoimboard_home.do?tseq=" + tseq + "&id=" + id + "&latitude=" + latitude + "&longitude=" + longitude + "'><img class='list1' style=\"background-image: url('" + thumurl + "');\">");
+    	sbHtml.append( "<span class='write1'>"+name+"</span>" );
+    	sbHtml.append( "<span class='write2'>"+category+"</span>" );
+    	sbHtml.append( "<span class='write3'><i class='fa fa-star' style='font-size:20px;color:red'></i>    4.8점</span>" );
+    	sbHtml.append( "</a>" );
+    	sbHtml.append( "</div>" );
+    	
+    	mHtml.append( "{ Name: \""+name+"\", " );
+    	mHtml.append( "Lat: \""+latitude+"\", " );
+    	mHtml.append( "Lng: \""+longitude+"\" }," );
+	}
+	mHtml.deleteCharAt(mHtml.length() - 1);
+	mHtml.append( "]" );
+%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>식당검색</title>
-    <style href="css/common.css"></style>
-    <!-- 나눔스퀘어 폰트 -->
-    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet">
-    <!-- 부트스트랩 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>식당검색</title>
+<style href="css/common.css"></style>
+<!-- 나눔스퀘어 폰트 -->
+<link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet">
+<!-- 부트스트랩 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- 지도 -->
+<script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=f8b62z9xjz&amp;submodules=geocoder"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<!-- Bootstrap (for modal) -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <style>
 /** common **/
 
@@ -79,6 +112,7 @@ ul{
 
 img{
     width: 100%;
+    padding-bottom: 5px;
 }
 
 table{
@@ -115,8 +149,6 @@ button {
   display: inline-block;
   width: auto;
   
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  
   cursor: pointer;
   
   transition: 0.5s;
@@ -143,7 +175,7 @@ nav{
 
 #header{
     border-bottom: #c7bebe 1px solid;
-    z-index: 1;
+    z-index: 1050;
 }
 
 #header ul{
@@ -152,7 +184,7 @@ nav{
 }
 
 #header ul li{
-    margin-left: 73px;
+    margin-left: 65px;
 }
 
 #header ul li b{
@@ -171,7 +203,7 @@ nav{
 }
 
 #bell{
-    width: 5%;
+    width: 60px;
     display:flex;
     align-items: center;
     color: red;
@@ -191,7 +223,8 @@ nav{
 }
 
 #headerWap h3{
-font-size: 15px;
+	font-weight: bold;
+	font-size: 15px;
     justify-content: left;
     position: absolute;
     margin-left: 120px;
@@ -216,8 +249,7 @@ font-size: 15px;
 
 /* 버튼 섹션*/
 #btnSec {
-     display: inline-flex;
-     justify-content: space-between;
+     display: flex;
      width: 100%;
 }
 
@@ -238,7 +270,7 @@ font-size: 15px;
     right: 0;
     font-size: 0; 
     margin-bottom : 8px;
-    margin-left : 150px;
+    margin-left : 30px;
 }
 
 .search-wrap .input{
@@ -416,15 +448,6 @@ font-size: 15px;
     width:100%;
 }
 
-
-
-
-
-
-
-
-
-
 /***** footer  *****/
 footer{
     width: 100%;
@@ -433,34 +456,92 @@ footer{
     margin-top: 5%;
 }
 
+.modal-dialog {
+    position: fixed;
+    margin: auto;
+    width: 320px;
+    height: 100%;
+    right: 0px;
+}
+.modal-content {
+	border: 1px solid black;
+    height: 100%;
+}
+
+#noticelogo {
+	width: 25%;
+}
+
+.modal-body span {
+	float: right;
+	margin-right: 15px;
+}
+
+
 </style>
 
 </head>
 <body>
     <nav id="header">
+        <div class="headermake" style="width:100%; background-color: #fff;">
         <div id="headerWap">
             <h1 id="logoSec">
                 <a href="main.do"><img src="images/logo.png" alt="logo"></a>
             </h1>
-             <h3 > <%=welcome %> <a href="logoutok.do" id="logout" style="color : gray"> <br/><%=log %>	</a></h3>
-            
+            <h3><%=welcome %><a href="logoutok.do" id="logout" style="color : gray"><br/><%=log %></a></h3>
             <ul>
-               <li><b><a href="myPage.do">마이페이지</a></b></li>
-                <li><b><a href="#">소모임장페이지</a></b></li>
-                 <li><b><a href="admin.do">관리자페이지</b></li></a>
-				<li><b><a href="favorite.do">즐겨찾기</b></li></a>
-                <li id="bell"><a href="#"><b><img src="images/bell.png"></a></b>1</li>
+                <li><b><a href="myPage.do">마이페이지</a></b></li>
+                <li><b><a href="boss.do">소모임장페이지</a></b></li>
+                <li><b><a href="admin.do">관리자페이지</a></b></li>
+                <li><b><a href="favorite.do">즐겨찾기</a></b></li>
+                <li id="bell">
+                   <button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  <img src="images/bell.png">
+               </button> 
+            </li>
             </ul>
+          </div>
         </div> <!--headerWap-->
-   
+        
+         <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="exampleModalLabel"><b>알림</b></h4>
+          <span id="noticelogo"><img src="images/logo.png"></span>
+        </div>
+
+        <div class="modal-body">
+          <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
+             <span>2022.07.13</span>
+          </p>
+          <hr />
+          <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
+             <span>2022.07.13</span>
+          </p>
+          <hr />
+          <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
+             <span>2022.07.13</span>
+          </p>
+          <hr />
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><b>읽음</b></button>
+          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><b>닫기</b></button>
+        </div>
+      </div>
+    </div>
+  </div>
    
       <!--locationSec -->
       <section id="locationSec">
         <div id = "locationwrap">
-             <button class="active"><a href="./somoimboard.do" >게시판</a></button>
-             <button class="allbtn"><a href="./somoimboard_search.do" style="color : #de5f47">식당검색</a></button>
-             <button class="allbtn"><a href="#">소모임 회원 목록</a></button>
-             <button class="allbtn"><a href="#">소모임 탈퇴</a></button>
+             <button class="active"><a href="./somoimboard.do?tseq=<%=tseq %>" >게시판</a></button>
+             <button class="allbtn"><a href="./somoimboard_search.do?tseq=<%=tseq %>" style="color : #de5f47">식당검색</a></button>
+             <button class="allbtn"><a href="./somoimboard_memberlist.do?tseq=<%=tseq %>">소모임 회원 목록</a></button>
+             <button class="allbtn bsbtn"><a href="./somoimboard_memberexit.do?tseq=<%=tseq %>" id="bstn">소모임 탈퇴</a></button>
         </div>
       </section>
     </nav>  
@@ -476,13 +557,15 @@ footer{
         </section>
           
         <section id ="btnSec" >
+            <b style="line-height: 2;
+            font-size: 19px;">소모임 : <%=tname %></b>
           
             <div class="search-wrap">  
              
-            <div class="input">
-                <input type="text" title="검색어 입력">
-                <button type="button">검색</button>
-            </div><!-- input -->
+            <form class="input" action="/somoimboard_search.do?tseq=<%=tseq %>" method="post" name="sfrm">
+					<input type="text" title="검색어 입력" name="search" placeholder="식당/지역 검색" />
+					<button type="submit">검색</button>
+			</form><!-- input -->
          </div><!-- search-wrap -->
            
         </section>
@@ -496,60 +579,123 @@ footer{
                 <div class="scrollwrap" style="width: 50%;">
                  <div class="scrollbar" >
                     <ul>
-                        <li>
+						<li>
+						<%=sbHtml.toString() %>
+						<!-- 
+							<div class="lists1">
+								<a href="./somoimboard_home.do"><img class="list1" style="background-image: url('https://search.pstatic.net/common/?autoRotate=true&type=w278_sharpen&src=https%3A%2F%2Fsearchad-phinf.pstatic.net%2FMjAyMjA0MThfMTYx%2FMDAxNjUwMjc2MTI4OTEz.Iwfc3HzhfZYcIfdtiWx7f4L1x9lOoGg1EUKGy2ZCxAwg.2S0g3cV4uNkldREs__6NEt5ChSUE2EOOV4EwCxJRtv8g.PNG%2F2355050-adba00da-0fad-4f6d-8d3d-9ade8109773c.png');">
+									<span class="write1">경양가츠 강남점</span>
+									<span class="write2">줄서서 먹는 돈까스맛집</span>
+									<span class="write3"><i class="fa fa-star" style="font-size:20px;color:red"></i>    4.8점</span>
+								</a>
+							</div>
+							<div class="lists1">
+								<a href="./somoimboard_home.do"><img class="list1" style="background-image: url('https://search.pstatic.net/common/?autoRotate=true&type=w278_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20220427_237%2F165102764126107Ghf_JPEG%2F1.jpg');">
+									<span class="write1">을지다락 강남</span>
+									<span class="write2">깔끔한 분위기의 파스타</span>
+									<span class="write3"><i class="fa fa-star" style="font-size:20px;color:red"></i>    4.9점</span>
+								</a>
+							</div>
+							<div class="lists1">
+								<a href="./somoimboard_home.do"><img class="list1" style="background-image: url('https://search.pstatic.net/common/?autoRotate=true&type=w278_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20161112_233%2F147894152004419V1R_PNG%2F177062583539881_0.png');">
+									<span class="write1">장인닭갈비 강남점</span>
+									<span class="write2">순수 모짜렐라 치즈를 사용한 닭갈비</span>
+									<span class="write3"><i class="fa fa-star" style="font-size:20px;color:red"></i>    4.5점</span>
+								</a>
+							</div>
+							 -->
+						</li>
+					</ul>
+				</div><!--scrollbar-->
+			</div><!-- scrollwrap -->
+			<div class="maps" style="width:50%;">
+				<div id="map" style="width:100%;height:450px;"></div>
+			</div>
+		</div><!-- tblWrap -->
+	</div>
+<!-- footer 
+<footer>
 
-                            <div class="lists1">
-                            <a href="./somoimboard_home.do"><img class="list1" style="background-image: url('https://search.pstatic.net/common/?autoRotate=true&type=w278_sharpen&src=https%3A%2F%2Fsearchad-phinf.pstatic.net%2FMjAyMjA0MThfMTYx%2FMDAxNjUwMjc2MTI4OTEz.Iwfc3HzhfZYcIfdtiWx7f4L1x9lOoGg1EUKGy2ZCxAwg.2S0g3cV4uNkldREs__6NEt5ChSUE2EOOV4EwCxJRtv8g.PNG%2F2355050-adba00da-0fad-4f6d-8d3d-9ade8109773c.png');">
-                                <span class="write1">경양가츠 강남점</span>
-                                <span class="write2">줄서서 먹는 돈까스맛집</span>
-                                <span class="write3"><i class="fa fa-star" style="font-size:20px;color:red"></i>    4.8점</span>
-                            </div>
-                            </a>
-
-                            <div class="lists1">
-                                <a href="./somoimboard_home.do"><img class="list1" style="background-image: url('https://search.pstatic.net/common/?autoRotate=true&type=w278_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20220427_237%2F165102764126107Ghf_JPEG%2F1.jpg');">
-                                    <span class="write1">을지다락 강남</span>
-                                    <span class="write2">깔끔한 분위기의 파스타</span>
-                                    <span class="write3"><i class="fa fa-star" style="font-size:20px;color:red"></i>    4.9점</span>
-                                </div>
-                                </a>
-
-                                <div class="lists1">
-                                    <a href="./somoimboard_home.do"><img class="list1" style="background-image: url('https://search.pstatic.net/common/?autoRotate=true&type=w278_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20161112_233%2F147894152004419V1R_PNG%2F177062583539881_0.png');">
-                                        <span class="write1">장인닭갈비 강남점</span>
-                                        <span class="write2">순수 모짜렐라 치즈를 사용한 닭갈비</span>
-                                        <span class="write3"><i class="fa fa-star" style="font-size:20px;color:red"></i>    4.5점</span>
-                                    </div>
-                                    </a>
-
-                        </li>
-
-                    </ul>
-
-                   
-                    
-                </div><!--scrollbar-->
-              
-            </div><!-- scrollwrap -->
-
-           
-
-           
-          
-
-            <div class="maps" style="width:50%;">
-                <img src="images/mapsearch2.png">
-            </div>
-               
-        </div><!-- tblWrap -->
-    
-    </div>
-
-    <!-- footer 
-    <footer>
-
-    </footer>
-    -->
-
+</footer>
+ -->
 </body>
+<script type="text/javascript">
+
+$(function() {
+	initMap();
+})
+
+function initMap() {
+	let markers = [];
+	let infoWindows = [];
+
+	<%=mHtml.toString() %>
+	var map = new naver.maps.Map('map', {
+	    center: new naver.maps.LatLng(loc[0].Lat, loc[0].Lng),
+	    zoom: 15
+	});
+	
+	for(var i in loc) {
+		var marker = new naver.maps.Marker({
+	    	position: new naver.maps.LatLng(loc[i].Lat, loc[i].Lng),
+	    	map: map
+	    });
+
+	    var infoWindow = new naver.maps.InfoWindow({
+	    	content: '<div style=\"width:150px;text-align:center;padding:10px;\"><b>' + loc[i].Name + '</b></div>'
+	    });
+	}
+    
+	markers.push(marker);
+	infoWindows.push(infoWindow);
+	
+	naver.maps.Event.addListener(map, 'idle', function() {
+	    updateMarkers(map, markers);
+	});
+
+	function updateMarkers(map, markers) {
+	    var mapBounds = map.getBounds();
+	    var marker, position;
+
+	    for (var i = 0 ; i < markers.length ; i++) {
+	        marker = markers[i]
+	        position = marker.getPosition();
+
+	        if (mapBounds.hasLatLng(position)) {
+	            showMarker(map, marker);
+	        } else {
+	            hideMarker(map, marker);
+	        }
+	    }
+	}
+
+	function showMarker(map, marker) {
+	    if (marker.setMap()) return;
+	    marker.setMap(map);
+	}
+
+	function hideMarker(map, marker) {
+	    if (!marker.setMap()) return;
+	    marker.setMap(null);
+	}
+
+	// 해당 마커의 인덱스를 seq라는 클로저 변수로 저장하는 이벤트 핸들러를 반환합니다.
+	function getClickHandler(seq) {
+	    return function(e) {
+	        var marker = markers[seq],
+	            infoWindow = infoWindows[seq];
+
+	        if (infoWindow.getMap()) {
+	            infoWindow.close();
+	        } else {
+	            infoWindow.open(map, marker);
+	        }
+	    }
+	}
+
+	for (var i=0 ; i<markers.length ; i++) {
+	    naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i));
+	}
+}
+</script>
 </html>

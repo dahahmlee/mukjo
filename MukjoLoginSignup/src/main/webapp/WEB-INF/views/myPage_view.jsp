@@ -48,7 +48,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Notice</title>
+<title>마이페이지 뷰</title>
 
 <!-- 나눔스퀘어 폰트 -->
 <link
@@ -56,6 +56,11 @@
    rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+<!-- Bootstrap (for modal) -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
 <style>
 body, ul, li, h1, h2, h3 {
    margin: 0;
@@ -63,8 +68,6 @@ body, ul, li, h1, h2, h3 {
 }
 
 p {
-   width:1250px;
-   font-size: 1rem;
    color: black;
    font-family: 'Noto Sans KR', sans-serif;
 }
@@ -93,6 +96,7 @@ ul {
 }
 
 a:link {
+	color : black;
    text-decoration: none
 }
 
@@ -143,8 +147,6 @@ button {
    border-radius: 4px;
    display: inline-block;
    width: auto;
-   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px
-      rgba(0, 0, 0, 0.06);
    cursor: pointer;
    transition: 0.5s;
 }
@@ -166,7 +168,7 @@ nav {
 
 #header {
    border-bottom: #c7bebe 1px solid;
-   z-index: 1;
+   z-index: 1050;
 }
 
 #header ul {
@@ -175,7 +177,7 @@ nav {
 }
 
 #header ul li {
-   margin-left: 73px;
+   margin-left: 65px;
 }
 
 #header ul li b {
@@ -194,7 +196,7 @@ nav {
 }
 
 #bell {
-   width: 5%;
+   width: 50px;
    display: flex;
    align-items: center;
    color: red;
@@ -211,6 +213,7 @@ nav {
 }
 
 #headerWap h3 {
+   font-weight: bold;
    font-size: 15px;
    justify-content: left;
    position: absolute;
@@ -554,6 +557,29 @@ textarea {
    height: 400px;
    overflow: auto;
 }
+
+.modal-dialog {
+    position: fixed;
+    margin: auto;
+    width: 320px;
+    height: 100%;
+    right: 0px;
+}
+
+.modal-content {
+	border: 1px solid black;
+    height: 100%;
+}
+
+#noticelogo {
+	width: 25%;
+}
+
+.modal-body span {
+	float: right;
+	margin-right: 15px;
+}
+
 </style>
 
 </head>
@@ -566,13 +592,48 @@ textarea {
             <h3><%=welcome %><a href="logoutok.do" id="logout" style="color : gray"><br/><%=log %></a></h3>
             <ul>
                 <li><b><a href="myPage.do" style="color : #de5f47;">마이페이지</a></b></li>
-                <li><b><a href="#">소모임장페이지</a></b></li>
+                <li><b><a href="boss.do">소모임장페이지</a></b></li>
                 <li><b><a href="admin.do">관리자페이지</b></li></a>
                 <li><b><a href="favorite.do">즐겨찾기</b></li></a>
-                <li id="bell"><a href="#"><b><img src="images/bell.png"></a></b>1</li>
-
+				<li id="bell">
+                	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+						<img src="images/bell.png">
+					</button> 
+				</li>
             </ul>
         </div> <!--headerWap-->
+        
+        <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="exampleModalLabel"><b>알림</b></h4>
+          <span id="noticelogo"><img src="images/logo.png"></span>
+        </div>
+
+        <div class="modal-body">
+          <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
+          	<span>2022.07.13</span>
+          </p>
+          <hr />
+          <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
+          	<span>2022.07.13</span>
+          </p>
+          <hr />
+          <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
+          	<span>2022.07.13</span>
+          </p>
+          <hr />
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><b>읽음</b></button>
+          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><b>닫기</b></button>
+        </div>
+      </div>
+    </div>
+  </div>
    
    
       <!--locationSec -->

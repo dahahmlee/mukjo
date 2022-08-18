@@ -4,62 +4,61 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
      <%
+   //주석
+       String log = "LOGIN";
+    
+       HttpSession sess = request.getSession();
+       
+       String loginedMemberSeq = (String)sess.getAttribute("loginedMemberSeq");
+       String welcome = "";
+    
+       if(loginedMemberSeq != null) {
+          welcome = (String)sess.getAttribute("loginedMemberName")+"님 환영합니다.";
+          log = "LOGOUT";
+       } else {
+                 out.println ( "<script>");
+                  out.println ( "window.location.href = 'http://localhost:8080/login.do'");
+                  out.println ( "</script>");
+       }
+    
+       MainTeamPageTO mainTeamPageTO = (MainTeamPageTO)request.getAttribute("mainTeamPageTO");
+          int cpage = mainTeamPageTO.getCpage();
+          int recordPerPage = mainTeamPageTO.getRecordPerPage();
+          int totalRecord = mainTeamPageTO.getTotalRecord();
+          int totalPage = mainTeamPageTO.getTotalPage();
+          int blockPerPage = mainTeamPageTO.getBlockPerPage();
+          int startBlock = mainTeamPageTO.getStartBlock();
+          int endBlock = mainTeamPageTO.getEndBlock();
+          
+          ArrayList<MainTeamTO> teamLists = mainTeamPageTO.getTeamLists();
+       
+          StringBuilder sb = new StringBuilder();
+          int num=1;
+          
+          for (int j=0; j<teamLists.size(); j=j+20) {
+             num=(mainTeamPageTO.getCpage()-1)*20+1;
+             for (int i=j; i<j+20; i++) {
+                
+                if (i>=teamLists.size()) {
 
-    	String log = "LOGIN";
-    
-    	HttpSession sess = request.getSession();
-    	
-    	String loginedMemberSeq = (String)sess.getAttribute("loginedMemberSeq");
-    	String welcome = "";
-    
-    	if(loginedMemberSeq != null) {
-    		welcome = (String)sess.getAttribute("loginedMemberName")+"님 환영합니다.";
-    		log = "LOGOUT";
-    	} else {
-    		    	out.println ( "<script>");
-			   		out.println ( "window.location.href = 'http://localhost:8080/login.do'");
-			   		out.println ( "</script>");
-    	}
-    
-    	MainTeamPageTO mainTeamPageTO = (MainTeamPageTO)request.getAttribute("mainTeamPageTO");
-       	int cpage = mainTeamPageTO.getCpage();
-       	int recordPerPage = mainTeamPageTO.getRecordPerPage();
-       	int totalRecord = mainTeamPageTO.getTotalRecord();
-       	int totalPage = mainTeamPageTO.getTotalPage();
-       	int blockPerPage = mainTeamPageTO.getBlockPerPage();
-       	int startBlock = mainTeamPageTO.getStartBlock();
-       	int endBlock = mainTeamPageTO.getEndBlock();
-       	ArrayList<MainTeamTO> teamLists = mainTeamPageTO.getTeamLists();
-       	
-       	StringBuilder sb = new StringBuilder();
-       	int num=1;
-       	
-       	for (int j=0; j<teamLists.size(); j=j+20) {
-       		num=(mainTeamPageTO.getCpage()-1)*20+1;
-       		for (int i=j; i<j+20; i++) {
-       			
-       			if (i>=teamLists.size()) {
-
-       			} else {
-       				String tseq=teamLists.get(i).getTseq();
-       				String tname=teamLists.get(i).getTname();
-       				String jangname=teamLists.get(i).getJangname();
-       				String memcount=teamLists.get(i).getMemcount();
-       				String accept = teamLists.get(i).getAccept();
-       				
-       				if(accept.equals("1")) {
-	       				sb.append("<tr>");
-	       				sb.append("<td>"+num+"</td>");
-	       				sb.append("<td><a href='somoimboard.do?tseq="+tseq+"'>"+tname+"</td>");
-	       				sb.append("<td>"+jangname+"</td>");
-	       				sb.append("<td>"+memcount+"명</td>");
-	       				sb.append("</tr>");
-	       				
-	       				num+=1;
-       				}
-       			}
-       		}
-       	}
+                } else {
+                   String tseq=teamLists.get(i).getTseq();
+                   String tname=teamLists.get(i).getTname();
+                   String jangname=teamLists.get(i).getJangname();
+                   int memcount=teamLists.get(i).getMemcount();
+                   
+                      sb.append("<tr>");
+                      sb.append("<td>"+num+"</td>");
+                      sb.append("<td><a href='somoimboard.do?tseq="+tseq+"'>"+tname+"</td>");
+                      sb.append("<td>"+jangname+"</td>");
+                      sb.append("<td>"+memcount+"명</td>");
+                      sb.append("</tr>");
+                      
+                      num+=1;
+                   
+                }
+             }
+          }
     %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -74,8 +73,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
     <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
-
-
+	
+	<!-- Bootstrap (for modal) -->
+	
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+	
 
 <style>
 /** common **/
@@ -117,6 +120,7 @@ a:link {  color : black; text-decoration: none}
 
 img{
     width: 100%;
+    padding-bottom: 5px;
 }
 
 table{
@@ -128,6 +132,7 @@ table{
   --button-bg-color: #5c3018;
   --button-hover-bg-color: #5c3018;
 }
+
 
 button {
   -webkit-appearance: none;
@@ -148,12 +153,12 @@ button {
   text-transform : none;
   
   border: none;
-  border-radius: 4px;
+  border-radius: none;
   
   display: inline-block;
   width: auto;
   
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0), 0 2px 4px -1px rgba(0, 0, 0, 0);
   
   cursor: pointer;
   
@@ -167,6 +172,7 @@ button:focus {
   background: var(--button-hover-bg-color);
   outline: 0;
 }
+
 button:disabled {
   opacity: 0.5;
 }
@@ -181,7 +187,7 @@ nav{
 
 #header{
     border-bottom: #c7bebe 1px solid;
-    z-index: 1;
+    z-index: 1050;
 }
 
 #header ul{
@@ -190,14 +196,17 @@ nav{
 }
 
 #header ul li{
-    margin-left: 73px;
+    margin-left: 65px;
 }
 
 #header ul li b{
     line-height: 41.5px;
 }
 
+
+
 #headerWap h3 {
+   font-weight: bold;
    font-size: 15px;
    justify-content: left;
    position: absolute;
@@ -216,14 +225,12 @@ nav{
 }
 
 #bell{
-    width: 5%;
-    display:flex;
+    width: 60px;
+    display: flex;
     align-items: center;
     color: red;
+    border: none;
 }
-
-
-
 
 #headerWap{
     width:1280px;
@@ -295,7 +302,7 @@ nav{
     background: none;
     cursor: default;
     outline: none;
-  box-shadow: none;
+ 	box-shadow: none;
 }
 
 #locationwrap{
@@ -313,19 +320,6 @@ nav{
     color : #333;
     position : relative;
 }
-/*
-.allbtn:before{
-    position: absolute;
-    left: 0;
-    top : 0;
-    margin : auto 0;
-    width: 1px;
-    height: 18px;
-    background-color: #000;
-    content: "";
-    margin-top: 8%;
-}
-*/
 
 .active{
     color: #de5f47;
@@ -337,31 +331,6 @@ a{
 
 *{
     box-sizing: border-box;
-}
-
-/* Modal */ 
-.modal{
-    position: fixed;
-    background-color: rgba(0, 0, 0, 0.4);
-    top : 0;
-    left : 0;
-    height: 100vh;
-    width: 100%;
-    display: none;
-}
-
-.modal-content{
-    background-color: #fff;
-    width: 500px;
-    border-radius: 10px;
-    position: absolute;
-    top: 50%;
-    left : 50%;
-    transform: translate( -50%, -50%);
-    padding: 30px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
-    text-align: center;
-    height: 300px;
 }
 
 .btn-close{
@@ -381,10 +350,6 @@ a{
 .btn-guide a{
     color : #fff
 }
-#modal-search{
-    border : 1px solid black;
-}
-
 
 
 /* 테이블 섹션 */
@@ -428,7 +393,6 @@ a{
     display: inline-block;
     overflow: hidden;
     position: relative;
-   
 }
 
 #pagingSec .search-wrap #search{
@@ -443,7 +407,7 @@ a{
     color: #000;
     font-size: 16px;
     box-sizing: border-box;
-    margin-left:5px;
+    margin-left:20px;
 }
 
 /* width : 30, height : 45 */
@@ -457,7 +421,6 @@ a{
     background: url( ./images/search2.png) no-repeat ;
     position: absolute;
     background-size: 38px 25px;
- 
 }
 
 #pagingSec ul li{
@@ -477,10 +440,10 @@ a{
 }
 
     .board_pagetab { text-align: center; display: inline-flex; position:relative;}
-	.board_pagetab a { text-decoration: none; font: 12px verdana; color: #000; padding: 0 3px 0 3px; }
+   .board_pagetab a { text-decoration: none; font: 12px verdana; color: #000; padding: 0 3px 0 3px; }
     /* .board_pagetab ul a:hover  { background-color:black; } */
-	.on a { font-weight: bold; }
-	
+   .on a { font-weight: bold; }
+   
 /***** footer  *****/
 footer{
     width: 100%;
@@ -494,6 +457,27 @@ footer{
    border-bottom: 1px solid black;
 }
 
+.modal-dialog {
+    position: fixed;
+    margin: auto;
+    width: 320px;
+    height: 100%;
+    right: 0px;
+}
+.modal-content {
+	border: 1px solid black;
+    height: 100%;
+}
+#noticelogo {
+	width: 25%;
+}
+
+.modal-body span {
+	float: right;
+	margin-right: 15px;
+}
+
+
 </style>
 
 </head>
@@ -504,18 +488,55 @@ footer{
             <h1 id="logoSec">
                 <a href="./main.do"><img src="images/logo.png" alt="logo"></a>
             </h1>
-            <h3 > <%=welcome %> <a href="logoutok.do" id="logout" style="color : gray"> <br/><%=log %>	</a></h3>
+            <h3 > <%=welcome %> <a href="logoutok.do" id="logout" style="color : gray"> <br/><%=log %>   </a></h3>
             
             <ul>
-                <li><b><a href="myPage.do">마이페이지</a></b></li>
-                <li><b><a href="#">소모임장페이지</a></b></li>
-                 <li><b><a href="admin.do">관리자페이지</b></li></a>
-				<li><b><a href="favorite.do">즐겨찾기</b></li></a>
-                <li id="bell"><a href="#"><b><img src="images/bell.png"></a></b>1</li>
-
-            </ul>
+            	<li><b><a href="myPage.do">마이페이지</a></b></li>
+                <li><b><a href="boss.do">소모임장페이지</a></b></li>
+                <li><b><a href="admin.do">관리자페이지</b></li></a>
+            	<li><b><a href="favorite.do">즐겨찾기</b></li></a>
+            	
+                <li id="bell" style="margin-left: 20px;">
+                	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+						<img src="images/bell.png">
+					</button>1
+				</li>
+			</ul>
         </div> <!--headerWap-->
     </div>
+    
+    
+    <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="exampleModalLabel"><b>알림</b></h4>
+          <span id="noticelogo"><img src="images/logo.png"></span>
+        </div>
+
+        <div class="modal-body">
+          <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
+          	<span>2022.07.13</span>
+          </p>
+          <hr />
+          <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
+          	<span>2022.07.13</span>
+          </p>
+          <hr />
+          <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
+          	<span>2022.07.13</span>
+          </p>
+          <hr />
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><b>읽음</b></button>
+          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><b>닫기</b></button>
+        </div>
+      </div>
+    </div>
+  </div>
    
    
       <!--locationSec -->
@@ -529,8 +550,6 @@ footer{
 
     <!-- 전체 요소를 감싸는 div -->
     <div id="wrap">
-
-
         <!-- 게시판 이름이 있는 섹션입니다 -->
         <section id="titSec">
             <strong></strong>
@@ -539,98 +558,13 @@ footer{
         <section id ="btnSec" >
             <strong>내 소모임 <b>(<%=totalRecord%>)</b></strong>
 
-            <div class="search-wrap">           
-                <input type="text" title="검색어 입력">
-                <button type="button">검색</button>
+            <div class="search-wrap">
+            <form action="./main.do" method="post" name="sfrm">          
+                <input type="text" title="검색어 입력" name="search" placeholder="소모임 이름 검색">
+                <button type="submit">검색</button>
+            </form>
             </div><!-- search-wrap -->
-
-            
-            <div class="modal">
-                <div class="modal-content">
-                    <a class="btn-close" href="#none">X</a>
-                    <h2>소모임 새로 만들기</h2>
-                    <p style="font-weight: bold;"> 소모임명
-                        <input type="text" id="modal-search" name="tname" required
-                         minlength="4" maxlength="20" size="10" style="width: 50% ; height : 30px; "/>
-                         <button class="emailChk btn btn-primary" type="button" id="tnamecheckbtn" onclick="tnamechk(this.form)" value="">중복확인</button>
-                    </p>
-                     <div class="modal-make" style="margin-top: 100px;">
-                   <a class="btn-guide" id="sbtn" href="#none" style="color : #fff; margin-right:10px; padding: 10px;">만들기</a>
-                   <a class="btn-guide btn-exit" href="#none" style="color : #fff; padding: 10px;">취소</a>
-                     </div>
-                </div>
-               
-            </div>
         </section>
-
-
-        <!-- 소모임 새로만들기 Modal -->
-        <script>
-            $('.modal-notice').click( function(){
-                $('.modal').fadeIn()
-            })
-            $('.btn-close').click( function(){
-                $('.modal').fadeOut()
-            })
-            $('.btn-exit').click( function(){
-                $('.modal').fadeOut()
-            })
-
-
-
-
-            $("#tnamecheckbtn").click(function () {
-             // 중복검사 
-
-             const Toast = Swal.mixin({
-             toast: true,
-             position: 'center-center',
-             showConfirmButton: false,
-             timer: 2000,
-             timerProgressBar: true,
-             didOpen: (toast) => {
-              toast.addEventListener('mouseenter', Swal.stopTimer)
-              toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-            })
-
-            Toast.fire({
-            //   icon: 'error', 
-            //   title: '사용하실 수 없는 이메일입니다 잠시만 기다려주세요!'
-
-            icon: 'success', 
-            title: '사용하실 수 있는 소모임입니다. 잠시만 기다려주세요!'
-             })
-         });
-
-         
-        $("#sbtn").click(function () {
-         // 모든 형식이 다 갖춰졌으면 데이터 받아서 버튼 클릭 후 confirm 실행
-
-         Swal.fire({
-         text: "소모임 만들기를 진행하시겠습니까?",
-         icon: 'confirm',
-         showCancelButton: true,
-         confirmButtonColor: '#de5f47',
-         cancelButtonColor: '#de5f47',
-         confirmButtonText: '확인',
-         cancelButtonText: '취소',
-         reverseButtons: false, // 버튼 순서 거꾸로
-      
-         }).then((result) => {
-         if (result.isConfirmed) {
-         Swal.fire(
-          '소모임 생성이 완료되었습니다.',
-          'Welcome to Mukjo',
-          'success'
-        )  
-        location.href="./main.do"; 
-         }
-      
-         }) 
-    
-         });
-        </script>
 
         <!-- 테이블 목록이 있는 섹션입니다 -->
         <section id="tblSec">
@@ -707,41 +641,41 @@ footer{
                     <span class="off">&nbsp;&nbsp;<a href="#">&gt;</a></span>
                     <span class="off">&nbsp;&nbsp;<a href="#">&gt;&gt;</a></span>
                 -->
-<%	
-	if (startBlock==1) { //<<
-		out.println("<span><a>&lt;&lt;</a>&nbsp;&nbsp;</span>");
-	} else {
-		out.println("<span><a href='main.do?cpage="+(startBlock-blockPerPage)+"'>&lt;&lt;</a>&nbsp;&nbsp;</span>");
-	}
+<%   
+   if (startBlock==1) { //<<
+      out.println("<span><a>&lt;&lt;</a>&nbsp;&nbsp;</span>");
+   } else {
+      out.println("<span><a href='main.do?cpage="+(startBlock-blockPerPage)+"'>&lt;&lt;</a>&nbsp;&nbsp;</span>");
+   }
 
-	if (cpage==1) { //<
-		out.println("<span><a>&lt;</a>&nbsp;&nbsp;</span>");
-	} else {
-		out.println("<span><a href='main.do?cpage="+(cpage-1)+"'>&lt;</a>&nbsp;&nbsp;</span>");
-	}
-	
-	out.println("<ul>");
-	for (int i=startBlock;i<=endBlock;i++) {
-		if (cpage==i) {
-			out.println("<li class='active'><a>"+i+"</a></li>");
-		} else {
-			out.println("<li><a href='main.do?cpage="+i+"'>"+i+"</a></span>");
-		}
-	}
-	
-	out.println("</ul>");
-	
-	if (cpage==totalPage) { //>
-		out.println("<span>&nbsp;&nbsp;<a>&gt;</a></span>");
-	} else {
-		out.println("<span>&nbsp;&nbsp;<a href='main.do?cpage="+(cpage+1)+"'>&gt;</a></span>");
-	}
-	
-	if (endBlock==totalPage) { //>>
-		out.println("<span>&nbsp;&nbsp;<a>&gt;&gt;</a></span>");
-	} else {
-		out.println("<span>&nbsp;&nbsp;<a href='main.do?cpage="+(startBlock+blockPerPage)+"'>&gt;&gt;</a></span>");
-	}
+   if (cpage==1) { //<
+      out.println("<span><a>&lt;</a>&nbsp;&nbsp;</span>");
+   } else {
+      out.println("<span><a href='main.do?cpage="+(cpage-1)+"'>&lt;</a>&nbsp;&nbsp;</span>");
+   }
+   
+   out.println("<ul>");
+   for (int i=startBlock;i<=endBlock;i++) {
+      if (cpage==i) {
+         out.println("<li class='active'><a>"+i+"</a></li>");
+      } else {
+         out.println("<li><a href='main.do?cpage="+i+"'>"+i+"</a></span>");
+      }
+   }
+   
+   out.println("</ul>");
+   
+   if (cpage==totalPage) { //>
+      out.println("<span>&nbsp;&nbsp;<a>&gt;</a></span>");
+   } else {
+      out.println("<span>&nbsp;&nbsp;<a href='main.do?cpage="+(cpage+1)+"'>&gt;</a></span>");
+   }
+   
+   if (endBlock==totalPage) { //>>
+      out.println("<span>&nbsp;&nbsp;<a>&gt;&gt;</a></span>");
+   } else {
+      out.println("<span>&nbsp;&nbsp;<a href='main.do?cpage="+(startBlock+blockPerPage)+"'>&gt;&gt;</a></span>");
+   }
 %>                         
                     
                 </div><!-- board_pagetab -->
@@ -762,4 +696,7 @@ footer{
     -->
 
 </body>
+<script>
+    	
+    </script>
 </html>

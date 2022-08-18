@@ -26,8 +26,7 @@ insert into member values (0, 'dahahmlee@gmail.com', 'qwer1234!', '관리자', '
 create table team (
 tseq int not null primary key auto_increment,
 tname varchar(12) not null,
-seq int not null,
-memcount int not null
+seq int not null
 );
 
 alter table team add constraint unique (tname);
@@ -76,14 +75,6 @@ star decimal(3,2) not null,
 rdate datetime not null
 );
 
-create table reviewcmt (
-rcseq int not null primary key auto_increment,
-rseq int not null,
-seq int not null,
-rccontent varchar(200) not null,
-rcdate datetime not null
-);
-
 alter table favorite add constraint foreign key (seq) references member (seq);
 alter table teammember add constraint foreign key (seq) references member (seq);
 alter table teammember add constraint foreign key (tseq) references team (tseq);
@@ -91,8 +82,6 @@ alter table team add constraint foreign key (seq) references member (seq);
 alter table boardcmt add constraint foreign key (seq) references member (seq);
 alter table board add constraint foreign key (tseq) references team (tseq);
 alter table board add constraint foreign key (seq) references member (seq);
-alter table reviewcmt add constraint foreign key (seq) references member (seq);
-alter table reviewcmt add constraint foreign key (rseq) references review (rseq);
 alter table review add constraint foreign key (seq) references member (seq);
 alter table review add constraint foreign key (tseq) references team (tseq);
 

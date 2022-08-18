@@ -24,9 +24,19 @@ public class CommentDAO {
 	
 	public ArrayList<CommentTO> commentView(String bseq) {
 		
-		String sql = "select cseq, member.name as writer, bseq,ccontent,cdate from boardcmt inner join member on boardcmt.seq = member.seq where bseq = ? ";
+		String sql = "select cseq,boardcmt.seq, member.name as writer, bseq,ccontent,cdate from boardcmt inner join member on boardcmt.seq = member.seq where bseq = ? order by cseq desc ";
 		ArrayList<CommentTO> commentLists = (ArrayList)jdbcTemplate.query(sql, new BeanPropertyRowMapper<CommentTO>(CommentTO.class),bseq);
 		
 		return commentLists;
+	}
+	
+	public int commentDelete(CommentTO cto) {
+
+		String sql = "delete from boardcmt where cseq=?";		
+		
+		int flag = jdbcTemplate.update(sql, cto.getCseq());
+
+		
+		return flag;
 	}
 }

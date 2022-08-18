@@ -4,6 +4,9 @@
 <%@page import="ch.qos.logback.core.recovery.ResilientSyslogOutputStream"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
     
     <%
    String log = "LOGIN";
@@ -33,31 +36,82 @@
    StringBuilder sbHtml = new StringBuilder();
    
    if (filename!=null) {
-	     // 이미지 크기 조정 여기서 하기 width: 500px;
-	      sbHtml.append("<img style='width: 500px;' src='../../upload/"+filename+"'/><br />");
-	      
-	   }
-	   sbHtml.append("<div>");
-	   sbHtml.append("<p style='font-size:15px; color:black; word-break: break-all; '>");
-	   sbHtml.append(content);
-	   sbHtml.append("</p>");
-	   sbHtml.append("</div>");
-	   
-	   
-	   String tseq = request.getParameter("tseq");
-	   String bseq = request.getParameter("bseq");
-	   String cpage = request.getParameter("cpage");
-	   
-	   ArrayList<CommentTO> commentLists = (ArrayList)request.getAttribute("commentLists");
+        // 이미지 크기 조정 여기서 하기 width: 500px;
+         sbHtml.append("<img style='width: 500px;' src='../../upload/"+filename+"'/><br />");
+         
+      }
+      sbHtml.append("<div>");
+      sbHtml.append("<p style='font-size:15px; color:black; word-break: break-all; '>");
+      sbHtml.append(content);
+      sbHtml.append("</p>");
+      sbHtml.append("</div>");
+      
+      
+      String tseq = request.getParameter("tseq");
+      String bseq = request.getParameter("bseq");
+      String cpage = request.getParameter("cpage");
+      
+      ArrayList<CommentTO> commentLists = (ArrayList)request.getAttribute("commentLists");
 
-		StringBuilder commentSb = new StringBuilder();
-	   for (CommentTO cto : commentLists) {
-		   commentSb.append("<tr>");
-		   commentSb.append("<td class='nick' style='padding-left: 10px; width: 114px; color:blue'>"+cto.getWriter()+"</td>");
-		   commentSb.append("<td class='comment'>"+cto.getCContent()+"</td>");
-		   commentSb.append("<td class='data' style='padding-left: 400px;'>"+cto.getCDate()+"&nbsp;&nbsp;&nbsp;X</td>");
-		   
-	   }
+      StringBuilder commentSb = new StringBuilder();
+      for (CommentTO cto : commentLists) {
+    	  
+    	 if(loginedMemberSeq.equals(cto.getSeq())) {
+         commentSb.append("<tr>");
+         commentSb.append("<td class='nick' style='padding-left: 10px; width: 114px; color:blue'>"+cto.getWriter()+"</td>");
+         commentSb.append("<td class='comment'>"+cto.getCContent()+"</td>");
+         commentSb.append("<td class='data' style='padding-left: 400px;'>"+cto.getCDate()+"&nbsp;&nbsp;&nbsp;<a href='./somoimcmt_deleteok.do?tseq="+tseq+"&bseq="+bseq+"&cseq="+cto.getCseq()+"'>X</a></td>");
+         commentSb.append("</tr>");
+    	 } else {
+             commentSb.append("<tr>");
+             commentSb.append("<td class='nick' style='padding-left: 10px; width: 114px; color:blue'>"+cto.getWriter()+"</td>");
+             commentSb.append("<td class='comment'>"+cto.getCContent()+"</td>");
+             commentSb.append("<td class='data' style='padding-left: 400px;'>"+cto.getCDate()+"&nbsp;&nbsp;&nbsp;</td>");
+             commentSb.append("</tr>");
+    	 }
+      }
+      
+      
+      StringBuilder mdBtn = new StringBuilder();
+      if( loginedMemberSeq.equals(seq)||loginedMemberSeq.equals("1")) {
+         
+/*             <input type='button' value='수정' class='btn_list btn_txt02' style='cursor: pointer;'
+                onclick="location.href='somoimboard_modify.do'" /> 
+          
+             <input type='button' id='deletebtn' value='삭제' class='btn_list btn_txt02' style='cursor: pointer;' 
+                onclick="" />    */
+         
+
+
+                
+                																											
+			mdBtn.append("<input type='button' id='modifyBtn' value='수정' class='btn_list btn_txt02' style='cursor: pointer;' onclick=\"location.href='somoimboard_modify.do?tseq="+tseq+"&bseq="+bseq+"&cpage="+cpage+"'\"   />");
+			mdBtn.append("\n");
+			mdBtn.append("<input type='button' id='deleteBtn' value='삭제' class='btn_list btn_txt02' style='cursor: pointer;'/>");	
+			mdBtn.append("<script>");
+			mdBtn.append("$().ready(function () {");
+			mdBtn.append("document.getElementById('deleteBtn').onclick = function() {"); 
+			mdBtn.append("	Swal.fire({");
+			mdBtn.append("		title: '삭제 확인',");
+			mdBtn.append("		text: '이 글을 삭제하시겠습니까?',");
+			mdBtn.append("		icon: 'warning',");
+			mdBtn.append("		showCancelButton: true,");
+			mdBtn.append("		confirmButtonColor: '#3085d6',");
+			mdBtn.append("		cancelButtonColor: '#d33',");
+			mdBtn.append("		confirmButtonText: '확인',");
+			mdBtn.append("		cancelButtonText: '취소',");
+			mdBtn.append("		reverseButtons: false,");
+			mdBtn.append("	}).then((result) => {");
+			mdBtn.append("		if (result.isConfirmed) {");
+			mdBtn.append("			location.href='./somoimboard_deleteok.do?tseq="+tseq+"&bseq="+bseq+"&cpage="+cpage+"';");
+			mdBtn.append("		} else {");
+
+			mdBtn.append("		}");
+			mdBtn.append("	})");
+			mdBtn.append("}");
+			mdBtn.append("})");
+			mdBtn.append("</script>");
+      }
 
    %>
 <!DOCTYPE html>
@@ -72,6 +126,11 @@
 <link
    href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css"
    rel="stylesheet">
+<!-- Bootstrap (for modal) -->
+	
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
 <style>
 /** common **/
 body, ul, li, h1, h2, h3 {
@@ -129,6 +188,7 @@ a:active {
 
 img {
    width: 100%;
+   padding-bottom: 5px;
 }
 
 table {
@@ -159,8 +219,6 @@ button {
    border-radius: 4px;
    display: inline-block;
    width: auto;
-   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px
-      rgba(0, 0, 0, 0.06);
    cursor: pointer;
    transition: 0.5s;
 }
@@ -182,7 +240,7 @@ nav {
 
 #header {
    border-bottom: #c7bebe 1px solid;
-   z-index: 1;
+   z-index: 1050;
 }
 
 #header ul {
@@ -191,7 +249,7 @@ nav {
 }
 
 #header ul li {
-   margin-left: 73px;
+   margin-left: 65px;
 }
 
 #header ul li b {
@@ -210,7 +268,7 @@ nav {
 }
 
 #bell {
-   width: 5%;
+   width: 60px;
    display: flex;
    align-items: center;
    color: red;
@@ -227,6 +285,7 @@ nav {
 }
 
 #headerWap h3 {
+   font-weight: bold;
    font-size: 15px;
    justify-content: left;
    position: absolute;
@@ -273,7 +332,6 @@ nav {
 
 #locationSec {
    background-color: #f7f7fd;
-   padding-left: 10%;
 }
 
 #locationSec button {
@@ -293,7 +351,7 @@ nav {
 
 #locationwrap button {
    font-family: 'NanumSquareBold';
-   margin-right :16%;
+ 
 }
 
 .allbtn {
@@ -357,7 +415,7 @@ nav {
    color: #000;
    font-size: 16px;
    box-sizing: border-box;
-   margin-left: 5px;
+   margin-left: 20px;
 }
 
 /* width : 30, height : 45 */
@@ -446,11 +504,13 @@ footer {
 }
 
 .board_view td {
+
+   font-family: 'NanumSquareBold';
    height: 25px;
-   text-align: left;
-   padding: 8px;
-   border-bottom: 1px solid #dadada;
-   color: #797979;
+    text-align: left;
+    padding: 8px;
+    border-bottom: 1px solid #dadada;
+    color: black;
 }
 
 .board_view_input {
@@ -485,6 +545,7 @@ footer {
    background: #5c3018;
    border: 1px solid #404144;
    padding: 6px 17px 7px 17px;
+   transition: 0.5s;
 }
 
 .btn_list {
@@ -492,6 +553,7 @@ footer {
    background: #5c3018;
    border: 1px solid #404144;
    padding: 6px 17px 7px 17px;
+   transition: 0.5s;
 }
 
 .btn_list2 {
@@ -584,43 +646,90 @@ textarea {
    vertical-align: top;
    border-right: none;
    border-left: none;
-    padding: 10px 0;
-   
-   
-   
+    padding: 10px 0; 
+}
+
+.modal-dialog {
+    position: fixed;
+    margin: auto;
+    width: 320px;
+    height: 100%;
+    right: 0px;
+}
+.modal-content {
+	border: 1px solid black;
+    height: 100%;
+}
+#noticelogo {
+	width: 25%;
+}
+
+.modal-body span {
+	float: right;
+	margin-right: 15px;
+	font-color: black;
+	font-size: 15px;
+}
+
+#somoimp {
+	font-size: 15px;
+	color: black;
 }
 </style>
 
 </head>
 <body>
    <nav id="header">
-      <div id="headerWap">
-         <h1 id="logoSec">
-            <a href="main.do"><img src="images/logo.png" alt="logo"></a>
-         </h1>
-         <h3><%=welcome%><a href="logoutok.do" id="logout"
-               style="color: gray"> <br /><%=log%>
-            </a>
-         </h3>
+      <div class="headermake" style="width:100%; background-color: #fff;">
+        <div id="headerWap">
+            <h1 id="logoSec">
+                <a href="main.do"><img src="images/logo.png" alt="logo"></a>
+            </h1>
+            <h3><%=welcome %><a href="logoutok.do" id="logout" style="color : gray"><br/><%=log %></a></h3>
+            <ul>
+                <li><b><a href="myPage.do">마이페이지</a></b></li>
+                <li><b><a href="boss.do">소모임장페이지</a></b></li>
+                <li><b><a href="admin.do">관리자페이지</b></li></a>
+                <li><b><a href="favorite.do">즐겨찾기</b></li></a>
+                <li id="bell" style="margin-left: 20px;">
+                	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+						<img src="images/bell.png">
+					</button>1
+				</li>
+            </ul>
+          </div>
+        </div> <!--headerWap-->
+      <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="exampleModalLabel"><b>알림</b></h4>
+          <span id="noticelogo"><img src="images/logo.png"></span>
+        </div>
 
-         <ul>
-            <li><b><a href="#">마이페이지</a></b></li>
-            <li><b><a href="#">소모임장페이지</a></b></li>
-            <li><b><a href="admin.do">관리자페이지</a></b></li>
-            <li><b><a href="favorite.do">즐겨찾기</a></b></li>
-            <li id="bell"><a href="#"><b><img src="images/bell.png"></a></b>1</li>
+        <div class="modal-body">
+          <p id="somoimp">[맥크리] 소모임 가입 승인이 완료되었습니다.
+          	<span>2022.07.13</span>
+          </p>
+          <hr />
+        </div>
 
-         </ul>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><b>읽음</b></button>
+          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><b>닫기</b></button>
+        </div>
       </div>
-      <!--headerWap-->
+    </div>
+  </div>
 
       <!--locationSec -->
       <section id="locationSec">
          <div id="locationwrap">
-            <button class="active"><a href="#" style="color : #de5f47">게시판</a></button>
-            <button class="allbtn"><a href="#">식당검색</a></button>
-            <button class="allbtn"><a href="#">소모임 회원 목록</a></button>
-            <button class="allbtn"><a href="#">소모임 탈퇴</a></button>
+            <button class="active"><a href="somoimboard.do?tseq=<%=tseq %>" style="color : #de5f47">게시판</a></button>
+            <button class="allbtn"><a href="somoimboard_search.do?tseq=<%=tseq %>'">식당검색</a></button>
+            <button class="allbtn"><a href="somoimboard_memberlist.do?tseq=<%=tseq %>'">소모임 회원 목록</a></button>
+            <button class="allbtn"><a href="somoimboard_memberexit.do?tseq=<%=tseq %>'">소모임 탈퇴</a></button>
          </div>
       </section>
    </nav>
@@ -644,7 +753,7 @@ textarea {
                      <th>조회수</th>
                      <td><%=hit %></td>
                   </tr>
-					<tr>
+               <tr>
                      <td colspan="4" height="100" valign="top"
                         style="padding: 10px; line-height: 150% overflow: auto;">
                         <div class="img_size">
@@ -732,36 +841,36 @@ textarea {
             <div class="btn_area" >
                <div class="align_left">
                   <input type="button" value="목록" class="btn_list btn_txt02"
-                     style="cursor: pointer; " onclick="location.href='somoimboard.do?tseq=<%=tseq %>'" />
+                     style="cursor: pointer; " onclick="location.href='somoimboard.do?tseq=<%=tseq %>&cpage=<%=cpage %>'" />
                </div>
                
                <div class="align_right">
-                   <input type='button' value='수정' class='btn_list btn_txt02' style='cursor: pointer;'
-                  onclick="location.href='somoimboard_modify.do'" /> 
-                     
-                  <input type='button' id='deletebtn' value='삭제' class='btn_list btn_txt02' style='cursor: pointer;' 
-                  onclick="" /> 
+               <%=mdBtn %>
+               
+
                      
                   <input type="button" value="글 쓰기" class="btn_write btn_txt01" style="cursor: pointer;"
-                  onclick="location.href='somoimboard_write.do?tseq=<%=tseq %>&bseq=<%=bseq %>&cpage=<%=cpage %>'" />
+                     onclick="location.href='somoimboard_write.do?tseq=<%=tseq %>&bseq=<%=bseq %>&cpage=<%=cpage %>'" />
                </div>
             </div>
             <!--//게시판-->
          </div>
       </div>
    </div>
-   	<script type="text/javascript">
-	window.onload = function() {
-		document.getElementById( 'cbtn' ).onclick = function() {
+      <script type="text/javascript">
+   window.onload = function() {
+      document.getElementById( 'cbtn' ).onclick = function() {
 
-			if( document.cfrm.cContent.value.trim() == "" ) {
-				alert( '내용을 입력하셔야 합니다.' );
-				return false;
-			}
-			
-			document.cfrm.submit();
-		};
-	};
+         if( document.cfrm.cContent.value.trim() == "" ) {
+            alert( '내용을 입력하셔야 합니다.' );
+            return false;
+         }
+         
+         document.cfrm.submit();
+      };
+      
+
+   };
 
 </script>
 </body>

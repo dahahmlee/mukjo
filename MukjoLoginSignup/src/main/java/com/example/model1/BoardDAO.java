@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -18,14 +19,17 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class BoardDAO {
 	
-	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
 	@Autowired
 	private DataSource dataSource;
+
+
 	private String uploadPath="C:/github/MukjoLoginSignup/src/main/webapp/upload";
 	
+	//private String uploadPath="C:\\Users\\JungGyuJin\\Desktop\\mukjo_project\\git\\mukjo\\MukjoLoginSignup\\src\\main\\webapp\\upload";
+
 	public TeamTO teamName(String tseq) {
 		TeamTO tto = new TeamTO();
 		String sql = "select tname from team where tseq = ?";
@@ -46,24 +50,41 @@ public class BoardDAO {
 		return tto;
 	}
 	
+	//소모임 게시판 속 공지
 	public ArrayList<BoardTO> noticeList() {
 		
-		String sql = "select subject, member.name as writer, date_format(wdate, '%Y-%m-%d') wdate, hit from board inner join member on board.seq = member.seq where tseq = 1 order by bseq desc";
+		String sql = "select bseq, subject, member.name as writer, date_format(wdate, '%Y-%m-%d') wdate, hit from board inner join member on board.seq = member.seq where tseq = 1 order by bseq desc limit 0,20";
 		ArrayList<BoardTO> noticeLists = (ArrayList)jdbcTemplate.query(sql, new BeanPropertyRowMapper<BoardTO>(BoardTO.class));
 		
 		return noticeLists;
 	}
 	
+	//소모임 게시판 속 공지 + 검색
+	public ArrayList<BoardTO> noticeListSearch(String which, String search) {
+		ArrayList<BoardTO> noticeLists = new ArrayList<BoardTO>();
+		String sql = "";
+		if (which.equals("subject")) {
+			sql = "select bseq, subject, member.name as writer, date_format(wdate, '%Y-%m-%d') wdate, hit from board inner join member on board.seq = member.seq where tseq = 1 and subject like '%"+search+"%' order by bseq desc limit 0,20";
+			noticeLists = (ArrayList)jdbcTemplate.query(sql, new BeanPropertyRowMapper<BoardTO>(BoardTO.class));
+		} else if (which.equals("content")) {
+			sql = "select bseq, subject, member.name as writer, date_format(wdate, '%Y-%m-%d') wdate, hit from board inner join member on board.seq = member.seq where tseq = 1 and content like '%"+search+"%' order by bseq desc limit 0,20";
+			noticeLists = (ArrayList)jdbcTemplate.query(sql, new BeanPropertyRowMapper<BoardTO>(BoardTO.class));
+		} else if (which.equals("writer")) {
+			sql = "select bseq, subject, member.name as writer, date_format(wdate, '%Y-%m-%d') wdate, hit from board inner join member on board.seq = member.seq where tseq = 1 and member.name like '%"+search+"%' order by bseq desc limit 0,20";
+			noticeLists = (ArrayList)jdbcTemplate.query(sql, new BeanPropertyRowMapper<BoardTO>(BoardTO.class));
+		}
+		noticeLists = (ArrayList)jdbcTemplate.query(sql, new BeanPropertyRowMapper<BoardTO>(BoardTO.class));
+		
+		return noticeLists;
+	}
+	
+	//somoimboard.do - 소모임 게시판
 	public BoardListTO boardList(BoardListTO listTO) {
 		
 		ArrayList<BoardTO> noticeLists = this.noticeList();
 		
 		int cpage = listTO.getCpage();
 		int recordPerPage = listTO.getRecordPerPage();
-		
-		recordPerPage = listTO.getRecordPerPage();
-		
-		
 		int blockPerPage = listTO.getBlockPerPage();
 		
 		int skip = (cpage -1)* recordPerPage;
@@ -71,15 +92,14 @@ public class BoardDAO {
 			
 			ArrayList<BoardTO> lists = new ArrayList<BoardTO>();
 			if (cpage == 1) {
-			sql = "select bseq,tseq, member.name as writer, subject, date_format(wdate, '%Y-%m-%d') wdate, hit from board inner join member on board.seq = member.seq where tseq = ? order by bseq desc limit ?,?";
-			lists = (ArrayList)jdbcTemplate.query(sql, new BeanPropertyRowMapper<BoardTO>(BoardTO.class),listTO.getTseq(),skip,recordPerPage - noticeLists.size());
+				sql = "select bseq,tseq, member.name as writer, subject, date_format(wdate, '%Y-%m-%d') wdate, hit from board inner join member on board.seq = member.seq where tseq = ? order by bseq desc limit ?,?";
+				lists = (ArrayList)jdbcTemplate.query(sql, new BeanPropertyRowMapper<BoardTO>(BoardTO.class),listTO.getTseq(),skip,recordPerPage - noticeLists.size());
 			} else {
 				sql = "select bseq,tseq, member.name as writer, subject, date_format(wdate, '%Y-%m-%d') wdate, hit from board inner join member on board.seq = member.seq where tseq = ? order by bseq desc limit ?,?";
-			lists = (ArrayList)jdbcTemplate.query(sql, new BeanPropertyRowMapper<BoardTO>(BoardTO.class),listTO.getTseq(),skip,recordPerPage);	
-				
+				lists = (ArrayList)jdbcTemplate.query(sql, new BeanPropertyRowMapper<BoardTO>(BoardTO.class),listTO.getTseq(),skip,recordPerPage);		
 			}
 			
-			sql = "select count(*) from board inner join member on board.seq = member.seq where tseq=?";
+			sql = "select count(*) from board inner join member on board.seq = member.seq where tseq = ?";
 			
 			int totalRecord = jdbcTemplate.queryForObject(sql,int.class,listTO.getTseq());
 
@@ -101,6 +121,67 @@ public class BoardDAO {
 		return listTO;
 
 	}
+	
+	//somoimboard.do - 소모임 게시판 검색
+	public BoardListTO boardListSearch(BoardListTO listTO, String which, String search) {
+		
+		ArrayList<BoardTO> noticeLists = this.noticeListSearch(which, search);
+		
+		int cpage = listTO.getCpage();
+		int recordPerPage = listTO.getRecordPerPage();
+		int blockPerPage = listTO.getBlockPerPage();
+		
+		int skip = (cpage -1)* recordPerPage;
+			String sql = "";
+			
+			ArrayList<BoardTO> lists = new ArrayList<BoardTO>();
+			if (cpage == 1) {
+				if (which.equals("subject")) {
+					sql = "select bseq,tseq, member.name as writer, subject, date_format(wdate, '%Y-%m-%d') wdate, hit from board inner join member on board.seq = member.seq where tseq = ? and subject like '%"+search+"%' order by bseq desc limit ?,?";
+					lists = (ArrayList)jdbcTemplate.query(sql, new BeanPropertyRowMapper<BoardTO>(BoardTO.class),listTO.getTseq(),skip,recordPerPage - noticeLists.size());
+				} else if (which.equals("content")) {
+					sql = "select bseq,tseq, member.name as writer, subject, date_format(wdate, '%Y-%m-%d') wdate, hit from board inner join member on board.seq = member.seq where tseq = ? and content like '%"+search+"%' order by bseq desc limit ?,?";
+					lists = (ArrayList)jdbcTemplate.query(sql, new BeanPropertyRowMapper<BoardTO>(BoardTO.class),listTO.getTseq(),skip,recordPerPage - noticeLists.size());
+				} else if (which.equals("writer")) {
+					sql = "select bseq,tseq, member.name as writer, subject, date_format(wdate, '%Y-%m-%d') wdate, hit from board inner join member on board.seq = member.seq where tseq = ? and member.name like '%"+search+"%' order by bseq desc limit ?,?";
+					lists = (ArrayList)jdbcTemplate.query(sql, new BeanPropertyRowMapper<BoardTO>(BoardTO.class),listTO.getTseq(),skip,recordPerPage - noticeLists.size());
+				}
+			} else {
+				if (which.equals("subject")) {
+					sql = "select bseq,tseq, member.name as writer, subject, date_format(wdate, '%Y-%m-%d') wdate, hit from board inner join member on board.seq = member.seq where tseq = ? and subject like '%"+search+"%' order by bseq desc limit ?,?";
+					lists = (ArrayList)jdbcTemplate.query(sql, new BeanPropertyRowMapper<BoardTO>(BoardTO.class),listTO.getTseq(),skip,recordPerPage);	
+				} else if (which.equals("content")) {
+					sql = "select bseq,tseq, member.name as writer, subject, date_format(wdate, '%Y-%m-%d') wdate, hit from board inner join member on board.seq = member.seq where tseq = ? and content like '%"+search+"%' order by bseq desc limit ?,?";
+					lists = (ArrayList)jdbcTemplate.query(sql, new BeanPropertyRowMapper<BoardTO>(BoardTO.class),listTO.getTseq(),skip,recordPerPage);	
+				} else if (which.equals("writer")) {
+					sql = "select bseq,tseq, member.name as writer, subject, date_format(wdate, '%Y-%m-%d') wdate, hit from board inner join member on board.seq = member.seq where tseq = ? and writer like '%"+search+"%' order by bseq desc limit ?,?";
+					lists = (ArrayList)jdbcTemplate.query(sql, new BeanPropertyRowMapper<BoardTO>(BoardTO.class),listTO.getTseq(),skip,recordPerPage);	
+				}	
+			}
+			
+			sql = "select count(*) from board inner join member on board.seq = member.seq where tseq = ? and subject like '%"+search+"%'";
+			
+			int totalRecord = jdbcTemplate.queryForObject(sql,int.class,listTO.getTseq());
+
+			listTO.setTotalRecord( totalRecord );
+
+			
+			listTO.setTotalPage( ( ( listTO.getTotalRecord() -1 ) / recordPerPage ) + 1 );
+
+			
+			listTO.setBoardLists( lists );
+			
+			listTO.setStartBlock( ( ( cpage -1 ) / blockPerPage ) * blockPerPage + 1 );
+			listTO.setEndBlock( ( ( cpage -1 ) / blockPerPage ) * blockPerPage + blockPerPage );
+			if( listTO.getEndBlock() >= listTO.getTotalPage() ) {
+				listTO.setEndBlock( listTO.getTotalPage() );
+			}
+
+		
+		return listTO;
+
+	}
+		
 	
 	public int boardWriteOk(BoardTO bto) {	
 
@@ -149,7 +230,101 @@ public class BoardDAO {
 				return to;
 		}
 	
-	// Board Insert sql :  insert into board values  ( 0, 2, 3, 'test', 'test content' ,'','',now(),0 );
+	public int boardDeleteOk(BoardTO to) {
+
+		
+		int flag = 2;
+
+		String sql = "select filename from board where bseq=?";
+		String filename = jdbcTemplate.queryForObject(sql, String.class,to.getBseq());
+		
+		sql = "delete from board where bseq=?";
+		flag = jdbcTemplate.update(sql,to.getBseq());
+
+		
+		if( flag == 0 ) {
+
+		} else if( flag == 1 ) {
+
+			if( filename != null ) {
+				File file = new File( uploadPath, filename );
+				file.delete();
+			}
+			sql = "delete from boardcmt where bseq = ?";
+			jdbcTemplate.update(sql,to.getBseq());
+		}
+		
+		return flag;
+
+			
+	}
+	
+	public BoardTO boardModify(BoardTO bto) {
+
+
+		
+		String sql = "select bseq ,tseq, subject, content, filename from board where bseq=?";
+		bto = jdbcTemplate.queryForObject(sql,new RowMapper<BoardTO>()  {
+			
+					@Override
+					public BoardTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+						BoardTO bto2 = new BoardTO();
+						bto2.setBseq(rs.getString("bseq"));
+						bto2.setTseq(rs.getString("tseq"));
+						bto2.setSubject(rs.getString("subject"));
+						bto2.setContent(rs.getString("content") == null ? "" : rs.getString("content").replaceAll("\n","</br>"));
+						bto2.setFilename(rs.getString("filename"));
+
+
+						return bto2;
+
+					} },bto.getBseq());		
+			
+
+		
+				return bto;
+		}
+	
+	public int boardModifyOk(BoardTO to) {
+
+		
+		int flag = 2;
+			
+			String sql = "select filename from board where bseq=?";
+
+			String oldFilename = jdbcTemplate.queryForObject(sql,String.class,to.getBseq());
+
+
+			
+			if( to.getFilename() != null ) {
+				sql = "update board set subject=?, content=?, filename=?, filesize=? where bseq=?";
+				flag = jdbcTemplate.update(sql,to.getSubject(),to.getContent(),to.getFilename(),to.getFilesize(),to.getBseq());
+			} else {
+				sql = "update board set subject=?, content=? where bseq=?";
+				flag = jdbcTemplate.update(sql,to.getSubject(),to.getContent(),to.getBseq());
+
+			}
+			
+			System.out.println("dao : " + flag);
+				
+			if( flag == 0 ) {
+
+				if( to.getFilename() != null ) {
+					File file = new File( uploadPath, to.getFilename() );
+					file.delete();
+				}
+			} else if( flag == 1 ) {
+
+				if( to.getFilename() != null && oldFilename != null ) {
+					File file = new File( uploadPath, oldFilename );
+					file.delete();
+				}
+			}
+
+		return flag;
+	}
+	
+
 	
 	//관리자페이지 - 공지 - 페이징
 	public BoardListTO noticeList(BoardListTO boardListTO) {

@@ -49,7 +49,7 @@
       String wdate = "";
       String hit = "";
       String tseq = (String)request.getAttribute("tseq");
-	  String tname = (String)request.getAttribute("tname");
+      String tname = (String)request.getAttribute("tname");
       
       
       for( int i = 0 ; i < boardLists.size(); i++ ) {
@@ -103,7 +103,7 @@
       noticeSb.append("<tr class='notice'>");
       noticeSb.append("      <td><a href='#'>공지</a></td>");
       noticeSb.append("      <td><a href='#'>"+ writer+"</a></td>");
-      noticeSb.append("      <td><a href='#'>"+ subject+"</a></td>");
+      noticeSb.append("      <td><a href='somoimboard_nview.do?tseq="+tseq+"&bseq="+bseq+"&cpage="+cpage+"'>"+ subject+"</a></td>");
       noticeSb.append("      <td><a href='#'>"+ wdate+"</a></td>");
       noticeSb.append("      <td><a href='#'>"+ hit+"</a></td>");
       noticeSb.append("</tr>");
@@ -120,7 +120,11 @@
     <style href="css/common.css"></style>
     <!-- 나눔스퀘어 폰트 -->
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet">
-
+	
+	<!-- Bootstrap (for modal) -->
+	
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
 <style>
 /** common **/
@@ -162,6 +166,7 @@ a:link {  color : black; text-decoration: none }
 
 img{
     width: 100%;
+    padding-bottom: 5px;
 }
 
 table{
@@ -198,8 +203,6 @@ button {
   display: inline-block;
   width: auto;
   
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  
   cursor: pointer;
   
   transition: 0.5s;
@@ -210,6 +213,11 @@ button {
    background: #5c3018;
    border: 1px solid #404144;
    padding: 6px 17px 7px 17px;
+   transition: 0.5s;
+}
+
+.btn_list:hover {
+	background-color: #5c3018;
 }
 
 .btn_txt02 {
@@ -238,7 +246,7 @@ nav{
 
 #header{
     border-bottom: #c7bebe 1px solid;
-    z-index: 1;
+    z-index: 1050;
 }
 
 #header ul{
@@ -247,7 +255,7 @@ nav{
 }
 
 #header ul li{
-    margin-left: 73px;
+    margin-left: 65px;
 }
 
 #header ul li b{
@@ -259,6 +267,7 @@ nav{
 }
 
 #logout{
+	font-weight: bold;
     color : grey;
     width:10%;
     text-decoration: underline;
@@ -266,14 +275,11 @@ nav{
 }
 
 #bell{
-    width: 5%;
+    width: 60px;
     display:flex;
     align-items: center;
     color: red;
 }
-
-
-
 
 #headerWap{
     width:1280px;
@@ -286,10 +292,10 @@ nav{
 }
 
 #headerWap h3 {
-	font-size: 15px;
-	justify-content: left;
-	position: absolute;
-	margin-left: 120px;
+   font-weight: bold;
+   justify-content: left;
+   position: absolute;
+   margin-left: 120px;
    font-size: 15px;
    justify-content: left;
    position: absolute;
@@ -419,7 +425,6 @@ nav{
     width: 90px;
     box-sizing: border-box;
     padding-left: 10px;
-    z-index: 1;
     background: transparent;
 }
 
@@ -506,43 +511,99 @@ footer{
    padding-bottom: 10px;
    border-bottom: 1px solid black;
 }
+.modal-dialog {
+    position: fixed;
+    margin: auto;
+    width: 320px;
+    height: 100%;
+    right: 0px;
+}
+
+.modal-content {
+	border: 1px solid black;
+    height: 100%;
+}
+#noticelogo {
+	width: 25%;
+}
+
+.modal-body span {
+	float: right;
+	margin-right: 15px;
+}
+
 </style>
 
 </head>
 <body>
     <nav id="header">
+        <div class="headermake" style="width:100%; background-color: #fff;">
         <div id="headerWap">
             <h1 id="logoSec">
                 <a href="main.do"><img src="images/logo.png" alt="logo"></a>
             </h1>
-            <h3><%=welcome %><a href="logoutok.do" id="logout" style="color : gray"> <br/><%=log %></a></h3>
-            
+            <h3><%=welcome %><a href="logoutok.do" id="logout" style="color : gray"><br/><%=log %></a></h3>
             <ul>
-                <li><b><a href="./myPage.do">마이페이지</a></b></li>
-                <li><b><a href="#">소모임장페이지</a></b></li>
-                <li><b><a href="./admin.do">관리자페이지</b></li></a>
-                <li><b><a href="./favorite.do">즐겨찾기</b></li></a>
-                <li id="bell"><a href="#"><b><img src="images/bell.png"></a></b>1</li>
-
+                <li><b><a href="myPage.do">마이페이지</a></b></li>
+                <li><b><a href="boss.do">소모임장페이지</a></b></li>
+                <li><b><a href="admin.do">관리자페이지</b></li></a>
+                <li><b><a href="favorite.do">즐겨찾기</b></li></a>
+                <li id="bell" style="margin-left: 20px;">
+                	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+						<img src="images/bell.png">
+					</button>1
+				</li>
             </ul>
+          </div>
         </div> <!--headerWap-->
+        
+        <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="exampleModalLabel"><b>알림</b></h4>
+          <span id="noticelogo"><img src="images/logo.png"></span>
+        </div>
+
+        <div class="modal-body">
+          <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
+          	<span>2022.07.13</span>
+          </p>
+          <hr />
+          <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
+          	<span>2022.07.13</span>
+          </p>
+          <hr />
+          <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
+          	<span>2022.07.13</span>
+          </p>
+          <hr />
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><b>읽음</b></button>
+          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><b>닫기</b></button>
+        </div>
+      </div>
+    </div>
+  </div>
    
    
       <!--locationSec -->
       <section id="locationSec">
         <div id = "locationwrap">
-             <button class="active"><a href="./somoimboard.do" style="color : #de5f47">게시판</a></button>
-             <button class="allbtn"><a href="./somoimboard_search.do">식당검색</a></button>
-             <button class="allbtn"><a href="#">소모임 회원 목록</a></button>
-             <button class="allbtn"><a href="#">소모임 탈퇴</a></button>
+             <button class="active"><a href="./somoimboard.do?tseq=<%=tseq %>" style="color : #de5f47">게시판</a></button>
+             <button class="allbtn"><a href="./somoimboard_search.do?tseq=<%=tseq %>">식당검색</a></button>
+             <button class="allbtn"><a href="./somoimboard_memberlist.do?tseq=<%=tseq %>">소모임 회원 목록</a></button>
+             <button class="allbtn" id="bsbtn"><a href="./somoimboard_memberexit.do?tseq=<%=tseq %>">소모임 탈퇴</a></button>
         </div>
       </section>
     </nav>  
+    
 
     <!-- 전체 요소를 감싸는 div -->
     <div id="wrap">
-
-
         <!-- 게시판 이름이 있는 섹션입니다 -->
         <section id="titSec">
             <strong></strong>
@@ -551,19 +612,21 @@ footer{
         <section id ="btnSec" >
             <strong>소모임 : <b><%=tname %></b></strong>
 
-            <div class="search-wrap">  
+            <div class="search-wrap"> 
+            <form action="./somoimboard.do?tseq=<%=tseq %>" method="post" name="sfrm"> 
                 <div class="select">
-                <select>
-                    <option value="title">제목</option>
-                    <option value="content">내용</option>
-                    <option value="writer">글쓴이</option>
-                </select>    
-            </div><!-- select-->
-            <div class="input">
-                <input type="text" title="검색어 입력">
-                <button type="button">검색</button>
-            </div><!-- input -->
-         </div><!-- search-wrap -->
+	                <select name="which">
+	                    <option value="subject">제목</option>
+	                    <option value="content">내용</option>
+	                    <option value="writer">글쓴이</option>
+	                </select>    
+            	</div><!-- select-->
+	            <div class="input">          
+	            	<input type="text" title="검색어 입력" name="search" value="">
+	            	<button type="submit">검색</button>
+	            </div><!-- input -->
+	        </form>
+         	</div><!-- search-wrap -->
            
         </section>
     
@@ -695,7 +758,8 @@ footer{
                     <span class="off">&nbsp;&nbsp;<a href="#">&gt;</a></span>
                     <span class="off">&nbsp;&nbsp;<a href="#">&gt;&gt;</a></span> -->
                      <div style= "margin-left: 350px;">
-                        <input type="button" value="글쓰기" class="btn_list btn_txt02"   style="cursor: pointer;"
+                        <input type="button" value="글쓰기" class="btn_list btn_txt02"  
+                        style="cursor: pointer; position: absolute; right: -235px;"
                   onclick="location.href='somoimboard_write.do?tseq=<%=tseq %>&cpage=<%=cpage %>'" /> 
                         </div>
                 </div><!-- board_pagetab -->

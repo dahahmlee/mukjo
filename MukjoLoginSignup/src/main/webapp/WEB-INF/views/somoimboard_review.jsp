@@ -16,12 +16,18 @@
        welcome = (String)sess.getAttribute("loginedMemberName")+"님 환영합니다.";
        log = "LOGOUT";
     } else {
-       	out.println ( "<script>");
-   		out.println ( "window.location.href = 'http://localhost:8080/login.do'");
-   		out.println ( "</script>");
+          out.println ( "<script>");
+         out.println ( "window.location.href = 'http://localhost:8080/login.do'");
+         out.println ( "</script>");
     }   
     
+   String tseq=request.getParameter("tseq");
+   String id=request.getParameter("id");
+   String latitude=request.getParameter("latitude");
+   String longitude=request.getParameter("longitude");
+
     %>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -37,7 +43,14 @@
     <!-- 제이쿼리 -->
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/raty/3.1.1/jquery.raty.min.js" integrity="sha512-Isj3SyFm+B8u/cErwzYj2iEgBorGyWqdFVb934Y+jajNg9kiYQQc9pbmiIgq/bDcar9ijmw4W+bd72UK/tzcsA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+	
+	<!-- Bootstrap (for modal) -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+	
+<!-- 지도 -->
+<script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=f8b62z9xjz&amp;submodules=geocoder"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 
 <style>
 /** common **/
@@ -81,6 +94,7 @@ ul{
 
 img{
     width: 100%;
+    padding-bottom: 5px;
 }
 
 table{
@@ -118,8 +132,6 @@ button {
   display: inline-block;
   width: auto;
   
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  
   cursor: pointer;
   
   transition: 0.5s;
@@ -146,7 +158,7 @@ nav{
 
 #header{
     border-bottom: #c7bebe 1px solid;
-    z-index: 1;
+    z-index: 1050;
 }
 
 #header ul{
@@ -155,7 +167,7 @@ nav{
 }
 
 #header ul li{
-    margin-left: 73px;
+    margin-left: 65px;
 }
 
 #header ul li b{
@@ -174,7 +186,7 @@ nav{
 }
 
 #bell{
-    width: 5%;
+    width: 60px;
     display:flex;
     align-items: center;
     color: red;
@@ -194,7 +206,8 @@ nav{
 }
 
 #headerWap h3{
-font-size: 15px;
+    font-weight: bold;
+	font-size: 15px;
     justify-content: left;
     position: absolute;
     margin-left: 120px;
@@ -294,6 +307,10 @@ font-size: 15px;
     overflow-y: auto;
 }
 
+#tabBox th{
+    width : 23%;
+}
+
 .mainmenu{
     border: 1px solid #fff;
     border-radius: 4px;
@@ -302,6 +319,10 @@ font-size: 15px;
     padding: 0 5px 0 5px;
     background: #de5f47;
     color: #ffffff;
+}
+
+.tblmain table th{
+    background-color: #f7f7fd;
 }
 
 
@@ -372,6 +393,9 @@ font-size: 15px;
    font-weight: 600;
 }
 
+ td { word-break: break-all;
+}
+
 /***** footer  *****/
 footer{
     width: 100%;
@@ -380,37 +404,110 @@ footer{
     margin-top: 5%;
 }
 
+.tblmain table td {
+	border: 1px solid black;
+}
+
+.tblmain table th {
+	border: 1px solid black;
+	border-bottom: none;
+}
+
+.tblmain table tr {
+	border: 1px solid black;
+}
+
+.modal-dialog {
+    position: fixed;
+    margin: auto;
+    width: 320px;
+    height: 100%;
+    right: 0px;
+}
+
+.modal-content {
+	border: 1px solid black;
+    height: 100%;
+}
+
+#noticelogo {
+	width: 25%;
+}
+
+.modal-body span {
+	float: right;
+	margin-right: 15px;
+}
+
+
 </style>
 
 </head>
 <body>
     <nav id="header">
+        <div class="headermake" style="width:100%; background-color: #fff;">
         <div id="headerWap">
             <h1 id="logoSec">
                 <a href="main.do"><img src="images/logo.png" alt="logo"></a>
             </h1>
-             <h3 > <%=welcome %> <a href="logoutok.do" id="logout" style="color : gray"> <br/><%=log %>	</a></h3>
-            
+            <h3><%=welcome %><a href="logoutok.do" id="logout" style="color : gray"><br/><%=log %></a></h3>
             <ul>
                 <li><b><a href="myPage.do">마이페이지</a></b></li>
-                <li><b><a href="#">소모임장페이지</a></b></li>
-                 <li><b><a href="admin.do">관리자페이지</b></li></a>
-				<li><b><a href="favorite.do">즐겨찾기</b></li></a>
-                <li id="bell"><a href="#"><b><img src="images/bell.png"></a></b>1</li>
+                <li><b><a href="boss.do">소모임장페이지</a></b></li>
+                <li><b><a href="admin.do">관리자페이지</b></li></a>
+                <li><b><a href="favorite.do">즐겨찾기</b></li></a>
+                <li id="bell" style="margin-left: 20px;">
+                	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+						<img src="images/bell.png">
+					</button>1
+				</li>
             </ul>
+          </div>
         </div> <!--headerWap-->
    
    
-      <!--locationSec -->
+       <!--locationSec -->
       <section id="locationSec">
         <div id = "locationwrap">
-             <button class="active"><a href="./somoimboard.do" >게시판</a></button>
-             <button class="allbtn"><a href="#" style="color : #de5f47">식당검색</a></button>
-             <button class="allbtn"><a href="#">소모임 회원 목록</a></button>
-             <button class="allbtn"><a href="#">소모임 탈퇴</a></button>
+             <button class="active"><a href="./somoimboard.do?tseq=<%=tseq %>">게시판</a></button>
+             <button class="allbtn"><a href="./somoimboard_search.do?tseq=<%=tseq %>" style="color : #de5f47">식당검색</a></button>
+             <button class="allbtn"><a href="./somoimboard_memberlist.do?tseq=<%=tseq %>">소모임 회원 목록</a></button>
+             <button class="allbtn" id="bsbtn"><a href="./somoimboard_memberexit.do?tseq=<%=tseq %>">소모임 탈퇴</a></button>
         </div>
       </section>
     </nav>  
+    
+    <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="exampleModalLabel"><b>알림</b></h4>
+          <span id="noticelogo"><img src="images/logo.png"></span>
+        </div>
+
+        <div class="modal-body">
+          <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
+             <span>2022.07.13</span>
+          </p>
+          <hr />
+          <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
+             <span>2022.07.13</span>
+          </p>
+          <hr />
+          <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
+             <span>2022.07.13</span>
+          </p>
+          <hr />
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><b>읽음</b></button>
+          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><b>닫기</b></button>
+        </div>
+      </div>
+    </div>
+  </div>
 
     <!-- 전체 요소를 감싸는 div -->
     <div id="wrap">
@@ -429,10 +526,10 @@ footer{
                              <thead>
                                <td colspan="4"><a href="#">모리가츠</a></td>
                                   <tr id="tabBox">
-                                    <th scope="col" class="th-title"><a href="./somoimboard_home.do" >홈</a></th>
-                                    <th scope="col" class="th-date"><a href="./somoimboard_review.do" style="color : #de5f47">리뷰</a></th>
-                                    <th scope="col" class="th-num"><a href="./somoimboard_menu.do" >메뉴</a></th>
-                                    <th scope="col" class="th-date"><a href="./somoimboard_picture.do" >사진</a></th>
+                                    <th scope="col" class="th-title"><a href="./somoimboard_home.do?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" >홈</a></th>
+                                    <th scope="col" class="th-date"><a href="./somoimboard_review.do?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" style="color : #de5f47">리뷰</a></th>
+                                    <th scope="col" class="th-num"><a href="./somoimboard_menu.do?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" >메뉴</a></th>
+                                    <th scope="col" class="th-date"><a href="./somoimboard_picture.do?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" >사진</a></th>
                                  
                                 </tr> 
                             </thead>
@@ -444,65 +541,65 @@ footer{
                          <div id="itemBox">
 
                             <div class="cmttable" style="clear: both; margin-bottom: 8px; overflow: hidden; _height: 1%;
-				                                        background: #fff; margin-top:20px; display: table; border-collapse: separate;">
-				<div class="tablewrap" style="display : table-cell;">
-				<table width="100%" cellpadding="0" cellspacing="0" style="table-layout : fixed; text-align: start;  border-collapse: collapse;">
-					<tbody>
-						<tr>
-							<td class="nick"><span><i class="fa fa-star" style="font-size:20px;color:#de5f47"></i>
-                            3.5점</td>
+                                                    background: #fff; margin-top:20px; display: table; border-collapse: separate;">
+            <div class="tablewrap" style="display : table-cell;">
+            <table width="100%" cellpadding="0" cellspacing="0" style="table-layout : fixed; text-align: start;  border-collapse: collapse;">
+               <tbody>
+                  <tr>
+                     <td class="nick"><span><i class="fa fa-star" style="font-size:20px;color:#de5f47"></i>
+                            5점</td>
                             <td>김영규</td>
-							<td class="comment">맛있음 굿굿</td>
-							<td class="data"><a href="#">X</a></td>
-						
-						</tr>
+                     <td class="comment">맛있음 굿굿</td>
+                     <td class="data"><a href="#">X</a></td>
+                  
+                  </tr>
 
-						<tr>
-							<td class="nick"><span><i class="fa fa-star" style="font-size:20px;color:#de5f47"></i>
-                            3.5점</td>
+                  <tr>
+                     <td class="nick"><span><i class="fa fa-star" style="font-size:20px;color:#de5f47"></i>
+                            3점</td>
                             <td>김영규</td>
-							<td class="comment">예전에 가봤는데 별로였음</td>
-							<td class="data" ><a href="#">X</a></td>
-						</tr>
+                     <td class="comment">예전에 가봤는데 별로였음</td>
+                     <td class="data" ><a href="#">X</a></td>
+                  </tr>
 
                         <tr>
-							<td class="nick"><span><i class="fa fa-star" style="font-size:20px;color:#de5f47"></i>
-                            3.5점</td>
+                     <td class="nick"><span><i class="fa fa-star" style="font-size:20px;color:#de5f47"></i>
+                            2점</td>
                             <td>김영규</td>
-							<td class="comment">예전에 가봤는데 별로였음</td>
-							<td class="data" ><a href="#">X</a></td>
-						</tr>
+                     <td class="comment">예전에 가봤는데 별로였음</td>
+                     <td class="data" ><a href="#">X</a></td>
+                  </tr>
 
                         <tr>
-							<td class="nick"><span><i class="fa fa-star" style="font-size:20px;color:#de5f47"></i>
-                            3.5점</td>
+                     <td class="nick"><span><i class="fa fa-star" style="font-size:20px;color:#de5f47"></i>
+                            3점</td>
                             <td>김영규</td>
-							<td class="comment">예전에 가봤는데 별로였음</td>
-							<td class="data" ><a href="#">X</a></td>
-						</tr>
+                     <td class="comment">예전에 가봤는데 별로였음</td>
+                     <td class="data" ><a href="#">X</a></td>
+                  </tr>
 
                         <tr>
-							<td class="nick"><span><i class="fa fa-star" style="font-size:20px;color:#de5f47"></i>
-                            3.5점</td>
+                     <td class="nick"><span><i class="fa fa-star" style="font-size:20px;color:#de5f47"></i>
+                            4점</td>
                             <td>김영규</td>
-							<td class="comment">예전에 가봤는데 별로였음qdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddㅇㅇㅇ</td>
-							<td class="data" ><a href="#">X</a></td>
-						</tr>
+                     <td class="comment">예전에 가봤는데 별로였음qdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddㅇㅇㅇ</td>
+                     <td class="data" ><a href="#">X</a></td>
+                  </tr>
 
 
-					</tbody>
+               </tbody>
 
-				</table>
-				</div>
-			</div><!-- cmttable -->
+            </table>
+            </div>
+         </div><!-- cmttable -->
 
 
 
                             <div class="cmteditor" style="padding: 12px 16px 20px;background: #fcfcfc;border: 1px solid #ddd;
-				                                        border-bottom-color: #ccc; border-radius: 8px; box-shadow: 0 1px 3px -1px rgb(0 0 0 / 10%);">
-				<label for="editorlabel" style="cursor: pointer; position: relative; margin-bottom: 10px;"> 
+                                                    border-bottom-color: #ccc; border-radius: 8px; box-shadow: 0 1px 3px -1px rgb(0 0 0 / 10%);">
+            <label for="editorlabel" style="cursor: pointer; position: relative; margin-bottom: 10px;"> 
                
-					<strong style="padding-left:5px;font-size:16px;line-height:1.5;">리뷰 쓰기
+               <strong style="padding-left:5px;font-size:16px;line-height:1.5;">리뷰 쓰기
                         <div id="star" style="width : 130px; display:flex;">
 
                         </div>
@@ -520,46 +617,55 @@ footer{
                                 });
                             </script></span>
                        </strong>
-				</label>
+            </label>
 
-				<form style="display: block;
-				position: relative;
-				clear: both;">
-				<div class="textcmt" style="display: flex; margin-top: 10px;">
-					<textarea style="background: rgb(255, 255, 255); overflow: hidden; min-height: 4em; resize: none;
-					height: 49px;width: 85%; margin-left: 3px;"></textarea>
+            <form style="display: block;
+            position: relative;
+            clear: both;">
+            <div class="textcmt" style="display: flex; margin-top: 10px;">
+               <textarea style="background: rgb(255, 255, 255); overflow: hidden; min-height: 4em; resize: none;
+               height: 49px;width: 85%; margin-left: 3px;"></textarea>
 
-				<input type="button" value="등록" class="btn_list2 btn_txt03"
-				style="cursor: pointer; margin-left:40px ;" onclick="location.href='#'" />
-				</div>
+            <input type="button" value="등록" class="btn_list2 btn_txt03"
+            style="cursor: pointer; margin-left:40px ;" onclick="location.href='#'" />
+            </div>
 
-				</form>
+            </form>
 
 
 
-				</div> <!-- cmteditor -->
+            </div> <!-- cmteditor -->
                          
                         </div><!-- itembox -->
                     </div><!-- width50%용 div -->
 
 
-                    <div class="maps" style="width: 50%;">  
-                        <img src="images/mapsearch2.png">
-                    </div> 
+                    <div class="maps" style="width:50%;">
+				<div id="map" style="width:100%;height:450px;"></div>
+			</div>
+		</div><!-- tblWrap -->
+	</div>
+<!-- footer 
+<footer>
 
-
-
-               
-            </div><!-- tblmain -->
-          
-    
-    </div>
-
-    <!-- footer 
-    <footer>
-
-    </footer>
-    -->
-
+</footer>
+ -->
 </body>
+<script type="text/javascript">
+$(function() {
+	initMap();
+})
+
+function initMap() {
+	var map = new naver.maps.Map('map', {
+	    center: new naver.maps.LatLng(<%=latitude %>, <%=longitude %>),
+	    zoom: 17
+	});
+	
+	var marker = new naver.maps.Marker({
+	   	position: new naver.maps.LatLng(<%=latitude %>, <%=longitude %>),
+	   	map: map
+	});
+}
+</script>
 </html>
