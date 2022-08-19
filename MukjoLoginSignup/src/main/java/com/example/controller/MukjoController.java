@@ -64,7 +64,7 @@ public class MukjoController {
    
    @Autowired
    private BoardDAO bdao;
-   private String uploadPath="C:/Github/mukjo/MukjoLoginSignup/src/main/webapp/upload";
+   //private String uploadPath="C:/Github/mukjo/MukjoLoginSignup/src/main/webapp/upload";
 
    @Autowired
    private TeamDAO tdao;
@@ -231,7 +231,7 @@ public class MukjoController {
    //가입한 소모임 리스트 + 검색
    @RequestMapping(value = "/main.do")
    public ModelAndView main(HttpSession session, HttpServletRequest request, Model model) {
-      
+	  
       String seq=(String) session.getAttribute("loginedMemberSeq");
       String search = request.getParameter("search");
 
@@ -596,9 +596,9 @@ public class MukjoController {
     
     @RequestMapping(value = "/adminnotice_writeok.do")
         public ModelAndView adminnotice_writeok(HttpSession sess,HttpServletRequest request,HttpServletResponse response,Model model) {
-   
-       //String uploadPath = "C:\\Users\\JungGyuJin\\Desktop\\mukjo_project\\gitMukjo\\mukjo\\MukjoLoginSignup\\src\\main\\webapp\\upload";
+        String uploadPath=request.getRealPath("upload");
 
+       //String uploadPath = "C:\\Users\\JungGyuJin\\Desktop\\mukjo_project\\gitMukjo\\mukjo\\MukjoLoginSignup\\src\\main\\webapp\\upload";
        int maxFileSize = 20 * 1024 * 1024;
        String encoding = "utf-8";
    
@@ -681,8 +681,9 @@ public class MukjoController {
    
     //공지 수정 - 확인 후 수정
     @RequestMapping(value = "/adminnotice_modifyok.do")
-       public ModelAndView adminnotice_modifyok(HttpServletRequest request, Model model) {
-   
+    public ModelAndView adminnotice_modifyok(HttpServletRequest request, Model model) {
+      String uploadPath=request.getRealPath("upload");
+
       int cpage = 1;
 
       BoardListTO listTO = new BoardListTO();      
@@ -826,7 +827,7 @@ public class MukjoController {
    
    @RequestMapping( "/somoimboard_writeok.do")   
    public ModelAndView boardWriteOk(HttpSession sess,HttpServletRequest request,HttpServletResponse response,Model model) throws IOException {
-      
+       String uploadPath=request.getRealPath("upload");
       //String uploadPath = "C:\\Users\\JungGyuJin\\Desktop\\mukjo_project\\새 폴더\\mukjo\\MukjoLoginSignup\\src\\main\\webapp\\upload";
 
       int maxFileSize = 20 * 1024 * 1024;
@@ -946,6 +947,7 @@ public class MukjoController {
    
    @RequestMapping( "somoimboard_modifyok.do")   
    public ModelAndView boardModifyOk(HttpServletRequest request,HttpServletResponse response,Model model) {
+       String uploadPath=request.getRealPath("upload");
 
       int maxFileSize = 20 * 1024 * 1024;
       String encoding = "utf-8";
@@ -1208,8 +1210,9 @@ public class MukjoController {
    
     //글 수정 - 확인 후 수정
     @RequestMapping(value = "/myPage_modifyok.do")
-       public ModelAndView myPage_modifyok(HttpServletRequest request, Model model) {
-   
+    public ModelAndView myPage_modifyok(HttpServletRequest request, Model model) {
+      String uploadPath=request.getRealPath("upload");
+
       int cpage = 1;
 
       BoardListTO listTO = new BoardListTO();      

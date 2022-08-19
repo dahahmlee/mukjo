@@ -25,8 +25,8 @@ public class BoardDAO {
 	@Autowired
 	private DataSource dataSource;
 
-
-	private String uploadPath="C:/Github/mukjo/MukjoLoginSignup/src/main/webapp/upload";
+	File f=new File("upload");
+	private String uploadPath=f.getAbsolutePath();
 	
 	//private String uploadPath="C:\\Users\\JungGyuJin\\Desktop\\mukjo_project\\git\\mukjo\\MukjoLoginSignup\\src\\main\\webapp\\upload";
 
