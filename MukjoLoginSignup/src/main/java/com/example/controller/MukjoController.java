@@ -24,6 +24,8 @@ import com.example.model1.BoardListTO;
 import com.example.model1.BoardTO;
 import com.example.model1.CommentDAO;
 import com.example.model1.CommentTO;
+import com.example.model1.FavoriteDAO;
+import com.example.model1.FavoriteTO;
 import com.example.model1.FoodDAO;
 import com.example.model1.FoodTO;
 import com.example.model1.MainTeamPageTO;
@@ -89,6 +91,9 @@ public class MukjoController {
    
    @Autowired
    private ReviewDAO rdao;
+   
+   @Autowired
+   private FavoriteDAO favdao;
    
    @RequestMapping(value = "/login.do")
    public ModelAndView login(HttpServletRequest request, Model model) {
@@ -760,15 +765,18 @@ public class MukjoController {
    
         String seq=(String) session.getAttribute("loginedMemberSeq");
         
+        ArrayList<FavoriteTO> favList=favdao.favList(seq);
+        
         ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
         int noticeCount=ndao.noticeCount(seq);
         
         ModelAndView modelAndView = new ModelAndView();
-         modelAndView.setViewName("favorite");
-         modelAndView.addObject("noticeList", noticeList);
-         modelAndView.addObject("noticeCount", noticeCount);
+        modelAndView.setViewName("favorite");
+        modelAndView.addObject("favList", favList);
+        modelAndView.addObject("noticeList", noticeList);
+        modelAndView.addObject("noticeCount", noticeCount);
          
-         return modelAndView;
+        return modelAndView;
     }
     
     //소모임 게시판 + 검색
