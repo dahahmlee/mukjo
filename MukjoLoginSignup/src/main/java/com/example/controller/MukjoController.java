@@ -1312,12 +1312,14 @@ public class MukjoController {
       ArrayList<String> resDetail=mapdao.resDetail(rescode);
       ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
       int noticeCount=ndao.noticeCount(seq);
+      String onoff=favdao.onoff(seq, rescode);
       
       ModelAndView modelAndView = new ModelAndView();
        modelAndView.setViewName("somoimboard_home");
        modelAndView.addObject("resDetail",resDetail);
        modelAndView.addObject("noticeList", noticeList);
        modelAndView.addObject("noticeCount", noticeCount);
+       modelAndView.addObject("onoff", onoff);
        
        return modelAndView;
    }

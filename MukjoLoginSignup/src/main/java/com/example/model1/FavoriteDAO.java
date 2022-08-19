@@ -104,4 +104,37 @@ public class FavoriteDAO {
          }
 
    }
+   
+   public String onoff(String seq, String restcode) {
+	      
+      Connection conn = null;
+      PreparedStatement pstmt = null;
+      ResultSet rs = null;
+
+      String onoff="";
+      try {
+         conn = this.dataSource.getConnection();
+         
+         String sql="select count(*) from favorite where seq=? and rest=?";
+         pstmt=conn.prepareStatement(sql);
+         pstmt.setString(1,seq);
+         pstmt.setString(2,restcode);
+         rs=pstmt.executeQuery();
+         
+         if(rs.next()) {
+            if (rs.getInt("count(*)")==1) {
+            	onoff="checked"; //즐찾되어있으면
+            }
+         
+         }
+      } catch(SQLException e) {
+         System.out.println("[에러]: " + e.getMessage());
+      } finally {
+         if(rs != null) try{ rs.close(); } catch(SQLException e) {}
+         if(pstmt != null) try{ pstmt.close(); } catch(SQLException e) {}
+         if(conn != null) try{ conn.close(); } catch(SQLException e) {}
+      }
+      
+      return onoff;
+   }
 }

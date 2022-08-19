@@ -20,6 +20,7 @@
     }  
     
    ArrayList<String> resDetail=(ArrayList)request.getAttribute("resDetail");
+   String onoff=(String)request.getAttribute("onoff");
    String tseq=request.getParameter("tseq");
    
    String id=request.getParameter("id");
@@ -574,7 +575,7 @@ footer{
                                       right: 1%;
                                       top: -10%;">
                                       <div class="checkbox">
-                                         <input type="checkbox" id="favCheck" onclick="'location.href='">
+                                         <input type="checkbox" name="favCheck" id="favCheck" onclick="location.href=''" <%=onoff %>>
 										 <label for="favCheck"></label>
 								      </div>
                                 </div>  
