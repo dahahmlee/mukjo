@@ -1,3 +1,4 @@
+<%@page import="com.example.model1.ReviewTO"%>
 <%@page import="com.example.model1.NoticeTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -27,6 +28,23 @@
    String id=request.getParameter("id");
    String latitude=request.getParameter("latitude");
    String longitude=request.getParameter("longitude");
+   
+   ArrayList<ReviewTO> lists = (ArrayList)request.getAttribute("lists");
+	
+	StringBuilder sb = new StringBuilder();
+	for (ReviewTO rto : lists) {
+		sb.append("<tr>");
+		sb.append("<td class='nick'><span><i class='fa fa-star' style='font-size:20px;color:#de5f47'></i>");
+		sb.append(rto.getStar()+"점</td>");
+		sb.append("<td>"+rto.getWriter()+"</td>");
+		sb.append("<td class='comment'>"+ rto.getRcontent()+"</td>");
+		if(loginedMemberSeq.equals(rto.getSeq())) {
+			sb.append("<td class='data'><a href='./somoimboard_reviewdelete.do?tseq="+tseq+"&id="+id+"&latitude="+latitude+"&longitude="+longitude+"&rseq="+rto.getRseq()+"' style> &nbsp X </a></td> ");
+		} else {
+			sb.append("<td class='data'></td> ");
+		}
+
+	}
 
    
    ArrayList<NoticeTO> noticeList=(ArrayList<NoticeTO>)request.getAttribute("noticeList");
@@ -65,7 +83,7 @@
 	
 <!-- 지도 -->
 <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=f8b62z9xjz&amp;submodules=geocoder"></script>
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
 
 <style>
 /** common **/
@@ -525,8 +543,8 @@ footer{
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><a href="noticedeleteok.do"><b>읽음</b></button>
-          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><a href=""><b>닫기</b></button>
+          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><a href="noticedeleteok.do"><b>읽음</b></a></button>
+          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><a href=""><b>닫기</b></a></button>
         </div>
       </div>
     </div>
@@ -568,46 +586,7 @@ footer{
             <div class="tablewrap" style="display : table-cell;">
             <table width="100%" cellpadding="0" cellspacing="0" style="table-layout : fixed; text-align: start;  border-collapse: collapse;">
                <tbody>
-                  <tr>
-                     <td class="nick"><span><i class="fa fa-star" style="font-size:20px;color:#de5f47"></i>
-                            5점</td>
-                            <td>김영규</td>
-                     <td class="comment">맛있음 굿굿</td>
-                     <td class="data"><a href="#">X</a></td>
-                  
-                  </tr>
-
-                  <tr>
-                     <td class="nick"><span><i class="fa fa-star" style="font-size:20px;color:#de5f47"></i>
-                            3점</td>
-                            <td>김영규</td>
-                     <td class="comment">예전에 가봤는데 별로였음</td>
-                     <td class="data" ><a href="#">X</a></td>
-                  </tr>
-
-                        <tr>
-                     <td class="nick"><span><i class="fa fa-star" style="font-size:20px;color:#de5f47"></i>
-                            2점</td>
-                            <td>김영규</td>
-                     <td class="comment">예전에 가봤는데 별로였음</td>
-                     <td class="data" ><a href="#">X</a></td>
-                  </tr>
-
-                        <tr>
-                     <td class="nick"><span><i class="fa fa-star" style="font-size:20px;color:#de5f47"></i>
-                            3점</td>
-                            <td>김영규</td>
-                     <td class="comment">예전에 가봤는데 별로였음</td>
-                     <td class="data" ><a href="#">X</a></td>
-                  </tr>
-
-                        <tr>
-                     <td class="nick"><span><i class="fa fa-star" style="font-size:20px;color:#de5f47"></i>
-                            4점</td>
-                            <td>김영규</td>
-                     <td class="comment">예전에 가봤는데 별로였음qdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddㅇㅇㅇ</td>
-                     <td class="data" ><a href="#">X</a></td>
-                  </tr>
+ 					<%=sb %>
 
 
                </tbody>
@@ -620,37 +599,33 @@ footer{
 
                             <div class="cmteditor" style="padding: 12px 16px 20px;background: #fcfcfc;border: 1px solid #ddd;
                                                     border-bottom-color: #ccc; border-radius: 8px; box-shadow: 0 1px 3px -1px rgb(0 0 0 / 10%);">
-            <label for="editorlabel" style="cursor: pointer; position: relative; margin-bottom: 10px;"> 
+         
+
+            <form action="./somoimboard_reviewwrite.do" name ="rfrm" style="display: block;
+            
+            position: relative;
+            clear: both;">           
+               <label for="editorlabel" style="cursor: pointer; position: relative; margin-bottom: 10px;"> 
                
                <strong style="padding-left:5px;font-size:16px;line-height:1.5;">리뷰 쓰기
-                        <div id="star" style="width : 130px; display:flex;">
+                        <div id="star" style="width : 130px; display:flex;" >
 
                         </div>
-                            <script type="text/javascript">
-                                $(function() {
-                                    $('div#star').raty({
-                                        score: 3
-                                        ,path : "/images/"
-                                        ,width : 130
-                                        ,click: function(score, evt) {
-                                            $("#starRating").val(score);
-                                            $("#displayStarRating").html(score);
-                                        }
-                                    });
-                                });
-                            </script></span>
+
                        </strong>
             </label>
-
-            <form style="display: block;
-            position: relative;
-            clear: both;">
+             
+            <input type="hidden" name="tseq" value="<%=tseq %>" />         
+            <input type="hidden" name="id" value="<%=id %>" />
+            <input type="hidden" name="latitude" value="<%=latitude %>" />         
+            <input type="hidden" name="longitude" value="<%=longitude %>" />
+            
             <div class="textcmt" style="display: flex; margin-top: 10px;">
-               <textarea style="background: rgb(255, 255, 255); overflow: hidden; min-height: 4em; resize: none;
+               <textarea name="content" style="background: rgb(255, 255, 255); overflow: hidden; min-height: 4em; resize: none;
                height: 49px;width: 85%; margin-left: 3px;"></textarea>
 
-            <input type="button" value="등록" class="btn_list2 btn_txt03"
-            style="cursor: pointer; margin-left:40px ;" onclick="location.href='#'" />
+            <input type="button" id="rwbtn" value="등록" class="btn_list2 btn_txt03"
+            style="cursor: pointer; margin-left:40px ;"  />
             </div>
 
             </form>
@@ -675,6 +650,21 @@ footer{
  -->
 </body>
 <script type="text/javascript">
+
+window.onload = function() {
+	   document.getElementById( 'rwbtn' ).onclick = function() {
+
+	      if( document.rfrm.content.value.trim() == "" ) {
+	         alert( '내용을 입력하셔야 합니다.' );
+	         return false;
+	      }
+	      
+	      document.rfrm.submit();
+	   };
+	   
+
+	};
+	
 $(function() {
 	initMap();
 })
@@ -699,5 +689,17 @@ function initMap() {
 	
 	infoWindow.open(map, marker);
 }
+
+$(function() {
+    $('div#star').raty({
+        score: 3
+        ,path : "/images/"
+        ,width : 130
+        ,click: function(score, evt) {
+            $("#starRating").val(score);
+            $("#displayStarRating").html(score);
+        }
+    });
+});
 </script>
 </html>

@@ -40,6 +40,8 @@ import com.example.model1.PageAdminTeamTO;
 import com.example.model1.PageMainTeamTO;
 import com.example.model1.PageMemberTO;
 import com.example.model1.PageTeamMemberTO;
+import com.example.model1.ReviewDAO;
+import com.example.model1.ReviewTO;
 import com.example.model1.SignUpDAO;
 import com.example.model1.SignUpTO;
 import com.example.model1.TeamBossPageTO;
@@ -84,6 +86,9 @@ public class MukjoController {
    
    @Autowired
    private FoodDAO fdao;
+   
+   @Autowired
+   private ReviewDAO rdao;
    
    @RequestMapping(value = "/login.do")
    public ModelAndView login(HttpServletRequest request, Model model) {
@@ -1308,9 +1313,20 @@ public class MukjoController {
    
    @RequestMapping( "/somoimboard_review.do")   
    public ModelAndView boardReview(HttpSession session, HttpServletRequest request,HttpServletResponse response,Model model) {
+ 	  String rescode=request.getParameter("id");
+ 	  String tseq = request.getParameter("tseq");
+ 	  ReviewTO rto = new ReviewTO();
+ 	   
+ 	  rto.setRest(rescode);
+ 	  rto.setTseq(tseq);
+ 	  
+ 	  ArrayList<ReviewTO> lists = rdao.reviewLists(rto);
+ 	  
+ 	  model.addAttribute("lists",lists);
+	   
+	   
 	   String seq=(String) session.getAttribute("loginedMemberSeq");
 
-	   String rescode=request.getParameter("id");
      
 	   ArrayList<String> resDetail=mapdao.resDetail(rescode);
 	   String rname=resDetail.get(0);
@@ -1324,6 +1340,50 @@ public class MukjoController {
       modelAndView.addObject("noticeCount", noticeCount);
       modelAndView.addObject("rname",rname);
       return modelAndView;
+   }
+   
+   @RequestMapping( "/somoimboard_reviewdelete.do")   
+   public ModelAndView boardReviewWrite(HttpSession sess,HttpServletRequest request,HttpServletResponse response,Model model) {
+ 	  
+ 	  String rseq = request.getParameter("rseq");
+
+ 	  ReviewTO rto = new ReviewTO();
+
+ 	  rto.setRseq(rseq);
+ 	  
+ 	  int flag = rdao.reviewDelete(rto);
+ 	  
+ 	  model.addAttribute("rto",rto);
+ 	  model.addAttribute("flag",flag);
+ 	  
+
+      return new ModelAndView("somoimboard_reviewdelete"); 
+   }
+   
+   @RequestMapping( "/somoimboard_reviewwrite.do")   
+   public ModelAndView boardReviewDelete(HttpSession sess,HttpServletRequest request,HttpServletResponse response,Model model) {
+ 	  
+ 	  String rescode=request.getParameter("id");
+ 	  String tseq = request.getParameter("tseq");
+ 	  String content = request.getParameter("content");
+ 	  String seq = (String)sess.getAttribute("loginedMemberSeq");
+ 	  ReviewTO rto = new ReviewTO();
+ 	   
+
+ 	  rto.setTseq(tseq);
+ 	  rto.setSeq(seq);
+ 	  rto.setRest(rescode);
+ 	  rto.setRcontent(content);
+ 	  // 점수가없음
+ 	  rto.setStar(5.0);
+ 	  
+ 	  int flag = rdao.reviewWrite(rto);
+ 	  
+ 	  model.addAttribute("rto",rto);
+ 	  model.addAttribute("flag",flag);
+ 	  
+
+      return new ModelAndView("somoimboard_reviewwrite"); 
    }
    
    @RequestMapping( "/somoimboard_menu.do")   
