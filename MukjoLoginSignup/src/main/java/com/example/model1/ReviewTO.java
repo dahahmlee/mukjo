@@ -12,7 +12,7 @@ public class ReviewTO {
 	private String writer;
 	private String rest;
 	private String rcontent;
-	private Double star;
+	private String star;
 	private String rdate;
 	
 	

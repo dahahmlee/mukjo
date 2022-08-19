@@ -38,7 +38,7 @@
 		sb.append(rto.getStar()+"점</td>");
 		sb.append("<td>"+rto.getWriter()+"</td>");
 		sb.append("<td class='comment'>"+ rto.getRcontent()+"</td>");
-		if(loginedMemberSeq.equals(rto.getSeq())) {
+		if(loginedMemberSeq.equals(rto.getSeq())||loginedMemberSeq.equals("1")) {
 			sb.append("<td class='data'><a href='./somoimboard_reviewdelete.do?tseq="+tseq+"&id="+id+"&latitude="+latitude+"&longitude="+longitude+"&rseq="+rto.getRseq()+"' style> &nbsp X </a></td> ");
 		} else {
 			sb.append("<td class='data'></td> ");
@@ -614,7 +614,7 @@ footer{
 
                        </strong>
             </label>
-             
+            <input type="hidden" id="starRating" name="star" value="" />
             <input type="hidden" name="tseq" value="<%=tseq %>" />         
             <input type="hidden" name="id" value="<%=id %>" />
             <input type="hidden" name="latitude" value="<%=latitude %>" />         

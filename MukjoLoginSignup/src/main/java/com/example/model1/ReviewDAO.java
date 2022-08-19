@@ -17,7 +17,7 @@ public class ReviewDAO {
 	public ArrayList<ReviewTO> reviewLists(ReviewTO rto) {
 		
 		
-		String sql = "select rseq,star,member.name as writer,rcontent, review.seq from review inner join member on review.seq = member.seq where rest = ? and tseq = ? order by rseq desc";
+		String sql = "select rseq,floor(star) as star,member.name as writer,rcontent, review.seq from review inner join member on review.seq = member.seq where rest = ? and tseq = ? order by rseq desc";
 		
 		ArrayList<ReviewTO> lists = (ArrayList)jdbcTemplate.query(sql, new BeanPropertyRowMapper<ReviewTO>(ReviewTO.class),rto.getRest(),rto.getTseq());
 		

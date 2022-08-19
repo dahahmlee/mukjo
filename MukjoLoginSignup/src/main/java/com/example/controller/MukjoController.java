@@ -1367,6 +1367,7 @@ public class MukjoController {
  	  String tseq = request.getParameter("tseq");
  	  String content = request.getParameter("content");
  	  String seq = (String)sess.getAttribute("loginedMemberSeq");
+ 	  String star = request.getParameter("star");
  	  ReviewTO rto = new ReviewTO();
  	   
 
@@ -1375,7 +1376,7 @@ public class MukjoController {
  	  rto.setRest(rescode);
  	  rto.setRcontent(content);
  	  // 점수가없음
- 	  rto.setStar(5.0);
+ 	  rto.setStar(star);
  	  
  	  int flag = rdao.reviewWrite(rto);
  	  
