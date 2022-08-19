@@ -61,13 +61,13 @@
          commentSb.append("<tr>");
          commentSb.append("<td class='nick' style='padding-left: 10px; width: 114px; color:blue'>"+cto.getWriter()+"</td>");
          commentSb.append("<td class='comment'>"+cto.getCContent()+"</td>");
-         commentSb.append("<td class='data' style='padding-left: 300px;'>"+cto.getCDate()+"&nbsp;&nbsp;&nbsp;<a href='./somoimcmt_deleteok.do?tseq="+tseq+"&cpage="+cpage+"&bseq="+bseq+"&cseq="+cto.getCseq()+"'>X</a></td>");
+         commentSb.append("<td class='data' style='padding-left: 400px;'>"+cto.getCDate()+"&nbsp;&nbsp;&nbsp;<a href='./somoimcmt_deleteok.do?tseq="+tseq+"&cpage="+cpage+"&bseq="+bseq+"&cseq="+cto.getCseq()+"'>X</a></td>");
          commentSb.append("</tr>");
     	 } else {
              commentSb.append("<tr>");
              commentSb.append("<td class='nick' style='padding-left: 10px; width: 114px; color:blue'>"+cto.getWriter()+"</td>");
              commentSb.append("<td class='comment'>"+cto.getCContent()+"</td>");
-             commentSb.append("<td class='data' style='padding-left: 300px;'>"+cto.getCDate()+"&nbsp;&nbsp;&nbsp;</td>");
+             commentSb.append("<td class='data' style='padding-left: 400px;'>"+cto.getCDate()+"&nbsp;&nbsp;&nbsp;</td>");
              commentSb.append("</tr>");
     	 }
       }
