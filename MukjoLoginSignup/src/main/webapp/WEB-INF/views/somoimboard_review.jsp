@@ -21,8 +21,9 @@
           out.println ( "<script>");
          out.println ( "window.location.href = 'http://localhost:8080/login.do'");
          out.println ( "</script>");
-    }   
+    } 
     
+   String onoff=(String)request.getAttribute("onoff");
    String tseq=request.getParameter("tseq");
    String rname = (String)request.getAttribute("rname");
    String id=request.getParameter("id");
@@ -591,7 +592,7 @@ input[type="checkbox"] {
                                <td colspan="4" class="homesub"><a href="#" style=" font-weight:bold; margin-left: 40px;"><%= rname %></a>
                                      
                                       <div class="checkbox">
-                                         <input type="checkbox" id="favCheck" onclick="'location.href='">
+                                         <input type="checkbox" id="favCheck" <%=onoff %>>
 										 <label for="favCheck" style="margin-right: 10px;"></label>
 									  </div>
 								
@@ -679,6 +680,16 @@ input[type="checkbox"] {
  -->
 </body>
 <script type="text/javascript">
+$(function() {
+	$('#favCheck').on('click', function(){
+		if (document.querySelector('#favCheck').checked == true) {
+			location.href='favoriteadd.do?id=<%=id %>';
+		} else {
+			location.href='favoritedel.do?id=<%=id %>';
+		}
+	});
+
+});
 
 window.onload = function() {
 	   document.getElementById( 'rwbtn' ).onclick = function() {

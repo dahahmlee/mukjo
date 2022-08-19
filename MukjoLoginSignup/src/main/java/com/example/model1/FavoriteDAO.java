@@ -29,6 +29,7 @@ public class FavoriteDAO {
    @Autowired
    private MapDAO2 mapdao2;
    
+   //즐찾 목록
    public ArrayList<FavoriteTO> favList(String seq) {
       
       ArrayList<FavoriteTO> favList=new ArrayList<FavoriteTO>();
@@ -40,7 +41,6 @@ public class FavoriteDAO {
       String rloc="";
       String rphone="";
       String rtime="";
-      String pic="";
 
       try {
          conn = this.dataSource.getConnection();
@@ -65,11 +65,6 @@ public class FavoriteDAO {
             to.setRestname(rname);
             to.setRestloc(rloc);
             to.setRestphone(rphone);
-
-            ArrayList<MenuTO> resMenu=mapdao2.resMenu(restcode);
-            pic=resMenu.get(1).getRmenuimage();
-            
-            to.setPic(pic);
             
             favList.add(to);
          }
@@ -84,7 +79,30 @@ public class FavoriteDAO {
       return favList;
    }
    
-   public void favDeleteOk(String seq, String restcode) {
+   //추가
+   public void favAdd(String seq, String restcode) {
+
+       Connection conn = null;
+       PreparedStatement pstmt = null;
+       try {
+          conn = this.dataSource.getConnection();
+          
+          String sql="insert into favorite values (?, ?)";
+          pstmt=conn.prepareStatement(sql);
+          pstmt.setString(1,seq);
+          pstmt.setString(2,restcode);
+          pstmt.executeUpdate();
+       } catch(SQLException e) {
+          System.out.println("[에러]: " + e.getMessage());
+       } finally {
+          if(pstmt != null) try{ pstmt.close(); } catch(SQLException e) {}
+          if(conn != null) try{ conn.close(); } catch(SQLException e) {}
+       }
+
+   }
+   
+   //취소
+   public void favDelete(String seq, String restcode) {
 
          Connection conn = null;
          PreparedStatement pstmt = null;
@@ -105,6 +123,7 @@ public class FavoriteDAO {
 
    }
    
+   //이미 추가되어있는지 확인
    public String onoff(String seq, String restcode) {
 	      
       Connection conn = null;

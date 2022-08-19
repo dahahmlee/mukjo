@@ -760,8 +760,9 @@ public class MukjoController {
        return modelAndView;
     }
     
+    //즐찾 목록
     @RequestMapping(value = "/favorite.do")
-       public ModelAndView favorite(HttpSession session, HttpServletRequest request, Model model) {
+    public ModelAndView favorite(HttpSession session, HttpServletRequest request, Model model) {
    
         String seq=(String) session.getAttribute("loginedMemberSeq");
         
@@ -777,6 +778,36 @@ public class MukjoController {
         modelAndView.addObject("noticeCount", noticeCount);
          
         return modelAndView;
+    }
+    
+    //즐찾 추가
+    @RequestMapping(value = "/favoriteadd.do")
+    public ModelAndView favoriteadd(HttpSession session, HttpServletRequest request, Model model) {
+
+	     String seq=(String) session.getAttribute("loginedMemberSeq");
+	     String restcode=request.getParameter("id");
+
+	     favdao.favAdd(seq, restcode);
+	     
+	     ModelAndView modelAndView = new ModelAndView();
+	     modelAndView.setViewName("favoriteadd");
+	      
+	     return modelAndView;
+    }
+    
+    //즐찾 취소
+    @RequestMapping(value = "/favoritedel.do")
+    public ModelAndView favoritedel(HttpSession session, HttpServletRequest request, Model model) {
+
+    	String seq=(String) session.getAttribute("loginedMemberSeq");
+	     String restcode=request.getParameter("id");
+
+	     favdao.favDelete(seq, restcode);
+	     
+	     ModelAndView modelAndView = new ModelAndView();
+	     modelAndView.setViewName("favoritedel");
+	      
+	     return modelAndView;
     }
     
     //소모임 게시판 + 검색
@@ -1326,7 +1357,8 @@ public class MukjoController {
    
    @RequestMapping( "/somoimboard_review.do")   
    public ModelAndView boardReview(HttpSession session, HttpServletRequest request,HttpServletResponse response,Model model) {
- 	  String rescode=request.getParameter("id");
+	  String seq=(String) session.getAttribute("loginedMemberSeq");
+	  String rescode=request.getParameter("id");
  	  String tseq = request.getParameter("tseq");
  	  ReviewTO rto = new ReviewTO();
  	   
@@ -1334,12 +1366,9 @@ public class MukjoController {
  	  rto.setTseq(tseq);
  	  
  	  ArrayList<ReviewTO> lists = rdao.reviewLists(rto);
- 	  
- 	  model.addAttribute("lists",lists);
-	   
-	   
-	   String seq=(String) session.getAttribute("loginedMemberSeq");
+      String onoff=favdao.onoff(seq, rescode);
 
+ 	  model.addAttribute("lists",lists);
      
 	   ArrayList<String> resDetail=mapdao.resDetail(rescode);
 	   String rname=resDetail.get(0);
@@ -1352,6 +1381,8 @@ public class MukjoController {
       modelAndView.addObject("noticeList", noticeList);
       modelAndView.addObject("noticeCount", noticeCount);
       modelAndView.addObject("rname",rname);
+      modelAndView.addObject("onoff", onoff);
+
       return modelAndView;
    }
    
@@ -1411,14 +1442,16 @@ public class MukjoController {
       ArrayList<MenuTO> resMenu=mapdao2.resMenu(rescode);
       ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
       int noticeCount=ndao.noticeCount(seq);
-      
+      String onoff=favdao.onoff(seq, rescode);
+
       ModelAndView modelAndView = new ModelAndView();
        modelAndView.setViewName("somoimboard_menu");
        modelAndView.addObject("resMenu",resMenu);
        modelAndView.addObject("rname",rname);
        modelAndView.addObject("noticeList", noticeList);
        modelAndView.addObject("noticeCount", noticeCount);
-       
+       modelAndView.addObject("onoff", onoff);
+
        return modelAndView;      
    }
    
@@ -1433,14 +1466,16 @@ public class MukjoController {
       ArrayList<String> pic=mapdao3.crawler(rescode);
       ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
       int noticeCount=ndao.noticeCount(seq);
-      
+      String onoff=favdao.onoff(seq, rescode);
+
       ModelAndView modelAndView = new ModelAndView();
        modelAndView.setViewName("somoimboard_picture");
        modelAndView.addObject("pic",pic);
        modelAndView.addObject("rname",rname);
        modelAndView.addObject("noticeList", noticeList);
        modelAndView.addObject("noticeCount", noticeCount);
-       
+       modelAndView.addObject("onoff", onoff);
+
        return modelAndView;
    }
    

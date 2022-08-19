@@ -11,5 +11,4 @@ public class FavoriteTO {
    private String restname;
    private String restphone;
    private String restloc;
-   private String pic;
 }

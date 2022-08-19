@@ -32,11 +32,9 @@
             String rcode=favList.get(j).getRestcode();
             String rloc=favList.get(j).getRestloc();
             String rphone=favList.get(j).getRestphone();
-            String pic=favList.get(j).getPic();
             
             sbHtml.append("<tr>");
             sbHtml.append("<td>"+num+"</td>");
-            sbHtml.append("<td><a href='"+pic+"'><img class='divimg' src='"+pic+"'></td>");
             sbHtml.append("<td>"+rname+"</td>");
             sbHtml.append("<td>"+rloc+"</td>");
             sbHtml.append("<td>"+rphone+"</td>");
@@ -440,15 +438,11 @@ footer {
 }
 
 .th-num {
-   width: 12%;
-}
-
-.th-pic {
-   width: 13%;
+   width: 15%;
 }
 
 .th-sikding {
-   width: 20%;
+   width: 25%;
 }
 
 .th-address {
@@ -456,7 +450,7 @@ footer {
 }
 
 .th-eval {
-   width: 20%;
+   width: 25%;
 }
 </style>
 
@@ -537,7 +531,6 @@ footer {
 					<thead>
 						<tr>
 							<th scope="col" class="th-num">번호</th>
-							<th scope="col" class="th-pic">메뉴 사진</th>
 							<th scope="col" class="th-sikdang">식당 이름</th>
 							<th scope="col" class="th-address">주소</th>
 							<th scope="col" class="th-eval">전화번호</th>

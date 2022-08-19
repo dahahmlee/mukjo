@@ -19,7 +19,8 @@
          out.println ( "window.location.href = 'http://localhost:8080/login.do'");
          out.println ( "</script>");
     } 
-    
+   
+   String onoff=(String)request.getAttribute("onoff");
    String tseq=request.getParameter("tseq");
    String id=request.getParameter("id");
    String latitude=request.getParameter("latitude");
@@ -534,7 +535,7 @@ input[type="checkbox"] {
                              <thead>
                                <td colspan="4" class="homesub"><a href="#" style=" font-weight:bold; margin-left: 40px;"><%= rname %></a>
                                       <div class="checkbox">
-                                         <input type="checkbox" id="favCheck" onclick="'location.href='">
+                                         <input type="checkbox" id="favCheck" <%=onoff %>>
 										 <label for="favCheck" style="margin-right: 10px;"></label>
 									  </div>
                                   <tr id="tabBox">
@@ -618,6 +619,17 @@ input[type="checkbox"] {
  -->
 </body>
 <script type="text/javascript">
+$(function() {
+	$('#favCheck').on('click', function(){
+		if (document.querySelector('#favCheck').checked == true) {
+			location.href='favoriteadd.do?id=<%=id %>';
+		} else {
+			location.href='favoritedel.do?id=<%=id %>';
+		}
+	});
+
+});
+
 $(function() {
 	initMap();
 })

@@ -575,7 +575,7 @@ footer{
                                       right: 1%;
                                       top: -10%;">
                                       <div class="checkbox">
-                                         <input type="checkbox" name="favCheck" id="favCheck" onclick="location.href=''" <%=onoff %>>
+                                         <input type="checkbox" id="favCheck" <%=onoff %>>
 										 <label for="favCheck"></label>
 								      </div>
                                 </div>  
@@ -688,6 +688,17 @@ footer{
  -->
 </body>
 <script type="text/javascript">
+$(function() {
+	$('#favCheck').on('click', function(){
+		if (document.querySelector('#favCheck').checked == true) {
+			location.href='favoriteadd.do?id=<%=id %>';
+		} else {
+			location.href='favoritedel.do?id=<%=id %>';
+		}
+	});
+
+});
+
 $(function() {
 	initMap();
 })
