@@ -692,6 +692,14 @@ public class TeamDAO {
                
          flag=pstmt.executeUpdate(); //1이면 성공            
 
+         String tname=tnameFromTseq(tseq);
+         String words="["+tname+"] 소모임의 소모임장이 되셨습니다.";
+         
+         sql = "insert into notice values (?, ?, now())";
+         pstmt = conn.prepareStatement(sql);
+         pstmt.setString(1, seq);
+         pstmt.setString(2, words);
+         pstmt.executeUpdate();
       } catch (SQLException e) {
          System.out.println("[에러]:"+e.getMessage());
       } finally {
