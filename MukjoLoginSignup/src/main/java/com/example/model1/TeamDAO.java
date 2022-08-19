@@ -335,9 +335,8 @@ public class TeamDAO {
       try {
          conn=this.dataSource.getConnection();
 
-         String sql="select tseq, tname, name from team inner join member on (team.seq=member.seq) where tname like '%9%'";
+         String sql="select tseq, tname, name from team inner join member on (team.seq=member.seq) where tname like '%"+search+"%'";
          pstmt=conn.prepareStatement(sql);
-         pstmt.setString(1,search);
          rs=pstmt.executeQuery();
 
          rs.last(); //읽기 커서를 맨 마지막 행으로 이동

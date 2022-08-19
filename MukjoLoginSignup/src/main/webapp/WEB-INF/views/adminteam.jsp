@@ -41,7 +41,7 @@
        StringBuilder sbHtml=new StringBuilder();
       int num=1;
 
-       for (int j=1; j<teamLists.size(); j=j+20) {
+       for (int j=0; j<teamLists.size(); j=j+20) {
           num=(pageAdminTeamTO.getCpage()-1)*20+1;
           for (int i=j; i<j+20; i++) {
             
@@ -53,18 +53,20 @@
                 String name=teamLists.get(i).getName();
                 int memcount=teamLists.get(i).getMemcount();
                 
-                sbHtml.append("<tr>");
-                sbHtml.append("<td>"+num+"</td>");
-                sbHtml.append("<td>"+tname+"</td>");
-                sbHtml.append("<td>"+name+"</td>");
-                sbHtml.append("<td>"+memcount+"명</td>");
-                if(tseq.equals("1")) {
-                   sbHtml.append("<td></td>");
-                } else {
-                sbHtml.append("<td><a href='./addeleteteam.do?tseq="+tseq+"&tname="+tname+"'><button type='sumbit'>삭제</button></a></td>");
-                }
-                sbHtml.append("</tr>");
-                num+=1;
+                if (!tseq.equals("1")) {
+                	sbHtml.append("<tr>");
+                    sbHtml.append("<td>"+num+"</td>");
+                    sbHtml.append("<td>"+tname+"</td>");
+                    sbHtml.append("<td>"+name+"</td>");
+                    sbHtml.append("<td>"+memcount+"명</td>");
+                    if(tseq.equals("1")) {
+                       sbHtml.append("<td></td>");
+                    } else {
+                    sbHtml.append("<td><a href='./addeleteteam.do?tseq="+tseq+"&tname="+tname+"'><button type='sumbit'>삭제</button></a></td>");
+                    }
+                    sbHtml.append("</tr>");
+                    num+=1;
+                }            
              }
           }
        }
