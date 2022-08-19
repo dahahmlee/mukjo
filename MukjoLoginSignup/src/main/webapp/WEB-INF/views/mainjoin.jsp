@@ -1,3 +1,4 @@
+<%@page import="com.example.model1.NoticeTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@page import="com.example.model1.PageTeamMemberTO"%>
@@ -5,64 +6,77 @@
 <%@page import="java.util.ArrayList"%>
      <%
 
-    	String log = "LOGIN";
+       String log = "LOGIN";
     
-    	HttpSession sess = request.getSession();
-    	
-    	String loginedMemberSeq = (String)sess.getAttribute("loginedMemberSeq");
-    	String welcome = "";
+       HttpSession sess = request.getSession();
+       
+       String loginedMemberSeq = (String)sess.getAttribute("loginedMemberSeq");
+       String welcome = "";
     
-    	if(loginedMemberSeq != null) {
-    		welcome = (String)sess.getAttribute("loginedMemberName")+"님 환영합니다.";
-    		log = "LOGOUT";
-    	} else {
-    		    	out.println ( "<script>");
-			   		out.println ( "window.location.href = 'http://localhost:8080/login.do'");
-			   		out.println ( "</script>");
-    	}
+       if(loginedMemberSeq != null) {
+          welcome = (String)sess.getAttribute("loginedMemberName")+"님 환영합니다.";
+          log = "LOGOUT";
+       } else {
+                 out.println ( "<script>");
+                  out.println ( "window.location.href = 'http://localhost:8080/login.do'");
+                  out.println ( "</script>");
+       }
     
-    	PageTeamMemberTO pageTeamMemberTO = (PageTeamMemberTO)request.getAttribute("pageTeamMemberTO");
+       PageTeamMemberTO pageTeamMemberTO = (PageTeamMemberTO)request.getAttribute("pageTeamMemberTO");
 
-    	int cpage = pageTeamMemberTO.getCpage();
-    	int recordPerPage = pageTeamMemberTO.getRecordPerPage();
-    	int totalRecord = pageTeamMemberTO.getTotalRecord();
-    	int totalPage = pageTeamMemberTO.getTotalPage();
-    	int blockPerPage = pageTeamMemberTO.getBlockPerPage();
-    	int startBlock = pageTeamMemberTO.getStartBlock();
-    	int endBlock = pageTeamMemberTO.getEndBlock();
-    	
-    	ArrayList<MemberTO> memberLists = pageTeamMemberTO.getTeamMemberLists();
+       int cpage = pageTeamMemberTO.getCpage();
+       int recordPerPage = pageTeamMemberTO.getRecordPerPage();
+       int totalRecord = pageTeamMemberTO.getTotalRecord();
+       int totalPage = pageTeamMemberTO.getTotalPage();
+       int blockPerPage = pageTeamMemberTO.getBlockPerPage();
+       int startBlock = pageTeamMemberTO.getStartBlock();
+       int endBlock = pageTeamMemberTO.getEndBlock();
+       
+       ArrayList<MemberTO> memberLists = pageTeamMemberTO.getTeamMemberLists();
 
-    	int num = 1;
-    	String tname = "";
-    	String tseq = request.getParameter("tseq");
-    	
-    	StringBuilder sbHtml = new StringBuilder();
+       int num = 1;
+       String tname = "";
+       String tseq = request.getParameter("tseq");
+       
+       StringBuilder sbHtml = new StringBuilder();
 
-    	for (int j = 1 ; j < memberLists.size() ; j = j+20) {
-    		num = (pageTeamMemberTO.getCpage() - 1) * 20+1;
-    		for (int i = j ; i < j+20 ; i++) {
-    			
-    			if (i < memberLists.size()) {
-    				String seq = memberLists.get(i).getSeq();
-    				String name = memberLists.get(i).getName();
-    				String email = memberLists.get(i).getEmail();
-    				String birth = memberLists.get(i).getBirth();
-    				String accept = memberLists.get(i).getAccept();
-    				tname = memberLists.get(i).getTname();
-    				// 소모임 장 가입 승인 필요 
-    				if(accept.equals("1")) {
-    					sbHtml.append( "<tr>" );
-        				sbHtml.append( "<td>" + num + "</td>" );
-        				sbHtml.append( "<td>" + name + "</td>" );
-        				sbHtml.append( "<td>" + email + "</td>" );
-        				sbHtml.append( "<td>" + birth + "</td>" );
-        				sbHtml.append( "</tr>" );
-        				num+=1;
-    				}
-    			}
-    		}
-    	}
+       for (int j = 1 ; j < memberLists.size() ; j = j+20) {
+          num = (pageTeamMemberTO.getCpage() - 1) * 20+1;
+          for (int i = j ; i < j+20 ; i++) {
+             
+             if (i < memberLists.size()) {
+                String seq = memberLists.get(i).getSeq();
+                String name = memberLists.get(i).getName();
+                String email = memberLists.get(i).getEmail();
+                String birth = memberLists.get(i).getBirth();
+                String accept = memberLists.get(i).getAccept();
+                tname = memberLists.get(i).getTname();
+                // 소모임 장 가입 승인 필요 
+                if(accept.equals("1")) {
+                   sbHtml.append( "<tr>" );
+                    sbHtml.append( "<td>" + num + "</td>" );
+                    sbHtml.append( "<td>" + name + "</td>" );
+                    sbHtml.append( "<td>" + email + "</td>" );
+                    sbHtml.append( "<td>" + birth + "</td>" );
+                    sbHtml.append( "</tr>" );
+                    num+=1;
+                }
+             }
+          }
+       }
+       
+       ArrayList<NoticeTO> noticeList=(ArrayList<NoticeTO>)request.getAttribute("noticeList");
+       String noticeCount=(String)request.getAttribute("noticeCount").toString();
+       
+       StringBuilder sbh=new StringBuilder();
+       for (int i=0; i<noticeList.size(); i++) {
+          String words=noticeList.get(i).getWords();
+          String ndate=noticeList.get(i).getNdate();
+          
+          sbh.append("<p>"+words);
+          sbh.append("<span>"+ndate+"</span>");
+          sbh.append("</p>");
+       }
     %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -79,9 +93,9 @@
     <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
     
     <!-- Bootstrap (for modal) -->
-	
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+   
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     
 <style>
 /** common **/
@@ -452,9 +466,9 @@ a{
 }
 
     .board_pagetab { text-align: center; display: inline-flex; position:relative;}
-	.board_pagetab a { text-decoration: none; font: 12px verdana; color: #000; padding: 0 3px 0 3px; }
+   .board_pagetab a { text-decoration: none; font: 12px verdana; color: #000; padding: 0 3px 0 3px; }
     /* .board_pagetab ul a:hover  { background-color:black; } */
-	.on a { font-weight: bold; }
+   .on a { font-weight: bold; }
 
 
 
@@ -476,16 +490,16 @@ footer{
     right: 0px;
 }
 .modal-content {
-	border: 1px solid black;
+   border: 1px solid black;
     height: 100%;
 }
 #noticelogo {
-	width: 25%;
+   width: 25%;
 }
 
 .modal-body span {
-	float: right;
-	margin-right: 15px;
+   float: right;
+   margin-right: 15px;
 }
 
 </style>
@@ -498,19 +512,19 @@ footer{
             <h1 id="logoSec">
                 <a href="./main.do"><img src="images/logo.png" alt="logo"></a>
             </h1>
-            <h3 > <%=welcome %> <a href="logoutok.do" id="logout" style="color : gray"> <br/><%=log %>	</a></h3>
+            <h3 > <%=welcome %> <a href="logoutok.do" id="logout" style="color : gray"> <br/><%=log %>   </a></h3>
             
             <ul>
                 <li><b><a href="myPage.do">마이페이지</a></b></li>
                 <li><b><a href="boss.do">소모임장페이지</a></b></li>
                 <li><b><a href="admin.do">관리자페이지</b></li></a>
-				<li><b><a href="favorite.do">즐겨찾기</b></li></a>
-				
+            <li><b><a href="favorite.do">즐겨찾기</b></li></a>
+            
                 <li id="bell" style="margin-left: 20px;">
-                	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-						<img src="images/bell.png">
-					</button>1
-				</li>
+                   <button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  <img src="images/bell.png">
+               </button><%=noticeCount %>
+            </li>
 
             </ul>
         </div> <!--headerWap-->
@@ -526,28 +540,31 @@ footer{
         </div>
 
         <div class="modal-body">
+            <%=sbh %>
+        <!-- 
           <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
-          	<span>2022.07.13</span>
+             <span>2022.07.13</span>
           </p>
           <hr />
           <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
-          	<span>2022.07.13</span>
+             <span>2022.07.13</span>
           </p>
           <hr />
           <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
-          	<span>2022.07.13</span>
+             <span>2022.07.13</span>
           </p>
+          -->
           <hr />
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><b>읽음</b></button>
-          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><b>닫기</b></button>
+          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><a href="noticedeleteok.do"><b>읽음</b></button>
+          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><a href=""><b>닫기</b></button>
         </div>
       </div>
     </div>
   </div>
-   	
+      
    
    
       <!--locationSec -->
@@ -575,49 +592,49 @@ footer{
             <button id="joinsomoim">가입신청</button>
         </section>
         <!-- 소모임 가입하기 -->
-		<script type="text/javascript">
-		
-		$("#joinsomoim").click(function () {
-			Swal.fire({
-				title: '소모임 가입 신청',
-				html: '소모임 이름: ' + '<%=tname %>' + '<br />가입을 신청하시겠습니까?',
-				showCancelButton: true,
-				confirmButtonColor: '#3085d6',
-				cancelButtonColor: '#d33',
-				confirmButtonText: '가입',
-				cancelButtonText: '취소',
-				reverseButtons: false, // 버튼 순서 거꾸로    
-			}).then((result) => {
-				if (result.isConfirmed) {
-					var tseq = <%=tseq %>;
-					var seq = <%=loginedMemberSeq %>;
-					
-					$.ajax({
-						type: 'get',
-			        	url: 'jointeam.do',
-			        	data: { 'tseq': tseq, 'seq': seq },
-			        	success: function(flag) {
-			        		console.log($.trim(flag));
-			        		if($.trim(flag) == 2) {
-			        			Swal.fire({
-			        				title: '가입 신청 완료',
-			        				html: '가입 신청이 완료되었습니다.<br />소모임장의 승인을 기다려주세요.',
-			        				icon: 'success',
-			        			})
-			        		} else if($.trim(flag) == 1) {
-			        			Swal.fire({
-			        				title: '가입 신청 완료',
-			        				html: '가입을 신청하신 소모임입니다.<br />소모임장의 승인을 기다려주세요.',
-			        				icon: 'error',
-			        			})
-			        		}
-			        	},
-			        	error: function(data) {}
-					})
-				}
-			}) 
-		});
-		</script>
+      <script type="text/javascript">
+      
+      $("#joinsomoim").click(function () {
+         Swal.fire({
+            title: '소모임 가입 신청',
+            html: '소모임 이름: ' + '<%=tname %>' + '<br />가입을 신청하시겠습니까?',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '가입',
+            cancelButtonText: '취소',
+            reverseButtons: false, // 버튼 순서 거꾸로    
+         }).then((result) => {
+            if (result.isConfirmed) {
+               var tseq = <%=tseq %>;
+               var seq = <%=loginedMemberSeq %>;
+               
+               $.ajax({
+                  type: 'get',
+                    url: 'jointeam.do',
+                    data: { 'tseq': tseq, 'seq': seq },
+                    success: function(flag) {
+                       console.log($.trim(flag));
+                       if($.trim(flag) == 2) {
+                          Swal.fire({
+                             title: '가입 신청 완료',
+                             html: '가입 신청이 완료되었습니다.<br />소모임장의 승인을 기다려주세요.',
+                             icon: 'success',
+                          })
+                       } else if($.trim(flag) == 1) {
+                          Swal.fire({
+                             title: '가입 신청 실패',
+                             html: '가입을 신청하신 소모임입니다.<br />소모임장의 승인을 기다려주세요.',
+                             icon: 'error',
+                          })
+                       }
+                    },
+                    error: function(data) {}
+               })
+            }
+         }) 
+      });
+      </script>
 
         <!-- 테이블 목록이 있는 섹션입니다 -->
         <section id="tblSec">
@@ -680,52 +697,52 @@ footer{
 
             <div class="paginate_regular">
                 <div class="board_pagetab">
-					<!-- <span class="off"><a href="#">&lt;&lt;</a>&nbsp;&nbsp;</span>
-					<span class="off"><a href="#">&lt;</a>&nbsp;&nbsp;</span>
-					<ul>
-						<li class="active"><a href="#">1</a></li>
-						<li><a href="#">2</a></li>
-						<li><a href="#">3</a></li>
-						<li><a href="#">4</a></li>
-						<li><a href="#">5</a></li>
-					</ul>
-					<span class="off">&nbsp;&nbsp;<a href="#">&gt;</a></span>
-					<span class="off">&nbsp;&nbsp;<a href="#">&gt;&gt;</a></span> -->
-<%	
-	if (startBlock==1) { //<<
-		out.println("<span><a>&lt;&lt;</a>&nbsp;&nbsp;</span>");
-	} else {
-		out.println("<span><a href='mainall.do?cpage="+(startBlock-blockPerPage)+"'>&lt;&lt;</a>&nbsp;&nbsp;</span>");
-	}
+               <!-- <span class="off"><a href="#">&lt;&lt;</a>&nbsp;&nbsp;</span>
+               <span class="off"><a href="#">&lt;</a>&nbsp;&nbsp;</span>
+               <ul>
+                  <li class="active"><a href="#">1</a></li>
+                  <li><a href="#">2</a></li>
+                  <li><a href="#">3</a></li>
+                  <li><a href="#">4</a></li>
+                  <li><a href="#">5</a></li>
+               </ul>
+               <span class="off">&nbsp;&nbsp;<a href="#">&gt;</a></span>
+               <span class="off">&nbsp;&nbsp;<a href="#">&gt;&gt;</a></span> -->
+<%   
+   if (startBlock==1) { //<<
+      out.println("<span><a>&lt;&lt;</a>&nbsp;&nbsp;</span>");
+   } else {
+      out.println("<span><a href='mainall.do?cpage="+(startBlock-blockPerPage)+"'>&lt;&lt;</a>&nbsp;&nbsp;</span>");
+   }
 
-	if (cpage==1) { //<
-		out.println("<span><a>&lt;</a>&nbsp;&nbsp;</span>");
-	} else {
-		out.println("<span><a href='mainall.do?cpage="+(cpage-1)+"'>&lt;</a>&nbsp;&nbsp;</span>");
-	}
-	
-	out.println("<ul>");
-	for (int i=startBlock;i<=endBlock;i++) {
-		if (cpage==i) {
-			out.println("<li class='active'><a>"+i+"</a></li>");
-		} else {
-			out.println("<li><a href='mainall.do?cpage="+i+"'>"+i+"</a></span>");
-		}
-	}
-	
-	out.println("</ul>");
-	
-	if (cpage==totalPage) { //>
-		out.println("<span>&nbsp;&nbsp;<a>&gt;</a></span>");
-	} else {
-		out.println("<span>&nbsp;&nbsp;<a href='mainall.do?cpage="+(cpage+1)+"'>&gt;</a></span>");
-	}
-	
-	if (endBlock==totalPage) { //>>
-		out.println("<span>&nbsp;&nbsp;<a>&gt;&gt;</a></span>");
-	} else {
-		out.println("<span>&nbsp;&nbsp;<a href='mainall.do?cpage="+(startBlock+blockPerPage)+"'>&gt;&gt;</a></span>");
-	}
+   if (cpage==1) { //<
+      out.println("<span><a>&lt;</a>&nbsp;&nbsp;</span>");
+   } else {
+      out.println("<span><a href='mainall.do?cpage="+(cpage-1)+"'>&lt;</a>&nbsp;&nbsp;</span>");
+   }
+   
+   out.println("<ul>");
+   for (int i=startBlock;i<=endBlock;i++) {
+      if (cpage==i) {
+         out.println("<li class='active'><a>"+i+"</a></li>");
+      } else {
+         out.println("<li><a href='mainall.do?cpage="+i+"'>"+i+"</a></span>");
+      }
+   }
+   
+   out.println("</ul>");
+   
+   if (cpage==totalPage) { //>
+      out.println("<span>&nbsp;&nbsp;<a>&gt;</a></span>");
+   } else {
+      out.println("<span>&nbsp;&nbsp;<a href='mainall.do?cpage="+(cpage+1)+"'>&gt;</a></span>");
+   }
+   
+   if (endBlock==totalPage) { //>>
+      out.println("<span>&nbsp;&nbsp;<a>&gt;&gt;</a></span>");
+   } else {
+      out.println("<span>&nbsp;&nbsp;<a href='mainall.do?cpage="+(startBlock+blockPerPage)+"'>&gt;&gt;</a></span>");
+   }
 %>
                 </div><!-- board_pagetab -->
                 

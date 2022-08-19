@@ -1,3 +1,4 @@
+<%@page import="com.example.model1.NoticeTO"%>
 <%@page import="com.example.model1.BoardTO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.example.model1.BoardDAO"%>
@@ -23,24 +24,37 @@
       }   
     
       String tseq = request.getParameter("tseq");
-  	  String seq=(String)request.getAttribute("seq");
-  	  String jangseq=(String)request.getAttribute("jangseq");
-  	  String tname=(String)request.getAttribute("tname");
+       String seq=(String)request.getAttribute("seq");
+       String jangseq=(String)request.getAttribute("jangseq");
+       String tname=(String)request.getAttribute("tname");
 
-  		StringBuilder sbHtml=new StringBuilder();
-		
-  		if (seq.equals(jangseq)) {
-  			sbHtml.append("<p>소모임장은 소모임을 탈퇴할 수 없습니다.</p>");
-  			sbHtml.append("<p>그래도 탈퇴를 원하시면 다른 회원에게 소모임장 권한을 위임하세요.</p>");
-  		} else if (seq.equals("1")) {
-  			sbHtml.append("<p>관리자는 소모임을 탈퇴할 수 없습니다.</p>");
-  		} else {
-  			sbHtml.append("<p>소모임 탈퇴시 작성하신 모든 게시물들은 삭제됩니다.</p>");
-  			sbHtml.append("<p>그래도 탈퇴하시겠습니까?</p>");
-  			sbHtml.append("<div class='btn_area'>");
-  			sbHtml.append("<div class='align'>");
-  			sbHtml.append("<button class='allbtn' id='bsabtn'><a href=''./somoimboard_memberexitok.do?tseq="+tseq+"' style='color : #fff'>탈퇴</a></button>");
-  		}	
+        StringBuilder sbHtml=new StringBuilder();
+      
+        if (seq.equals(jangseq)) {
+           sbHtml.append("<p style='margin-top:10px;'>소모임장은 소모임을 탈퇴할 수 없습니다.</p>");
+           sbHtml.append("<p>그래도 탈퇴를 원하시면 다른 회원에게 소모임장 권한을 위임하세요.</p>");
+        } else if (seq.equals("1")) {
+           sbHtml.append("<p style='margin-top:28px;'>관리자는 소모임을 탈퇴할 수 없습니다.</p>");
+        } else {
+           sbHtml.append("<p>소모임 탈퇴시 작성하신 모든 게시물들은 삭제됩니다.</p>");
+           sbHtml.append("<p>그래도 탈퇴하시겠습니까?</p>");
+           sbHtml.append("<div class='btn_area'>");
+           sbHtml.append("<div class='align'>");
+           sbHtml.append("<button class='allbtn' id='bsabtn'><a href=''./somoimboard_memberexitok.do?tseq="+tseq+"' style='color : #fff'>탈퇴</a></button>");
+        }   
+        
+        ArrayList<NoticeTO> noticeList=(ArrayList<NoticeTO>)request.getAttribute("noticeList");
+        String noticeCount=(String)request.getAttribute("noticeCount").toString();
+        
+        StringBuilder sbh=new StringBuilder();
+        for (int i=0; i<noticeList.size(); i++) {
+           String words=noticeList.get(i).getWords();
+           String ndate=noticeList.get(i).getNdate();
+           
+           sbh.append("<p>"+words);
+           sbh.append("<span>"+ndate+"</span>");
+           sbh.append("</p>");
+        }
     %>
 
 <!DOCTYPE html>
@@ -56,11 +70,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
     <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
-	
-	<!-- Bootstrap (for modal) -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-	
+   
+   <!-- Bootstrap (for modal) -->
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+   
 
 <style>
 /** common **/
@@ -243,17 +257,17 @@ nav{
 }
 
 #form_boss {
-	height: 150px;
-	border: 2px solid black;
-	text-align: center;
-	padding: 15px;
+   height: 150px;
+   border: 2px solid black;
+   text-align: center;
+   padding: 15px;
 }
 
 #form_boss input {
-	width: 400px;
-	height: 30px;
-	margin-bottom: 60px;
-	border: 1px solid black;
+   width: 400px;
+   height: 30px;
+   margin-bottom: 60px;
+   border: 1px solid black;
 }
 
 /* 타이틀 섹션 */
@@ -462,7 +476,7 @@ footer{
 }
 
 .btn_area {
-	display; inline-block;
+   display; inline-block;
 }
 
 .ex p{
@@ -477,16 +491,16 @@ footer{
     right: 0px;
 }
 .modal-content {
-	border: 1px solid black;
+   border: 1px solid black;
     height: 100%;
 }
 #noticelogo {
-	width: 25%;
+   width: 25%;
 }
 
 .modal-body span {
-	float: right;
-	margin-right: 15px;
+   float: right;
+   margin-right: 15px;
 }
 
 
@@ -507,14 +521,14 @@ footer{
                 <li><b><a href="admin.do">관리자페이지</b></li></a>
                 <li><b><a href="favorite.do">즐겨찾기</b></li></a>
                 <li id="bell" style="margin-left: 20px;">
-                	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-						<img src="images/bell.png">
-					</button>1
-				</li>
+                   <button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  <img src="images/bell.png">
+               </button><%=noticeCount %>
+            </li>
             </ul>
           </div>
         </div> <!--headerWap-->
-   		<!-- Modal -->
+         <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
       <div class="modal-content">
@@ -524,23 +538,26 @@ footer{
         </div>
 
         <div class="modal-body">
+          <%=sbh %>
+        <!-- 
           <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
-          	<span>2022.07.13</span>
+             <span>2022.07.13</span>
           </p>
           <hr />
           <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
-          	<span>2022.07.13</span>
+             <span>2022.07.13</span>
           </p>
           <hr />
           <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
-          	<span>2022.07.13</span>
+             <span>2022.07.13</span>
           </p>
+          -->
           <hr />
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><b>읽음</b></button>
-          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><b>닫기</b></button>
+          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><a href="noticedeleteok.do"><b>읽음</b></button>
+          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><a href=""><b>닫기</b></button>
         </div>
       </div>
     </div>
@@ -557,22 +574,22 @@ footer{
       </section>
       <div class="ex" style="width: 1280px; margin:auto">
       <form action="" method="post" name="" id="form_boss" style="width: 800px;
-   		 margin-top: 100px; margin-left: 210px;">           
-            	<span style=" font-family: 'NanumSquareBold'; font-size:20px;">소모임 : <%=tname %></span>
-            	<%=sbHtml.toString() %>
-            	<!--  
-            	<p>소모임 탈퇴시 작성하신 모든 게시물들은 삭제됩니다.</p>
-            	<p>그래도 탈퇴하시겠습니까?</p>
-            	<div class="btn_area">
-            	
-            		<div class="align">
-						<button class="allbtn" id="bsabtn"><a href="./somoimboard_memberexitok.do?tseq=<%=tseq %>" style="color : #fff">탈퇴</a></button>
-				-->
-					</div>
-							
-            	</div>
-         	</form>
-         	</div>
+          margin-top: 100px; margin-left: 210px;">           
+               <span style=" font-family: 'NanumSquareBold'; font-size:20px; display:inline-block; margin-top:10px;">소모임 : <%=tname %></span>
+               <%=sbHtml.toString() %>
+               <!--  
+               <p>소모임 탈퇴시 작성하신 모든 게시물들은 삭제됩니다.</p>
+               <p>그래도 탈퇴하시겠습니까?</p>
+               <div class="btn_area">
+               
+                  <div class="align">
+                  <button class="allbtn" id="bsabtn"><a href="./somoimboard_memberexitok.do?tseq=<%=tseq %>" style="color : #fff">탈퇴</a></button>
+            -->
+               </div>
+                     
+               </div>
+            </form>
+            </div>
 
     </nav>  
 

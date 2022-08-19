@@ -1,3 +1,4 @@
+<%@page import="com.example.model1.NoticeTO"%>
 <%@page import="com.example.model1.MemberTO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.example.model1.PageTeamMemberTO"%>
@@ -66,6 +67,19 @@
                }    
             }
          }
+      }
+      
+      ArrayList<NoticeTO> noticeList=(ArrayList<NoticeTO>)request.getAttribute("noticeList");
+      String noticeCount=(String)request.getAttribute("noticeCount").toString();
+      
+      StringBuilder sbh=new StringBuilder();
+      for (int i=0; i<noticeList.size(); i++) {
+         String words=noticeList.get(i).getWords();
+         String ndate=noticeList.get(i).getNdate();
+         
+         sbh.append("<p>"+words);
+         sbh.append("<span>"+ndate+"</span>");
+         sbh.append("</p>");
       }
     %>
 
@@ -507,7 +521,7 @@ footer{
                 <li id="bell" style="margin-left: 20px;">
                 	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
 						<img src="images/bell.png">
-					</button>1
+					</button><%=noticeCount %>
 				</li>
             </ul>
           </div>
@@ -523,23 +537,26 @@ footer{
         </div>
 
         <div class="modal-body">
+          <%=sbh %>
+        <!-- 
           <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
-          	<span>2022.07.13</span>
+             <span>2022.07.13</span>
           </p>
           <hr />
           <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
-          	<span>2022.07.13</span>
+             <span>2022.07.13</span>
           </p>
           <hr />
           <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
-          	<span>2022.07.13</span>
+             <span>2022.07.13</span>
           </p>
+          -->
           <hr />
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><b>읽음</b></button>
-          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><b>닫기</b></button>
+          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><a href="noticedeleteok.do"><b>읽음</b></button>
+          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><a href=""><b>닫기</b></button>
         </div>
       </div>
     </div>

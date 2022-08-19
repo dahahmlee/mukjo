@@ -24,7 +24,7 @@
 		out.println("		reverseButtons: false,");
 		out.println("	}).then((result) => {");
 		out.println("		if (result.isConfirmed) {");
-		out.println("		location.href='./somoimboard_view.do?tseq="+tseq+"&bseq="+bseq+"cpage="+cpage+"'");
+		out.println("		location.href='./somoimboard_view.do?tseq="+tseq+"&bseq="+bseq+"&cpage="+cpage+"'");
 		out.println("		}");
 		out.println("	})");
 	} else {

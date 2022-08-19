@@ -1,3 +1,4 @@
+<%@page import="com.example.model1.NoticeTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@page import="com.example.model1.BoardTO"%>
@@ -22,10 +23,24 @@
     }   
     
    String tseq=request.getParameter("tseq");
+   String rname = (String)request.getAttribute("rname");
    String id=request.getParameter("id");
    String latitude=request.getParameter("latitude");
    String longitude=request.getParameter("longitude");
 
+   
+   ArrayList<NoticeTO> noticeList=(ArrayList<NoticeTO>)request.getAttribute("noticeList");
+   String noticeCount=(String)request.getAttribute("noticeCount").toString();
+   
+   StringBuilder sbh=new StringBuilder();
+   for (int i=0; i<noticeList.size(); i++) {
+      String words=noticeList.get(i).getWords();
+      String ndate=noticeList.get(i).getNdate();
+      
+      sbh.append("<p>"+words);
+      sbh.append("<span>"+ndate+"</span>");
+      sbh.append("</p>");
+   }
     %>
 
 <!DOCTYPE html>
@@ -439,7 +454,12 @@ footer{
 	margin-right: 15px;
 }
 
-
+.iw_inner {
+	margin: 5px;
+	padding: 1px 5px;
+	border-radius: 30px;
+	background-color: rgba(4, 117, 244, 0.9);
+}
 </style>
 
 </head>
@@ -459,7 +479,7 @@ footer{
                 <li id="bell" style="margin-left: 20px;">
                 	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
 						<img src="images/bell.png">
-					</button>1
+					</button><%=noticeCount %>
 				</li>
             </ul>
           </div>
@@ -487,6 +507,8 @@ footer{
         </div>
 
         <div class="modal-body">
+          <%=sbh %>
+        <!-- 
           <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
              <span>2022.07.13</span>
           </p>
@@ -498,12 +520,13 @@ footer{
           <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
              <span>2022.07.13</span>
           </p>
+          -->
           <hr />
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><b>읽음</b></button>
-          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><b>닫기</b></button>
+          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><a href="noticedeleteok.do"><b>읽음</b></button>
+          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><a href=""><b>닫기</b></button>
         </div>
       </div>
     </div>
@@ -524,7 +547,7 @@ footer{
                     <div style="width: 50%;">
                          <table border="1" style="width: 100%;    height: 20%;">  
                              <thead>
-                               <td colspan="4"><a href="#">모리가츠</a></td>
+                               <td colspan="4"><a href="#"><%=rname %></a></td>
                                   <tr id="tabBox">
                                     <th scope="col" class="th-title"><a href="./somoimboard_home.do?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" >홈</a></th>
                                     <th scope="col" class="th-date"><a href="./somoimboard_review.do?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" style="color : #de5f47">리뷰</a></th>
@@ -666,6 +689,15 @@ function initMap() {
 	   	position: new naver.maps.LatLng(<%=latitude %>, <%=longitude %>),
 	   	map: map
 	});
+	
+	var infoWindow = new naver.maps.InfoWindow({
+    	content: '<div class=\"iw_inner\"><div class=\"div_font\"style=\"font-size:13px;font-weight:600;text-align:center;padding:10px;color:#ffffff;\"><b><%= rname%></b></div></div>',
+	    	borderWidth: 0,
+	    	disableAnchor: true,
+	    	backgroundColor: 'transparent'
+    });
+	
+	infoWindow.open(map, marker);
 }
 </script>
 </html>

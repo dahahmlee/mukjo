@@ -148,41 +148,7 @@ public class MemberDAO {
 		return count;
 	}
 	
-	//회원 리스트
-	public ArrayList<MemberTO> memberList() {
-		
-		ArrayList<MemberTO> lists=new ArrayList<MemberTO>();
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			conn = this.dataSource.getConnection();
-			
-			String sql="select seq, name, email, date_format(birth,'%y%m%d') as birth from member";
-			pstmt=conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-			rs=pstmt.executeQuery();
-			
-			while(rs.next()) {
-				MemberTO to=new MemberTO();
-				to.setSeq(rs.getString("seq"));
-				to.setName(rs.getString("name"));
-				to.setEmail(rs.getString("email"));
-				to.setBirth(rs.getString("birth"));
-				
-				lists.add(to);
-			}
-		} catch(SQLException e) {
-			System.out.println("[에러]: " + e.getMessage());
-		} finally {
-			if(rs != null) try{ rs.close(); } catch(SQLException e) {}
-			if(pstmt != null) try{ pstmt.close(); } catch(SQLException e) {}
-			if(conn != null) try{ conn.close(); } catch(SQLException e) {}
-		}
-		
-		return lists;
-	}
-	
-	//회원리스트 - 페이징
+	//전체 회원리스트 - 페이징
 	public PageMemberTO memberList(PageMemberTO pageMemberTO) {
 		Connection conn=null;
 		PreparedStatement pstmt=null;
@@ -196,6 +162,60 @@ public class MemberDAO {
 			conn=this.dataSource.getConnection();
 
 			String sql="select seq, name, email, date_format(birth,'%y%m%d') as birth from member";
+			pstmt=conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			rs=pstmt.executeQuery();
+
+			rs.last(); //읽기 커서를 맨 마지막 행으로 이동
+			pageMemberTO.setTotalRecord(rs.getRow());
+			rs.beforeFirst(); //읽기 커서를 맨 첫행으로 이동
+
+			//전체 페이지
+			pageMemberTO.setTotalPage((pageMemberTO.getTotalRecord()-1)/recordPerPage+1);
+
+			//시작번호 - 읽을 데이터 위치 지정
+			int skip=(cpage-1)*recordPerPage;
+			if (skip!=0) rs.absolute(skip); //커서를 주어진 행으로 이동
+
+			ArrayList<MemberTO> memberLists=new ArrayList<MemberTO>();
+			for (int i=0;i<recordPerPage && rs.next();i++) {
+				MemberTO to=new MemberTO();
+				to.setSeq(rs.getString("seq"));
+				to.setName(rs.getString("name"));
+				to.setEmail(rs.getString("email"));
+				to.setBirth(rs.getString("birth"));
+
+				memberLists.add(to);
+			}
+			pageMemberTO.setMemberLists(memberLists);
+			pageMemberTO.setStartBlock((cpage-1)/blockPerPage*blockPerPage+1);
+			pageMemberTO.setEndBlock((cpage-1)/blockPerPage*blockPerPage+blockPerPage);
+			if (pageMemberTO.getEndBlock()>=pageMemberTO.getTotalPage()) {
+				pageMemberTO.setEndBlock(pageMemberTO.getTotalPage());
+			}
+		} catch (SQLException e) {
+			System.out.println("[에러]:"+e.getMessage());
+		} finally {
+			if (conn!=null) try {conn.close();} catch (SQLException e) {}
+			if (pstmt!=null) try {pstmt.close();} catch (SQLException e) {}
+			if (rs!=null) try {rs.close();} catch (SQLException e) {}
+		}
+		return pageMemberTO;
+	}
+	
+	//전체 회원리스트 - 페이징 + 검색
+	public PageMemberTO memberListSearch(PageMemberTO pageMemberTO, String search) {
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+
+		int cpage=pageMemberTO.getCpage();
+		int recordPerPage=pageMemberTO.getRecordPerPage();
+		int blockPerPage=pageMemberTO.getBlockPerPage();
+
+		try {
+			conn=this.dataSource.getConnection();
+
+			String sql="select seq, name, email, date_format(birth,'%y%m%d') as birth from member where name like '%"+search+"%'";
 			pstmt=conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			rs=pstmt.executeQuery();
 
@@ -464,4 +484,78 @@ public class MemberDAO {
 		}
 		return pageTeamMemberTO;
 	}
+	
+	//회원 탈퇴
+		public int myPage_info_delete(String seq) {
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+		
+			int flag=1;
+			
+			if (seq.equals("1")) {
+				flag=50;
+			} else {
+				try {
+					conn = this.dataSource.getConnection();
+					
+					String sql = "SET foreign_key_checks = 0";
+					pstmt = conn.prepareStatement(sql);
+					pstmt.executeUpdate();
+					
+					sql = "delete from favorite where seq=?";
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, seq);
+					pstmt.executeUpdate();
+					
+					sql = "delete from teammember where seq=?";
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, seq);
+					pstmt.executeUpdate();
+					
+					sql = "delete from team where seq=?";
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, seq);
+					pstmt.executeUpdate();
+					
+					sql = "delete from boardcmt where seq=?";
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, seq);
+					pstmt.executeUpdate();
+					
+					sql = "delete from board where seq=?";
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, seq);
+					pstmt.executeUpdate();
+					
+					/*
+					sql = "delete from reviewcmt where seq=?";
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, seq);
+					pstmt.executeUpdate();
+					*/
+					
+					sql = "delete from review where seq=?";
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, seq);
+					pstmt.executeUpdate();
+					
+					String sql3 = "SET foreign_key_checks = 1";
+					pstmt = conn.prepareStatement(sql3);
+					pstmt.executeUpdate();
+					
+					String sql2 = "delete from member where seq=?";
+					pstmt = conn.prepareStatement(sql2);
+					pstmt.setString(1, seq);
+					if(pstmt.executeUpdate() == 1) {
+						flag = 0;
+					}
+				} catch(SQLException e) {
+					System.out.println("[에러]: " + e.getMessage());
+				} finally {
+					if(pstmt != null) try{ pstmt.close(); } catch(SQLException e) {}
+					if(conn != null) try{ conn.close(); } catch(SQLException e) {}
+				}
+			}
+			return flag;
+		}
 }

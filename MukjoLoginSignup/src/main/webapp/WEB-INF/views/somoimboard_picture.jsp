@@ -1,3 +1,4 @@
+<%@page import="com.example.model1.NoticeTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@page import="com.example.model1.MapDAO3"%>
@@ -35,17 +36,31 @@
        } else if (i==1) {
           pos="0px;left: 305px";
        } else if (i==2) {
-          pos="400px; left: 0.5px";
+          pos="237px; left: 0.5px";
        } else if (i==3) {
-          pos="399px; left: 304.5px";
+          pos="236px; left: 304.5px";
        } else {
-          pos="702px; left: 0.5px";
+          pos="475px; left: 0.5px";
        }
+        
          sb.append("<div data-grid-groupkey='0' class='_21zjL' style='position: absolute; top:"+pos+";'>");
          sb.append("<a href='"+pic.get(i)+"' target='_self' role='button' class='place_thumb'>");
          sb.append("<img src='"+pic.get(i)+"' alt='사진' width='100%' height='auto'>");
          sb.append("</a></div>>");
       }
+   
+   ArrayList<NoticeTO> noticeList=(ArrayList<NoticeTO>)request.getAttribute("noticeList");
+   String noticeCount=(String)request.getAttribute("noticeCount").toString();
+   
+   StringBuilder sbh=new StringBuilder();
+   for (int i=0; i<noticeList.size(); i++) {
+      String words=noticeList.get(i).getWords();
+      String ndate=noticeList.get(i).getNdate();
+      
+      sbh.append("<p>"+words);
+      sbh.append("<span>"+ndate+"</span>");
+      sbh.append("</p>");
+   }
     %>
 
 <!DOCTYPE html>
@@ -223,7 +238,7 @@ nav{
 
 #headerWap h3{
     font-weight: bold;
-	font-size: 15px;
+   font-size: 15px;
     justify-content: left;
     position: absolute;
     margin-left: 120px;
@@ -359,16 +374,16 @@ footer{
 }
 
 .tblmain table td {
-	border: 1px solid black;
+   border: 1px solid black;
 }
 
 .tblmain table th {
-	border: 1px solid black;
-	border-bottom: none;
+   border: 1px solid black;
+   border-bottom: none;
 }
 
 .tblmain table tr {
-	border: 1px solid black;
+   border: 1px solid black;
 }
 
 .modal-dialog {
@@ -380,19 +395,30 @@ footer{
 }
 
 .modal-content {
-	border: 1px solid black;
+   border: 1px solid black;
     height: 100%;
 }
 
 #noticelogo {
-	width: 25%;
+   width: 25%;
 }
 
 .modal-body span {
-	float: right;
-	margin-right: 15px;
+   float: right;
+   margin-right: 15px;
 }
 
+._21zjL img{
+   width:290px;
+   height:230px;
+}
+
+.iw_inner {
+	margin: 5px;
+	padding: 1px 5px;
+	border-radius: 30px;
+	background-color: rgba(4, 117, 244, 0.9);
+}
 </style>
 
 </head>
@@ -412,7 +438,7 @@ footer{
                 <li id="bell" style="margin-left: 20px;">
                 	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
 						<img src="images/bell.png">
-					</button>1
+					</button><%=noticeCount %>
 				</li>
             </ul>
           </div>
@@ -428,23 +454,26 @@ footer{
         </div>
 
         <div class="modal-body">
+          <%=sbh %>
+        <!-- 
           <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
-          	<span>2022.07.13</span>
+             <span>2022.07.13</span>
           </p>
           <hr />
           <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
-          	<span>2022.07.13</span>
+             <span>2022.07.13</span>
           </p>
           <hr />
           <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
-          	<span>2022.07.13</span>
+             <span>2022.07.13</span>
           </p>
+          -->
           <hr />
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><b>읽음</b></button>
-          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><b>닫기</b></button>
+          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><a href="noticedeleteok.do"><b>읽음</b></button>
+          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><a href=""><b>닫기</b></button>
         </div>
       </div>
     </div>
@@ -490,7 +519,7 @@ footer{
                          </table>
 
                          <div id="itemBox">
-                            <div style="position:relative; height: 2000px;">
+                            <div style="position:relative; height: 700px;">
                         <%=sb %>
                         <!--  
                                 <div data-grid-groupkey="0" class="_21zjL" style="position: absolute; top: 0px; left: 0.5px;">
@@ -547,8 +576,6 @@ footer{
                            </div><!-- 사진 relative용-->
                         </div><!-- itemBox-->
                     </div><!-- width 50%용-->
-
-
                     <div class="maps" style="width:50%;">
 				<div id="map" style="width:100%;height:450px;"></div>
 			</div>
@@ -575,6 +602,15 @@ function initMap() {
 	   	position: new naver.maps.LatLng(<%=latitude %>, <%=longitude %>),
 	   	map: map
 	});
+	
+	var infoWindow = new naver.maps.InfoWindow({
+    	content: '<div class=\"iw_inner\"><div class=\"div_font\"style=\"font-size:13px;font-weight:600;text-align:center;padding:10px;color:#ffffff;\"><b><%= rname%></b></div></div>',
+	    	borderWidth: 0,
+	    	disableAnchor: true,
+	    	backgroundColor: 'transparent'
+    });
+	
+	infoWindow.open(map, marker);
 }
 </script>
 </html>

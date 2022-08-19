@@ -552,6 +552,10 @@ textarea {
 	float: right;
 	margin-right: 15px;
 }
+
+#modalBtn:hover {
+	background-color: #5c3018;
+}
 </style>
 
 </head>
@@ -571,7 +575,7 @@ textarea {
                 <li id="bell" style="margin-left: 20px;">
                 	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
 						<img src="images/bell.png">
-					</button>1
+					</button>0
 				</li>
             </ul>
           </div>
@@ -587,18 +591,7 @@ textarea {
         </div>
 
         <div class="modal-body">
-          <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
-          	<span>2022.07.13</span>
-          </p>
-          <hr />
-          <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
-          	<span>2022.07.13</span>
-          </p>
-          <hr />
-          <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
-          	<span>2022.07.13</span>
-          </p>
-          <hr />
+          
         </div>
 
         <div class="modal-footer">

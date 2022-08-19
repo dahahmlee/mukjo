@@ -1,3 +1,5 @@
+<%@page import="com.example.model1.NoticeTO"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="com.example.model1.MemberTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
@@ -26,6 +28,19 @@
        String birth=to.getBirth();
        String phone=to.getPhone();
        String password=to.getPassword();
+       
+       ArrayList<NoticeTO> noticeList=(ArrayList<NoticeTO>)request.getAttribute("noticeList");
+       String noticeCount=(String)request.getAttribute("noticeCount").toString();
+       
+       StringBuilder sbh=new StringBuilder();
+       for (int i=0; i<noticeList.size(); i++) {
+          String words=noticeList.get(i).getWords();
+          String ndate=noticeList.get(i).getNdate();
+          
+          sbh.append("<p>"+words);
+          sbh.append("<span>"+ndate+"</span>");
+          sbh.append("</p>");
+       }
     %>
 
 <!DOCTYPE html>
@@ -586,6 +601,10 @@ footer {
 	float: right;
 	margin-right: 15px;
 }
+
+#modalBtn:hover {
+	background-color: #5c3018;
+}
 </style>
 <script type="text/javascript">
     window.onload = function() {
@@ -641,14 +660,14 @@ footer {
             </h1>
             <h3><%=welcome %><a href="logoutok.do" id="logout" style="color : gray"><br/><%=log %></a></h3>
             <ul>
-                <li><b><a href="myPage.do">마이페이지</a></b></li>
+                <li><b><a href="myPage.do" style="color : #de5f47;">마이페이지</a></b></li>
                 <li><b><a href="boss.do">소모임장페이지</a></b></li>
                 <li><b><a href="admin.do">관리자페이지</b></li></a>
                 <li><b><a href="favorite.do">즐겨찾기</b></li></a>
                 <li id="bell" style="margin-left: 20px;">
                 	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
 						<img src="images/bell.png">
-					</button>1
+					</button><%=noticeCount %>
 				</li>
             </ul>
           </div>
@@ -663,23 +682,26 @@ footer {
         </div>
 
         <div class="modal-body">
+          <%=sbh %>
+        <!-- 
           <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
-          	<span>2022.07.13</span>
+             <span>2022.07.13</span>
           </p>
           <hr />
           <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
-          	<span>2022.07.13</span>
+             <span>2022.07.13</span>
           </p>
           <hr />
           <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
-          	<span>2022.07.13</span>
+             <span>2022.07.13</span>
           </p>
+          -->
           <hr />
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><b>읽음</b></button>
-          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><b>닫기</b></button>
+          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><a href="noticedeleteok.do"><b>읽음</b></button>
+          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><a href=""><b>닫기</b></button>
         </div>
       </div>
     </div>
@@ -736,7 +758,7 @@ footer {
             <div class="submit">
                     <input type="button" id="mpBtn1" value="수정" >
                     &nbsp;&nbsp;
-                    <input type="button" id="mpBtn2" value="회원탈퇴">
+                    <input type="button" id="mpBtn2" value="회원탈퇴" onclick="location.href='./myPage_info_delete.do?seq=<%=seq %>'">
             </div>
       </form>
    </div>

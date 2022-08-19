@@ -9,8 +9,8 @@
 	out.println("<script type='text/javascript'>");
 	out.println("$().ready(function () {");
 	String tseq = request.getParameter("tseq");
-	String bseq =request.getParameter("bseq");
-	
+	String bseq = request.getParameter("bseq");
+	String cpage = request.getParameter("cpage");
 	if(flag == 1) {
 		out.println("	Swal.fire({");
 		out.println("		title: '댓글작성 성공',");
@@ -21,7 +21,7 @@
 		out.println("		reverseButtons: false,");
 		out.println("	}).then((result) => {");
 		out.println("		if (result.isConfirmed) {");
-		out.println("		location.href='somoimboard_view.do?tseq="+tseq+"&bseq="+bseq+"'");
+		out.println("		location.href='somoimboard_view.do?tseq="+tseq+"&cpage="+cpage+"&bseq="+bseq+"'");
 		out.println("		}");
 		out.println("	})");
 	} else {

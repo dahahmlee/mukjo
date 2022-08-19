@@ -1,3 +1,4 @@
+<%@page import="com.example.model1.NoticeTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList"%>
@@ -51,6 +52,19 @@
 	}
 	mHtml.deleteCharAt(mHtml.length() - 1);
 	mHtml.append( "]" );
+	
+	 ArrayList<NoticeTO> noticeList=(ArrayList<NoticeTO>)request.getAttribute("noticeList");
+     String noticeCount=(String)request.getAttribute("noticeCount").toString();
+     
+     StringBuilder sbh=new StringBuilder();
+     for (int i=0; i<noticeList.size(); i++) {
+        String words=noticeList.get(i).getWords();
+        String ndate=noticeList.get(i).getNdate();
+        
+        sbh.append("<p>"+words);
+        sbh.append("<span>"+ndate+"</span>");
+        sbh.append("</p>");
+     }
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -477,7 +491,12 @@ footer{
 	margin-right: 15px;
 }
 
-
+.iw_inner {
+	margin: 5px;
+	padding: 1px 5px;
+	border-radius: 30px;
+	background-color: rgba(4, 117, 244, 0.9);
+}
 </style>
 
 </head>
@@ -490,15 +509,15 @@ footer{
             </h1>
             <h3><%=welcome %><a href="logoutok.do" id="logout" style="color : gray"><br/><%=log %></a></h3>
             <ul>
-                <li><b><a href="myPage.do">마이페이지</a></b></li>
-                <li><b><a href="boss.do">소모임장페이지</a></b></li>
-                <li><b><a href="admin.do">관리자페이지</a></b></li>
-                <li><b><a href="favorite.do">즐겨찾기</a></b></li>
-                <li id="bell">
-                   <button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                  <img src="images/bell.png">
-               </button> 
-            </li>
+                <li><b><a href="myPage.do" >마이페이지</a></b></li>
+                <li><b><a href="boss.do" >소모임장페이지</a></b></li>
+                <li><b><a href="admin.do">관리자페이지</b></li></a>
+                <li><b><a href="favorite.do">즐겨찾기</b></li></a>
+                <li id="bell" style="margin-left: 20px;">
+                	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+						<img src="images/bell.png">
+					</button><%=noticeCount %>
+				</li>
             </ul>
           </div>
         </div> <!--headerWap-->
@@ -513,6 +532,8 @@ footer{
         </div>
 
         <div class="modal-body">
+          <%=sbh %>
+        <!-- 
           <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
              <span>2022.07.13</span>
           </p>
@@ -524,12 +545,13 @@ footer{
           <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
              <span>2022.07.13</span>
           </p>
+          -->
           <hr />
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><b>읽음</b></button>
-          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><b>닫기</b></button>
+          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><a href="noticedeleteok.do"><b>읽음</b></button>
+          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><a href=""><b>닫기</b></button>
         </div>
       </div>
     </div>
@@ -620,7 +642,6 @@ footer{
  -->
 </body>
 <script type="text/javascript">
-
 $(function() {
 	initMap();
 })
@@ -630,25 +651,32 @@ function initMap() {
 	let infoWindows = [];
 
 	<%=mHtml.toString() %>
+	
+	// 지도가 뜰때 중심
 	var map = new naver.maps.Map('map', {
 	    center: new naver.maps.LatLng(loc[0].Lat, loc[0].Lng),
-	    zoom: 15
+	    zoom: 16
 	});
 	
+	// 마커들마다 위도 경도
 	for(var i in loc) {
 		var marker = new naver.maps.Marker({
 	    	position: new naver.maps.LatLng(loc[i].Lat, loc[i].Lng),
 	    	map: map
 	    });
 
+		// 정보창
 	    var infoWindow = new naver.maps.InfoWindow({
-	    	content: '<div style=\"width:150px;text-align:center;padding:10px;\"><b>' + loc[i].Name + '</b></div>'
+	    	content: '<div class=\"iw_inner\"><div class=\"div_font\"style=\"font-size:13px;font-weight:600;text-align:center;padding:10px;color:#ffffff;\"><b>' + loc[i].Name + '</b></div></div>',
+	    	borderWidth: 0,
+	    	disableAnchor: true,
+	    	backgroundColor: 'transparent'
 	    });
+		
+	    markers.push(marker);
+		infoWindows.push(infoWindow);
 	}
     
-	markers.push(marker);
-	infoWindows.push(infoWindow);
-	
 	naver.maps.Event.addListener(map, 'idle', function() {
 	    updateMarkers(map, markers);
 	});

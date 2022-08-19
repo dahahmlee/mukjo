@@ -1,3 +1,4 @@
+<%@page import="com.example.model1.NoticeTO"%>
 <%@page import="com.example.model1.PageMainTeamTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -7,10 +8,8 @@
    String log = "LOGIN";
    
    HttpSession sess = request.getSession();
-
    String loginedMemberSeq = (String)sess.getAttribute("loginedMemberSeq");
    String welcome = "";
-
    if(loginedMemberSeq != null) {
       welcome = (String)sess.getAttribute("loginedMemberName")+"님 환영합니다.";
       log = "LOGOUT";
@@ -21,7 +20,6 @@
    }
    
    PageMainTeamTO pageMainTeamTO = (PageMainTeamTO)request.getAttribute("pageMainTeamTO");
-
    int cpage = pageMainTeamTO.getCpage();
    int recordPerPage = pageMainTeamTO.getRecordPerPage();
    int totalRecord = pageMainTeamTO.getTotalRecord();
@@ -31,11 +29,9 @@
    int endBlock = pageMainTeamTO.getEndBlock();
    
    ArrayList<TeamTO> memberLists = pageMainTeamTO.getMainTeamLists();
-
    int num = 1;
    
    StringBuilder sbHtml = new StringBuilder();
-
    for (int j = 0 ; j < memberLists.size() ; j = j+20) {
       num = (pageMainTeamTO.getCpage() - 1) * 20+1;
       for (int i = j ; i < j+20 ; i++) {
@@ -58,6 +54,19 @@
          }
       }
    }
+   
+   ArrayList<NoticeTO> noticeList=(ArrayList<NoticeTO>)request.getAttribute("noticeList");
+   String noticeCount=(String)request.getAttribute("noticeCount").toString();
+   
+   StringBuilder sbh=new StringBuilder();
+   for (int i=0; i<noticeList.size(); i++) {
+      String words=noticeList.get(i).getWords();
+      String ndate=noticeList.get(i).getNdate();
+      
+      sbh.append("<p>"+words);
+      sbh.append("<span>"+ndate+"</span>");
+      sbh.append("</p>");
+   }
 %>
     
 <!DOCTYPE html>
@@ -79,15 +88,11 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
 <style>
-
-
 /** common **/
-
 body,ul ,li, h1,h2,h3{
    margin: 0;
    padding: 0;
 }
-
 input{
    writing-mode: horizontal-tb !important;
    text-rendering: auto;
@@ -106,31 +111,25 @@ input{
    border: none;
    outline: none;
 }
-
 ul{
    list-style:none;
 }
-
 a:link {color : black; text-decoration: none}
 a:visited {color: black; text-decoration: none;}
 a:hover {color: #5c3018; text-decoration: none;}
 a:active {color: #de5f47; text-decoration: none;}
-
 img{
     width: 100%;
     padding-bottom: 5px;
 }
-
 table{
    text-align: center;
 }
-
 :root {
    --button-color: #ffffff;
    --button-bg-color: #5c3018;
    --button-hover-bg-color: #5c3018;
 }
-
 button {
    -webkit-appearance: none;
    -moz-appearance: none;
@@ -152,7 +151,6 @@ button {
    cursor: pointer;
    transition: 0.5s;
 }
-
 button:active,
 button:hover,
 button:focus {
@@ -162,42 +160,34 @@ button:focus {
 button:disabled {
    opacity: 0.5;
 }
-
 /** nav **/
 nav{
    position: sticky;
    top : 0;
 }
-
 #header{
    border-bottom: #c7bebe 1px solid;
    z-index: 1050;
 }
-
 #headerWap h3 {
    font-size: 15px;
    justify-content: left;
    position: absolute;
    margin-left: 120px;
 }
-
 #header ul{
    display: flex;
    font-family: 'NanumSquareBold';
 }
-
 #header ul li{
    margin-left: 65px;
 }
-
 #header ul li b{
    line-height: 41.5px;
 }
-
 #logoSec{
    width: 8%;
 }
-
 #logout{
    font-weight:bold;
    color: grey;
@@ -205,14 +195,12 @@ nav{
    text-decoration: underline;
    margin-right: 17%;
 }
-
 #bell{
    width: 60px;
    display:flex;
    align-items: center;
    color: red;
 }
-
 #headerWap{
    width:1280px;
    margin: auto;
@@ -222,7 +210,6 @@ nav{
    align-items : center;
    background-color: white;
 }
-
 #headerWap h3 {
    font-weight: bold;
    font-size: 15px;
@@ -230,14 +217,11 @@ nav{
    position: absolute;
    margin-left: 120px;
 }
-
 /***** warp  *****/
 #wrap{
    width: 1280px; 
    margin : auto;
 }
-
-
 /* 타이틀 섹션 */
 #titSec strong{
    font-family: 'NanumSquareExtraBold';
@@ -245,9 +229,6 @@ nav{
    padding: 30px 0 30px 0;
    display: inline-block;
 }
-
-
-
 /* 버튼 섹션*/
 #btnSec {
    border-bottom: 2px solid #5c3018; 
@@ -255,28 +236,23 @@ nav{
    justify-content: space-between;
    width: 100%;
 }
-
 #btnSec button{
    margin-left: 10px;
    margin-bottom: 5px;
 }
-
 #btnSec strong{
    font-family: 'NanumSquareExtraBold';
    font-size: 25px;
    display: inline-block;
    padding-left: 50px;
 }
-
 #btnSec .search-wrap{
    margin-left : 50%;
 }
-
 #locationSec{
    width: 100%;
    background-color: #f7f7fd;
 }
-
 #locationSec button{
    font-weight: 500;
    background: none;
@@ -284,18 +260,15 @@ nav{
    outline: none;
    box-shadow: none;
 }
-
 #locationwrap{
    width: 1280px;
    margin: 0 auto;
    height: 55px;
    padding-top: 13px;
 }
-
 #locationwrap button{
    font-family: 'NanumSquareBold';
 }
-
 .allbtn{
    color : #333;
    position : relative;
@@ -313,25 +286,20 @@ nav{
     margin-top: 8%;
 }
 */
-
 .active{
    color: #de5f47;
 }
-
 a{
    text-decoration: none;
 }
-
 *{
    box-sizing: border-box;
 }
-
 .btn-close{
    position: absolute;
    top : 15px;
    right: 15px;
 }
-
 .btn-guide{
    background-color: #de5f47;
    color: #fff;
@@ -339,43 +307,34 @@ a{
    font-size: 14px;
    padding : 7px;
 }
-
 .btn-guide a{
    color : #fff
 }
 #modal-search{
    border : 1px solid black;
 }
-
-
 /* 테이블 섹션 */
 #tblSec table{
    width: 100%;
    border-collapse: collapse;
 }
-
 #tblSec table td{
    height: 45px;
    border-bottom : 1px solid #c7bebe;
 }
-
 #tblWrap{
    padding-top: 30px;
 }
-
 /***** pagingSec  *****/
 #pagingSec ul{
    display: flex;
 }
-
-
 #pagingSec{
    display: flex;
    justify-content: center;
    margin-top: 30px;
    line-height: 2.5;
 }
-
 #btnSec .search-wrap{
    align-items: center;
    width: 282px;
@@ -389,12 +348,10 @@ a{
    overflow: hidden;
    position: relative;
 }
-
 #pagingSec .search-wrap #search{
    height: 37.6px;
    margin-right: 4px;
 }
-
 .search-wrap input{
    height: 32px;
    width: 80%;
@@ -403,7 +360,6 @@ a{
    box-sizing: border-box;
    margin-left:20px;
 }
-
 /* width : 30, height : 45 */
 .search-wrap button{
    width: 30px;
@@ -416,7 +372,6 @@ a{
    position: absolute;
    background-size: 38px 25px;
 }
-
 #pagingSec ul li{
    width: 42px;
    height: 42px;
@@ -426,18 +381,14 @@ a{
    border: 1px solid #c4c4c4;
    border-radius: 10%;
 }
-
-
 #pagingSec .active{
    color:white;
    background-color: #de5f47;
 }
-
    .board_pagetab { text-align: center; display: inline-flex; position:relative;}
    .board_pagetab a { text-decoration: none; font: 12px verdana; color: #000; padding: 0 3px 0 3px; }
    /* .board_pagetab ul a:hover  { background-color:black; } */
    .on a { font-weight: bold; }
-
 /***** footer  *****/
 footer{
    width: 100%;
@@ -445,12 +396,10 @@ footer{
    background-color: #d7d7d7;
    margin-top: 5%;
 }
-
 .board-table th  {
    padding-bottom: 10px;
    border-bottom: 1px solid black;
 }
-
 .modal-dialog {
     position: fixed;
     margin: auto;
@@ -465,7 +414,6 @@ footer{
 #noticelogo {
 	width: 25%;
 }
-
 .modal-body span {
 	float: right;
 	margin-right: 15px;
@@ -491,7 +439,7 @@ footer{
                <li id="bell" style="margin-left: 20px;">
                 	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
 						<img src="images/bell.png">
-					</button>1
+					</button><%=noticeCount %>
 				</li>
             </ul>
          </div> <!--headerWap-->
@@ -507,23 +455,26 @@ footer{
         </div>
 
         <div class="modal-body">
+          <%=sbh %>
+        <!-- 
           <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
-          	<span>2022.07.13</span>
+             <span>2022.07.13</span>
           </p>
           <hr />
           <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
-          	<span>2022.07.13</span>
+             <span>2022.07.13</span>
           </p>
           <hr />
           <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
-          	<span>2022.07.13</span>
+             <span>2022.07.13</span>
           </p>
+          -->
           <hr />
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><b>읽음</b></button>
-          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><b>닫기</b></button>
+          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><a href="noticedeleteok.do"><b>읽음</b></button>
+          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><a href=""><b>닫기</b></button>
         </div>
       </div>
     </div>
@@ -656,7 +607,6 @@ footer{
    } else {
       out.println("<span><a href='mainall.do?cpage="+(startBlock-blockPerPage)+"'>&lt;&lt;</a>&nbsp;&nbsp;</span>");
    }
-
    if (cpage==1) { //<
       out.println("<span><a>&lt;</a>&nbsp;&nbsp;</span>");
    } else {

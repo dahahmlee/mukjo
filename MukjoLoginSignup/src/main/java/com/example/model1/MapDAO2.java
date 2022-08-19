@@ -59,10 +59,10 @@ public class MapDAO2 {
             MenuTO to=new MenuTO();
             if (what.split(link)[i].contains("이미지 준비중")) {
                //이미지 없음
-               to.setRmenuimage("https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Noimage.svg/1479px-Noimage.svg.png");
+               to.setRmenuimage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsNGGjrfSqqv8UjL18xS4YypbK-q7po_8oVQ&usqp=CAU");
             } else if (!what.split(link)[i].contains("ground-image")) {
                //이미지 없음
-               to.setRmenuimage("https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Noimage.svg/1479px-Noimage.svg.png");
+               to.setRmenuimage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsNGGjrfSqqv8UjL18xS4YypbK-q7po_8oVQ&usqp=CAU");
             } else {
                to.setRmenuimage(what.split(link)[i].replace("&quot;","").split("background-image:url")[1].split("<span class=\"place_blind\">")[0].replace(")\">","").replace("(",""));
             }

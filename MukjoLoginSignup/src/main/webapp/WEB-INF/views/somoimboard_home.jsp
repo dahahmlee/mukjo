@@ -1,3 +1,4 @@
+<%@page import="com.example.model1.NoticeTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList"%>
@@ -20,9 +21,11 @@
     
    ArrayList<String> resDetail=(ArrayList)request.getAttribute("resDetail");
    String tseq=request.getParameter("tseq");
+   
    String id=request.getParameter("id");
    String latitude=request.getParameter("latitude");
    String longitude=request.getParameter("longitude");
+
 
    String rname="";
    String rloc="";
@@ -41,7 +44,7 @@
     
     StringBuilder sb=new StringBuilder();
     sb.append("<tr>");
-    sb.append("      <td>위치</td>");
+    sb.append("      <td style='padding: 35px;'>위치</td>");
     sb.append("      <td>"+rloc+"</td>");
     sb.append("</tr>");
     sb.append("<tr>");
@@ -53,13 +56,26 @@
     sb.append("      <td>"+rsite+"</td>");
     sb.append("</tr>");
     sb.append("<tr>");
-    sb.append("      <td>영업시간</td>");
+    sb.append("      <td style='padding:45px;'>영업시간</td>");
     sb.append("      <td>"+rtime+"</td>");
     sb.append("</tr>");
     sb.append("<tr>");
-    sb.append("      <td>편의시설</td>");
+    sb.append("      <td style='padding:35px;'>편의시설</td>");
     sb.append("      <td>"+rfac+"</td>");
     sb.append("</tr>");
+    
+    ArrayList<NoticeTO> noticeList=(ArrayList<NoticeTO>)request.getAttribute("noticeList");
+    String noticeCount=(String)request.getAttribute("noticeCount").toString();
+    
+    StringBuilder sbh=new StringBuilder();
+    for (int i=0; i<noticeList.size(); i++) {
+       String words=noticeList.get(i).getWords();
+       String ndate=noticeList.get(i).getNdate();
+       
+       sbh.append("<p>"+words);
+       sbh.append("<span>"+ndate+"</span>");
+       sbh.append("</p>");
+    }
       
     
     %>
@@ -76,12 +92,21 @@
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet">
     <!-- 부트스트랩 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<!-- Bootstrap (for modal) -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+   <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raty/3.1.1/jquery.raty.min.js" integrity="sha512-Isj3SyFm+B8u/cErwzYj2iEgBorGyWqdFVb934Y+jajNg9kiYQQc9pbmiIgq/bDcar9ijmw4W+bd72UK/tzcsA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+   <!-- Bootstrap (for modal) -->
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+   
+   <!-- Bootstrap (for modal) -->
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <!-- 지도 -->
 <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=f8b62z9xjz&amp;submodules=geocoder"></script>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
 
 <style>
 /** common **/
@@ -240,7 +265,7 @@ nav{
 }
 
 #headerWap h3{
-	font-weight: bold;
+   font-weight: bold;
     font-size: 15px;
     justify-content: left;
     position: absolute;
@@ -353,7 +378,7 @@ nav{
 
 #good tr:nth-child(2) td:nth-child(2n+0){
     width: 66%;
-		}
+      }
 
 .picture td{
    width: 33%;
@@ -368,6 +393,7 @@ td { word-break: break-all; }
 
 #star {
   display: flex;
+  margin-top: 10px;
 }
 
 .star {
@@ -392,16 +418,16 @@ footer{
 }
 
 .tblmain table td {
-	border: 1px solid black;
+   border: 1px solid black;
 }
 
 .tblmain table th {
-	border: 1px solid black;
-	border-bottom: none;
+   border: 1px solid black;
+   border-bottom: none;
 }
 
 .tblmain table tr {
-	border: 1px solid black;
+   border: 1px solid black;
 }
 
 .modal-dialog {
@@ -413,20 +439,25 @@ footer{
 }
 
 .modal-content {
-	border: 1px solid black;
+   border: 1px solid black;
     height: 100%;
 }
 
 #noticelogo {
-	width: 25%;
+   width: 25%;
 }
 
 .modal-body span {
-	float: right;
-	margin-right: 15px;
+   float: right;
+   margin-right: 15px;
 }
 
-
+.iw_inner {
+	margin: 5px;
+	padding: 1px 5px;
+	border-radius: 30px;
+	background-color: rgba(4, 117, 244, 0.9);
+}
 </style>
 
 </head>
@@ -444,10 +475,10 @@ footer{
                 <li><b><a href="admin.do">관리자페이지</b></li></a>
                 <li><b><a href="favorite.do">즐겨찾기</b></li></a>
                 <li id="bell" style="margin-left: 20px;">
-                	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-						<img src="images/bell.png">
-					</button>1
-				</li>
+                   <button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  <img src="images/bell.png">
+               </button><%=noticeCount %>
+            </li>
             </ul>
           </div>
         </div> <!--headerWap-->
@@ -462,23 +493,26 @@ footer{
         </div>
 
         <div class="modal-body">
+          <%=sbh %>
+        <!-- 
           <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
-          	<span>2022.07.13</span>
+             <span>2022.07.13</span>
           </p>
           <hr />
           <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
-          	<span>2022.07.13</span>
+             <span>2022.07.13</span>
           </p>
           <hr />
           <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
-          	<span>2022.07.13</span>
+             <span>2022.07.13</span>
           </p>
+          -->
           <hr />
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><b>읽음</b></button>
-          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><b>닫기</b></button>
+          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><a href="noticedeleteok.do"><b>읽음</b></button>
+          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><a href=""><b>닫기</b></button>
         </div>
       </div>
     </div>
@@ -514,20 +548,45 @@ footer{
                          <table border="1" style="width: 100%;    height: 20%;">  
                              <thead>
                              <tr style="position:relative">
+
+                     
+                               <td colspan="4" class="homesub"><a href="#" style=" font-weight:bold;"><%= rname %></a>
+                                <div class="star-container div2" id="star" style="width: 5%;
+                                      position: absolute;
+                                      right: 1%;
+                                      top: -37%;">
+                                         <a href="#">
+                                         	<span class="star">★</span>
+                                         </a>
+                              
+                     <!-- 
+
+
                                <td colspan="4" class="homesub"><a href="#" style=" font-weight:bold;"><%=rname %></a>
                                 <div class="star-container" id="star" style="width: 5%;
                                       position: absolute;
                                       right: 1%;
                                       top: -19%;">
                                          <a class="star">★</a>
+
+                           -->
+
+
                                         </div>  
                                </td>
                                </tr>
                                   <tr id="tabBox">
+                               <!-- 
+                                    <th scope="col" class="th-title"><a href="./somoimboard_home.do?tseq=<%=tseq%>" style="color : #de5f47">홈</a></th>
+                                    <th scope="col" class="th-date"><a href="./somoimboard_review.do?tseq=<%=tseq%>">리뷰</a></th>
+                                    <th scope="col" class="th-num"><a href="./somoimboard_menu.do?tseq=<%=tseq%>">메뉴</a></th>
+                                    <th scope="col" class="th-date"><a href="./somoimboard_picture.do?tseq=<%=tseq%>">사진</a></th>
+                               -->
                                     <th scope="col" class="th-title"><a href="./somoimboard_home.do?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" style="color : #de5f47">홈</a></th>
                                     <th scope="col" class="th-date"><a href="./somoimboard_review.do?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>">리뷰</a></th>
                                     <th scope="col" class="th-num"><a href="./somoimboard_menu.do?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>">메뉴</a></th>
                                     <th scope="col" class="th-date"><a href="./somoimboard_picture.do?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>">사진</a></th>
+
                                  
                                 </tr> 
                             </thead>
@@ -536,13 +595,13 @@ footer{
                          </table>
                          <div id="itemBox">
                             <table border="1" id="good" style="width:100%;">  
-                               
+
                                 
                                 <tbody>
                                 <%=sb.toString() %>
                         <!-- 
                                    <tr>
-                                    <td>위치</td>
+                                    <td style="padding: 35px;">위치</td>
                                     <td>서울 강남구 테헤란로1길 40 지하 1층</td>
                                    </tr>
 
@@ -557,15 +616,23 @@ footer{
                                    </tr>
 
                                    <tr>
-                                    <td>영업시간</td>
+                                    <td style="padding:45px;">영업시간</td>
                                     <td>매일 11:00 - 24:00 ( 매주 월요일 휴무 )</td>
                                    </tr>
 
                                    <tr>
-                                    <td>편의시설</td>
+                                    <td style="padding:52px;">편의시설</td>
                                     <td>단체석, 포장, 예약, 무선 인터넷, 남/녀 화장실 구분, 국민지원금</td>
                                    </tr>
+
+
+                                   
+
                                  -->   
+
+
+                        
+
                                     </tbody>
     
    
@@ -578,19 +645,47 @@ footer{
                     </div>
                     
                        <script type="text/javascript">
+
+                       
+                       let div2 = document.getElementsByClassName("div2");
+
+                       function handleClick(event) {
+                        
+                         console.log(event.target.classList);
+
+                          if (event.target.classList[1] === "clicked") {
+                             event.target.classList.remove("clicked");
+                         } else {
+                            
+                           event.target.classList.add("clicked");
+                          }
+                         }
+
+                         function init() {
+                         for (let i = 0; i < div2.length; i++) {
+                          div2[i].addEventListener("click", handleClick);
+                          }
+                         }
+
+                         init();
+
+
+
                                 $('#star a').click(function(){ 
                                 $(this).parent().children("a").removeClass("on");    
                                 $(this).addClass("on").prevAll("a").addClass("on");
                                 console.log($(this).attr("value"));
                                 });
+
+
                         </script>
 
 
-			<div class="maps" style="width:50%;">
-				<div id="map" style="width:100%;height:450px;"></div>
-			</div>
-		</div><!-- tblWrap -->
-	</div>
+         <div class="maps" style="width:50%;">
+            <div id="map" style="width:100%;height:450px;"></div>
+         </div>
+      </div><!-- tblWrap -->
+   </div>
 <!-- footer 
 <footer>
 
@@ -612,6 +707,15 @@ function initMap() {
 	   	position: new naver.maps.LatLng(<%=latitude %>, <%=longitude %>),
 	   	map: map
 	});
+	
+	var infoWindow = new naver.maps.InfoWindow({
+    	content: '<div class=\"iw_inner\"><div class=\"div_font\"style=\"font-size:13px;font-weight:600;text-align:center;padding:10px;color:#ffffff;\"><b><%= rname%></b></div></div>',
+	    	borderWidth: 0,
+	    	disableAnchor: true,
+	    	backgroundColor: 'transparent'
+    });
+	
+	infoWindow.open(map, marker);
 }
 </script>
 </html>

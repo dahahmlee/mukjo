@@ -1,3 +1,4 @@
+<%@page import="com.example.model1.NoticeTO"%>
 <%@page import="com.example.model1.BoardTO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.example.model1.BoardDAO"%>
@@ -109,6 +110,19 @@
       noticeSb.append("</tr>");
    }
     }
+    
+    ArrayList<NoticeTO> noticeList=(ArrayList<NoticeTO>)request.getAttribute("noticeList");
+    String noticeCount=(String)request.getAttribute("noticeCount").toString();
+    
+    StringBuilder sbh=new StringBuilder();
+    for (int i=0; i<noticeList.size(); i++) {
+       String words=noticeList.get(i).getWords();
+       String ndate=noticeList.get(i).getNdate();
+       
+       sbh.append("<p>"+words);
+       sbh.append("<span>"+ndate+"</span>");
+       sbh.append("</p>");
+    }
     %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -120,11 +134,11 @@
     <style href="css/common.css"></style>
     <!-- 나눔스퀘어 폰트 -->
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet">
-	
-	<!-- Bootstrap (for modal) -->
-	
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+   
+   <!-- Bootstrap (for modal) -->
+   
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
 <style>
 /** common **/
@@ -217,7 +231,7 @@ button {
 }
 
 .btn_list:hover {
-	background-color: #5c3018;
+   background-color: #5c3018;
 }
 
 .btn_txt02 {
@@ -267,7 +281,7 @@ nav{
 }
 
 #logout{
-	font-weight: bold;
+   font-weight: bold;
     color : grey;
     width:10%;
     text-decoration: underline;
@@ -425,7 +439,6 @@ nav{
     width: 90px;
     box-sizing: border-box;
     padding-left: 10px;
-    background: transparent;
 }
 
 .search-wrap select option{
@@ -520,16 +533,16 @@ footer{
 }
 
 .modal-content {
-	border: 1px solid black;
+   border: 1px solid black;
     height: 100%;
 }
 #noticelogo {
-	width: 25%;
+   width: 25%;
 }
 
 .modal-body span {
-	float: right;
-	margin-right: 15px;
+   float: right;
+   margin-right: 15px;
 }
 
 </style>
@@ -549,10 +562,10 @@ footer{
                 <li><b><a href="admin.do">관리자페이지</b></li></a>
                 <li><b><a href="favorite.do">즐겨찾기</b></li></a>
                 <li id="bell" style="margin-left: 20px;">
-                	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-						<img src="images/bell.png">
-					</button>1
-				</li>
+                   <button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  <img src="images/bell.png">
+               </button><%=noticeCount %>
+            </li>
             </ul>
           </div>
         </div> <!--headerWap-->
@@ -567,23 +580,26 @@ footer{
         </div>
 
         <div class="modal-body">
+          <%=sbh %>
+        <!-- 
           <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
-          	<span>2022.07.13</span>
+             <span>2022.07.13</span>
           </p>
           <hr />
           <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
-          	<span>2022.07.13</span>
+             <span>2022.07.13</span>
           </p>
           <hr />
           <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
-          	<span>2022.07.13</span>
+             <span>2022.07.13</span>
           </p>
+          -->
           <hr />
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><b>읽음</b></button>
-          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><b>닫기</b></button>
+          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><a href="noticedeleteok.do"><b>읽음</b></button>
+          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><a href=""><b>닫기</b></button>
         </div>
       </div>
     </div>
@@ -615,18 +631,21 @@ footer{
             <div class="search-wrap"> 
             <form action="./somoimboard.do?tseq=<%=tseq %>" method="post" name="sfrm"> 
                 <div class="select">
-	                <select name="which">
-	                    <option value="subject">제목</option>
-	                    <option value="content">내용</option>
-	                    <option value="writer">글쓴이</option>
-	                </select>    
-            	</div><!-- select-->
-	            <div class="input">          
-	            	<input type="text" title="검색어 입력" name="search" value="">
-	            	<button type="submit">검색</button>
-	            </div><!-- input -->
-	        </form>
-         	</div><!-- search-wrap -->
+
+					<select class="form-select" aria-label="Default select example" name="which">
+						<option value="subject">제목</option>
+						<option value="content">내용</option>
+						<option value="writer">글쓴이</option>
+                	</select> 
+
+
+               </div><!-- select-->
+               <div class="input">          
+                  <input type="text" title="검색어 입력" name="search" value="">
+                  <button type="submit">검색</button>
+               </div><!-- input -->
+           </form>
+            </div><!-- search-wrap -->
            
         </section>
     

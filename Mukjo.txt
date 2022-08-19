@@ -75,6 +75,12 @@ star decimal(3,2) not null,
 rdate datetime not null
 );
 
+create table notice (
+seq int not null,
+words varchar(50) not null,
+ndate datetime not null
+);
+
 alter table favorite add constraint foreign key (seq) references member (seq);
 alter table teammember add constraint foreign key (seq) references member (seq);
 alter table teammember add constraint foreign key (tseq) references team (tseq);
@@ -84,6 +90,7 @@ alter table board add constraint foreign key (tseq) references team (tseq);
 alter table board add constraint foreign key (seq) references member (seq);
 alter table review add constraint foreign key (seq) references member (seq);
 alter table review add constraint foreign key (tseq) references team (tseq);
+alter table notice add constraint foreign key (seq) references member (seq);
 
 SET foreign_key_checks = 0;    # 외래키 체크 설정 해제
 drop table .... # 테이블 삭제

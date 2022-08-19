@@ -1,3 +1,5 @@
+<%@page import="com.example.model1.NoticeTO"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="com.example.model1.BoardTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
@@ -41,6 +43,19 @@
    sbHtml.append(content);
    sbHtml.append("</p>");
    sbHtml.append("</div>");
+   
+   ArrayList<NoticeTO> noticeList=(ArrayList<NoticeTO>)request.getAttribute("noticeList");
+   String noticeCount=(String)request.getAttribute("noticeCount").toString();
+   
+   StringBuilder sbh=new StringBuilder();
+   for (int i=0; i<noticeList.size(); i++) {
+      String words=noticeList.get(i).getWords();
+      String ndate=noticeList.get(i).getNdate();
+      
+      sbh.append("<p>"+words);
+      sbh.append("<span>"+ndate+"</span>");
+      sbh.append("</p>");
+   }
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -117,6 +132,7 @@ a:active {
 
 img {
    width: 100%;
+   padding-bottom: 5px;
 }
 
 table {
@@ -196,7 +212,7 @@ nav {
 }
 
 #bell {
-   width: 50px;
+   width: 60px;
    display: flex;
    align-items: center;
    color: red;
@@ -580,11 +596,16 @@ textarea {
 	margin-right: 15px;
 }
 
+#modalBtn:hover {
+	background-color: #5c3018;
+}
+
 </style>
 
 </head>
 <body>
    <nav id="header">
+        <div class="headermake" style="width:100%; background-color: #fff;">
         <div id="headerWap">
             <h1 id="logoSec">
                 <a href="main.do"><img src="images/logo.png" alt="logo"></a>
@@ -595,13 +616,49 @@ textarea {
                 <li><b><a href="boss.do">소모임장페이지</a></b></li>
                 <li><b><a href="admin.do">관리자페이지</b></li></a>
                 <li><b><a href="favorite.do">즐겨찾기</b></li></a>
-				<li id="bell">
+                <li id="bell" style="margin-left: 20px;">
                 	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
 						<img src="images/bell.png">
-					</button> 
+					</button><%=noticeCount %>
 				</li>
             </ul>
+          </div>
         </div> <!--headerWap-->
+        
+        <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="exampleModalLabel"><b>알림</b></h4>
+          <span id="noticelogo"><img src="images/logo.png"></span>
+        </div>
+
+        <div class="modal-body">
+          <%=sbh %>
+        <!-- 
+          <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
+             <span>2022.07.13</span>
+          </p>
+          <hr />
+          <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
+             <span>2022.07.13</span>
+          </p>
+          <hr />
+          <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
+             <span>2022.07.13</span>
+          </p>
+          -->
+          <hr />
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><a href="noticedeleteok.do"><b>읽음</b></button>
+          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><a href=""><b>닫기</b></button>
+        </div>
+      </div>
+    </div>
+  </div>
         
         <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

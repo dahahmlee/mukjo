@@ -5,69 +5,69 @@
     pageEncoding="UTF-8"%>
 <%
 //그럴라고
-    	String log = "LOGIN";
+       String log = "LOGIN";
     
-    	HttpSession sess = request.getSession();
-    	
-    	String loginedMemberSeq = (String)sess.getAttribute("loginedMemberSeq");
-    	String welcome = "";
+       HttpSession sess = request.getSession();
+       
+       String loginedMemberSeq = (String)sess.getAttribute("loginedMemberSeq");
+       String welcome = "";
     
-    	if(loginedMemberSeq != null) {
-    		welcome = (String)sess.getAttribute("loginedMemberName")+"님 환영합니다.";
-    		log = "LOGOUT";
-    		if (!loginedMemberSeq.equals("1")) {
-       	   		out.println ( "<script>");
-       	   		out.println( "alert('관리자만 관리자페이지에 들어갈 수 있습니다.');" );
-       			out.println ( "window.location.href = 'http://localhost:8080/main.do'");
-       			out.println ( "</script>");
-       	   	}
-    	} else {
-    		out.println ( "<script>");
-			out.println ( "window.location.href = 'http://localhost:8080/login.do'");
-			out.println ( "</script>");
-    	}
-    	
-    	PageAdminTeamTO pageAdminTeamTO=(PageAdminTeamTO)request.getAttribute("pageAdminTeamTO");
+       if(loginedMemberSeq != null) {
+          welcome = (String)sess.getAttribute("loginedMemberName")+"님 환영합니다.";
+          log = "LOGOUT";
+          if (!loginedMemberSeq.equals("1")) {
+                   out.println ( "<script>");
+                   out.println( "alert('관리자만 관리자페이지에 들어갈 수 있습니다.');" );
+                out.println ( "window.location.href = 'http://localhost:8080/main.do'");
+                out.println ( "</script>");
+                }
+       } else {
+          out.println ( "<script>");
+         out.println ( "window.location.href = 'http://localhost:8080/login.do'");
+         out.println ( "</script>");
+       }
+       
+       PageAdminTeamTO pageAdminTeamTO=(PageAdminTeamTO)request.getAttribute("pageAdminTeamTO");
 
-    	int cpage=pageAdminTeamTO.getCpage();
-    	int recordPerPage = pageAdminTeamTO.getRecordPerPage();
-    	int totalRecord = pageAdminTeamTO.getTotalRecord();
-    	int totalPage = pageAdminTeamTO.getTotalPage();
-    	int blockPerPage = pageAdminTeamTO.getBlockPerPage();
-    	int startBlock = pageAdminTeamTO.getStartBlock();
-    	int endBlock = pageAdminTeamTO.getEndBlock();
-    	ArrayList<TeamTO> memberLists = pageAdminTeamTO.getTeamLists();
+       int cpage=pageAdminTeamTO.getCpage();
+       int recordPerPage = pageAdminTeamTO.getRecordPerPage();
+       int totalRecord = pageAdminTeamTO.getTotalRecord();
+       int totalPage = pageAdminTeamTO.getTotalPage();
+       int blockPerPage = pageAdminTeamTO.getBlockPerPage();
+       int startBlock = pageAdminTeamTO.getStartBlock();
+       int endBlock = pageAdminTeamTO.getEndBlock();
+       ArrayList<TeamTO> teamLists = pageAdminTeamTO.getTeamLists();
     
-    	StringBuilder sbHtml=new StringBuilder();
-		int num=1;
+       StringBuilder sbHtml=new StringBuilder();
+      int num=1;
 
-    	for (int j=1; j<memberLists.size(); j=j+20) {
-    		num=(pageAdminTeamTO.getCpage()-1)*20+1;
-    		for (int i=j; i<j+20; i++) {
-				
-    			if (i>=memberLists.size()) {
+       for (int j=1; j<teamLists.size(); j=j+20) {
+          num=(pageAdminTeamTO.getCpage()-1)*20+1;
+          for (int i=j; i<j+20; i++) {
+            
+             if (i>=teamLists.size()) {
 
-    			} else {
-    				String tseq=memberLists.get(i).getTseq();
-    				String tname=memberLists.get(i).getTname();
-    				String name=memberLists.get(i).getName();
-    				int memcount=memberLists.get(i).getMemcount();
-    				
-    				sbHtml.append("<tr>");
-    				sbHtml.append("<td>"+num+"</td>");
-    				sbHtml.append("<td>"+tname+"</td>");
-    				sbHtml.append("<td>"+name+"</td>");
-    				sbHtml.append("<td>"+memcount+"명</td>");
-    				if(tseq.equals("1")) {
-    					sbHtml.append("<td></td>");
-    				} else {
-    				sbHtml.append("<td><a href='./addeleteteam.do?tseq="+tseq+"&tname="+tname+"'><button type='sumbit'>삭제</button></a></td>");
-    				}
-    				sbHtml.append("</tr>");
-    				num+=1;
-    			}
-    		}
-    	}
+             } else {
+                String tseq=teamLists.get(i).getTseq();
+                String tname=teamLists.get(i).getTname();
+                String name=teamLists.get(i).getName();
+                int memcount=teamLists.get(i).getMemcount();
+                
+                sbHtml.append("<tr>");
+                sbHtml.append("<td>"+num+"</td>");
+                sbHtml.append("<td>"+tname+"</td>");
+                sbHtml.append("<td>"+name+"</td>");
+                sbHtml.append("<td>"+memcount+"명</td>");
+                if(tseq.equals("1")) {
+                   sbHtml.append("<td></td>");
+                } else {
+                sbHtml.append("<td><a href='./addeleteteam.do?tseq="+tseq+"&tname="+tname+"'><button type='sumbit'>삭제</button></a></td>");
+                }
+                sbHtml.append("</tr>");
+                num+=1;
+             }
+          }
+       }
     
     %>
 <!DOCTYPE html>
@@ -80,11 +80,11 @@
    
     <!-- 나눔스퀘어 폰트 -->
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet">
-	
-	<!-- Bootstrap (for modal) -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-	
+   
+   <!-- Bootstrap (for modal) -->
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+   
 <style>
 /** common **/
 
@@ -111,6 +111,7 @@ input{
     cursor: text;
     border: none;
     outline: none;
+    padding: 0 0 0 10px;
 }
 
 ul{
@@ -235,10 +236,10 @@ nav{
 
 #headerWap h3 {
     font-weight: bold;
-	font-size: 15px;
-	justify-content: left;
-	position: absolute;
-	margin-left: 120px;
+   font-size: 15px;
+   justify-content: left;
+   position: absolute;
+   margin-left: 120px;
 }
 
 /***** warp  *****/
@@ -260,9 +261,8 @@ nav{
 
 /* 버튼 섹션*/
 #btnSec {
-     border-bottom: 2px solid #5c3018; 
      display: inline-flex;
-     justify-content: space-between;
+     justify-content: right;
      width: 100%;
 }
 
@@ -279,8 +279,9 @@ nav{
 }
 
 #btnSec .search-wrap{
-    margin-left : 50%;
-   
+   margin-top: 20px; 
+    margin-left: 50%;
+    
 }
 
 #locationSec{
@@ -293,7 +294,7 @@ nav{
     background: none;
     cursor: default;
     outline: none;
-  box-shadow: none;
+    box-shadow: none;
 }
 
 #locationwrap{
@@ -344,7 +345,7 @@ nav{
 }
 
 #tblWrap{
-    padding-top: 30px;
+    padding-top: 10px;
 }
 
 /***** pagingSec  *****/
@@ -421,9 +422,9 @@ nav{
 }
 
     .board_pagetab { text-align: center; display: inline-flex; position:relative;}
-	.board_pagetab a { text-decoration: none; font: 12px verdana; color: #000; padding: 0 3px 0 3px; }
+   .board_pagetab a { text-decoration: none; font: 12px verdana; color: #000; padding: 0 3px 0 3px; }
     /* .board_pagetab ul a:hover  { background-color:black; } */
-	.on a { font-weight: bold; }
+   .on a { font-weight: bold; }
 
 
 
@@ -451,17 +452,17 @@ footer{
 }
 
 .modal-content {
-	border: 1px solid black;
+   border: 1px solid black;
     height: 100%;
 }
 
 #noticelogo {
-	width: 25%;
+   width: 25%;
 }
 
 .modal-body span {
-	float: right;
-	margin-right: 15px;
+   float: right;
+   margin-right: 15px;
 }
 
 </style>
@@ -481,10 +482,10 @@ footer{
                 <li><b><a href="admin.do" style="color : #de5f47;">관리자페이지</b></li></a>
                 <li><b><a href="favorite.do">즐겨찾기</b></li></a>
                 <li id="bell" style="margin-left: 20px;">
-                	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-						<img src="images/bell.png">
-					</button>1
-				</li>
+                   <button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  <img src="images/bell.png">
+               </button>0
+            </li>
             </ul>
           </div>
         </div> <!--headerWap-->
@@ -499,18 +500,7 @@ footer{
         </div>
 
         <div class="modal-body">
-          <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
-          	<span>2022.07.13</span>
-          </p>
-          <hr />
-          <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
-          	<span>2022.07.13</span>
-          </p>
-          <hr />
-          <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
-          	<span>2022.07.13</span>
-          </p>
-          <hr />
+          
         </div>
 
         <div class="modal-footer">
@@ -535,8 +525,17 @@ footer{
 
     <!-- 전체 요소를 감싸는 div -->
     <div id="wrap">
-    	        <section id="tblSec">
-
+    <!-- 소모임 목록 검색 -->
+    <section id ="btnSec" >
+            <div class="search-wrap">
+            <form action="./adminteam.do" method="post" name="sfrm">          
+                <input type="text" title="검색어 입력" name="search" placeholder="소모임 이름 검색">
+                <button type="submit">검색</button>
+            </form>
+            </div><!-- search-wrap -->
+        </section>
+        
+       <section id="tblSec">
             <div id="tblWrap">
                 <table class="board-table">
             
@@ -550,7 +549,7 @@ footer{
                         </tr>
                     </thead>
                     <tbody>
-<%=sbHtml.toString() %>
+               <%=sbHtml.toString() %>
                     <!--  
                         <tr>
                             <td><a href="#">1</td>
@@ -590,8 +589,8 @@ footer{
             </div>
 
         </section>
-		<!--tblSec-->
-		
+      <!--tblSec-->
+      
 
         <!-- 페이징 처리 -->
         <section id="pagingSec">
@@ -610,41 +609,41 @@ footer{
                     <span class="off">&nbsp;&nbsp;<a href="#">&gt;</a></span>
                     <span class="off">&nbsp;&nbsp;<a href="#">&gt;&gt;</a></span>
                 -->
-<%	
-	if (startBlock==1) { //<<
-		out.println("<span><a>&lt;&lt;</a>&nbsp;&nbsp;</span>");
-	} else {
-		out.println("<span><a href='adminteam.do?cpage="+(startBlock-blockPerPage)+"'>&lt;&lt;</a>&nbsp;&nbsp;</span>");
-	}
+<%   
+   if (startBlock==1) { //<<
+      out.println("<span><a>&lt;&lt;</a>&nbsp;&nbsp;</span>");
+   } else {
+      out.println("<span><a href='adminteam.do?cpage="+(startBlock-blockPerPage)+"'>&lt;&lt;</a>&nbsp;&nbsp;</span>");
+   }
 
-	if (cpage==1) { //<
-		out.println("<span><a>&lt;</a>&nbsp;&nbsp;</span>");
-	} else {
-		out.println("<span><a href='adminteam.do?cpage="+(cpage-1)+"'>&lt;</a>&nbsp;&nbsp;</span>");
-	}
-	
-	out.println("<ul>");
-	for (int i=startBlock;i<=endBlock;i++) {
-		if (cpage==i) {
-			out.println("<li class='active'><a>"+i+"</a></li>");
-		} else {
-			out.println("<li><a href='adminteam.do?cpage="+i+"'>"+i+"</a></span>");
-		}
-	}
-	
-	out.println("</ul>");
-	
-	if (cpage==totalPage) { //>
-		out.println("<span>&nbsp;&nbsp;<a>&gt;</a></span>");
-	} else {
-		out.println("<span>&nbsp;&nbsp;<a href='adminteam.do?cpage="+(cpage+1)+"'>&gt;</a></span>");
-	}
-	
-	if (endBlock==totalPage) { //>>
-		out.println("<span>&nbsp;&nbsp;<a>&gt;&gt;</a></span>");
-	} else {
-		out.println("<span>&nbsp;&nbsp;<a href='adminteam.do?cpage="+(startBlock+blockPerPage)+"'>&gt;&gt;</a></span>");
-	}
+   if (cpage==1) { //<
+      out.println("<span><a>&lt;</a>&nbsp;&nbsp;</span>");
+   } else {
+      out.println("<span><a href='adminteam.do?cpage="+(cpage-1)+"'>&lt;</a>&nbsp;&nbsp;</span>");
+   }
+   
+   out.println("<ul>");
+   for (int i=startBlock;i<=endBlock;i++) {
+      if (cpage==i) {
+         out.println("<li class='active'><a>"+i+"</a></li>");
+      } else {
+         out.println("<li><a href='adminteam.do?cpage="+i+"'>"+i+"</a></span>");
+      }
+   }
+   
+   out.println("</ul>");
+   
+   if (cpage==totalPage) { //>
+      out.println("<span>&nbsp;&nbsp;<a>&gt;</a></span>");
+   } else {
+      out.println("<span>&nbsp;&nbsp;<a href='adminteam.do?cpage="+(cpage+1)+"'>&gt;</a></span>");
+   }
+   
+   if (endBlock==totalPage) { //>>
+      out.println("<span>&nbsp;&nbsp;<a>&gt;&gt;</a></span>");
+   } else {
+      out.println("<span>&nbsp;&nbsp;<a href='adminteam.do?cpage="+(startBlock+blockPerPage)+"'>&gt;&gt;</a></span>");
+   }
 %>
                 </div><!-- board_pagetab -->
                 

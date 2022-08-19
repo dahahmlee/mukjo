@@ -8,7 +8,7 @@
 	String tseq = request.getParameter("tseq");
 	String bseq = request.getParameter("bseq");
 	String cseq = request.getParameter("cseq");
-	
+	String cpage = request.getParameter("cpage");
 	
 	out.println("<script type='text/javascript'>");
 	out.println("$().ready(function () {");
@@ -24,7 +24,7 @@
 		out.println("		reverseButtons: false,");
 		out.println("	}).then((result) => {");
 		out.println("		if (result.isConfirmed) {");
-		out.println("		location.href='somoimboard_view.do?tseq="+tseq+"&bseq="+bseq+"'");
+		out.println("		location.href='somoimboard_view.do?tseq="+tseq+"&cpage="+cpage+"&bseq="+bseq+"'");
 		out.println("		}");
 		out.println("	})");
 	} else {

@@ -1,3 +1,4 @@
+<%@page import="com.example.model1.NoticeTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@page import="com.example.model1.MenuTO"%>
@@ -39,11 +40,47 @@
             rmenuname = to.getRmenuname();
             rmenuprice = to.getRmenuprice();
             
-            sb.append("<tr>");
-            sb.append("<td><img src='"+rmenuimage+"' class='_img' alt='사진' width='100%' height='auto' id='visitor_3'></td>");
-            sb.append("<td colspan='2'>"+rmenuname+"<span></br></br>"+rmenuprice+"</span> </a></td>");
-            sb.append("</tr>");
+            
+            
+            if(i%2 == 0) {
+               sb.append("<div class='fl'>");
+               sb.append("<li>");
+               sb.append("<a href='#' class='menu1'>");
+               sb.append("<div class='divimg 'style='background-image: url("+rmenuimage+")';>");
+               sb.append("</div>");
+               sb.append("<div class='st1'><span class='spanmenu'>"+rmenuname+"</span>");
+               sb.append("<div class='price'><p>"+rmenuprice+"</p></div>");
+               sb.append("</div>");
+               sb.append("</a>");
+               sb.append("</li>");
+               } else { //오른쪽 꺼
+                  
+                   sb.append("<li>");
+                   sb.append("<a href='#' class='menu1'>");
+                   sb.append("<div class='divimg 'style='background-image: url("+rmenuimage+")';>");
+                   sb.append("</div>");
+                   sb.append("<div class='st1'><span class='spanmenu'>"+rmenuname+"</span>");
+                   sb.append("<div class='price'><p>"+rmenuprice+"</p></div>");
+                   sb.append("</div>");
+                   sb.append("</a>");
+                   sb.append("</li>");
+                  sb.append("</div>");
+            }
+            
          }
+      
+      ArrayList<NoticeTO> noticeList=(ArrayList<NoticeTO>)request.getAttribute("noticeList");
+      String noticeCount=(String)request.getAttribute("noticeCount").toString();
+      
+      StringBuilder sbh=new StringBuilder();
+      for (int i=0; i<noticeList.size(); i++) {
+         String words=noticeList.get(i).getWords();
+         String ndate=noticeList.get(i).getNdate();
+         
+         sbh.append("<p>"+words);
+         sbh.append("<span>"+ndate+"</span>");
+         sbh.append("</p>");
+      }
     %>
 
 <!DOCTYPE html>
@@ -58,11 +95,11 @@
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet">
     <!-- 부트스트랩 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	
-	<!-- Bootstrap (for modal) -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-	
+   
+   <!-- Bootstrap (for modal) -->
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+   
 <!-- 지도 -->
 <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=f8b62z9xjz&amp;submodules=geocoder"></script>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
@@ -220,8 +257,8 @@ nav{
 }
 
 #headerWap h3{
-	font-weight: bold;
-	font-size: 15px;
+   font-weight: bold;
+   font-size: 15px;
     justify-content: left;
     position: absolute;
     margin-left: 120px;
@@ -350,14 +387,14 @@ nav{
 
 .spanmenu{
     font-weight: bold;
-    font-size: 20px;
+    font-size: 15px;
 }
 
 .price{
     margin-top: 5px;
     font-weight: 700;
     color: #ff5757;
-    font-size: 18px;
+    font-size: 13px;
     line-height: 1.7rem;
 }
 
@@ -371,6 +408,7 @@ nav{
 
 .fl{
     display: flex;
+    border-bottom : 1px solid gray;
 }
 .fl ul{
     overflow: hidden;
@@ -385,13 +423,6 @@ nav{
 }
 
 
-#good td:nth-child(2n+1){
-     width: 50%;
-		}
-
-#good td:nth-child(2n+0){
-    width: 50%;
-		}
 
 /***** footer  *****/
 footer{
@@ -402,16 +433,16 @@ footer{
 }
 
 .tblmain table td {
-	border: 1px solid black;
+   border: 1px solid black;
 }
 
 .tblmain table th {
-	border: 1px solid black;
-	border-bottom: none;
+   border: 1px solid black;
+   border-bottom: none;
 }
 
 .tblmain table tr {
-	border: 1px solid black;
+   border: 1px solid black;
 }
 
 .modal-dialog {
@@ -423,19 +454,25 @@ footer{
 }
 
 .modal-content {
-	border: 1px solid black;
+   border: 1px solid black;
     height: 100%;
 }
 
 #noticelogo {
-	width: 25%;
+   width: 25%;
 }
 
 .modal-body span {
-	float: right;
-	margin-right: 15px;
+   float: right;
+   margin-right: 15px;
 }
 
+.iw_inner {
+	margin: 5px;
+	padding: 1px 5px;
+	border-radius: 30px;
+	background-color: rgba(4, 117, 244, 0.9);
+}
 
 </style>
 
@@ -454,10 +491,10 @@ footer{
                 <li><b><a href="admin.do">관리자페이지</b></li></a>
                 <li><b><a href="favorite.do">즐겨찾기</b></li></a>
                 <li id="bell" style="margin-left: 20px;">
-                	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-						<img src="images/bell.png">
-					</button>1
-				</li>
+                   <button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  <img src="images/bell.png">
+               </button><%=noticeCount %>
+            </li>
             </ul>
           </div>
         </div> <!--headerWap-->
@@ -472,23 +509,26 @@ footer{
         </div>
 
         <div class="modal-body">
+          <%=sbh %>
+        <!-- 
           <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
-          	<span>2022.07.13</span>
+             <span>2022.07.13</span>
           </p>
           <hr />
           <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
-          	<span>2022.07.13</span>
+             <span>2022.07.13</span>
           </p>
           <hr />
           <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
-          	<span>2022.07.13</span>
+             <span>2022.07.13</span>
           </p>
+          -->
           <hr />
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><b>읽음</b></button>
-          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><b>닫기</b></button>
+          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><a href="noticedeleteok.do"><b>읽음</b></button>
+          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><a href=""><b>닫기</b></button>
         </div>
       </div>
     </div>
@@ -534,52 +574,73 @@ footer{
                             
                          </table>
                          <div id="itemBox">
-                            <table border="1" id="good">  
-                               
-                                
-                                <tbody>
+                           
+                              <ul>
                                 <%=sb %>
                                 <!--  
-                                    <tr>
-                                        <td ><a href="#"><img src='https://search.pstatic.net/common/?autoRotate=true&quality=95&type=f320_320&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20200415_277%2F1586927108266gELTf_JPEG%2F4tmjr09h2qk8Wqi3nI7_Mxeo.jpg' class="_img" alt="사진" width="100%" height="auto" id="visitor_3"></a></td>
-                                        <td><span class="mainmenu">대표</span><a href="#"><span>왕 돈까스 </br></br>10000원</span> </a></td>
-                            
-                                    </tr>
-
-                                    <tr>
-                                        <td ><a href="#"><img src='https://search.pstatic.net/common/?autoRotate=true&quality=95&type=f320_320&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20200415_277%2F1586927108266gELTf_JPEG%2F4tmjr09h2qk8Wqi3nI7_Mxeo.jpg' class="_img" alt="사진" width="100%" height="auto" id="visitor_3"></a></td>
-                                        <td><span class="mainmenu">대표</span><a href="#"><span>왕 돈까스 </br></br>10000원</span> </a></td>
-                            
-                                    </tr>
-
-                                  
-
-                                    <tr>
-                                        <td><a href="#"><img src='https://search.pstatic.net/common/?autoRotate=true&quality=95&type=f320_320&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20200415_277%2F1586927108266gELTf_JPEG%2F4tmjr09h2qk8Wqi3nI7_Mxeo.jpg' class="_img" alt="사진" width="100%" height="auto" id="visitor_3"></a></td>
-                                        <td colspan="2"><span class="mainmenu">대표</span><a href="#">행운 정식 <span></br></br>11000원</span> </a></td>
-                                    </tr>
-
-                                    <tr>
-                                        <td><a href="#"><img src='https://search.pstatic.net/common/?autoRotate=true&quality=95&type=f320_320&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20200415_277%2F1586927108266gELTf_JPEG%2F4tmjr09h2qk8Wqi3nI7_Mxeo.jpg' class="_img" alt="사진" width="100%" height="auto" id="visitor_3"></a></td>
-                                        <td colspan="2"><span class="mainmenu">대표</span><a href="#">행운 정식 <span></br></br>11000원</span> </a></td>
-                                       
-                                    </tr>
-                           -->
                                 
+                                <div class="fl">
+                                <li>
+                                    <a href="#" class="menu1">
+                                        <div class="divimg "style="background-image: url('https://search.pstatic.net/common/?autoRotate=true&quality=95&type=f320_320&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20210312_211%2F1615525680667Gnbqz_JPEG%2FheDnef5YgFDQE28svVFiyKOi.jpeg.jpg');">
+
+                                        </div> 
+                                        <div class="st1"><span class="spanmenu">왕 돈까스</span>
+                                        <div class="price"><p>10,000원</p></div>
+                                    </div>
+                                    </a>
+                                </li>
+                           
+
+                                <li>
+                                    <a href="#" class="menu1">
+                                        <div class="divimg "style="background-image: url('https://search.pstatic.net/common/?autoRotate=true&quality=95&type=f320_320&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20210312_211%2F1615525680667Gnbqz_JPEG%2FheDnef5YgFDQE28svVFiyKOi.jpeg.jpg');">
+
+                                        </div> 
+                                        <div class="st1"><span class="spanmenu">행운 정식</span>
+                                        <div class="price"><p>11,000원</p></div>
+                                    </div>
+                                    </a>
+                                </li>
+                            </div>
+
+                            <div class="fl">
+                                <li>
+                                    <a href="#" class="menu1">
+                                        <div class="divimg "style="background-image: url('https://search.pstatic.net/common/?autoRotate=true&quality=95&type=f320_320&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20210312_211%2F1615525680667Gnbqz_JPEG%2FheDnef5YgFDQE28svVFiyKOi.jpeg.jpg');">
+
+                                        </div> 
+                                        <div class="st1"><span class="spanmenu">행운 정식</span>
+                                        <div class="price"><p>11,000원</p></div>
+                                    </div>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="#" class="menu1">
+                                        <div class="divimg "style="background-image: url('https://search.pstatic.net/common/?autoRotate=true&quality=95&type=f320_320&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20220203_142%2F1643884642186SDQ4F_JPEG%2F52FC69D3-277B-4532-B566-DCACBB9FBBDA.jpeg');">
+
+                                        </div> 
+                                        <div class="st1"><span class="spanmenu">행운 정식</span>
+                                        <div class="price"><p>11,000원</p></div>
+                                    </div>
+                                    </a>
+                                </li>
+                            </div>
+           
                                    
-                                    </tbody>
-    
-   
-                                   </table>
+                           -->
+                                 </ul>
+                                   
                         </div>
                     </div>
 
 
                     <div class="maps" style="width:50%;">
-				<div id="map" style="width:100%;height:450px;"></div>
-			</div>
-		</div><!-- tblWrap -->
-	</div>
+            <div id="map" style="width:100%;height:450px;"></div>
+         </div>
+      </div><!-- tblWrap -->
+   </div>
 <!-- footer 
 <footer>
 
@@ -601,6 +662,15 @@ function initMap() {
 	   	position: new naver.maps.LatLng(<%=latitude %>, <%=longitude %>),
 	   	map: map
 	});
+	
+	var infoWindow = new naver.maps.InfoWindow({
+    	content: '<div class=\"iw_inner\"><div class=\"div_font\"style=\"font-size:13px;font-weight:600;text-align:center;padding:10px;color:#ffffff;\"><b><%= rname%></b></div></div>',
+	    	borderWidth: 0,
+	    	disableAnchor: true,
+	    	backgroundColor: 'transparent'
+    });
+	
+	infoWindow.open(map, marker);
 }
 </script>
 </html>

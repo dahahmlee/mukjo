@@ -34,6 +34,8 @@ import com.example.model1.MapDAO3;
 import com.example.model1.MemberDAO;
 import com.example.model1.MemberTO;
 import com.example.model1.MenuTO;
+import com.example.model1.NoticeDAO;
+import com.example.model1.NoticeTO;
 import com.example.model1.PageAdminTeamTO;
 import com.example.model1.PageMainTeamTO;
 import com.example.model1.PageMemberTO;
@@ -60,16 +62,13 @@ public class MukjoController {
    
    @Autowired
    private BoardDAO bdao;
-   private String uploadPath="C:/github/MukjoLoginSignup/src/main/webapp/upload";
+   private String uploadPath="C:/Github/mukjo/MukjoLoginSignup/src/main/webapp/upload";
 
    @Autowired
    private TeamDAO tdao;
    
    @Autowired
    private CommentDAO cdao;
-   
-   @Autowired
-   private FoodDAO fdao;
    
    @Autowired
    private MapDAO mapdao;
@@ -79,6 +78,12 @@ public class MukjoController {
    
    @Autowired
    private MapDAO3 mapdao3;
+   
+   @Autowired
+   private NoticeDAO ndao;
+   
+   @Autowired
+   private FoodDAO fdao;
    
    @RequestMapping(value = "/login.do")
    public ModelAndView login(HttpServletRequest request, Model model) {
@@ -130,6 +135,25 @@ public class MukjoController {
 
       ModelAndView modelAndView = new ModelAndView();
       modelAndView.setViewName("logoutok");
+      modelAndView.addObject("flag", flag);
+
+      return modelAndView;
+   }
+   
+   @RequestMapping(value = "/logoutok2.do")
+   public ModelAndView logoutOk2(HttpSession session, HttpServletRequest request, Model model) {
+      String loginedMemberSeq = (String) session.getAttribute("loginedMemberSeq");
+
+
+      int flag = 10;
+      if (loginedMemberSeq != null) {
+         flag = 1;
+         session.removeAttribute("loginedMemberSeq");
+         session.removeAttribute("loginedMemberName");
+      }
+
+      ModelAndView modelAndView = new ModelAndView();
+      modelAndView.setViewName("logoutok2");
       modelAndView.addObject("flag", flag);
 
       return modelAndView;
@@ -220,17 +244,23 @@ public class MukjoController {
          mainTeamPageTO = tdao.teamListSearch(mainTeamPageTO, seq, search);
       }
       
+      ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
+      int noticeCount=ndao.noticeCount(seq);
+
       ModelAndView modelAndView = new ModelAndView();
       modelAndView.setViewName("main");
       modelAndView.addObject("mainTeamPageTO", mainTeamPageTO);
-
+      modelAndView.addObject("noticeList", noticeList);
+      modelAndView.addObject("noticeCount", noticeCount);
+      
       return modelAndView;
    }
    
    @RequestMapping(value = "/mainjoin.do")
-   public ModelAndView mainjoin(HttpServletRequest request, Model model) {
+   public ModelAndView mainjoin(HttpSession session, HttpServletRequest request, Model model) {
       String tseq = request.getParameter("tseq");
-      
+      String seq=(String) session.getAttribute("loginedMemberSeq");
+
       int cpage = 1;
       if(request.getParameter("cpage") != null && !request.getParameter("cpage").equals("")) {
          cpage = Integer.parseInt(request.getParameter("cpage"));
@@ -241,15 +271,23 @@ public class MukjoController {
       
       pageTeamMemberTO = mdao.teamMemberList(pageTeamMemberTO, tseq);
       
+      ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
+      int noticeCount=ndao.noticeCount(seq);
+      
        ModelAndView modelAndView = new ModelAndView();
        modelAndView.setViewName("mainjoin");
        modelAndView.addObject("pageTeamMemberTO", pageTeamMemberTO);
+       modelAndView.addObject("noticeList", noticeList);
+       modelAndView.addObject("noticeCount", noticeCount);
+
        return modelAndView;
    }
    
    //전체 소모임 + 검색
    @RequestMapping(value = "/mainall.do")
-   public ModelAndView mainall(HttpServletRequest request, Model model) {
+   public ModelAndView mainall(HttpSession session, HttpServletRequest request, Model model) {
+      String seq=(String) session.getAttribute("loginedMemberSeq");
+      
       int cpage = 1;
       if(request.getParameter("cpage") != null && !request.getParameter("cpage").equals("")) {
          cpage = Integer.parseInt(request.getParameter("cpage"));
@@ -265,9 +303,15 @@ public class MukjoController {
          pageMainTeamTO = tdao.mainteamListSearch(pageMainTeamTO, search);
       }
       
+      ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
+      int noticeCount=ndao.noticeCount(seq);
+      
        ModelAndView modelAndView = new ModelAndView();
        modelAndView.setViewName("mainall");
        modelAndView.addObject("pageMainTeamTO", pageMainTeamTO);
+       modelAndView.addObject("noticeList", noticeList);
+       modelAndView.addObject("noticeCount", noticeCount);
+       
        return modelAndView;
    }
    
@@ -393,9 +437,12 @@ public class MukjoController {
        return mv;
    }
  
+   //관리자 페이지 - 전체 회원 목록 + 페이징 + 검색 
    @RequestMapping(value = "/adminmemberlists.do")
-       public ModelAndView adminmemberlists(HttpServletRequest request, Model model) {
-   
+   public ModelAndView adminmemberlists(HttpServletRequest request, Model model) {
+	   
+	  String search = request.getParameter("search");
+	   
       int cpage = 1;
       if(request.getParameter("cpage") != null && !request.getParameter("cpage").equals("")) {
          cpage = Integer.parseInt(request.getParameter("cpage"));
@@ -404,7 +451,11 @@ public class MukjoController {
       PageMemberTO pageMemberTO=new PageMemberTO();
       pageMemberTO.setCpage(cpage);
       
-      pageMemberTO = mdao.memberList(pageMemberTO);
+      if (search==null) {
+          pageMemberTO = mdao.memberList(pageMemberTO);
+       } else {
+    	  pageMemberTO = mdao.memberListSearch(pageMemberTO, search);
+       }
       
        ModelAndView modelAndView = new ModelAndView();
        modelAndView.setViewName("adminmemberlists");
@@ -444,8 +495,10 @@ public class MukjoController {
     
    //소모임 목록
     @RequestMapping(value = "/adminteam.do")
-       public ModelAndView adminteam(HttpServletRequest request, Model model) {
+    public ModelAndView adminteam(HttpServletRequest request, Model model) {
    
+      String search = request.getParameter("search");
+
       int cpage = 1;
       if(request.getParameter("cpage") != null && !request.getParameter("cpage").equals("")) {
          cpage = Integer.parseInt(request.getParameter("cpage"));
@@ -454,8 +507,12 @@ public class MukjoController {
       PageAdminTeamTO pageAdminTeamTO=new PageAdminTeamTO();
       pageAdminTeamTO.setCpage(cpage);
       
-      pageAdminTeamTO = tdao.teamList(pageAdminTeamTO);
-      
+      if (search==null) {
+          pageAdminTeamTO = tdao.teamList(pageAdminTeamTO);
+       } else {
+    	  pageAdminTeamTO = tdao.teamListSearch(pageAdminTeamTO, search);
+       }
+
        ModelAndView modelAndView = new ModelAndView();
        modelAndView.setViewName("adminteam");
        modelAndView.addObject("pageAdminTeamTO",pageAdminTeamTO);
@@ -693,18 +750,27 @@ public class MukjoController {
     }
     
     @RequestMapping(value = "/favorite.do")
-       public ModelAndView favorite(HttpServletRequest request, Model model) {
+       public ModelAndView favorite(HttpSession session, HttpServletRequest request, Model model) {
    
-       ModelAndView modelAndView = new ModelAndView();
-       modelAndView.setViewName("favorite");
-   
-       return modelAndView;
+        String seq=(String) session.getAttribute("loginedMemberSeq");
+        
+        ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
+        int noticeCount=ndao.noticeCount(seq);
+        
+        ModelAndView modelAndView = new ModelAndView();
+         modelAndView.setViewName("favorite");
+         modelAndView.addObject("noticeList", noticeList);
+         modelAndView.addObject("noticeCount", noticeCount);
+         
+         return modelAndView;
     }
     
     //소모임 게시판 + 검색
    @RequestMapping( "/somoimboard.do")   
-   public ModelAndView boardList(HttpServletRequest request,HttpServletResponse response,Model model) {
-      int cpage = 1;
+   public ModelAndView boardList(HttpSession session, HttpServletRequest request,HttpServletResponse response,Model model) {
+      String seq=(String) session.getAttribute("loginedMemberSeq");
+      
+     int cpage = 1;
       if(request.getParameter( "cpage" ) != null && !request.getParameter( "cpage" ).equals( "" ) ) {
          cpage = Integer.parseInt( request.getParameter( "cpage" ) );
       }
@@ -728,15 +794,27 @@ public class MukjoController {
          noticeLists = bdao.noticeListSearch(which, search);
       }
             
+      ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
+      int noticeCount=ndao.noticeCount(seq);
+      
       model.addAttribute("noticeLists",noticeLists);
       model.addAttribute("listTO",listTO);
-
+      model.addAttribute("noticeList", noticeList);
+      model.addAttribute("noticeCount", noticeCount);
+      
       return new ModelAndView("somoimboard_list"); 
+      
    }
    
    @RequestMapping( "/somoimboard_write.do")   
-   public ModelAndView boardWrite(HttpServletRequest request,HttpServletResponse response,Model model) {
+   public ModelAndView boardWrite(HttpSession session, HttpServletRequest request,HttpServletResponse response,Model model) {
+      String seq=(String) session.getAttribute("loginedMemberSeq");
 
+      ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
+      int noticeCount=ndao.noticeCount(seq);
+      
+      model.addAttribute("noticeList", noticeList);
+      model.addAttribute("noticeCount", noticeCount);
 
       return new ModelAndView("somoimboard_write"); 
    }
@@ -778,7 +856,9 @@ public class MukjoController {
    }
 
    @RequestMapping( "/somoimboard_view.do")   
-      public ModelAndView boardView(HttpServletRequest request,HttpServletResponse response,Model model) {
+      public ModelAndView boardView(HttpSession session, HttpServletRequest request,HttpServletResponse response,Model model) {
+
+     String seq=(String) session.getAttribute("loginedMemberSeq");
 
       String tseq = request.getParameter("tseq");
       String bseq = request.getParameter("bseq");
@@ -788,15 +868,21 @@ public class MukjoController {
       
       bto = bdao.boardView(bto);
       ArrayList<CommentTO> commentLists = cdao.commentView(bseq);
+      ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
+      int noticeCount=ndao.noticeCount(seq);
       
       model.addAttribute("bto",bto);
       model.addAttribute("commentLists",commentLists);
-      
+      model.addAttribute("noticeList", noticeList);
+      model.addAttribute("noticeCount", noticeCount);
+
          return new ModelAndView("somoimboard_view"); 
    }
    
    @RequestMapping( "/somoimboard_nview.do")   
-      public ModelAndView boardnView(HttpServletRequest request,HttpServletResponse response,Model model) {
+      public ModelAndView boardnView(HttpSession session, HttpServletRequest request,HttpServletResponse response,Model model) {
+
+     String seq=(String) session.getAttribute("loginedMemberSeq");
 
       String tseq = request.getParameter("tseq");
       String bseq = request.getParameter("bseq");
@@ -805,9 +891,12 @@ public class MukjoController {
       bto.setTseq(tseq);
       
       bto = bdao.boardView(bto);
+      int noticeCount=ndao.noticeCount(seq);
+      ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
 
-      
+      model.addAttribute("noticeList", noticeList);
       model.addAttribute("bto",bto);
+      model.addAttribute("noticeCount", noticeCount);
 
       
          return new ModelAndView("somoimboard_nview"); 
@@ -829,7 +918,9 @@ public class MukjoController {
    }
    
    @RequestMapping( "somoimboard_modify.do")   
-   public ModelAndView boardModify(HttpServletRequest request,HttpServletResponse response,Model model) {
+   public ModelAndView boardModify(HttpSession session, HttpServletRequest request,HttpServletResponse response,Model model) {
+      String seq=(String) session.getAttribute("loginedMemberSeq");
+
       BoardTO bto = new BoardTO();
       String bseq = request.getParameter("bseq");
 
@@ -837,9 +928,13 @@ public class MukjoController {
       bto.setBseq(bseq);         
 
       bto = bdao.boardModify(bto);
-
+      
+      ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
+      int noticeCount=ndao.noticeCount(seq);
+      
       model.addAttribute("bto",bto);
-
+      model.addAttribute("noticeList", noticeList);
+      model.addAttribute("noticeCount", noticeCount);
       
       return new ModelAndView("somoimboard_modify");
    }
@@ -886,8 +981,9 @@ public class MukjoController {
    
    //소모임 회원 목록
    @RequestMapping(value = "/somoimboard_memberlist.do")
-    public ModelAndView somoimboard_memberlist(HttpServletRequest request, Model model) {
-         
+    public ModelAndView somoimboard_memberlist(HttpSession session, HttpServletRequest request, Model model) {
+     String seq=(String) session.getAttribute("loginedMemberSeq");
+
       String tseq = request.getParameter("tseq");
       String search = request.getParameter("search");
 
@@ -907,13 +1003,17 @@ public class MukjoController {
 
       String tname=tdao.tnameFromTseq(tseq);
       String jangseq=tdao.jangseq(tseq);
+      int noticeCount=ndao.noticeCount(seq);
+      ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
 
       ModelAndView modelAndView = new ModelAndView();
        modelAndView.setViewName("somoimboard_memberlist");
        modelAndView.addObject("pageTeamMemberTO", pageTeamMemberTO);
        modelAndView.addObject("tname", tname);
        modelAndView.addObject("jangseq", jangseq);
-   
+       modelAndView.addObject("noticeList", noticeList);
+       modelAndView.addObject("noticeCount", noticeCount);
+       
        return modelAndView;
     }
    
@@ -925,11 +1025,16 @@ public class MukjoController {
       String tname=tdao.tnameFromTseq(tseq);
       String jangseq=tdao.jangseq(tseq);
 
+      ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
+      int noticeCount=ndao.noticeCount(seq);
+      
        ModelAndView modelAndView = new ModelAndView();
        modelAndView.setViewName("somoimboard_memberexit");
        modelAndView.addObject("tname",tname);
        modelAndView.addObject("seq", seq);
        modelAndView.addObject("jangseq", jangseq);
+       modelAndView.addObject("noticeList", noticeList);
+       modelAndView.addObject("noticeCount", noticeCount);
        
        return modelAndView;
     }
@@ -996,16 +1101,22 @@ public class MukjoController {
       
       boardListTO = bdao.myPageList(boardListTO, seq);
       
+      ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
+      int noticeCount=ndao.noticeCount(seq);
+      
        ModelAndView modelAndView = new ModelAndView();
        modelAndView.setViewName("myPage");
        modelAndView.addObject("boardListTO",boardListTO);
-   
+       modelAndView.addObject("noticeList", noticeList);
+       modelAndView.addObject("noticeCount", noticeCount);
+       
        return modelAndView;
     }
       
    @RequestMapping(value = "/myPage_view.do")
-       public ModelAndView myPage_view(HttpServletRequest request, Model model) {
-   
+       public ModelAndView myPage_view(HttpSession session, HttpServletRequest request, Model model) {
+	      String seq=(String) session.getAttribute("loginedMemberSeq");
+
       int cpage = 1;
       if ( request.getParameter( "cpage" ) != null && !request.getParameter( "cpage" ).equals("") ) {
          cpage = Integer.parseInt( request.getParameter( "cpage" ) );
@@ -1017,14 +1128,19 @@ public class MukjoController {
       BoardTO to=new BoardTO();
       to.setBseq(request.getParameter("bseq"));
       to=bdao.myPageView(to);
+      int noticeCount=ndao.noticeCount(seq);
       String tname=bdao.myPageViewTname(to.getTseq());
          
+      ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
+
        ModelAndView modelAndView = new ModelAndView();
        modelAndView.setViewName("myPage_view");
        modelAndView.addObject("to",to);
       modelAndView.addObject("cpage",cpage);
       modelAndView.addObject("tname",tname);
-   
+      modelAndView.addObject("noticeList", noticeList);
+      modelAndView.addObject("noticeCount", noticeCount);
+      
        return modelAndView;
     }
    
@@ -1057,8 +1173,9 @@ public class MukjoController {
    
     //글 수정
     @RequestMapping(value = "/myPage_modify.do")
-       public ModelAndView myPage_modify(HttpServletRequest request, Model model) {
-   
+       public ModelAndView myPage_modify(HttpSession session, HttpServletRequest request, Model model) {
+	      String seq=(String) session.getAttribute("loginedMemberSeq");
+
       int cpage = 1;
       if( request.getParameter("cpage") != null && !request.getParameter("cpage").equals("")) {
          cpage = Integer.parseInt(request.getParameter("cpage"));
@@ -1071,11 +1188,15 @@ public class MukjoController {
       to.setBseq(request.getParameter("bseq"));
       
       to = bdao.noticeModify(to);
+      ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
+      int noticeCount=ndao.noticeCount(seq);
       
        ModelAndView modelAndView = new ModelAndView();
        modelAndView.setViewName("myPage_modify");
        modelAndView.addObject("to",to);
       modelAndView.addObject("cpage",cpage);
+      modelAndView.addObject("noticeList", noticeList);
+      modelAndView.addObject("noticeCount", noticeCount);
       
        return modelAndView;
     }
@@ -1133,10 +1254,14 @@ public class MukjoController {
    
       String seq=(String) session.getAttribute("loginedMemberSeq");
       MemberTO to=mdao.myPageModify(seq);
+      ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
+      int noticeCount=ndao.noticeCount(seq);
       
        ModelAndView modelAndView = new ModelAndView();
        modelAndView.setViewName("myPage_info_modify");
        modelAndView.addObject("to",to);
+       modelAndView.addObject("noticeList", noticeList);
+       modelAndView.addObject("noticeCount", noticeCount);
        
        return modelAndView;
     }
@@ -1163,352 +1288,448 @@ public class MukjoController {
     }
    
    // 소모임페이지
-      @RequestMapping( "/somoimboard_home.do")   
-      public ModelAndView somoimboard_home(HttpServletRequest request,HttpServletResponse response,Model model) {
-
-         String rescode=request.getParameter("id");
-         
-         ArrayList<String> resDetail=mapdao.resDetail(rescode);
-         
-         ModelAndView modelAndView = new ModelAndView();
-          modelAndView.setViewName("somoimboard_home");
-          modelAndView.addObject("resDetail",resDetail);
-          
-          return modelAndView;
-      }
+   @RequestMapping( "/somoimboard_home.do")   
+   public ModelAndView somoimboard_home(HttpSession session, HttpServletRequest request,HttpServletResponse response,Model model) {
+     String seq=(String) session.getAttribute("loginedMemberSeq");
+      String rescode=request.getParameter("id");
       
-      @RequestMapping( "/somoimboard_review.do")   
-      public ModelAndView boardReview(HttpServletRequest request,HttpServletResponse response,Model model) {
-
-         return new ModelAndView("somoimboard_review"); 
-      }
+      ArrayList<String> resDetail=mapdao.resDetail(rescode);
+      ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
+      int noticeCount=ndao.noticeCount(seq);
       
-      @RequestMapping( "/somoimboard_menu.do")   
-      public ModelAndView somoimboard_menu(HttpServletRequest request,HttpServletResponse response,Model model) {
-
-         String rescode=request.getParameter("id");
-         
-         ArrayList<String> resDetail=mapdao.resDetail(rescode);
-         String rname=resDetail.get(0);
-         
-         ArrayList<MenuTO> resMenu=mapdao2.resMenu(rescode);
-         
-         ModelAndView modelAndView = new ModelAndView();
-          modelAndView.setViewName("somoimboard_menu");
-          modelAndView.addObject("resMenu",resMenu);
-          modelAndView.addObject("rname",rname);
-          
-          return modelAndView;      
-      }
-      
-      @RequestMapping( "/somoimboard_picture.do")   
-      public ModelAndView somoimboard_picture(HttpServletRequest request,HttpServletResponse response,Model model) {
-
-         String rescode=request.getParameter("id");
-         
-         ArrayList<String> resDetail=mapdao.resDetail(rescode);
-         String rname=resDetail.get(0);
-         
-         ArrayList<String> pic=mapdao3.crawler(rescode);
-         
-         ModelAndView modelAndView = new ModelAndView();
-          modelAndView.setViewName("somoimboard_picture");
-          modelAndView.addObject("pic",pic);
-          modelAndView.addObject("rname",rname);
-          
-          return modelAndView;
-      }
-      
-      @RequestMapping( "/somoimboard_search.do")
-      public ModelAndView boardSearch(HttpServletRequest request,HttpServletResponse response,Model model) {
-    	String tseq=request.getParameter("tseq");
-    	String tname=fdao.tnameFromTseq(tseq);
-    	String search = request.getParameter("search");
-
-      	ArrayList<FoodTO> lists = fdao.crawler(search);
-
-      	ModelAndView modelAndView = new ModelAndView();
-      	modelAndView.setViewName("somoimboard_search");
-      	modelAndView.addObject("tname", tname);
-      	modelAndView.addObject("lists", lists);
-      	return modelAndView;
-      }
-      
-      @RequestMapping( "/boss.do")   
-         public ModelAndView boss(HttpSession session, HttpServletRequest request,HttpServletResponse response,Model model) {
-
-         String seq=(String) session.getAttribute("loginedMemberSeq");
-
-         int cpage = 1;
-         if(request.getParameter("cpage") != null && !request.getParameter("cpage").equals("")) {
-            cpage = Integer.parseInt(request.getParameter("cpage"));
-         }
-         
-         TeamBossPageTO teamBossPageTO=new TeamBossPageTO();
-         teamBossPageTO.setCpage(cpage);
-         
-         teamBossPageTO = tdao.bossTeamList(teamBossPageTO, seq);
-         
-         ModelAndView modelAndView = new ModelAndView();
-         modelAndView.setViewName("boss");
-         modelAndView.addObject("teamBossPageTO", teamBossPageTO);
-
-         return modelAndView; 
-       }
-         
-       @RequestMapping( "/bossmember.do")   
-       public ModelAndView bossmember(HttpSession session, HttpServletRequest request,HttpServletResponse response,Model model) {
-          String myseq=(String) session.getAttribute("loginedMemberSeq");
-         
-          int cpage = 1;
-         if(request.getParameter("cpage") != null && !request.getParameter("cpage").equals("")) {
-            cpage = Integer.parseInt(request.getParameter("cpage"));
-         }
-         String tseq=request.getParameter("tseq");
-         
-         PageMemberTO pageMemberTO=new PageMemberTO();
-         pageMemberTO.setCpage(cpage);
-         
-         pageMemberTO = tdao.bossMember(pageMemberTO, tseq);
-         String tname=tdao.tnameFromTseq(tseq);
-         ModelAndView modelAndView = new ModelAndView();
-         modelAndView.setViewName("bossmember");
-         modelAndView.addObject("pageMemberTO", pageMemberTO);
-         modelAndView.addObject("myseq", myseq);
-         modelAndView.addObject("tseq", tseq);
-         modelAndView.addObject("tname", tname);
-
-         return modelAndView; 
-       }
-         
-       //권한 위임 확인
-      @RequestMapping(value = "/bosschange.do")
-          public ModelAndView bosschange(HttpServletRequest request, Model model) {
-      
-         String name=request.getParameter("name");
-         String seq=request.getParameter("seq");
-         String tseq=request.getParameter("tseq");
-
-          ModelAndView modelAndView = new ModelAndView();
-          modelAndView.setViewName("bosschange");
-          modelAndView.addObject("name",name);
-          modelAndView.addObject("seq",seq);
-          modelAndView.addObject("tseq",tseq);
-      
-          return modelAndView;
-       }
+      ModelAndView modelAndView = new ModelAndView();
+       modelAndView.setViewName("somoimboard_home");
+       modelAndView.addObject("resDetail",resDetail);
+       modelAndView.addObject("noticeList", noticeList);
+       modelAndView.addObject("noticeCount", noticeCount);
        
-      //권한 위임
-      @RequestMapping(value = "/bosschangeok.do")
-          public ModelAndView bosschangeok(HttpServletRequest request, Model model) {
-      
-         String seq=request.getParameter("seq");
-         String tseq=request.getParameter("tseq");
-
-          ModelAndView modelAndView = new ModelAndView();
-          modelAndView.setViewName("bosschangeok");
-          int flag=tdao.BossChange(seq, tseq);
-          modelAndView.addObject("flag",flag);
-      
-          return modelAndView;
-       }
-       
-      //소모임으로부터 추방 확인
-       @RequestMapping(value = "/bossdeletemember.do")
-          public ModelAndView bossdeletemember(HttpServletRequest request, Model model) {
-      
-         String name=request.getParameter("name");
-         String seq=request.getParameter("seq");
-         String tseq=request.getParameter("tseq");
-
-          ModelAndView modelAndView = new ModelAndView();
-          modelAndView.setViewName("bossdeletemember");
-          modelAndView.addObject("name",name);
-          modelAndView.addObject("seq",seq);
-          modelAndView.addObject("tseq",tseq);
-      
-          return modelAndView;
-       }
-       
-      //소모임으로부터 추방
-       @RequestMapping(value = "/bossdeletememberok.do")
-          public ModelAndView bossdeletememberok(HttpServletRequest request, Model model) {
-      
-         String seq=request.getParameter("seq");
-         String tseq=request.getParameter("tseq");
-
-          ModelAndView modelAndView = new ModelAndView();
-          modelAndView.setViewName("bossdeletememberok");
-          int flag=tdao.BossDeleteMember(seq, tseq);
-          
-          modelAndView.addObject("flag",flag);
-          modelAndView.addObject("tseq",tseq);
-      
-          return modelAndView;
-       }
-       
-       //소모임 가입신청 리스트
-       @RequestMapping( "/bossaccept.do")   
-       public ModelAndView bossaccept(HttpServletRequest request,HttpServletResponse response,Model model) {
-            
-          int cpage = 1;
-         if(request.getParameter("cpage") != null && !request.getParameter("cpage").equals("")) {
-            cpage = Integer.parseInt(request.getParameter("cpage"));
-         }
-         String tseq=request.getParameter("tseq");
-         
-         PageMemberTO pageMemberTO=new PageMemberTO();
-         pageMemberTO.setCpage(cpage);
-         
-         pageMemberTO = tdao.bossAccept(pageMemberTO, tseq);
-         String tname = tdao.tnameFromTseq(tseq);
-         
-         ModelAndView modelAndView = new ModelAndView();
-         modelAndView.setViewName("bossaccept");
-         modelAndView.addObject("pageMemberTO", pageMemberTO);
-         modelAndView.addObject("tseq", tseq);
-         modelAndView.addObject("tname", tname);
-
-         return modelAndView;
-       }
-       
-       //소모임 가입신청 승인 확인
-       @RequestMapping(value = "/bossacceptyes.do")
-          public ModelAndView bossacceptyes(HttpServletRequest request, Model model) {
-      
-         String name=request.getParameter("name");
-         String seq=request.getParameter("seq");
-         String tseq=request.getParameter("tseq");
-
-          ModelAndView modelAndView = new ModelAndView();
-          modelAndView.setViewName("bossacceptyes");
-          modelAndView.addObject("name",name);
-          modelAndView.addObject("seq",seq);
-          modelAndView.addObject("tseq",tseq);
-      
-          return modelAndView;
-       }
-       
-      //소모임 가입 승인
-       @RequestMapping(value = "/bossacceptyesok.do")
-       public ModelAndView bossacceptyesok(HttpServletRequest request, Model model) {
-      
-         String seq=request.getParameter("seq");
-         String tseq=request.getParameter("tseq");
-
-          ModelAndView modelAndView = new ModelAndView();
-          modelAndView.setViewName("bossacceptyesok");
-          int flag=tdao.BossAcceptYes(seq, tseq);
-          
-          modelAndView.addObject("flag",flag);
-          modelAndView.addObject("tseq",tseq);
-      
-          return modelAndView;
-       }
-       
-      //소모임 가입 승인
-       @RequestMapping(value = "/bossacceptnook.do")
-       public ModelAndView bossacceptnook(HttpServletRequest request, Model model) {
-      
-         String seq=request.getParameter("seq");
-         String tseq=request.getParameter("tseq");
-
-          ModelAndView modelAndView = new ModelAndView();
-          modelAndView.setViewName("bossacceptnook");
-          int flag=tdao.BossAcceptNo(seq, tseq);
-          
-          modelAndView.addObject("flag",flag);
-          modelAndView.addObject("tseq",tseq);
-      
-          return modelAndView;
-       }
-       
-      //소모임 가입신청 거절 확인
-       @RequestMapping(value = "/bossacceptno.do")
-       public ModelAndView bossacceptno(HttpServletRequest request, Model model) {
-      
-         String name=request.getParameter("name");
-         String seq=request.getParameter("seq");
-         String tseq=request.getParameter("tseq");
-
-          ModelAndView modelAndView = new ModelAndView();
-          modelAndView.setViewName("bossacceptno");
-          modelAndView.addObject("name",name);
-          modelAndView.addObject("seq",seq);
-          modelAndView.addObject("tseq",tseq);
-      
-          return modelAndView;
-       }
-       
-       @RequestMapping( "/bossadmin.do")   
-          public ModelAndView bossadmin(HttpServletRequest request,HttpServletResponse response,Model model) {
-      
-         String tseq=request.getParameter("tseq");
-
-         ModelAndView modelAndView = new ModelAndView();
-          modelAndView.setViewName("bossadmin");
-          String tname=tdao.tnameFromTseq(tseq);
-          modelAndView.addObject("tseq", tseq);
-          modelAndView.addObject("tname", tname);
-      
-          return modelAndView; 
-       }
-       
-       //중복 이름 확인
-      @RequestMapping(value = "/bosschecktname.do")
-      public ModelAndView bosschecktname(HttpServletRequest request, Model model) {
-         String tname = request.getParameter("tname");
-         boolean result = tdao.CheckTname(tname);
-
-         ModelAndView modelAndView = new ModelAndView();
-         modelAndView.setViewName("bosschecktname");
-         modelAndView.addObject("result", result);
-         return modelAndView;
-      }
-      
-       @RequestMapping( "/bossadminchange.do")   
-       public ModelAndView bossadminchange(HttpServletRequest request,HttpServletResponse response,Model model) {
+       return modelAndView;
+   }
    
-          String newname=request.getParameter("newname");
-         String tseq=request.getParameter("tseq");
+   @RequestMapping( "/somoimboard_review.do")   
+   public ModelAndView boardReview(HttpSession session, HttpServletRequest request,HttpServletResponse response,Model model) {
+	   String seq=(String) session.getAttribute("loginedMemberSeq");
 
-         ModelAndView modelAndView = new ModelAndView();
-          modelAndView.setViewName("bossadminchange");
-          int flag=tdao.BossChangeTname(tseq, newname);
-          
-          modelAndView.addObject("flag", flag);
-          modelAndView.addObject("newname", newname);
-          modelAndView.addObject("tseq", tseq);
+	   String rescode=request.getParameter("id");
+     
+	   ArrayList<String> resDetail=mapdao.resDetail(rescode);
+	   String rname=resDetail.get(0);
+    	
+	   ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
+	   int noticeCount=ndao.noticeCount(seq);
       
-          return modelAndView; 
-       }
+      ModelAndView modelAndView = new ModelAndView();
+      modelAndView.setViewName("somoimboard_review");
+      modelAndView.addObject("noticeList", noticeList);
+      modelAndView.addObject("noticeCount", noticeCount);
+      modelAndView.addObject("rname",rname);
+      return modelAndView;
+   }
+   
+   @RequestMapping( "/somoimboard_menu.do")   
+   public ModelAndView somoimboard_menu(HttpSession session, HttpServletRequest request,HttpServletResponse response,Model model) {
+     String seq=(String) session.getAttribute("loginedMemberSeq");
+      String rescode=request.getParameter("id");
+      
+      ArrayList<String> resDetail=mapdao.resDetail(rescode);
+      String rname=resDetail.get(0);
+      
+      ArrayList<MenuTO> resMenu=mapdao2.resMenu(rescode);
+      ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
+      int noticeCount=ndao.noticeCount(seq);
+      
+      ModelAndView modelAndView = new ModelAndView();
+       modelAndView.setViewName("somoimboard_menu");
+       modelAndView.addObject("resMenu",resMenu);
+       modelAndView.addObject("rname",rname);
+       modelAndView.addObject("noticeList", noticeList);
+       modelAndView.addObject("noticeCount", noticeCount);
        
-       //소모임 삭제 확인
-      @RequestMapping(value = "/bossdeleteteam.do")
-      public ModelAndView bossdeleteteam(HttpServletRequest request, Model model) {
+       return modelAndView;      
+   }
+   
+   @RequestMapping( "/somoimboard_picture.do")   
+   public ModelAndView somoimboard_picture(HttpSession session, HttpServletRequest request,HttpServletResponse response,Model model) {
+     String seq=(String) session.getAttribute("loginedMemberSeq");
+      String rescode=request.getParameter("id");
       
-         String tseq=request.getParameter("tseq");
-
-          ModelAndView modelAndView = new ModelAndView();
-          modelAndView.setViewName("bossdeleteteam");
-          modelAndView.addObject("tseq",tseq);
+      ArrayList<String> resDetail=mapdao.resDetail(rescode);
+      String rname=resDetail.get(0);
       
-          return modelAndView;
-       }
+      ArrayList<String> pic=mapdao3.crawler(rescode);
+      ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
+      int noticeCount=ndao.noticeCount(seq);
+      
+      ModelAndView modelAndView = new ModelAndView();
+       modelAndView.setViewName("somoimboard_picture");
+       modelAndView.addObject("pic",pic);
+       modelAndView.addObject("rname",rname);
+       modelAndView.addObject("noticeList", noticeList);
+       modelAndView.addObject("noticeCount", noticeCount);
        
-      //소모임 삭제
-      @RequestMapping(value = "/bossdeleteteamok.do")
-      public ModelAndView bossdeleteteamok(HttpServletRequest request, Model model) {
-      
-         String tseq=request.getParameter("tseq");
+       return modelAndView;
+   }
+   
+   @RequestMapping( "/somoimboard_search.do")
+   public ModelAndView boardSearch(HttpSession session, HttpServletRequest request,HttpServletResponse response,Model model) {
+   String seq=(String) session.getAttribute("loginedMemberSeq");
 
-          ModelAndView modelAndView = new ModelAndView();
-          modelAndView.setViewName("bossdeleteteamok");
-          int flag=tdao.DeleteTeam(tseq);
-          
-          modelAndView.addObject("flag",flag);
-          modelAndView.addObject("tseq",tseq);
+   String tseq=request.getParameter("tseq");
+    String tname=fdao.tnameFromTseq(tseq);
+    String search = request.getParameter("search");
+
+      ArrayList<FoodTO> lists = fdao.crawler(search);
+      ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
+      int noticeCount=ndao.noticeCount(seq);
       
-          return modelAndView;
-       }
+      ModelAndView modelAndView = new ModelAndView();
+      modelAndView.setViewName("somoimboard_search");
+      modelAndView.addObject("tname", tname);
+      modelAndView.addObject("lists", lists);       
+      modelAndView.addObject("noticeList", noticeList);
+      modelAndView.addObject("noticeCount", noticeCount);
+      
+      return modelAndView;
+   }
+   
+   @RequestMapping( "/boss.do")   
+      public ModelAndView boss(HttpSession session, HttpServletRequest request,HttpServletResponse response,Model model) {
+
+      String seq=(String) session.getAttribute("loginedMemberSeq");
+
+      int cpage = 1;
+      if(request.getParameter("cpage") != null && !request.getParameter("cpage").equals("")) {
+         cpage = Integer.parseInt(request.getParameter("cpage"));
+      }
+      
+      TeamBossPageTO teamBossPageTO=new TeamBossPageTO();
+      teamBossPageTO.setCpage(cpage);
+      
+      teamBossPageTO = tdao.bossTeamList(teamBossPageTO, seq);
+      ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
+      int noticeCount=ndao.noticeCount(seq);
+
+      ModelAndView modelAndView = new ModelAndView();
+      modelAndView.setViewName("boss");
+      modelAndView.addObject("teamBossPageTO", teamBossPageTO);
+      modelAndView.addObject("noticeList", noticeList);
+      modelAndView.addObject("noticeCount", noticeCount);
+      
+      return modelAndView; 
+    }
+      
+    @RequestMapping( "/bossmember.do")   
+    public ModelAndView bossmember(HttpSession session, HttpServletRequest request,HttpServletResponse response,Model model) {
+       String myseq=(String) session.getAttribute("loginedMemberSeq");
+      
+       int cpage = 1;
+      if(request.getParameter("cpage") != null && !request.getParameter("cpage").equals("")) {
+         cpage = Integer.parseInt(request.getParameter("cpage"));
+      }
+      String tseq=request.getParameter("tseq");
+      
+      PageMemberTO pageMemberTO=new PageMemberTO();
+      pageMemberTO.setCpage(cpage);
+      
+      pageMemberTO = tdao.bossMember(pageMemberTO, tseq);
+      String tname=tdao.tnameFromTseq(tseq);
+      ArrayList<NoticeTO> noticeList=ndao.noticeList(myseq);
+      int noticeCount=ndao.noticeCount(myseq);
+      
+      ModelAndView modelAndView = new ModelAndView();
+      modelAndView.setViewName("bossmember");
+      modelAndView.addObject("pageMemberTO", pageMemberTO);
+      modelAndView.addObject("myseq", myseq);
+      modelAndView.addObject("tseq", tseq);
+      modelAndView.addObject("tname", tname);
+      modelAndView.addObject("noticeList", noticeList);
+      modelAndView.addObject("noticeCount", noticeCount);
+      
+      return modelAndView; 
+    }
+      
+    //권한 위임 확인
+   @RequestMapping(value = "/bosschange.do")
+       public ModelAndView bosschange(HttpServletRequest request, Model model) {
+   
+      String name=request.getParameter("name");
+      String seq=request.getParameter("seq");
+      String tseq=request.getParameter("tseq");
+
+       ModelAndView modelAndView = new ModelAndView();
+       modelAndView.setViewName("bosschange");
+       modelAndView.addObject("name",name);
+       modelAndView.addObject("seq",seq);
+       modelAndView.addObject("tseq",tseq);
+   
+       return modelAndView;
+    }
+    
+   //권한 위임
+   @RequestMapping(value = "/bosschangeok.do")
+       public ModelAndView bosschangeok(HttpServletRequest request, Model model) {
+   
+      String seq=request.getParameter("seq");
+      String tseq=request.getParameter("tseq");
+
+       ModelAndView modelAndView = new ModelAndView();
+       modelAndView.setViewName("bosschangeok");
+       int flag=tdao.BossChange(seq, tseq);
+       modelAndView.addObject("flag",flag);
+   
+       return modelAndView;
+    }
+    
+   //소모임으로부터 추방 확인
+    @RequestMapping(value = "/bossdeletemember.do")
+       public ModelAndView bossdeletemember(HttpServletRequest request, Model model) {
+   
+      String name=request.getParameter("name");
+      String seq=request.getParameter("seq");
+      String tseq=request.getParameter("tseq");
+
+       ModelAndView modelAndView = new ModelAndView();
+       modelAndView.setViewName("bossdeletemember");
+       modelAndView.addObject("name",name);
+       modelAndView.addObject("seq",seq);
+       modelAndView.addObject("tseq",tseq);
+   
+       return modelAndView;
+    }
+    
+   //소모임으로부터 추방
+    @RequestMapping(value = "/bossdeletememberok.do")
+       public ModelAndView bossdeletememberok(HttpServletRequest request, Model model) {
+   
+      String seq=request.getParameter("seq");
+      String tseq=request.getParameter("tseq");
+
+       ModelAndView modelAndView = new ModelAndView();
+       modelAndView.setViewName("bossdeletememberok");
+       int flag=tdao.BossDeleteMember(seq, tseq);
+       
+       modelAndView.addObject("flag",flag);
+       modelAndView.addObject("tseq",tseq);
+   
+       return modelAndView;
+    }
+    
+    //소모임 가입신청 리스트
+    @RequestMapping( "/bossaccept.do")   
+    public ModelAndView bossaccept(HttpSession session, HttpServletRequest request,HttpServletResponse response,Model model) {
+        String seq=(String)session.getAttribute("loginedMemberSeq");
+        System.out.println(seq);
+       int cpage = 1;
+      if(request.getParameter("cpage") != null && !request.getParameter("cpage").equals("")) {
+         cpage = Integer.parseInt(request.getParameter("cpage"));
+      }
+      String tseq=request.getParameter("tseq");
+      
+      PageMemberTO pageMemberTO=new PageMemberTO();
+      pageMemberTO.setCpage(cpage);
+      
+      pageMemberTO = tdao.bossAccept(pageMemberTO, tseq);
+      String tname = tdao.tnameFromTseq(tseq);
+      ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
+      int noticeCount=ndao.noticeCount(seq);
+      
+      ModelAndView modelAndView = new ModelAndView();
+      modelAndView.setViewName("bossaccept");
+      modelAndView.addObject("pageMemberTO", pageMemberTO);
+      modelAndView.addObject("tseq", tseq);
+      modelAndView.addObject("tname", tname);
+      modelAndView.addObject("noticeCount", noticeCount);
+      modelAndView.addObject("noticeList", noticeList);
+
+      return modelAndView;
+    }
+    
+    //소모임 가입신청 승인 확인
+    @RequestMapping(value = "/bossacceptyes.do")
+       public ModelAndView bossacceptyes(HttpSession session, HttpServletRequest request, Model model) {
+
+      String name=request.getParameter("name");
+      String seq=request.getParameter("seq");
+      String tseq=request.getParameter("tseq");
+      ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
+
+       ModelAndView modelAndView = new ModelAndView();
+       modelAndView.setViewName("bossacceptyes");
+       modelAndView.addObject("name",name);
+       modelAndView.addObject("seq",seq);
+       modelAndView.addObject("tseq",tseq);
+       modelAndView.addObject("noticeList", noticeList);
+
+       return modelAndView;
+    }
+    
+   //소모임 가입 승인
+    @RequestMapping(value = "/bossacceptyesok.do")
+    public ModelAndView bossacceptyesok(HttpServletRequest request, Model model) {
+   
+      String seq=request.getParameter("seq");
+      String tseq=request.getParameter("tseq");
+
+       ModelAndView modelAndView = new ModelAndView();
+       modelAndView.setViewName("bossacceptyesok");
+       int flag=tdao.BossAcceptYes(seq, tseq);
+       
+       modelAndView.addObject("flag",flag);
+       modelAndView.addObject("tseq",tseq);
+   
+       return modelAndView;
+    }
+    
+   //소모임 가입 승인
+    @RequestMapping(value = "/bossacceptnook.do")
+    public ModelAndView bossacceptnook(HttpServletRequest request, Model model) {
+   
+      String seq=request.getParameter("seq");
+      String tseq=request.getParameter("tseq");
+
+       ModelAndView modelAndView = new ModelAndView();
+       modelAndView.setViewName("bossacceptnook");
+       int flag=tdao.BossAcceptNo(seq, tseq);
+       
+       modelAndView.addObject("flag",flag);
+       modelAndView.addObject("tseq",tseq);
+   
+       return modelAndView;
+    }
+    
+   //소모임 가입신청 거절 확인
+    @RequestMapping(value = "/bossacceptno.do")
+    public ModelAndView bossacceptno(HttpServletRequest request, Model model) {
+   
+      String name=request.getParameter("name");
+      String seq=request.getParameter("seq");
+      String tseq=request.getParameter("tseq");
+
+       ModelAndView modelAndView = new ModelAndView();
+       modelAndView.setViewName("bossacceptno");
+       modelAndView.addObject("name",name);
+       modelAndView.addObject("seq",seq);
+       modelAndView.addObject("tseq",tseq);
+   
+       return modelAndView;
+    }
+    
+    @RequestMapping( "/bossadmin.do")   
+    public ModelAndView bossadmin(HttpSession session, HttpServletRequest request,HttpServletResponse response,Model model) {
+       String seq=(String) session.getAttribute("loginedMemberSeq");
+
+       String tseq=request.getParameter("tseq");
+       ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
+
+       ModelAndView modelAndView = new ModelAndView();
+       modelAndView.setViewName("bossadmin");
+       String tname=tdao.tnameFromTseq(tseq);
+       int noticeCount=ndao.noticeCount(seq);
+       
+       modelAndView.addObject("tseq", tseq);
+       modelAndView.addObject("tname", tname);
+       modelAndView.addObject("noticeCount", noticeCount);
+       modelAndView.addObject("noticeList", noticeList);
+
+       return modelAndView; 
+    }
+    
+    //중복 이름 확인
+   @RequestMapping(value = "/bosschecktname.do")
+   public ModelAndView bosschecktname(HttpServletRequest request, Model model) {
+      String tname = request.getParameter("tname");
+      boolean result = tdao.CheckTname(tname);
+
+      ModelAndView modelAndView = new ModelAndView();
+      modelAndView.setViewName("bosschecktname");
+      modelAndView.addObject("result", result);
+      return modelAndView;
+   }
+   
+    @RequestMapping( "/bossadminchange.do")   
+    public ModelAndView bossadminchange(HttpServletRequest request,HttpServletResponse response,Model model) {
+
+       String newname=request.getParameter("newname");
+      String tseq=request.getParameter("tseq");
+
+      ModelAndView modelAndView = new ModelAndView();
+       modelAndView.setViewName("bossadminchange");
+       int flag=tdao.BossChangeTname(tseq, newname);
+       
+       modelAndView.addObject("flag", flag);
+       modelAndView.addObject("newname", newname);
+       modelAndView.addObject("tseq", tseq);
+   
+       return modelAndView; 
+    }
+    
+    //소모임 삭제 확인
+   @RequestMapping(value = "/bossdeleteteam.do")
+   public ModelAndView bossdeleteteam(HttpServletRequest request, Model model) {
+   
+      String tseq=request.getParameter("tseq");
+
+       ModelAndView modelAndView = new ModelAndView();
+       modelAndView.setViewName("bossdeleteteam");
+       modelAndView.addObject("tseq",tseq);
+   
+       return modelAndView;
+    }
+    
+   //소모임 삭제
+   @RequestMapping(value = "/bossdeleteteamok.do")
+   public ModelAndView bossdeleteteamok(HttpServletRequest request, Model model) {
+   
+      String tseq=request.getParameter("tseq");
+
+       ModelAndView modelAndView = new ModelAndView();
+       modelAndView.setViewName("bossdeleteteamok");
+       int flag=tdao.DeleteTeam(tseq);
+       
+       modelAndView.addObject("flag",flag);
+       modelAndView.addObject("tseq",tseq);
+   
+       return modelAndView;
+    }
+   
+ //회원 탈퇴
+   @RequestMapping(value = "/myPage_info_delete.do")
+   public ModelAndView myPage_info_delete(HttpServletRequest request, Model model) {
+       
+       String seq=request.getParameter("seq");
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("myPage_info_delete");
+        modelAndView.addObject("seq",seq);
+    
+        return modelAndView;
+    }
+   
+   @RequestMapping(value = "/myPage_info_deleteok.do")
+   public ModelAndView myPage_info_deleteok(HttpServletRequest request, Model model) {
+       
+       String seq=request.getParameter("seq");
+       
+       ModelAndView modelAndView = new ModelAndView();
+       modelAndView.setViewName("myPage_info_deleteok");
+       int flag=mdao.adDeleteMember(seq);
+       modelAndView.addObject("flag",flag);
+   
+       return modelAndView;
+    }
+   
+ //알림 삭제
+   @RequestMapping(value = "/noticedeleteok.do")
+   public ModelAndView noticedeleteok(HttpSession session, HttpServletRequest request, Model model) {
+   
+       String seq=(String) session.getAttribute("loginedMemberSeq");
+
+       ndao.noticeDeleteOk(seq);
+       
+       ModelAndView modelAndView = new ModelAndView();
+       modelAndView.setViewName("noticedeleteok");
+   
+       return modelAndView;
+    }
+
 }

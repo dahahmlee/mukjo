@@ -1,3 +1,4 @@
+<%@page import="com.example.model1.NoticeTO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.example.model1.PageAdminTeamTO"%>
 <%@page import="com.example.model1.TeamTO"%>
@@ -13,17 +14,35 @@
        String welcome = "";
     
        if(loginedMemberSeq != null) {
-          welcome = (String)sess.getAttribute("loginedMemberName")+"님 환영합니다.";
-          log = "LOGOUT";
-       } else {
-                 out.println ( "<script>");
-                  out.println ( "window.location.href = 'http://localhost:8080/login.do'");
-                  out.println ( "</script>");
-       }
+     		welcome = (String)sess.getAttribute("loginedMemberName")+"님 환영합니다.";
+     		log = "LOGOUT";
+     		if (loginedMemberSeq.equals("1")) {
+     	   		out.println ( "<script>");
+     	   		out.println( "alert('관리자는 소모임장 페이지에 들어갈 수 없습니다.');" );
+     			out.println ( "history.back();");
+     			out.println ( "</script>");
+     	   	}
+     	} else {
+     		out.println ( "<script>");
+  		out.println ( "window.location.href = 'http://localhost:8080/login.do'");
+  		out.println ( "</script>");
+     	}
        
        String tseq = (String)request.getAttribute("tseq");
        String tname = (String)request.getAttribute("tname");
 
+       ArrayList<NoticeTO> noticeList=(ArrayList<NoticeTO>)request.getAttribute("noticeList");
+       String noticeCount=(String)request.getAttribute("noticeCount").toString();
+       
+       StringBuilder sb=new StringBuilder();
+       for (int i=0; i<noticeList.size(); i++) {
+          String words=noticeList.get(i).getWords();
+          String ndate=noticeList.get(i).getNdate();
+          
+          sb.append("<p>"+words);
+          sb.append("<span>"+ndate+"</span>");
+          sb.append("</p>");
+       }
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -492,7 +511,7 @@ footer{
                 <li id="bell" style="margin-left: 20px;">
                 	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
 						<img src="images/bell.png">
-					</button>1
+					</button><%=noticeCount %>
 				</li>
             </ul>
           </div>
@@ -508,23 +527,26 @@ footer{
         </div>
 
         <div class="modal-body">
+          <%=sb %>
+        <!-- 
           <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
-          	<span>2022.07.13</span>
+             <span>2022.07.13</span>
           </p>
           <hr />
           <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
-          	<span>2022.07.13</span>
+             <span>2022.07.13</span>
           </p>
           <hr />
           <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
-          	<span>2022.07.13</span>
+             <span>2022.07.13</span>
           </p>
+          -->
           <hr />
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><b>읽음</b></button>
-          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><b>닫기</b></button>
+          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><a href="noticedeleteok.do"><b>읽음</b></button>
+          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><a href=""><b>닫기</b></button>
         </div>
       </div>
     </div>

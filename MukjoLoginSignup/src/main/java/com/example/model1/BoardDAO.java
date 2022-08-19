@@ -26,7 +26,7 @@ public class BoardDAO {
 	private DataSource dataSource;
 
 
-	private String uploadPath="C:/github/MukjoLoginSignup/src/main/webapp/upload";
+	private String uploadPath="C:/Github/mukjo/MukjoLoginSignup/src/main/webapp/upload";
 	
 	//private String uploadPath="C:\\Users\\JungGyuJin\\Desktop\\mukjo_project\\git\\mukjo\\MukjoLoginSignup\\src\\main\\webapp\\upload";
 
