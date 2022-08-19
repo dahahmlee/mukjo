@@ -614,7 +614,7 @@ footer{
 
                        </strong>
             </label>
-            <input type="hidden" id="starRating" name="star" value="" />
+            <input type="hidden" id="starRating" name="star" value="3" />
             <input type="hidden" name="tseq" value="<%=tseq %>" />         
             <input type="hidden" name="id" value="<%=id %>" />
             <input type="hidden" name="latitude" value="<%=latitude %>" />         
