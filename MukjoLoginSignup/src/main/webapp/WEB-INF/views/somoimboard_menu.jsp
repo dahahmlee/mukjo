@@ -474,6 +474,32 @@ footer{
 	background-color: rgba(4, 117, 244, 0.9);
 }
 
+.checkbox {
+	float: right;
+	
+}
+
+#star {
+	width: 40px;
+	margin-top: 10px;
+	
+}
+
+input[type="checkbox"]+label {
+    display: flex;
+    width: 28px;
+    height: 28px;
+    background: url('./images/staroff2.png') no-repeat 0 0px / contain;
+}
+
+input[type='checkbox']:checked+label {
+    background: url('./images/star-on.png') no-repeat 0 1px / contain;
+}
+
+input[type="checkbox"] {
+    display: none;
+}
+
 </style>
 
 </head>
@@ -561,7 +587,14 @@ footer{
                     <div style="width: 50%;">
                          <table border="1" style="width: 100%;    height: 20%;">  
                              <thead>
-                               <td colspan="4"><a href="#"><%=rname %></a></td>
+                               <td colspan="4" class="homesub"><a href="#" style=" font-weight:bold; margin-left: 40px;"><%= rname %></a>
+                                     
+                                      <div class="checkbox">
+                                         <input type="checkbox" id="favCheck" onclick="'location.href='">
+										 <label for="favCheck" style="margin-right: 10px;"></label>
+									  </div>
+                               
+                               
                                   <tr id="tabBox">
                                     <th scope="col" class="th-title"><a href="./somoimboard_home.do?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" >홈</a></th>
                                     <th scope="col" class="th-date"><a href="./somoimboard_review.do?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>">리뷰</a></th>
