@@ -42,23 +42,23 @@
     
     StringBuilder sb=new StringBuilder();
     sb.append("<tr>");
-    sb.append("      <td style='padding: 35px;'>위치</td>");
+    sb.append("      <td style='padding: 20px;'>위치</td>");
     sb.append("      <td>"+rloc+"</td>");
     sb.append("</tr>");
     sb.append("<tr>");
-    sb.append("      <td>전화번호</td>");
+    sb.append("      <td style='padding: 10px;'>전화번호</td>");
     sb.append("      <td>"+rphone+"</td>");
     sb.append("</tr>");
     sb.append("<tr>");
-    sb.append("      <td>홈페이지</td>");
+    sb.append("      <td style='padding : 14px;'>홈페이지</td>");
     sb.append("      <td>"+rsite+"</td>");
     sb.append("</tr>");
     sb.append("<tr>");
-    sb.append("      <td style='padding:45px;'>영업시간</td>");
+    sb.append("      <td style='padding:23px;'>영업시간</td>");
     sb.append("      <td>"+rtime+"</td>");
     sb.append("</tr>");
     sb.append("<tr>");
-    sb.append("      <td style='padding:35px;'>편의시설</td>");
+    sb.append("      <td style='padding:34px;'>편의시설</td>");
     sb.append("      <td>"+rfac+"</td>");
     sb.append("</tr>");
     
