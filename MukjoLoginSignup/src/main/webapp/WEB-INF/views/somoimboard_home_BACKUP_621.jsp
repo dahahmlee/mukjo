@@ -580,7 +580,7 @@ footer{
                                 <div class="star-container div2" id="star" style="width: 5%;
                                       position: absolute;
                                       right: 1%;
-<<<<<<< .merge_file_a20660
+<<<<<<< HEAD
                                       top: -20%;">
                                          <a href="#">
                                          	<span class="star">★</span>
@@ -607,7 +607,7 @@ footer{
 										 <label for="favCheck"></label>
 								      </div>
                                 </div>  
->>>>>>> .merge_file_a06176
+>>>>>>> 9d49b1b4f38aca7714dfb2682fd2ee1ca2773e0f
                                </td>
                                </tr>
                                   <tr id="tabBox" style="height:61px;">

@@ -45,23 +45,23 @@
     
     StringBuilder sb=new StringBuilder();
     sb.append("<tr>");
-    sb.append("      <td style='padding: 20px;'>위치</td>");
+    sb.append("      <td style='padding: 35px;'>위치</td>");
     sb.append("      <td>"+rloc+"</td>");
     sb.append("</tr>");
     sb.append("<tr>");
-    sb.append("      <td style='padding: 10px;'>전화번호</td>");
+    sb.append("      <td>전화번호</td>");
     sb.append("      <td>"+rphone+"</td>");
     sb.append("</tr>");
     sb.append("<tr>");
-    sb.append("      <td style='padding : 14px;'>홈페이지</td>");
+    sb.append("      <td>홈페이지</td>");
     sb.append("      <td>"+rsite+"</td>");
     sb.append("</tr>");
     sb.append("<tr>");
-    sb.append("      <td style='padding:23px;'>영업시간</td>");
+    sb.append("      <td style='padding:45px;'>영업시간</td>");
     sb.append("      <td>"+rtime+"</td>");
     sb.append("</tr>");
     sb.append("<tr>");
-    sb.append("      <td style='padding:34px;'>편의시설</td>");
+    sb.append("      <td style='padding:35px;'>편의시설</td>");
     sb.append("      <td>"+rfac+"</td>");
     sb.append("</tr>");
     
@@ -407,14 +407,7 @@ nav{
 }
 
 .tblmain table th{
-   background-color: #f7f7fd;
-   border : 1px solid black;
-   border-bottom: none;
-   border-collapse:separate;
-}
-
-.tblmain table td {
-   border: 1px solid black;
+    background-color: #f7f7fd;
 }
 
 
@@ -570,47 +563,25 @@ footer{
     
 
                <div class="tblmain" style= "display: flex; justify-content: space-around;">
-                    <div style="width: 50%; display:table; border-collapse:collapse;">
-                         <table border="1" style="width: 100%; height: 20%; border-collapse:separate;">  
+                    <div style="width: 50%;">
+                         <table border="1" style="width: 100%;    height: 20%;">  
                              <thead>
-                              <tr style="position:relative; height:61px;">
+                             <tr style="position:relative">
 
                      
                                <td colspan="4" class="homesub"><a href="#" style=" font-weight:bold;"><%= rname %></a>
                                 <div class="star-container div2" id="star" style="width: 5%;
                                       position: absolute;
                                       right: 1%;
-<<<<<<< .merge_file_a20660
-                                      top: -20%;">
-                                         <a href="#">
-                                         	<span class="star">★</span>
-                                         </a>
-                              
-                     <!-- 
-
-
-                               <td colspan="4" class="homesub"><a href="#" style=" font-weight:bold;"><%=rname %></a>
-                                <div class="star-container" id="star" style="width: 5%;
-                                      position: absolute;
-                                      right: 1%;
-                                      top: -19%;">
-                                         <a class="star">★</a>
-
-                           -->
-
-
-                                        </div>  
-=======
                                       top: -10%;">
                                       <div class="checkbox">
                                          <input type="checkbox" id="favCheck" <%=onoff %>>
 										 <label for="favCheck"></label>
 								      </div>
                                 </div>  
->>>>>>> .merge_file_a06176
                                </td>
                                </tr>
-                                  <tr id="tabBox" style="height:61px;">
+                                  <tr id="tabBox">
                                <!-- 
                                     <th scope="col" class="th-title"><a href="./somoimboard_home.do?tseq=<%=tseq%>" style="color : #de5f47">홈</a></th>
                                     <th scope="col" class="th-date"><a href="./somoimboard_review.do?tseq=<%=tseq%>">리뷰</a></th>
@@ -629,7 +600,7 @@ footer{
                             
                          </table>
                          <div id="itemBox">
-                           <table border="1" id="good" style="width:100%; border-collapse:separate;">  
+                            <table border="1" id="good" style="width:100%;">  
 
                                 
                                 <tbody>

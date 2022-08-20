@@ -20,7 +20,6 @@
     }  
     
    ArrayList<String> resDetail=(ArrayList)request.getAttribute("resDetail");
-   String onoff=(String)request.getAttribute("onoff");
    String tseq=request.getParameter("tseq");
    
    String id=request.getParameter("id");
@@ -141,27 +140,6 @@ input{
     border: none;
     outline: none;
 }
-
-#star {
-	width: 40px;
-	margin-top: 10px;
-}
-
-input[type="checkbox"]+label {
-    display: flex;
-    width: 28px;
-    height: 28px;
-    background: url('./images/staroff2.png') no-repeat 0 0px / contain;
-}
-
-input[type='checkbox']:checked+label {
-    background: url('./images/star-on.png') no-repeat 0 1px / contain;
-}
-
-input[type="checkbox"] {
-    display: none;
-}
-
 
 ul{
     list-style:none;
@@ -420,6 +398,11 @@ nav{
 
 td { word-break: break-all; }
 
+#star {
+  display: flex;
+  margin-top: 10px;
+}
+
 .star {
   font-size: 2rem;
   margin: 10px 0;
@@ -482,8 +465,6 @@ footer{
 	border-radius: 30px;
 	background-color: rgba(4, 117, 244, 0.9);
 }
-
-
 </style>
 
 </head>
@@ -580,7 +561,6 @@ footer{
                                 <div class="star-container div2" id="star" style="width: 5%;
                                       position: absolute;
                                       right: 1%;
-<<<<<<< .merge_file_a20660
                                       top: -20%;">
                                          <a href="#">
                                          	<span class="star">★</span>
@@ -600,14 +580,6 @@ footer{
 
 
                                         </div>  
-=======
-                                      top: -10%;">
-                                      <div class="checkbox">
-                                         <input type="checkbox" id="favCheck" <%=onoff %>>
-										 <label for="favCheck"></label>
-								      </div>
-                                </div>  
->>>>>>> .merge_file_a06176
                                </td>
                                </tr>
                                   <tr id="tabBox" style="height:61px;">
@@ -678,7 +650,7 @@ footer{
                                    
                         </div>
                     </div>
-			<!--       
+                    
                        <script type="text/javascript">
 
                        
@@ -703,9 +675,20 @@ footer{
                          }
 
                          init();
+
+
+
+                                $('#star a').click(function(){ 
+                                $(this).parent().children("a").removeClass("on");    
+                                $(this).addClass("on").prevAll("a").addClass("on");
+                                console.log($(this).attr("value"));
+                                });
+
+
                         </script>
- -->
-			<div class="maps" style="width:50%;">
+
+
+         <div class="maps" style="width:50%;">
             <div id="map" style="width:100%;height:450px;"></div>
          </div>
       </div><!-- tblWrap -->
@@ -717,17 +700,6 @@ footer{
  -->
 </body>
 <script type="text/javascript">
-$(function() {
-	$('#favCheck').on('click', function(){
-		if (document.querySelector('#favCheck').checked == true) {
-			location.href='favoriteadd.do?id=<%=id %>';
-		} else {
-			location.href='favoritedel.do?id=<%=id %>';
-		}
-	});
-
-});
-
 $(function() {
 	initMap();
 })

@@ -491,7 +491,21 @@ footer{
 	margin-right: 15px;
 }
 
+.th-num {
+   width: 20%;
+}
 
+.th-title tr td {
+   width: 30%;
+}
+
+.th-boss {
+   width: 25%;
+}
+
+.th-memcount {
+   width: 25%;
+}
 </style>
 
 </head>
@@ -593,8 +607,8 @@ footer{
                         <tr>
                             <th scope="col" class="th-num"><a>번호</a></th>
                             <th scope="col" class="th-title"><a>소모임 이름</a></th>
-                            <th scope="col" class="th-date"><a>소모임장</a></th>
-                            <th scope="col" class="th-date"><a>멤버수</a></th>
+                            <th scope="col" class="th-boss"><a>소모임장</a></th>
+                            <th scope="col" class="th-memcount"><a>멤버수</a></th>
                         </tr>
                     </thead>
                     <tbody>

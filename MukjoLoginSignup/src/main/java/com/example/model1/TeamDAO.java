@@ -400,7 +400,7 @@ public class TeamDAO {
       int accept = 0;
       try {
          conn=this.dataSource.getConnection();
-         String sql="select teammember.tseq as tseq, tname, team.seq as jangseq from teammember inner join team on (teammember.tseq=team.tseq) where accept=1 and teammember.seq=? order by tname";
+         String sql="select teammember.tseq as tseq, tname, team.seq as jangseq from teammember inner join team on (teammember.tseq=team.tseq and team.tseq!=1) where accept=1 and teammember.seq=? order by tname";
          pstmt=conn.prepareStatement(sql);
          pstmt.setString(1,seq);
          rs=pstmt.executeQuery();
@@ -482,9 +482,7 @@ public class TeamDAO {
       int accept = 0;
       try {
          conn=this.dataSource.getConnection();
-         String sql="select teammember.tseq as tseq, tname, team.seq as jangseq from teammember "
-               + "inner join team on (teammember.tseq=team.tseq and accept=1) "
-               + "where teammember.seq=? and tname like '%"+search+"%' order by tname";
+         String sql="select teammember.tseq as tseq, tname, team.seq as jangseq from teammember inner join team on (teammember.tseq=team.tseq and accept=1) where teammember.seq=? and tname like '%"+search+"%' and team.tseq!=1 order by tname";
          pstmt=conn.prepareStatement(sql);
          pstmt.setString(1,seq);
          

@@ -1,3 +1,4 @@
+<%@page import="com.example.model1.ReviewTO"%>
 <%@page import="com.example.model1.NoticeTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -20,13 +21,31 @@
           out.println ( "<script>");
          out.println ( "window.location.href = 'http://localhost:8080/login.do'");
          out.println ( "</script>");
-    }   
+    } 
     
+   String onoff=(String)request.getAttribute("onoff");
    String tseq=request.getParameter("tseq");
    String rname = (String)request.getAttribute("rname");
    String id=request.getParameter("id");
    String latitude=request.getParameter("latitude");
    String longitude=request.getParameter("longitude");
+   
+   ArrayList<ReviewTO> lists = (ArrayList)request.getAttribute("lists");
+	
+	StringBuilder sb = new StringBuilder();
+	for (ReviewTO rto : lists) {
+		sb.append("<tr>");
+		sb.append("<td class='nick'><span><i class='fa fa-star' style='font-size:20px;color:#de5f47'></i>");
+		sb.append(rto.getStar()+"점</td>");
+		sb.append("<td>"+rto.getWriter()+"</td>");
+		sb.append("<td class='comment'>"+ rto.getRcontent()+"</td>");
+		if(loginedMemberSeq.equals(rto.getSeq())||loginedMemberSeq.equals("1")) {
+			sb.append("<td class='data'><a href='./somoimboard_reviewdelete.do?tseq="+tseq+"&id="+id+"&latitude="+latitude+"&longitude="+longitude+"&rseq="+rto.getRseq()+"' style> &nbsp X </a></td> ");
+		} else {
+			sb.append("<td class='data'></td> ");
+		}
+
+	}
 
    
    ArrayList<NoticeTO> noticeList=(ArrayList<NoticeTO>)request.getAttribute("noticeList");
@@ -99,6 +118,7 @@ input{
     border: none;
     outline: none;
 }
+
 
 ul{
     list-style:none;
@@ -392,10 +412,6 @@ nav{
 	font-weight: 600;
 }
 
-
-
-
-        
 .btn_list {
 	display: inline-block;
 	background: #5c3018;
@@ -460,6 +476,33 @@ footer{
 	border-radius: 30px;
 	background-color: rgba(4, 117, 244, 0.9);
 }
+
+.checkbox {
+	float: right;
+	
+}
+
+#star {
+	width: 40px;
+	margin-top: 10px;
+	
+}
+
+input[type="checkbox"]+label {
+    display: flex;
+    width: 28px;
+    height: 28px;
+    background: url('./images/staroff2.png') no-repeat 0 0px / contain;
+}
+
+input[type='checkbox']:checked+label {
+    background: url('./images/star-on.png') no-repeat 0 1px / contain;
+}
+
+input[type="checkbox"] {
+    display: none;
+}
+
 </style>
 
 </head>
@@ -525,8 +568,13 @@ footer{
         </div>
 
         <div class="modal-footer">
+<<<<<<< HEAD
           <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><a href="noticedeleteok.do"><b>읽음</b></button></a>
           <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><a href=""><b>닫기</b></button></a>
+=======
+          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><a href="noticedeleteok.do"><b>읽음</b></a></button>
+          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><a href=""><b>닫기</b></a></button>
+>>>>>>> 9d49b1b4f38aca7714dfb2682fd2ee1ca2773e0f
         </div>
       </div>
     </div>
@@ -540,20 +588,25 @@ footer{
         <section id="titSec">
             <strong></strong>
         </section>
-          
-    
 
                <div class="tblmain" style= "display: flex; justify-content: space-around;">
                     <div style="width: 50%;">
                          <table border="1" style="width: 100%;    height: 20%;">  
                              <thead>
-                               <td colspan="4"><a href="#"><%=rname %></a></td>
+                               <tr style="position:relative">
+                               <td colspan="4" class="homesub"><a href="#" style=" font-weight:bold; margin-left: 40px;"><%= rname %></a>
+                                     
+                                      <div class="checkbox">
+                                         <input type="checkbox" id="favCheck" <%=onoff %>>
+										 <label for="favCheck" style="margin-right: 10px;"></label>
+									  </div>
+								
+								
                                   <tr id="tabBox">
                                     <th scope="col" class="th-title"><a href="./somoimboard_home.do?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" >홈</a></th>
                                     <th scope="col" class="th-date"><a href="./somoimboard_review.do?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" style="color : #de5f47">리뷰</a></th>
                                     <th scope="col" class="th-num"><a href="./somoimboard_menu.do?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" >메뉴</a></th>
                                     <th scope="col" class="th-date"><a href="./somoimboard_picture.do?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" >사진</a></th>
-                                 
                                 </tr> 
                             </thead>
 
@@ -568,46 +621,7 @@ footer{
             <div class="tablewrap" style="display : table-cell;">
             <table width="100%" cellpadding="0" cellspacing="0" style="table-layout : fixed; text-align: start;  border-collapse: collapse;">
                <tbody>
-                  <tr>
-                     <td class="nick"><span><i class="fa fa-star" style="font-size:20px;color:#de5f47"></i>
-                            5점</td>
-                            <td>김영규</td>
-                     <td class="comment">맛있음 굿굿</td>
-                     <td class="data"><a href="#">X</a></td>
-                  
-                  </tr>
-
-                  <tr>
-                     <td class="nick"><span><i class="fa fa-star" style="font-size:20px;color:#de5f47"></i>
-                            3점</td>
-                            <td>김영규</td>
-                     <td class="comment">예전에 가봤는데 별로였음</td>
-                     <td class="data" ><a href="#">X</a></td>
-                  </tr>
-
-                        <tr>
-                     <td class="nick"><span><i class="fa fa-star" style="font-size:20px;color:#de5f47"></i>
-                            2점</td>
-                            <td>김영규</td>
-                     <td class="comment">예전에 가봤는데 별로였음</td>
-                     <td class="data" ><a href="#">X</a></td>
-                  </tr>
-
-                        <tr>
-                     <td class="nick"><span><i class="fa fa-star" style="font-size:20px;color:#de5f47"></i>
-                            3점</td>
-                            <td>김영규</td>
-                     <td class="comment">예전에 가봤는데 별로였음</td>
-                     <td class="data" ><a href="#">X</a></td>
-                  </tr>
-
-                        <tr>
-                     <td class="nick"><span><i class="fa fa-star" style="font-size:20px;color:#de5f47"></i>
-                            4점</td>
-                            <td>김영규</td>
-                     <td class="comment">예전에 가봤는데 별로였음qdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddㅇㅇㅇ</td>
-                     <td class="data" ><a href="#">X</a></td>
-                  </tr>
+ 					<%=sb %>
 
 
                </tbody>
@@ -620,37 +634,33 @@ footer{
 
                             <div class="cmteditor" style="padding: 12px 16px 20px;background: #fcfcfc;border: 1px solid #ddd;
                                                     border-bottom-color: #ccc; border-radius: 8px; box-shadow: 0 1px 3px -1px rgb(0 0 0 / 10%);">
-            <label for="editorlabel" style="cursor: pointer; position: relative; margin-bottom: 10px;"> 
+         
+
+            <form action="./somoimboard_reviewwrite.do" name ="rfrm" style="display: block;
+            
+            position: relative;
+            clear: both;">           
+               <label for="editorlabel" style="cursor: pointer; position: relative; margin-bottom: 10px;"> 
                
                <strong style="padding-left:5px;font-size:16px;line-height:1.5;">리뷰 쓰기
-                        <div id="star" style="width : 130px; display:flex;">
+                        <div id="star" style="width : 130px; display:flex;" >
 
                         </div>
-                            <script type="text/javascript">
-                                $(function() {
-                                    $('div#star').raty({
-                                        score: 3
-                                        ,path : "/images/"
-                                        ,width : 130
-                                        ,click: function(score, evt) {
-                                            $("#starRating").val(score);
-                                            $("#displayStarRating").html(score);
-                                        }
-                                    });
-                                });
-                            </script></span>
+
                        </strong>
             </label>
-
-            <form style="display: block;
-            position: relative;
-            clear: both;">
+            <input type="hidden" id="starRating" name="star" value="3" />
+            <input type="hidden" name="tseq" value="<%=tseq %>" />         
+            <input type="hidden" name="id" value="<%=id %>" />
+            <input type="hidden" name="latitude" value="<%=latitude %>" />         
+            <input type="hidden" name="longitude" value="<%=longitude %>" />
+            
             <div class="textcmt" style="display: flex; margin-top: 10px;">
-               <textarea style="background: rgb(255, 255, 255); overflow: hidden; min-height: 4em; resize: none;
+               <textarea name="content" style="background: rgb(255, 255, 255); overflow: hidden; min-height: 4em; resize: none;
                height: 49px;width: 85%; margin-left: 3px;"></textarea>
 
-            <input type="button" value="등록" class="btn_list2 btn_txt03"
-            style="cursor: pointer; margin-left:40px ;" onclick="location.href='#'" />
+            <input type="button" id="rwbtn" value="등록" class="btn_list2 btn_txt03"
+            style="cursor: pointer; margin-left:40px ;"  />
             </div>
 
             </form>
@@ -676,6 +686,31 @@ footer{
 </body>
 <script type="text/javascript">
 $(function() {
+	$('#favCheck').on('click', function(){
+		if (document.querySelector('#favCheck').checked == true) {
+			location.href='favoriteadd.do?id=<%=id %>';
+		} else {
+			location.href='favoritedel.do?id=<%=id %>';
+		}
+	});
+
+});
+
+window.onload = function() {
+	   document.getElementById( 'rwbtn' ).onclick = function() {
+
+	      if( document.rfrm.content.value.trim() == "" ) {
+	         alert( '내용을 입력하셔야 합니다.' );
+	         return false;
+	      }
+	      
+	      document.rfrm.submit();
+	   };
+	   
+
+	};
+	
+$(function() {
 	initMap();
 })
 
@@ -699,5 +734,17 @@ function initMap() {
 	
 	infoWindow.open(map, marker);
 }
+
+$(function() {
+    $('div#star').raty({
+        score: 3
+        ,path : "/images/"
+        ,width : 130
+        ,click: function(score, evt) {
+            $("#starRating").val(score);
+            $("#displayStarRating").html(score);
+        }
+    });
+});
 </script>
 </html>

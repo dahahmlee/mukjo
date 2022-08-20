@@ -24,6 +24,8 @@ import com.example.model1.BoardListTO;
 import com.example.model1.BoardTO;
 import com.example.model1.CommentDAO;
 import com.example.model1.CommentTO;
+import com.example.model1.FavoriteDAO;
+import com.example.model1.FavoriteTO;
 import com.example.model1.FoodDAO;
 import com.example.model1.FoodTO;
 import com.example.model1.MainTeamPageTO;
@@ -40,6 +42,8 @@ import com.example.model1.PageAdminTeamTO;
 import com.example.model1.PageMainTeamTO;
 import com.example.model1.PageMemberTO;
 import com.example.model1.PageTeamMemberTO;
+import com.example.model1.ReviewDAO;
+import com.example.model1.ReviewTO;
 import com.example.model1.SignUpDAO;
 import com.example.model1.SignUpTO;
 import com.example.model1.TeamBossPageTO;
@@ -62,7 +66,7 @@ public class MukjoController {
    
    @Autowired
    private BoardDAO bdao;
-   private String uploadPath="C:/Github/mukjo/MukjoLoginSignup/src/main/webapp/upload";
+   //private String uploadPath="C:/Github/mukjo/MukjoLoginSignup/src/main/webapp/upload";
 
    @Autowired
    private TeamDAO tdao;
@@ -84,6 +88,12 @@ public class MukjoController {
    
    @Autowired
    private FoodDAO fdao;
+   
+   @Autowired
+   private ReviewDAO rdao;
+   
+   @Autowired
+   private FavoriteDAO favdao;
    
    @RequestMapping(value = "/login.do")
    public ModelAndView login(HttpServletRequest request, Model model) {
@@ -226,7 +236,7 @@ public class MukjoController {
    //가입한 소모임 리스트 + 검색
    @RequestMapping(value = "/main.do")
    public ModelAndView main(HttpSession session, HttpServletRequest request, Model model) {
-      
+	  
       String seq=(String) session.getAttribute("loginedMemberSeq");
       String search = request.getParameter("search");
 
@@ -591,9 +601,9 @@ public class MukjoController {
     
     @RequestMapping(value = "/adminnotice_writeok.do")
         public ModelAndView adminnotice_writeok(HttpSession sess,HttpServletRequest request,HttpServletResponse response,Model model) {
-   
-       //String uploadPath = "C:\\Users\\JungGyuJin\\Desktop\\mukjo_project\\gitMukjo\\mukjo\\MukjoLoginSignup\\src\\main\\webapp\\upload";
+        String uploadPath=request.getRealPath("upload");
 
+       //String uploadPath = "C:\\Users\\JungGyuJin\\Desktop\\mukjo_project\\gitMukjo\\mukjo\\MukjoLoginSignup\\src\\main\\webapp\\upload";
        int maxFileSize = 20 * 1024 * 1024;
        String encoding = "utf-8";
    
@@ -676,8 +686,9 @@ public class MukjoController {
    
     //공지 수정 - 확인 후 수정
     @RequestMapping(value = "/adminnotice_modifyok.do")
-       public ModelAndView adminnotice_modifyok(HttpServletRequest request, Model model) {
-   
+    public ModelAndView adminnotice_modifyok(HttpServletRequest request, Model model) {
+      String uploadPath=request.getRealPath("upload");
+
       int cpage = 1;
 
       BoardListTO listTO = new BoardListTO();      
@@ -749,20 +760,54 @@ public class MukjoController {
        return modelAndView;
     }
     
+    //즐찾 목록
     @RequestMapping(value = "/favorite.do")
-       public ModelAndView favorite(HttpSession session, HttpServletRequest request, Model model) {
+    public ModelAndView favorite(HttpSession session, HttpServletRequest request, Model model) {
    
         String seq=(String) session.getAttribute("loginedMemberSeq");
+        
+        ArrayList<FavoriteTO> favList=favdao.favList(seq);
         
         ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
         int noticeCount=ndao.noticeCount(seq);
         
         ModelAndView modelAndView = new ModelAndView();
-         modelAndView.setViewName("favorite");
-         modelAndView.addObject("noticeList", noticeList);
-         modelAndView.addObject("noticeCount", noticeCount);
+        modelAndView.setViewName("favorite");
+        modelAndView.addObject("favList", favList);
+        modelAndView.addObject("noticeList", noticeList);
+        modelAndView.addObject("noticeCount", noticeCount);
          
-         return modelAndView;
+        return modelAndView;
+    }
+    
+    //즐찾 추가
+    @RequestMapping(value = "/favoriteadd.do")
+    public ModelAndView favoriteadd(HttpSession session, HttpServletRequest request, Model model) {
+
+	     String seq=(String) session.getAttribute("loginedMemberSeq");
+	     String restcode=request.getParameter("id");
+
+	     favdao.favAdd(seq, restcode);
+	     
+	     ModelAndView modelAndView = new ModelAndView();
+	     modelAndView.setViewName("favoriteadd");
+	      
+	     return modelAndView;
+    }
+    
+    //즐찾 취소
+    @RequestMapping(value = "/favoritedel.do")
+    public ModelAndView favoritedel(HttpSession session, HttpServletRequest request, Model model) {
+
+    	String seq=(String) session.getAttribute("loginedMemberSeq");
+	     String restcode=request.getParameter("id");
+
+	     favdao.favDelete(seq, restcode);
+	     
+	     ModelAndView modelAndView = new ModelAndView();
+	     modelAndView.setViewName("favoritedel");
+	      
+	     return modelAndView;
     }
     
     //소모임 게시판 + 검색
@@ -821,7 +866,7 @@ public class MukjoController {
    
    @RequestMapping( "/somoimboard_writeok.do")   
    public ModelAndView boardWriteOk(HttpSession sess,HttpServletRequest request,HttpServletResponse response,Model model) throws IOException {
-      
+       String uploadPath=request.getRealPath("upload");
       //String uploadPath = "C:\\Users\\JungGyuJin\\Desktop\\mukjo_project\\새 폴더\\mukjo\\MukjoLoginSignup\\src\\main\\webapp\\upload";
 
       int maxFileSize = 20 * 1024 * 1024;
@@ -941,6 +986,7 @@ public class MukjoController {
    
    @RequestMapping( "somoimboard_modifyok.do")   
    public ModelAndView boardModifyOk(HttpServletRequest request,HttpServletResponse response,Model model) {
+       String uploadPath=request.getRealPath("upload");
 
       int maxFileSize = 20 * 1024 * 1024;
       String encoding = "utf-8";
@@ -1203,8 +1249,9 @@ public class MukjoController {
    
     //글 수정 - 확인 후 수정
     @RequestMapping(value = "/myPage_modifyok.do")
-       public ModelAndView myPage_modifyok(HttpServletRequest request, Model model) {
-   
+    public ModelAndView myPage_modifyok(HttpServletRequest request, Model model) {
+      String uploadPath=request.getRealPath("upload");
+
       int cpage = 1;
 
       BoardListTO listTO = new BoardListTO();      
@@ -1296,21 +1343,32 @@ public class MukjoController {
       ArrayList<String> resDetail=mapdao.resDetail(rescode);
       ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
       int noticeCount=ndao.noticeCount(seq);
+      String onoff=favdao.onoff(seq, rescode);
       
       ModelAndView modelAndView = new ModelAndView();
        modelAndView.setViewName("somoimboard_home");
        modelAndView.addObject("resDetail",resDetail);
        modelAndView.addObject("noticeList", noticeList);
        modelAndView.addObject("noticeCount", noticeCount);
+       modelAndView.addObject("onoff", onoff);
        
        return modelAndView;
    }
    
    @RequestMapping( "/somoimboard_review.do")   
    public ModelAndView boardReview(HttpSession session, HttpServletRequest request,HttpServletResponse response,Model model) {
-	   String seq=(String) session.getAttribute("loginedMemberSeq");
+	  String seq=(String) session.getAttribute("loginedMemberSeq");
+	  String rescode=request.getParameter("id");
+ 	  String tseq = request.getParameter("tseq");
+ 	  ReviewTO rto = new ReviewTO();
+ 	   
+ 	  rto.setRest(rescode);
+ 	  rto.setTseq(tseq);
+ 	  
+ 	  ArrayList<ReviewTO> lists = rdao.reviewLists(rto);
+      String onoff=favdao.onoff(seq, rescode);
 
-	   String rescode=request.getParameter("id");
+ 	  model.addAttribute("lists",lists);
      
 	   ArrayList<String> resDetail=mapdao.resDetail(rescode);
 	   String rname=resDetail.get(0);
@@ -1323,7 +1381,54 @@ public class MukjoController {
       modelAndView.addObject("noticeList", noticeList);
       modelAndView.addObject("noticeCount", noticeCount);
       modelAndView.addObject("rname",rname);
+      modelAndView.addObject("onoff", onoff);
+
       return modelAndView;
+   }
+   
+   @RequestMapping( "/somoimboard_reviewdelete.do")   
+   public ModelAndView boardReviewWrite(HttpSession sess,HttpServletRequest request,HttpServletResponse response,Model model) {
+ 	  
+ 	  String rseq = request.getParameter("rseq");
+
+ 	  ReviewTO rto = new ReviewTO();
+
+ 	  rto.setRseq(rseq);
+ 	  
+ 	  int flag = rdao.reviewDelete(rto);
+ 	  
+ 	  model.addAttribute("rto",rto);
+ 	  model.addAttribute("flag",flag);
+ 	  
+
+      return new ModelAndView("somoimboard_reviewdelete"); 
+   }
+   
+   @RequestMapping( "/somoimboard_reviewwrite.do")   
+   public ModelAndView boardReviewDelete(HttpSession sess,HttpServletRequest request,HttpServletResponse response,Model model) {
+ 	  
+ 	  String rescode=request.getParameter("id");
+ 	  String tseq = request.getParameter("tseq");
+ 	  String content = request.getParameter("content");
+ 	  String seq = (String)sess.getAttribute("loginedMemberSeq");
+ 	  String star = request.getParameter("star");
+ 	  ReviewTO rto = new ReviewTO();
+ 	   
+
+ 	  rto.setTseq(tseq);
+ 	  rto.setSeq(seq);
+ 	  rto.setRest(rescode);
+ 	  rto.setRcontent(content);
+ 	  // 점수가없음
+ 	  rto.setStar(star);
+ 	  
+ 	  int flag = rdao.reviewWrite(rto);
+ 	  
+ 	  model.addAttribute("rto",rto);
+ 	  model.addAttribute("flag",flag);
+ 	  
+
+      return new ModelAndView("somoimboard_reviewwrite"); 
    }
    
    @RequestMapping( "/somoimboard_menu.do")   
@@ -1337,14 +1442,16 @@ public class MukjoController {
       ArrayList<MenuTO> resMenu=mapdao2.resMenu(rescode);
       ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
       int noticeCount=ndao.noticeCount(seq);
-      
+      String onoff=favdao.onoff(seq, rescode);
+
       ModelAndView modelAndView = new ModelAndView();
        modelAndView.setViewName("somoimboard_menu");
        modelAndView.addObject("resMenu",resMenu);
        modelAndView.addObject("rname",rname);
        modelAndView.addObject("noticeList", noticeList);
        modelAndView.addObject("noticeCount", noticeCount);
-       
+       modelAndView.addObject("onoff", onoff);
+
        return modelAndView;      
    }
    
@@ -1359,14 +1466,16 @@ public class MukjoController {
       ArrayList<String> pic=mapdao3.crawler(rescode);
       ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
       int noticeCount=ndao.noticeCount(seq);
-      
+      String onoff=favdao.onoff(seq, rescode);
+
       ModelAndView modelAndView = new ModelAndView();
        modelAndView.setViewName("somoimboard_picture");
        modelAndView.addObject("pic",pic);
        modelAndView.addObject("rname",rname);
        modelAndView.addObject("noticeList", noticeList);
        modelAndView.addObject("noticeCount", noticeCount);
-       
+       modelAndView.addObject("onoff", onoff);
+
        return modelAndView;
    }
    

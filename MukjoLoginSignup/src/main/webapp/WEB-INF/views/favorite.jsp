@@ -1,3 +1,4 @@
+<%@page import="com.example.model1.FavoriteTO"%>
 <%@page import="com.example.model1.NoticeTO"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -19,9 +20,30 @@
 			   		out.println ( "</script>");
     	}
     
+    	ArrayList<FavoriteTO> favList=(ArrayList<FavoriteTO>)request.getAttribute("favList");
+
     	ArrayList<NoticeTO> noticeList=(ArrayList<NoticeTO>)request.getAttribute("noticeList");
         String noticeCount=(String)request.getAttribute("noticeCount").toString();
         
+        int num=1;
+        StringBuilder sbHtml=new StringBuilder();
+        for (int j=0; j<favList.size(); j++) {
+            String rname=favList.get(j).getRestname();
+            String rcode=favList.get(j).getRestcode();
+            String rloc=favList.get(j).getRestloc();
+            String rphone=favList.get(j).getRestphone();
+            
+            sbHtml.append("<tr>");
+            sbHtml.append("<td>"+num+"</td>");
+            sbHtml.append("<td>"+rname+"</td>");
+            sbHtml.append("<td>"+rloc+"</td>");
+            sbHtml.append("<td>"+rphone+"</td>");
+            sbHtml.append("</tr>");
+            
+            num+=1;
+         }
+		
+
         StringBuilder sb=new StringBuilder();
         for (int i=0; i<noticeList.size(); i++) {
            String words=noticeList.get(i).getWords();
@@ -408,6 +430,28 @@ footer {
 #modalBtn:hover {
 	background-color: #5c3018;
 }
+
+.divimg{
+    object-fit: cover;
+    width: 50px;
+    height: 50px;
+}
+
+.th-num {
+   width: 15%;
+}
+
+.th-sikding {
+   width: 25%;
+}
+
+.th-address {
+   width: 35%;
+}
+
+.th-eval {
+   width: 25%;
+}
 </style>
 
 </head>
@@ -489,16 +533,22 @@ footer {
 							<th scope="col" class="th-num">번호</th>
 							<th scope="col" class="th-sikdang">식당 이름</th>
 							<th scope="col" class="th-address">주소</th>
-							<th scope="col" class="th-eval">평점</th>
+							<th scope="col" class="th-eval">전화번호</th>
 						</tr>
 					</thead>
 					<tbody>
+					 
+					<%=sbHtml.toString() %>
+					
+					 <!--
 						<tr>
 							<td><a href="#">1</td>
+							<td><img class='divimg' src="https://search.pstatic.net/common/?autoRotate=true&amp;quality=95&amp;type=f320_320&amp;src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20220718_17%2F1658104749974S1P3g_JPEG%2FKakaoTalk_Photo_2022-07-18-09-33-20_002.jpeg"></td>
 							<td><a href="#">톡톡</a></td>
 							<td><a href="#">서울특별시 강남구 도산대로 5길 12</a></td>
 							<td><a href="#">4.5</a></td>
 						</tr>
+						 
 						<tr>
 							<td><a href="#">2</td>
 							<td><a href="#">베라짜노</a></td>
@@ -523,6 +573,7 @@ footer {
 							<td><a href="#">서울특별시 노원구 동일로 1361</a></td>
 							<td><a href="#">4.9</a></td>
 						</tr>
+						-->
 					</tbody>
 				</table>
 			</div>
