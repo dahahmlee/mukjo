@@ -65,7 +65,7 @@
 	
 <!-- 지도 -->
 <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=f8b62z9xjz&amp;submodules=geocoder"></script>
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
 
 <style>
 /** common **/
@@ -525,8 +525,8 @@ footer{
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><a href="noticedeleteok.do"><b>읽음</b></button>
-          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><a href=""><b>닫기</b></button>
+          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><a href="noticedeleteok.do"><b>읽음</b></button></a>
+          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><a href=""><b>닫기</b></button></a>
         </div>
       </div>
     </div>
