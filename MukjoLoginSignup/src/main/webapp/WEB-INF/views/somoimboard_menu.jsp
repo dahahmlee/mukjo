@@ -356,7 +356,7 @@ nav{
 /* 테이블 섹션 */
 
 #itemBox{
-    height: 380px;
+    height: 325px;
     overflow-y: auto;
 }
 

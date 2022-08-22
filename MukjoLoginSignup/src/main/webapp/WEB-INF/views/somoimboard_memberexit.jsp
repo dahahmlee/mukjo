@@ -469,7 +469,7 @@ footer{
       <div class="ex" style="width: 1280px; margin:auto">
       <form action="" method="post" name="" id="form_boss" style="width: 800px;
           margin-top: 100px; margin-left: 210px; padding-top:10px;">           
-               <span style=" font-family: 'NanumSquareBold'; font-size:20px; display:inline-block;">소모임 : <%=tname %></span>
+               <span style=" font-family: 'NanumSquareBold'; font-size:20px; display:inline-block; margin-top:20px;">소모임 : <%=tname %></span>
                <%=sbHtml.toString() %>
                <!--  
                <p>소모임 탈퇴시 작성하신 모든 게시물들은 삭제됩니다.</p>
