@@ -506,6 +506,13 @@ footer{
 .th-memcount {
    width: 25%;
 }
+
+.btn-main:active {
+  top: 3px;
+  border-color: rgba(0,0,0,0.34) rgba(0,0,0,0.21) rgba(0,0,0,0.21);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.89),0 1px rgba(0,0,0,0.05) inset;
+  position: relative;
+}
 </style>
 
 </head>
@@ -514,7 +521,7 @@ footer{
         <div class="headermake" style="width:100%; background-color: #fff;">
         <div id="headerWap">
             <h1 id="logoSec">
-                <a href="./main.do"><img src="images/logo.png" alt="logo"></a>
+                <a href="./main.do" class="btn-main"><img src="images/logo.png" alt="logo"></a>
             </h1>
             <h3 > <%=welcome %> <a href="logoutok.do" id="logout" style="color : gray"> <br/><%=log %>   </a></h3>
             
