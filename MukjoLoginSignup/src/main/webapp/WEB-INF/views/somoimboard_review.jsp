@@ -122,6 +122,8 @@ img{
 table{
     text-align: center;
     table-layout: fixed;
+    border-spacing: 0px;
+    border-collapse: separate;
 }
 :root {
   --button-color: #ffffff;
@@ -362,16 +364,12 @@ footer{
     background-color: #d7d7d7;
     margin-top: 5%;
 }
-.tblmain table td {
-	border: 1px solid black;
-}
+
 .tblmain table th {
 	border: 1px solid black;
 	border-bottom: none;
 }
-.tblmain table tr {
-	border: 1px solid black;
-}
+
 .modal-dialog {
     position: fixed;
     margin: auto;
@@ -500,9 +498,9 @@ input[type="checkbox"] {
 
                <div class="tblmain" style= "display: flex; justify-content: space-around;">
                     <div style="width: 50%;">
-                         <table border="1" style="width: 100%;    height: 20%;">  
+                         <table border="1" style="width: 100%;    height: 20%; border-collapse: separate;" >  
                              <thead>
-                               <tr style="position:relative">
+                               <tr style="position:relative; height:61px; border-collapse: separate;">
                                <td colspan="4" class="homesub"><a href="#" style=" font-weight:bold; margin-left: 40px;"><%= rname %></a>
                                      
                                       <div class="checkbox">
@@ -511,7 +509,7 @@ input[type="checkbox"] {
 									  </div>
 								
 								
-                                  <tr id="tabBox">
+                                  <tr id="tabBox" style="height:61px;">
                                     <th scope="col" class="th-title"><a href="./somoimboard_home.do?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" >홈</a></th>
                                     <th scope="col" class="th-date"><a href="./somoimboard_review.do?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" style="color : #de5f47">리뷰</a></th>
                                     <th scope="col" class="th-num"><a href="./somoimboard_menu.do?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" >메뉴</a></th>
@@ -524,40 +522,18 @@ input[type="checkbox"] {
 
 
                          <div id="itemBox">
-
-                            <div class="cmttable" style="clear: both; margin-bottom: 8px; overflow: hidden; _height: 1%;
-                                                    background: #fff; margin-top:20px; display: table; border-collapse: separate;">
-            <div class="tablewrap" style="display : table-cell;">
-            <table width="100%" cellpadding="0" cellspacing="0" style="table-layout : fixed; text-align: start;  border-collapse: collapse;">
-               <tbody>
- 					<%=sb %>
-
-
-               </tbody>
-
-            </table>
-            </div>
-         </div><!-- cmttable -->
-
-
-
-                            <div class="cmteditor" style="padding: 12px 16px 20px;background: #fcfcfc;border: 1px solid #ddd;
-                                                    border-bottom-color: #ccc; border-radius: 8px; box-shadow: 0 1px 3px -1px rgb(0 0 0 / 10%);">
+                         
+                           <div class="cmteditor" style="padding: 12px 16px 20px;background: #fcfcfc;border: 1px solid #ddd;
+            border-bottom-color: #ccc; border-radius: 8px; box-shadow: 0 1px 3px -1px rgb(0 0 0 / 10%);">
          
-
-            <form action="./somoimboard_reviewwrite.do" name ="rfrm" style="display: block;
-            
-            position: relative;
-            clear: both;">           
+            <form action="./somoimboard_reviewwrite.do" name ="rfrm" style="display: block; position: relative; clear: both;">           
                <label for="editorlabel" style="cursor: pointer; position: relative; margin-bottom: 10px;"> 
                
                <strong style="padding-left:5px;font-size:16px;line-height:1.5;">리뷰 쓰기
                         <div id="star" style="width : 130px; display:flex;" >
-
                         </div>
-
                        </strong>
-            </label>
+               </label>
             <input type="hidden" id="starRating" name="star" value="3" />
             <input type="hidden" name="tseq" value="<%=tseq %>" />         
             <input type="hidden" name="id" value="<%=id %>" />
@@ -574,9 +550,22 @@ input[type="checkbox"] {
 
             </form>
 
-
-
             </div> <!-- cmteditor -->
+
+                            <div class="cmttable" style="clear: both; margin-bottom: 8px; overflow: hidden; _height: 1%;
+                                                    background: #fff; margin-top:20px; display: table; border-collapse: separate;">
+            <div class="tablewrap" style="display : table-cell;">
+            <table width="100%" cellpadding="0" cellspacing="0" style="table-layout : fixed; text-align: start;  border-collapse: collapse;">
+               <tbody>
+ 					<%=sb %>
+
+               </tbody>
+
+            </table>
+            </div>
+         </div><!-- cmttable -->
+
+          
                          
                         </div><!-- itembox -->
                     </div><!-- width50%용 div -->

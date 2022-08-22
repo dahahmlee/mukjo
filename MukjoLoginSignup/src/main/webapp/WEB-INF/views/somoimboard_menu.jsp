@@ -152,6 +152,7 @@ img{
 
 table{
     text-align: center;
+    border-spacing: 0px;
 }
 
 :root {
@@ -363,13 +364,11 @@ nav{
     overflow: hidden;
 }
 
-#itemBox ul li a {
-    width: 350px;
-}
+
 
 #itemBox ul li {
     border-bottom: 1px solid #d7d7d7;
-    width:48%;
+    width:50%;
 }
 
 .menu1{
@@ -389,6 +388,7 @@ nav{
 .spanmenu{
     font-weight: bold;
     font-size: 15px;
+    word-break:keep-all;
 }
 
 .price{
@@ -588,7 +588,7 @@ input[type="checkbox"] {
                     <div style="width: 50%;">
                          <table border="1" style="width: 100%;    height: 20%;">  
                              <thead>
-                               <td colspan="4" class="homesub"><a href="#" style=" font-weight:bold; margin-left: 40px;"><%= rname %></a>
+                               <td colspan="4" class="homesub" style="height:61px;"><a href="#" style=" font-weight:bold; margin-left: 40px; "><%= rname %></a>
                                      
                                       <div class="checkbox">
                                          <input type="checkbox" id="favCheck" <%=onoff %>>
@@ -596,7 +596,7 @@ input[type="checkbox"] {
 									  </div>
                                
                                
-                                  <tr id="tabBox">
+                                  <tr id="tabBox" style="height:61px;">
                                     <th scope="col" class="th-title"><a href="./somoimboard_home.do?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" >홈</a></th>
                                     <th scope="col" class="th-date"><a href="./somoimboard_review.do?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>">리뷰</a></th>
                                     <th scope="col" class="th-num"><a href="./somoimboard_menu.do?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" style="color : #de5f47">메뉴</a></th>

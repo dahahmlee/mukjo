@@ -431,6 +431,10 @@ nav{
     vertical-align: top;
     position: relative;
 }
+.form-select{
+	font-size: 14px;
+    font-weight: 600;
+}
 
 #btnSec .search-wrap .select select{
     border: 2px solid #5c3018;

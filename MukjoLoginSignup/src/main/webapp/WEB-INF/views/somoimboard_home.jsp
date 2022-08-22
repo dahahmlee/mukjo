@@ -338,6 +338,17 @@ nav{
 #good tr:nth-child(2) td:nth-child(2n+0){
     width: 66%;
       }
+      
+.tblmain table td {
+   border: 1px solid black;
+}
+
+.tblmain table th {
+   border : 1px solid black;
+   border-bottom: none;
+   border-collapse:separate;
+}
+
 .picture td{
    width: 33%;
 }
@@ -481,16 +492,16 @@ footer{
 
                <div class="tblmain" style= "display: flex; justify-content: space-around;">
                     <div style="width: 50%;">
-                         <table border="1" style="width: 100%;    height: 20%;">  
+                         <table border="1" style="width: 100%;    height: 20%; border-collapse:separate;">  
                              <thead>
-                             <tr style="position:relative">
+                             <tr style="position:relative; height:61px;">
 
                      
                                <td colspan="4" class="homesub"><a href="#" style=" font-weight:bold;"><%= rname %></a>
                                 <div class="star-container div2" id="star" style="width: 5%;
                                       position: absolute;
                                       right: 1%;
-                                      top: -10%;">
+                                      top: 5%;">
                                       <div class="checkbox">
                                          <input type="checkbox" id="favCheck" <%=onoff %>>
 										 <label for="favCheck"></label>
@@ -498,7 +509,7 @@ footer{
                                 </div>  
                                </td>
                                </tr>
-                                  <tr id="tabBox">
+                                  <tr id="tabBox" style="height:61px;">
                                <!-- 
                                     <th scope="col" class="th-title"><a href="./somoimboard_home.do?tseq=<%=tseq%>" style="color : #de5f47">홈</a></th>
                                     <th scope="col" class="th-date"><a href="./somoimboard_review.do?tseq=<%=tseq%>">리뷰</a></th>
@@ -517,7 +528,7 @@ footer{
                             
                          </table>
                          <div id="itemBox">
-                            <table border="1" id="good" style="width:100%;">  
+                            <table border="1" id="good" style="width:100%; border-collapse:separate;">  
 
                                 
                                 <tbody>
