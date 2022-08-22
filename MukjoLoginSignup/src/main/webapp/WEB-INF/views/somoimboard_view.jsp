@@ -22,7 +22,7 @@
       log = "LOGOUT";
    } else {
       out.println ( "<script>");
-      out.println ( "window.location.href = 'http://localhost:8080/login.do'");
+      out.println ( "window.location.href = 'http://localhost/login.do'");
       out.println ( "</script>");
    }
    

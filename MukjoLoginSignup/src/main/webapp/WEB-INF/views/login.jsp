@@ -8,10 +8,9 @@
     
        if(loginedMemberSeq != null) {
       out.println ( "<script>");
-      out.println ( "window.location.href = 'http://localhost:8080/main.do'");
+      out.println ( "window.location.href = 'http://localhost/main.do'");
       out.println ( "</script>");
        }
-    
     %>
 <!doctype html>
 <html lang="ko">
