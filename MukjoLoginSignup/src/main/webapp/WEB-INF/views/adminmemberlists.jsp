@@ -478,6 +478,13 @@ footer{
 .th-function {
    width: 20%;
 }
+
+.logoclick:active {
+  top: 3px;
+  border-color: rgba(0,0,0,0.34) rgba(0,0,0,0.21) rgba(0,0,0,0.21);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.89),0 1px rgba(0,0,0,0.05) inset;
+  position: relative;
+}
 </style>
 
 </head>
@@ -486,14 +493,14 @@ footer{
         <div class="headermake" style="width:100%; background-color: #fff;">
         <div id="headerWap">
             <h1 id="logoSec">
-                <a href="main.do"><img src="images/logo.png" alt="logo"></a>
+                <a href="main.do" class="logoclick"><img src="images/logo.png" alt="logo"></a>
             </h1>
             <h3><%=welcome %><a href="logoutok.do" id="logout" style="color : gray"><br/><%=log %></a></h3>
             <ul>
-                <li><b><a href="myPage.do" >마이페이지</a></b></li>
-                <li><b><a href="boss.do" >소모임장페이지</a></b></li>
-                <li><b><a href="admin.do" style="color : #de5f47;">관리자페이지</b></li></a>
-                <li><b><a href="favorite.do">즐겨찾기</b></li></a>
+                <li><b><a href="myPage.do" class="logoclick">마이페이지</a></b></li>
+                <li><b><a href="boss.do" class="logoclick">소모임장페이지</a></b></li>
+                <li><b><a href="admin.do" style="color : #de5f47;" class="logoclick">관리자페이지</b></li></a>
+                <li><b><a href="favorite.do" class="logoclick">즐겨찾기</b></li></a>
                 <li id="bell" style="margin-left: 20px;">
                    <button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
                   <img src="images/bell.png">

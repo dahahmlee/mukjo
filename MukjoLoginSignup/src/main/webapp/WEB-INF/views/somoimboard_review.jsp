@@ -35,7 +35,7 @@
    StringBuilder sb = new StringBuilder();
    for (ReviewTO rto : lists) {
       sb.append("<tr>");
-      sb.append("<td class='nick'><span><i class='fa fa-star' style='font-size:20px;color:#de5f47'></i>");
+      sb.append("<td class='nick'><span><i class='fa fa-star' style='font-size:20px;color:#de5f47; margin-right:15px;'></i>");
       sb.append(rto.getStar()+"점</td>");
       sb.append("<td>"+rto.getWriter()+"</td>");
       sb.append("<td class='comment'>"+ rto.getRcontent()+"</td>");
@@ -88,7 +88,7 @@
 /** common **/
 a:link {  color: black; text-decoration: none}
     a:visited {color: black; text-decoration: none;}
-    a:hover {color: #5c3018; text-decoration: none;}
+    a:hover {color: #de5f47; text-decoration: none;}
     a:active {color: #de5f47; text-decoration: none;}
 body,ul ,li, h1,h2,h3{
     margin: 0;
@@ -415,7 +415,23 @@ input[type='checkbox']:checked+label {
 input[type="checkbox"] {
     display: none;
 }
+
+
+/* button */
+.logoclick:active {
+  top: 3px;
+  border-color: rgba(0,0,0,0.34) rgba(0,0,0,0.21) rgba(0,0,0,0.21);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.89),0 1px rgba(0,0,0,0.05) inset;
+  position: relative;
+}
+
 </style>
+
+<script>
+$('.logoclick').click(function(event){
+
+  });
+    </script>
 
 </head>
 <body>
@@ -423,14 +439,14 @@ input[type="checkbox"] {
         <div class="headermake" style="width:100%; background-color: #fff;">
         <div id="headerWap">
             <h1 id="logoSec">
-                <a href="main.do"><img src="images/logo.png" alt="logo"></a>
+                <a href="./main.do" class="logoclick"><img src="images/logo.png" alt="logo"></a>
             </h1>
             <h3><%=welcome %><a href="logoutok.do" id="logout" style="color : gray"><br/><%=log %></a></h3>
             <ul>
-                <li><b><a href="myPage.do">마이페이지</a></b></li>
-                <li><b><a href="boss.do">소모임장페이지</a></b></li>
-                <li><b><a href="admin.do">관리자페이지</b></li></a>
-                <li><b><a href="favorite.do">즐겨찾기</b></li></a>
+                <li><b><a href="myPage.do" class="logoclick">마이페이지</a></b></li>
+                <li><b><a href="boss.do" class="logoclick">소모임장페이지</a></b></li>
+                <li><b><a href="admin.do" class="logoclick">관리자페이지</b></li></a>
+            	<li><b><a href="favorite.do" class="logoclick">즐겨찾기</b></li></a>
                 <li id="bell" style="margin-left: 20px;">
                    <button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
                   <img src="images/bell.png">
