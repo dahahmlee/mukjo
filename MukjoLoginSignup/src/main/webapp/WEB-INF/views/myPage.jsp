@@ -18,52 +18,52 @@
           welcome = (String)sess.getAttribute("loginedMemberName")+"님 환영합니다.";
           log = "LOGOUT";
        } else {
-          	out.println ( "<script>");
-      		out.println ( "window.location.href = 'http://localhost/login.do'");
-      		out.println ( "</script>");
+             out.println ( "<script>");
+            out.println ( "window.location.href = 'http://localhost/login.do'");
+            out.println ( "</script>");
        }
     
     BoardListTO boardListTO = (BoardListTO)request.getAttribute("boardListTO");
-   	int cpage = boardListTO.getCpage();
-   	int recordPerPage = boardListTO.getRecordPerPage();
-   	int totalRecord = boardListTO.getTotalRecord();
-   	int totalPage = boardListTO.getTotalPage();
-   	int blockPerPage = boardListTO.getBlockPerPage();
-   	int startBlock = boardListTO.getStartBlock();
-   	int endBlock = boardListTO.getEndBlock();
-   	ArrayList<BoardTO> boardLists = boardListTO.getBoardLists();
-   	
-   	StringBuilder sb = new StringBuilder();
-   	int num=1;
-   	
-   	for (int j=0; j<boardLists.size(); j=j+20) {
-   		num=(boardListTO.getCpage()-1)*20+1;
-   		for (int i=j; i<j+20; i++) {
-   			
-   			if (i>=boardLists.size()) {
+      int cpage = boardListTO.getCpage();
+      int recordPerPage = boardListTO.getRecordPerPage();
+      int totalRecord = boardListTO.getTotalRecord();
+      int totalPage = boardListTO.getTotalPage();
+      int blockPerPage = boardListTO.getBlockPerPage();
+      int startBlock = boardListTO.getStartBlock();
+      int endBlock = boardListTO.getEndBlock();
+      ArrayList<BoardTO> boardLists = boardListTO.getBoardLists();
+      
+      StringBuilder sb = new StringBuilder();
+      int num=1;
+      
+      for (int j=0; j<boardLists.size(); j=j+20) {
+         num=(boardListTO.getCpage()-1)*20+1;
+         for (int i=j; i<j+20; i++) {
+            
+            if (i>=boardLists.size()) {
 
-   			} else {
-   				String bseq=boardLists.get(i).getBseq();
-   				String tseq=boardLists.get(i).getTseq();
-   				String tname=boardLists.get(i).getTname();
-   				String subject=boardLists.get(i).getSubject();
-   				String wdate=boardLists.get(i).getWdate();
-   				String hit=boardLists.get(i).getHit();
-   				
-   				sb.append("<tr>");
-   				sb.append("<td>"+num+"</td>");
-   				sb.append("<td>"+tname+"</td>");
-   				sb.append("<td><a href='myPage_view.do?cpage="+cpage+"&bseq="+bseq+"'>"+subject+"</td>");
-   				sb.append("<td>"+wdate+"</td>");
-   				sb.append("<td>"+hit+"</td>");
-   				sb.append("</tr>");
-   				
-   				num+=1;
-   			}
-   		}
-   	}
-   	
-   	ArrayList<NoticeTO> noticeList=(ArrayList<NoticeTO>)request.getAttribute("noticeList");
+            } else {
+               String bseq=boardLists.get(i).getBseq();
+               String tseq=boardLists.get(i).getTseq();
+               String tname=boardLists.get(i).getTname();
+               String subject=boardLists.get(i).getSubject();
+               String wdate=boardLists.get(i).getWdate();
+               String hit=boardLists.get(i).getHit();
+               
+               sb.append("<tr>");
+               sb.append("<td>"+num+"</td>");
+               sb.append("<td>"+tname+"</td>");
+               sb.append("<td><a href='myPage_view.do?cpage="+cpage+"&bseq="+bseq+"'>"+subject+"</td>");
+               sb.append("<td>"+wdate+"</td>");
+               sb.append("<td>"+hit+"</td>");
+               sb.append("</tr>");
+               
+               num+=1;
+            }
+         }
+      }
+      
+      ArrayList<NoticeTO> noticeList=(ArrayList<NoticeTO>)request.getAttribute("noticeList");
     String noticeCount=(String)request.getAttribute("noticeCount").toString();
     
     StringBuilder sbh=new StringBuilder();
@@ -89,10 +89,10 @@
     <!-- 나눔스퀘어 폰트 -->
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet">
 
-	<!-- Bootstrap (for modal) -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-	
+   <!-- Bootstrap (for modal) -->
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+   
 
 <style>
 body, ul, li, h1, h2, h3 {
@@ -594,27 +594,32 @@ textarea {
     right: 0px;
 }
 .modal-content {
-	border: 1px solid black;
+   border: 1px solid black;
     height: 100%;
 }
 #noticelogo {
-	width: 25%;
+   width: 25%;
 }
 
 .modal-body span {
-	float: right;
-	margin-right: 15px;
-	font-color: black;
-	font-size: 15px;
+   float: right;
+   margin-right: 15px;
+   font-color: black;
+   font-size: 15px;
 }
 
 #somoimp {
-	font-size: 15px;
-	color: black;
+   font-size: 15px;
+   color: black;
 }
 
 #modalBtn:hover {
-	background-color: #5c3018;
+   background-color: #5c3018;
+}
+
+.board-table th  {
+   padding-bottom: 10px;
+   border-bottom: 1px solid black;
 }
 
 
@@ -635,10 +640,10 @@ textarea {
                 <li><b><a href="admin.do">관리자페이지</b></li></a>
                 <li><b><a href="favorite.do">즐겨찾기</b></li></a>
                 <li id="bell" style="margin-left: 20px;">
-                	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-						<img src="images/bell.png">
-					</button><%=noticeCount %>
-				</li>
+                   <button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  <img src="images/bell.png">
+               </button><%=noticeCount %>
+            </li>
             </ul>
           </div>
         </div> <!--headerWap-->
@@ -766,42 +771,42 @@ textarea {
                 </ul>
                     <span class="off">&nbsp;&nbsp;<a href="#">&gt;</a></span>
                     <span class="off">&nbsp;&nbsp;<a href="#">&gt;&gt;</a></span>
-				-->
-<%	
-	if (startBlock==1) { //<<
-		out.println("<span><a>&lt;&lt;</a>&nbsp;&nbsp;</span>");
-	} else {
-		out.println("<span><a href='myPage.do?cpage="+(startBlock-blockPerPage)+"'>&lt;&lt;</a>&nbsp;&nbsp;</span>");
-	}
+            -->
+<%   
+   if (startBlock==1) { //<<
+      out.println("<span><a>&lt;&lt;</a>&nbsp;&nbsp;</span>");
+   } else {
+      out.println("<span><a href='myPage.do?cpage="+(startBlock-blockPerPage)+"'>&lt;&lt;</a>&nbsp;&nbsp;</span>");
+   }
 
-	if (cpage==1) { //<
-		out.println("<span><a>&lt;</a>&nbsp;&nbsp;</span>");
-	} else {
-		out.println("<span><a href='myPage.do?cpage="+(cpage-1)+"'>&lt;</a>&nbsp;&nbsp;</span>");
-	}
-	
-	out.println("<ul>");
-	for (int i=startBlock;i<=endBlock;i++) {
-		if (cpage==i) {
-			out.println("<li class='active'><a>"+i+"</a></li>");
-		} else {
-			out.println("<li><a href='myPage.do?cpage="+i+"'>"+i+"</a></span>");
-		}
-	}
-	
-	out.println("</ul>");
-	
-	if (cpage==totalPage) { //>
-		out.println("<span>&nbsp;&nbsp;<a>&gt;</a></span>");
-	} else {
-		out.println("<span>&nbsp;&nbsp;<a href='myPage.do?cpage="+(cpage+1)+"'>&gt;</a></span>");
-	}
-	
-	if (endBlock==totalPage) { //>>
-		out.println("<span>&nbsp;&nbsp;<a>&gt;&gt;</a></span>");
-	} else {
-		out.println("<span>&nbsp;&nbsp;<a href='myPage.do?cpage="+(startBlock+blockPerPage)+"'>&gt;&gt;</a></span>");
-	}
+   if (cpage==1) { //<
+      out.println("<span><a>&lt;</a>&nbsp;&nbsp;</span>");
+   } else {
+      out.println("<span><a href='myPage.do?cpage="+(cpage-1)+"'>&lt;</a>&nbsp;&nbsp;</span>");
+   }
+   
+   out.println("<ul>");
+   for (int i=startBlock;i<=endBlock;i++) {
+      if (cpage==i) {
+         out.println("<li class='active'><a>"+i+"</a></li>");
+      } else {
+         out.println("<li><a href='myPage.do?cpage="+i+"'>"+i+"</a></span>");
+      }
+   }
+   
+   out.println("</ul>");
+   
+   if (cpage==totalPage) { //>
+      out.println("<span>&nbsp;&nbsp;<a>&gt;</a></span>");
+   } else {
+      out.println("<span>&nbsp;&nbsp;<a href='myPage.do?cpage="+(cpage+1)+"'>&gt;</a></span>");
+   }
+   
+   if (endBlock==totalPage) { //>>
+      out.println("<span>&nbsp;&nbsp;<a>&gt;&gt;</a></span>");
+   } else {
+      out.println("<span>&nbsp;&nbsp;<a href='myPage.do?cpage="+(startBlock+blockPerPage)+"'>&gt;&gt;</a></span>");
+   }
 %>                   
                 </div><!-- board_pagetab -->
                 
