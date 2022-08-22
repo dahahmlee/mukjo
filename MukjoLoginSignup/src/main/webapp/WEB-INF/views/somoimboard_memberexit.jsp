@@ -31,10 +31,10 @@
         StringBuilder sbHtml=new StringBuilder();
       
         if (seq.equals(jangseq)) {
-           sbHtml.append("<p style='margin-top:17px;'>소모임장은 소모임을 탈퇴할 수 없습니다.</p>");
-           sbHtml.append("<p >그래도 탈퇴를 원하시면 다른 회원에게 소모임장 권한을 위임하세요.</p>");
+           sbHtml.append("<p style='margin-top:25px;'>소모임장은 소모임을 탈퇴할 수 없습니다.</p>");
+           sbHtml.append("<p style=' margin-top:30px;'>그래도 탈퇴를 원하시면 다른 회원에게 소모임장 권한을 위임하세요.</p>");
         } else if (seq.equals("1")) {
-           sbHtml.append("<p style='margin-top:28px;'>관리자는 소모임을 탈퇴할 수 없습니다.</p>");
+           sbHtml.append("<p style='margin-top:45px;'>관리자는 소모임을 탈퇴할 수 없습니다.</p>");
         } else {
            sbHtml.append("<p style='margin-top:10px; margin-bottom:10px;>'>소모임 탈퇴시 작성하신 모든 게시물들은 삭제됩니다.</p>");
            sbHtml.append("<p>그래도 탈퇴하시겠습니까?</p>");
@@ -467,8 +467,8 @@ footer{
       </section>
       <div class="ex" style="width: 1280px; margin:auto">
       <form action="" method="post" name="" id="form_boss" style="width: 800px;
-          margin-top: 100px; margin-left: 210px; height:190px;">           
-               <span style=" font-family: 'NanumSquareBold'; font-size:20px; display:inline-block; margin-top:20px;">소모임 : <%=tname %></span>
+          margin-top: 100px; margin-left: 210px; height:210px;">           
+               <span style=" font-family: 'NanumSquareBold'; font-size:20px; display:inline-block; margin-top:30px;">소모임 : <%=tname %></span>
                <%=sbHtml.toString() %>
                <!--  
                <p>소모임 탈퇴시 작성하신 모든 게시물들은 삭제됩니다.</p>
