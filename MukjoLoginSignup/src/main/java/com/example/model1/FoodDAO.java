@@ -18,20 +18,29 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class FoodDAO {
+	
+
 	@Autowired
 	private DataSource dataSource;
+	
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+
 	
 	public static JSONObject jsonParser(String content) {
 		JSONParser parser = new JSONParser();
 		JSONObject jsonObj = null;
-
+		
+		
 		try {
 			Object obj = parser.parse(content);
 			jsonObj = (JSONObject)obj;
+			
 
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -39,7 +48,13 @@ public class FoodDAO {
 		return jsonObj;
 	}
 
-	public static ArrayList<FoodTO> crawler(String search) {
+	public  ArrayList<FoodTO> crawler(String search, String tseq) {
+		
+		
+		
+		
+		
+		
 		ArrayList<FoodTO> lists = new ArrayList<FoodTO>();
 		Document doc = null;
 
@@ -71,17 +86,26 @@ public class FoodDAO {
 			}
 		}
 		
+		
+		
+		String sql = "select round(avg(star),2) from review where rest = ? and tseq = ?";
+		
 		for (Object i : (ArrayList<Object>)jsonParser(jsonParser(a).get("site").toString()).get("list")){
 			FoodTO to = new FoodTO();
-			to.setId(jsonParser(i.toString()).get("id").toString());
+			to.setId(jsonParser(i.toString()).get("id").toString().replaceAll("[^0-9]",""));
 			to.setName(jsonParser(i.toString()).get("name").toString());
 			to.setCategory(jsonParser(i.toString()).get("category").toString());
 			to.setLatitude(jsonParser(i.toString()).get("y").toString());
 			to.setLongitude(jsonParser(i.toString()).get("x").toString());
-			to.setThumurl(jsonParser(i.toString()).get("thumUrl").toString());
+			to.setThumurl(jsonParser(i.toString()).get("thumUrl").toString());			
+			to.setAvgStar(jdbcTemplate.queryForObject(sql, String.class,to.getId(),tseq));
+			
+			
 			
 			lists.add(to);
 		}
+		
+		
 		return lists;
 	}
 	
@@ -90,7 +114,7 @@ public class FoodDAO {
 			Connection conn = null;
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
-
+			
 			String tname="";
 			try {
 				conn = this.dataSource.getConnection();
@@ -113,4 +137,9 @@ public class FoodDAO {
 			}
 			return tname;
 		}
+		
+
+		
+		
+		
 }

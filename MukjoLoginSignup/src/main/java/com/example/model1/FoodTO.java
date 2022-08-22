@@ -17,5 +17,7 @@ public class FoodTO {
 	private String tel;
 	private String etc;
 	private String time;
-	private String facilities;	
+	private String facilities;
+	
+	private String avgStar;
 }
