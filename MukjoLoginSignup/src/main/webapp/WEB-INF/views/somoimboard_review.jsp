@@ -19,7 +19,7 @@
        log = "LOGOUT";
     } else {
           out.println ( "<script>");
-         out.println ( "window.location.href = 'http://localhost:8080/login.do'");
+         out.println ( "window.location.href = 'http://localhost/login.do'");
          out.println ( "</script>");
     } 
     
@@ -31,22 +31,20 @@
    String longitude=request.getParameter("longitude");
    
    ArrayList<ReviewTO> lists = (ArrayList)request.getAttribute("lists");
-	
-	StringBuilder sb = new StringBuilder();
-	for (ReviewTO rto : lists) {
-		sb.append("<tr>");
-		sb.append("<td class='nick'><span><i class='fa fa-star' style='font-size:20px;color:#de5f47'></i>");
-		sb.append(rto.getStar()+"점</td>");
-		sb.append("<td>"+rto.getWriter()+"</td>");
-		sb.append("<td class='comment'>"+ rto.getRcontent()+"</td>");
-		if(loginedMemberSeq.equals(rto.getSeq())||loginedMemberSeq.equals("1")) {
-			sb.append("<td class='data'><a href='./somoimboard_reviewdelete.do?tseq="+tseq+"&id="+id+"&latitude="+latitude+"&longitude="+longitude+"&rseq="+rto.getRseq()+"' style> &nbsp X </a></td> ");
-		} else {
-			sb.append("<td class='data'></td> ");
-		}
-
-	}
-
+   
+   StringBuilder sb = new StringBuilder();
+   for (ReviewTO rto : lists) {
+      sb.append("<tr>");
+      sb.append("<td class='nick'><span><i class='fa fa-star' style='font-size:20px;color:#de5f47'></i>");
+      sb.append(rto.getStar()+"점</td>");
+      sb.append("<td>"+rto.getWriter()+"</td>");
+      sb.append("<td class='comment'>"+ rto.getRcontent()+"</td>");
+      if(loginedMemberSeq.equals(rto.getSeq())||loginedMemberSeq.equals("1")) {
+         sb.append("<td class='data'><a href='./somoimboard_reviewdelete.do?tseq="+tseq+"&id="+id+"&latitude="+latitude+"&longitude="+longitude+"&rseq="+rto.getRseq()+"' style> &nbsp X </a></td> ");
+      } else {
+         sb.append("<td class='data'></td> ");
+      }
+   }
    
    ArrayList<NoticeTO> noticeList=(ArrayList<NoticeTO>)request.getAttribute("noticeList");
    String noticeCount=(String)request.getAttribute("noticeCount").toString();
@@ -77,29 +75,25 @@
     <!-- 제이쿼리 -->
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/raty/3.1.1/jquery.raty.min.js" integrity="sha512-Isj3SyFm+B8u/cErwzYj2iEgBorGyWqdFVb934Y+jajNg9kiYQQc9pbmiIgq/bDcar9ijmw4W+bd72UK/tzcsA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-	
-	<!-- Bootstrap (for modal) -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-	
+   
+   <!-- Bootstrap (for modal) -->
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+   
 <!-- 지도 -->
 <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=f8b62z9xjz&amp;submodules=geocoder"></script>
 
 
 <style>
 /** common **/
-
 a:link {  color: black; text-decoration: none}
     a:visited {color: black; text-decoration: none;}
     a:hover {color: #5c3018; text-decoration: none;}
     a:active {color: #de5f47; text-decoration: none;}
-
-
 body,ul ,li, h1,h2,h3{
     margin: 0;
     padding: 0;
 }
-
 input{
     writing-mode: horizontal-tb !important;
     text-rendering: auto;
@@ -118,31 +112,24 @@ input{
     border: none;
     outline: none;
 }
-
-
 ul{
     list-style:none;
 }
-
-
-
-
 img{
     width: 100%;
     padding-bottom: 5px;
 }
-
 table{
     text-align: center;
     table-layout: fixed;
+    border-spacing: 0px;
+    border-collapse: separate;
 }
-
 :root {
   --button-color: #ffffff;
   --button-bg-color: #5c3018;
   --button-hover-bg-color: #5c3018;
 }
-
 button {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -171,8 +158,6 @@ button {
   
   transition: 0.5s;
 }
-
-
 button:active,
 button:hover,
 button:focus {
@@ -182,54 +167,40 @@ button:focus {
 button:disabled {
   opacity: 0.5;
 }
-
-
 /** nav **/
-
 nav{
     position: sticky;
     top : 0;
 }
-
 #header{
     border-bottom: #c7bebe 1px solid;
     z-index: 1050;
 }
-
 #header ul{
     display: flex;
     font-family: 'NanumSquareBold';
 }
-
 #header ul li{
     margin-left: 65px;
 }
-
 #header ul li b{
     line-height: 41.5px;
 }
-
 #logoSec{
     width: 8%;
 }
-
 #logout{
     color : grey;
     width:10%;
     text-decoration: underline;
     margin-right: 17%;
 }
-
 #bell{
     width: 60px;
     display:flex;
     align-items: center;
     color: red;
 }
-
-
-
-
 #headerWap{
     width:1280px;
     margin: auto;
@@ -239,59 +210,44 @@ nav{
     align-items : center;
     background-color: white;
 }
-
 #headerWap h3{
     font-weight: bold;
-	font-size: 15px;
+   font-size: 15px;
     justify-content: left;
     position: absolute;
     margin-left: 120px;
 }
-
-
-
 /***** warp  *****/
 #wrap{
     width: 1280px; 
     margin : auto;
 }
-
-
 /* 타이틀 섹션 */
 #titSec strong{
  
   display: inline-block;
 }
-
-
-
 /* 버튼 섹션*/
 #btnSec {
      display: inline-flex;
      justify-content: space-between;
      width: 100%;
 }
-
 #btnSec button{
     margin-left: 10px;
     margin-bottom: 5px;
 }
-
 #btnSec strong{
   font-family: 'NanumSquareExtraBold';
   font-size: 20px;
   display: inline-block;
   padding-left: 20px;
 }
-
-
-
 #locationSec{
     width: 100%;
     background-color: #f7f7fd;
     overflow: hidden;
 }
-
 #locationSec button{
     font-weight: 500;
     background: none;
@@ -299,18 +255,15 @@ nav{
     outline: none;
   box-shadow: none;
 }
-
 #locationwrap{
     width: 1280px;
     margin: 0 auto;
     height: 55px;
     padding-top: 13px;
 }
-
 #locationwrap button{
     font-family: 'NanumSquareBold';
 }
-
 .allbtn{
     color : #333;
     position : relative;
@@ -328,24 +281,17 @@ nav{
     margin-top: 8%;
 }
 */
-
 .active{
     color: #de5f47;
 }
-
-
-
 /* 테이블 섹션 */
-
 #itemBox{
     height: 380px;
     overflow-y: auto;
 }
-
 #tabBox th{
     width : 23%;
 }
-
 .mainmenu{
     border: 1px solid #fff;
     border-radius: 4px;
@@ -355,78 +301,62 @@ nav{
     background: #de5f47;
     color: #ffffff;
 }
-
 .tblmain table th{
     background-color: #f7f7fd;
 }
-
-
-
-
 .cmttable tr{
-	border-bottom: 2px solid #c4b2b2;
-	border-top: 2px solid #aa9d9d;
-	border-right: none;
-	border-left: none;
+   border-bottom: 2px solid #c4b2b2;
+   border-top: 2px solid #aa9d9d;
+   border-right: none;
+   border-left: none;
 }
-
 .cmttable td{
-	vertical-align: top;
-	border-right: none;
-	border-left: none;
+   vertical-align: top;
+   border-right: none;
+   border-left: none;
     padding: 10px 0;
 }
-
 .nick{
     padding-left: 10px;
-	width: 80px;
+   width: 80px;
     color:blue;
 }
-
 .tablewrap table td:nth-last-child(2) { /*뒤에서 (n)번째에 해당색을 집어넣으려고 할 때 */
     width:440px;
 }
-
 .tablewrap table td:nth-last-child(3){
     color : #de5f47;
     width: 80px;
 }
-
 .tablewrap table tr{
     border-bottom: 2px solid #c4b2b2;
-	border-top: 2px solid #aa9d9d;
-	border-right: none;
-	border-left: none;
+   border-top: 2px solid #aa9d9d;
+   border-right: none;
+   border-left: none;
 }
-
 .btn_list2 {
-	display: inline-block;
-	background: #f3f3f3;
-	border: 1px solid;
+   display: inline-block;
+   background: #f3f3f3;
+   border: 1px solid;
     border-color: #ccc #c6c6c6 #c3c3c3 #ccc;
-	padding: 6px 17px 7px 17px;
+   padding: 6px 17px 7px 17px;
 }
-
 .btn_txt03 {
-	color: #000;
-	font-weight: 600;
+   color: #000;
+   font-weight: 600;
 }
-
 .btn_list {
-	display: inline-block;
-	background: #5c3018;
-	border: 1px solid #404144;
-	padding: 6px 17px 7px 17px;
+   display: inline-block;
+   background: #5c3018;
+   border: 1px solid #404144;
+   padding: 6px 17px 7px 17px;
 }
-
 .btn_txt02 {
    color: white;
    font-weight: 600;
 }
-
  td { word-break: break-all;
 }
-
 /***** footer  *****/
 footer{
     width: 100%;
@@ -435,17 +365,9 @@ footer{
     margin-top: 5%;
 }
 
-.tblmain table td {
-	border: 1px solid black;
-}
-
 .tblmain table th {
-	border: 1px solid black;
-	border-bottom: none;
-}
-
-.tblmain table tr {
-	border: 1px solid black;
+   border: 1px solid black;
+   border-bottom: none;
 }
 
 .modal-dialog {
@@ -455,54 +377,44 @@ footer{
     height: 100%;
     right: 0px;
 }
-
 .modal-content {
-	border: 1px solid black;
+   border: 1px solid black;
     height: 100%;
 }
-
 #noticelogo {
-	width: 25%;
+   width: 25%;
 }
-
 .modal-body span {
-	float: right;
-	margin-right: 15px;
+   float: right;
+   margin-right: 15px;
 }
-
 .iw_inner {
-	margin: 5px;
-	padding: 1px 5px;
-	border-radius: 30px;
-	background-color: rgba(4, 117, 244, 0.9);
+   margin: 5px;
+   padding: 1px 5px;
+   border-radius: 30px;
+   background-color: rgba(4, 117, 244, 0.9);
 }
-
 .checkbox {
-	float: right;
-	
+   float: right;
+   
 }
-
 #star {
-	width: 40px;
-	margin-top: 10px;
-	
+   width: 40px;
+   margin-top: 10px;
+   
 }
-
 input[type="checkbox"]+label {
     display: flex;
     width: 28px;
     height: 28px;
     background: url('./images/staroff2.png') no-repeat 0 0px / contain;
 }
-
 input[type='checkbox']:checked+label {
     background: url('./images/star-on.png') no-repeat 0 1px / contain;
 }
-
 input[type="checkbox"] {
     display: none;
 }
-
 </style>
 
 </head>
@@ -520,10 +432,10 @@ input[type="checkbox"] {
                 <li><b><a href="admin.do">관리자페이지</b></li></a>
                 <li><b><a href="favorite.do">즐겨찾기</b></li></a>
                 <li id="bell" style="margin-left: 20px;">
-                	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-						<img src="images/bell.png">
-					</button><%=noticeCount %>
-				</li>
+                   <button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  <img src="images/bell.png">
+               </button><%=noticeCount %>
+            </li>
             </ul>
           </div>
         </div> <!--headerWap-->
@@ -586,18 +498,18 @@ input[type="checkbox"] {
 
                <div class="tblmain" style= "display: flex; justify-content: space-around;">
                     <div style="width: 50%;">
-                         <table border="1" style="width: 100%;    height: 20%;">  
+                         <table border="1" style="width: 100%;    height: 20%; border-collapse: separate;" >  
                              <thead>
-                               <tr style="position:relative">
+                               <tr style="position:relative; height:61px; border-collapse: separate;">
                                <td colspan="4" class="homesub"><a href="#" style=" font-weight:bold; margin-left: 40px;"><%= rname %></a>
                                      
                                       <div class="checkbox">
                                          <input type="checkbox" id="favCheck" <%=onoff %>>
-										 <label for="favCheck" style="margin-right: 10px;"></label>
-									  </div>
-								
-								
-                                  <tr id="tabBox">
+                               <label for="favCheck" style="margin-right: 10px;"></label>
+                             </div>
+                        
+                        
+                                  <tr id="tabBox" style="height:61px;">
                                     <th scope="col" class="th-title"><a href="./somoimboard_home.do?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" >홈</a></th>
                                     <th scope="col" class="th-date"><a href="./somoimboard_review.do?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" style="color : #de5f47">리뷰</a></th>
                                     <th scope="col" class="th-num"><a href="./somoimboard_menu.do?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" >메뉴</a></th>
@@ -610,40 +522,18 @@ input[type="checkbox"] {
 
 
                          <div id="itemBox">
-
-                            <div class="cmttable" style="clear: both; margin-bottom: 8px; overflow: hidden; _height: 1%;
-                                                    background: #fff; margin-top:20px; display: table; border-collapse: separate;">
-            <div class="tablewrap" style="display : table-cell;">
-            <table width="100%" cellpadding="0" cellspacing="0" style="table-layout : fixed; text-align: start;  border-collapse: collapse;">
-               <tbody>
- 					<%=sb %>
-
-
-               </tbody>
-
-            </table>
-            </div>
-         </div><!-- cmttable -->
-
-
-
-                            <div class="cmteditor" style="padding: 12px 16px 20px;background: #fcfcfc;border: 1px solid #ddd;
-                                                    border-bottom-color: #ccc; border-radius: 8px; box-shadow: 0 1px 3px -1px rgb(0 0 0 / 10%);">
+                         
+                           <div class="cmteditor" style="padding: 12px 16px 20px;background: #fcfcfc;border: 1px solid #ddd;
+            border-bottom-color: #ccc; border-radius: 8px; box-shadow: 0 1px 3px -1px rgb(0 0 0 / 10%);">
          
-
-            <form action="./somoimboard_reviewwrite.do" name ="rfrm" style="display: block;
-            
-            position: relative;
-            clear: both;">           
+            <form action="./somoimboard_reviewwrite.do" name ="rfrm" style="display: block; position: relative; clear: both;">           
                <label for="editorlabel" style="cursor: pointer; position: relative; margin-bottom: 10px;"> 
                
                <strong style="padding-left:5px;font-size:16px;line-height:1.5;">리뷰 쓰기
                         <div id="star" style="width : 130px; display:flex;" >
-
                         </div>
-
                        </strong>
-            </label>
+               </label>
             <input type="hidden" id="starRating" name="star" value="3" />
             <input type="hidden" name="tseq" value="<%=tseq %>" />         
             <input type="hidden" name="id" value="<%=id %>" />
@@ -660,76 +550,82 @@ input[type="checkbox"] {
 
             </form>
 
-
-
             </div> <!-- cmteditor -->
+
+                            <div class="cmttable" style="clear: both; margin-bottom: 8px; overflow: hidden; _height: 1%;
+                                                    background: #fff; margin-top:20px; display: table; border-collapse: separate;">
+            <div class="tablewrap" style="display : table-cell;">
+            <table width="100%" cellpadding="0" cellspacing="0" style="table-layout : fixed; text-align: start;  border-collapse: collapse;">
+               <tbody>
+                <%=sb %>
+
+               </tbody>
+
+            </table>
+            </div>
+         </div><!-- cmttable -->
+
+          
                          
                         </div><!-- itembox -->
                     </div><!-- width50%용 div -->
 
 
                     <div class="maps" style="width:50%;">
-				<div id="map" style="width:100%;height:450px;"></div>
-			</div>
-		</div><!-- tblWrap -->
-	</div>
+            <div id="map" style="width:100%;height:450px;"></div>
+         </div>
+      </div><!-- tblWrap -->
+   </div>
 <!-- footer 
 <footer>
-
 </footer>
  -->
 </body>
 <script type="text/javascript">
 $(function() {
-	$('#favCheck').on('click', function(){
-		if (document.querySelector('#favCheck').checked == true) {
-			location.href='favoriteadd.do?id=<%=id %>';
-		} else {
-			location.href='favoritedel.do?id=<%=id %>';
-		}
-	});
-
+   $('#favCheck').on('click', function(){
+      if (document.querySelector('#favCheck').checked == true) {
+         location.href='favoriteadd.do?id=<%=id %>';
+      } else {
+         location.href='favoritedel.do?id=<%=id %>';
+      }
+   });
 });
-
 window.onload = function() {
-	   document.getElementById( 'rwbtn' ).onclick = function() {
-
-	      if( document.rfrm.content.value.trim() == "" ) {
-	         alert( '내용을 입력하셔야 합니다.' );
-	         return false;
-	      }
-	      
-	      document.rfrm.submit();
-	   };
-	   
-
-	};
-	
+      document.getElementById( 'rwbtn' ).onclick = function() {
+         if( document.rfrm.content.value.trim() == "" ) {
+            alert( '내용을 입력하셔야 합니다.' );
+            return false;
+         }
+         
+         document.rfrm.submit();
+      };
+      
+   };
+   
 $(function() {
-	initMap();
+   initMap();
 })
-
 function initMap() {
-	var map = new naver.maps.Map('map', {
-	    center: new naver.maps.LatLng(<%=latitude %>, <%=longitude %>),
-	    zoom: 17
-	});
-	
-	var marker = new naver.maps.Marker({
-	   	position: new naver.maps.LatLng(<%=latitude %>, <%=longitude %>),
-	   	map: map
-	});
-	
-	var infoWindow = new naver.maps.InfoWindow({
-    	content: '<div class=\"iw_inner\"><div class=\"div_font\"style=\"font-size:13px;font-weight:600;text-align:center;padding:10px;color:#ffffff;\"><b><%= rname%></b></div></div>',
-	    	borderWidth: 0,
-	    	disableAnchor: true,
-	    	backgroundColor: 'transparent'
+   var map = new naver.maps.Map('map', {
+       center: new naver.maps.LatLng(<%=latitude %>, <%=longitude %>),
+       zoom: 17
+   });
+   
+   var marker = new naver.maps.Marker({
+         position: new naver.maps.LatLng(<%=latitude %>, <%=longitude %>),
+         map: map
+   });
+   
+   var infoWindow = new naver.maps.InfoWindow({
+       content: '<div class=\"iw_inner\"><div class=\"div_font\"style=\"font-size:13px;font-weight:600;text-align:center;padding:10px;color:#ffffff;\"><b><%= rname%></b></div></div>',
+          borderWidth: 0,
+          disableAnchor: true,
+          backgroundColor: 'transparent'
     });
-	
-	infoWindow.open(map, marker);
+   
+   infoWindow.open(map, marker);
 }
-
 $(function() {
     $('div#star').raty({
         score: 3

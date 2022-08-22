@@ -15,7 +15,7 @@
        log = "LOGOUT";
     } else {
           out.println ( "<script>");
-         out.println ( "window.location.href = 'http://localhost:8080/login.do'");
+         out.println ( "window.location.href = 'http://localhost/login.do'");
          out.println ( "</script>");
     }  
     
@@ -26,8 +26,6 @@
    String id=request.getParameter("id");
    String latitude=request.getParameter("latitude");
    String longitude=request.getParameter("longitude");
-
-
    String rname="";
    String rloc="";
    String rfac="";
@@ -35,7 +33,6 @@
    String rtime="";
    String rsite="";
    
-
     rname = resDetail.get(0);
     rloc = resDetail.get(1);
     rfac = resDetail.get(2);
@@ -45,23 +42,23 @@
     
     StringBuilder sb=new StringBuilder();
     sb.append("<tr>");
-    sb.append("      <td style='padding: 35px;'>위치</td>");
+    sb.append("      <td style='padding: 20px;'>위치</td>");
     sb.append("      <td>"+rloc+"</td>");
     sb.append("</tr>");
     sb.append("<tr>");
-    sb.append("      <td>전화번호</td>");
+    sb.append("      <td style='padding: 10px;'>전화번호</td>");
     sb.append("      <td>"+rphone+"</td>");
     sb.append("</tr>");
     sb.append("<tr>");
-    sb.append("      <td>홈페이지</td>");
+    sb.append("      <td style='padding : 14px;'>홈페이지</td>");
     sb.append("      <td>"+rsite+"</td>");
     sb.append("</tr>");
     sb.append("<tr>");
-    sb.append("      <td style='padding:45px;'>영업시간</td>");
+    sb.append("      <td style='padding:23px;'>영업시간</td>");
     sb.append("      <td>"+rtime+"</td>");
     sb.append("</tr>");
     sb.append("<tr>");
-    sb.append("      <td style='padding:35px;'>편의시설</td>");
+    sb.append("      <td style='padding:34px;'>편의시설</td>");
     sb.append("      <td>"+rfac+"</td>");
     sb.append("</tr>");
     
@@ -111,18 +108,14 @@
 
 <style>
 /** common **/
-
 a:link {  color: black; text-decoration: none}
     a:visited {color: black; text-decoration: none;}
     a:hover {color: #5c3018; text-decoration: none;}
     a:active {color: #de5f47; text-decoration: none;}
-
-
 body,ul ,li, h1,h2,h3{
     margin: 0;
     padding: 0;
 }
-
 input{
     writing-mode: horizontal-tb !important;
     text-rendering: auto;
@@ -141,40 +134,29 @@ input{
     border: none;
     outline: none;
 }
-
 #star {
-	width: 40px;
-	margin-top: 10px;
+   width: 40px;
+   margin-top: 10px;
 }
-
 input[type="checkbox"]+label {
     display: flex;
     width: 28px;
     height: 28px;
     background: url('./images/staroff2.png') no-repeat 0 0px / contain;
 }
-
 input[type='checkbox']:checked+label {
     background: url('./images/star-on.png') no-repeat 0 1px / contain;
 }
-
 input[type="checkbox"] {
     display: none;
 }
-
-
 ul{
     list-style:none;
 }
-
-
-
-
 img{
     width: 100%;
     padding-bottom: 5px;
 }
-
 table{
     text-align: center;
     border-spacing: 0px;
@@ -182,13 +164,11 @@ table{
     margin-left: auto;
     margin-right: auto;
 }
-
 :root {
   --button-color: #ffffff;
   --button-bg-color: #5c3018;
   --button-hover-bg-color: #5c3018;
 }
-
 button {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -217,8 +197,6 @@ button {
   
   transition: 0.5s;
 }
-
-
 button:active,
 button:hover,
 button:focus {
@@ -228,54 +206,40 @@ button:focus {
 button:disabled {
   opacity: 0.5;
 }
-
-
 /** nav **/
-
 nav{
     position: sticky;
     top : 0;
 }
-
 #header{
     border-bottom: #c7bebe 1px solid;
     z-index: 1050;
 }
-
 #header ul{
     display: flex;
     font-family: 'NanumSquareBold';
 }
-
 #header ul li{
     margin-left: 65px;
 }
-
 #header ul li b{
     line-height: 41.5px;
 }
-
 #logoSec{
     width: 8%;
 }
-
 #logout{
     color : grey;
     width:10%;
     text-decoration: underline;
     margin-right: 17%;
 }
-
 #bell{
     width: 60px;
     display:flex;
     align-items: center;
     color: red;
 }
-
-
-
-
 #headerWap{
     width:1280px;
     margin: auto;
@@ -285,7 +249,6 @@ nav{
     align-items : center;
     background-color: white;
 }
-
 #headerWap h3{
    font-weight: bold;
     font-size: 15px;
@@ -293,51 +256,37 @@ nav{
     position: absolute;
     margin-left: 120px;
 }
-
-
-
 /***** warp  *****/
 #wrap{
     width: 1280px; 
     margin : auto;
 }
-
-
 /* 타이틀 섹션 */
 #titSec strong{
  
   display: inline-block;
 }
-
-
-
 /* 버튼 섹션*/
 #btnSec {
      display: inline-flex;
      justify-content: space-between;
      width: 100%;
 }
-
 #btnSec button{
     margin-left: 10px;
     margin-bottom: 5px;
 }
-
 #btnSec strong{
   font-family: 'NanumSquareExtraBold';
   font-size: 20px;
   display: inline-block;
   padding-left: 20px;
 }
-
-
-
 #locationSec{
     width: 100%;
     background-color: #f7f7fd;
     overflow: hidden;
 }
-
 #locationSec button{
     font-weight: 500;
     background: none;
@@ -345,18 +294,15 @@ nav{
     outline: none;
   box-shadow: none;
 }
-
 #locationwrap{
     width: 1280px;
     margin: 0 auto;
     height: 55px;
     padding-top: 13px;
 }
-
 #locationwrap button{
     font-family: 'NanumSquareBold';
 }
-
 .allbtn{
     color : #333;
     position : relative;
@@ -374,58 +320,50 @@ nav{
     margin-top: 8%;
 }
 */
-
 .active{
     color: #de5f47;
 }
-
-
-
 /* 테이블 섹션 */
-
 #itemBox{
      height: auto;
     overflow-y: auto;
 }
-
-
 #tabBox th{
     width : 23%;
 }
-
 #good tr td:nth-child(2n+1){
      width: 32%;
       font-weight: bold;
 }
-
 #good tr:nth-child(2) td:nth-child(2n+0){
     width: 66%;
       }
+      
+.tblmain table td {
+   border: 1px solid black;
+}
+
+.tblmain table th {
+   border : 1px solid black;
+   border-bottom: none;
+   border-collapse:separate;
+}
 
 .picture td{
    width: 33%;
 }
-
 .tblmain table th{
     background-color: #f7f7fd;
 }
-
-
 td { word-break: break-all; }
-
 .star {
   font-size: 2rem;
   margin: 10px 0;
   cursor: pointer;
 }
-
 .clicked {
         color: gold;
       }
-
-
-
-
 /***** footer  *****/
 footer{
     width: 100%;
@@ -433,20 +371,16 @@ footer{
     background-color: #d7d7d7;
     margin-top: 5%;
 }
-
 .tblmain table td {
    border: 1px solid black;
 }
-
 .tblmain table th {
    border: 1px solid black;
    border-bottom: none;
 }
-
 .tblmain table tr {
    border: 1px solid black;
 }
-
 .modal-dialog {
     position: fixed;
     margin: auto;
@@ -454,29 +388,23 @@ footer{
     height: 100%;
     right: 0px;
 }
-
 .modal-content {
    border: 1px solid black;
     height: 100%;
 }
-
 #noticelogo {
    width: 25%;
 }
-
 .modal-body span {
    float: right;
    margin-right: 15px;
 }
-
 .iw_inner {
-	margin: 5px;
-	padding: 1px 5px;
-	border-radius: 30px;
-	background-color: rgba(4, 117, 244, 0.9);
+   margin: 5px;
+   padding: 1px 5px;
+   border-radius: 30px;
+   background-color: rgba(4, 117, 244, 0.9);
 }
-
-
 </style>
 
 </head>
@@ -564,24 +492,24 @@ footer{
 
                <div class="tblmain" style= "display: flex; justify-content: space-around;">
                     <div style="width: 50%;">
-                         <table border="1" style="width: 100%;    height: 20%;">  
+                         <table border="1" style="width: 100%;    height: 20%; border-collapse:separate;">  
                              <thead>
-                             <tr style="position:relative">
+                             <tr style="position:relative; height:61px;">
 
                      
                                <td colspan="4" class="homesub"><a href="#" style=" font-weight:bold;"><%= rname %></a>
                                 <div class="star-container div2" id="star" style="width: 5%;
                                       position: absolute;
                                       right: 1%;
-                                      top: -10%;">
+                                      top: 5%;">
                                       <div class="checkbox">
                                          <input type="checkbox" id="favCheck" <%=onoff %>>
-										 <label for="favCheck"></label>
-								      </div>
+                               <label for="favCheck"></label>
+                              </div>
                                 </div>  
                                </td>
                                </tr>
-                                  <tr id="tabBox">
+                                  <tr id="tabBox" style="height:61px;">
                                <!-- 
                                     <th scope="col" class="th-title"><a href="./somoimboard_home.do?tseq=<%=tseq%>" style="color : #de5f47">홈</a></th>
                                     <th scope="col" class="th-date"><a href="./somoimboard_review.do?tseq=<%=tseq%>">리뷰</a></th>
@@ -600,7 +528,7 @@ footer{
                             
                          </table>
                          <div id="itemBox">
-                            <table border="1" id="good" style="width:100%;">  
+                            <table border="1" id="good" style="width:100%; border-collapse:separate;">  
 
                                 
                                 <tbody>
@@ -610,30 +538,23 @@ footer{
                                     <td style="padding: 35px;">위치</td>
                                     <td>서울 강남구 테헤란로1길 40 지하 1층</td>
                                    </tr>
-
                                    <tr>
                                     <td>전화번호</td>
                                     <td>02-553-0456</td>
                                    </tr>
-
                                    <tr>
                                     <td>홈페이지</td>
                                     <td>http://www.naver.com</td>   
                                    </tr>
-
                                    <tr>
                                     <td style="padding:45px;">영업시간</td>
                                     <td>매일 11:00 - 24:00 ( 매주 월요일 휴무 )</td>
                                    </tr>
-
                                    <tr>
                                     <td style="padding:52px;">편의시설</td>
                                     <td>단체석, 포장, 예약, 무선 인터넷, 남/녀 화장실 구분, 국민지원금</td>
                                    </tr>
-
-
                                    
-
                                  -->   
 
 
@@ -649,16 +570,13 @@ footer{
                                    
                         </div>
                     </div>
-			<!--       
+         <!--       
                        <script type="text/javascript">
-
                        
                        let div2 = document.getElementsByClassName("div2");
-
                        function handleClick(event) {
                         
                          console.log(event.target.classList);
-
                           if (event.target.classList[1] === "clicked") {
                              event.target.classList.remove("clicked");
                          } else {
@@ -666,62 +584,56 @@ footer{
                            event.target.classList.add("clicked");
                           }
                          }
-
                          function init() {
                          for (let i = 0; i < div2.length; i++) {
                           div2[i].addEventListener("click", handleClick);
                           }
                          }
-
                          init();
                         </script>
  -->
-			<div class="maps" style="width:50%;">
+         <div class="maps" style="width:50%;">
             <div id="map" style="width:100%;height:450px;"></div>
          </div>
       </div><!-- tblWrap -->
    </div>
 <!-- footer 
 <footer>
-
 </footer>
  -->
 </body>
 <script type="text/javascript">
 $(function() {
-	$('#favCheck').on('click', function(){
-		if (document.querySelector('#favCheck').checked == true) {
-			location.href='favoriteadd.do?id=<%=id %>';
-		} else {
-			location.href='favoritedel.do?id=<%=id %>';
-		}
-	});
-
+   $('#favCheck').on('click', function(){
+      if (document.querySelector('#favCheck').checked == true) {
+         location.href='favoriteadd.do?id=<%=id %>';
+      } else {
+         location.href='favoritedel.do?id=<%=id %>';
+      }
+   });
 });
-
 $(function() {
-	initMap();
+   initMap();
 })
-
 function initMap() {
-	var map = new naver.maps.Map('map', {
-	    center: new naver.maps.LatLng(<%=latitude %>, <%=longitude %>),
-	    zoom: 17
-	});
-	
-	var marker = new naver.maps.Marker({
-	   	position: new naver.maps.LatLng(<%=latitude %>, <%=longitude %>),
-	   	map: map
-	});
-	
-	var infoWindow = new naver.maps.InfoWindow({
-    	content: '<div class=\"iw_inner\"><div class=\"div_font\"style=\"font-size:13px;font-weight:600;text-align:center;padding:10px;color:#ffffff;\"><b><%= rname%></b></div></div>',
-	    	borderWidth: 0,
-	    	disableAnchor: true,
-	    	backgroundColor: 'transparent'
+   var map = new naver.maps.Map('map', {
+       center: new naver.maps.LatLng(<%=latitude %>, <%=longitude %>),
+       zoom: 17
+   });
+   
+   var marker = new naver.maps.Marker({
+         position: new naver.maps.LatLng(<%=latitude %>, <%=longitude %>),
+         map: map
+   });
+   
+   var infoWindow = new naver.maps.InfoWindow({
+       content: '<div class=\"iw_inner\"><div class=\"div_font\"style=\"font-size:13px;font-weight:600;text-align:center;padding:10px;color:#ffffff;\"><b><%= rname%></b></div></div>',
+          borderWidth: 0,
+          disableAnchor: true,
+          backgroundColor: 'transparent'
     });
-	
-	infoWindow.open(map, marker);
+   
+   infoWindow.open(map, marker);
 }
 </script>
 </html>

@@ -19,7 +19,7 @@
 
       } else {
          out.println ( "<script>");
-         out.println ( "window.location.href = 'http://localhost:8080/login.do'");
+         out.println ( "window.location.href = 'http://localhost/login.do'");
          out.println ( "</script>");
       }   
     
@@ -36,7 +36,7 @@
         } else if (seq.equals("1")) {
            sbHtml.append("<p style='margin-top:28px;'>관리자는 소모임을 탈퇴할 수 없습니다.</p>");
         } else {
-           sbHtml.append("<p>소모임 탈퇴시 작성하신 모든 게시물들은 삭제됩니다.</p>");
+           sbHtml.append("<p style='margin-top:10px; margin-bottom:10px;>'>소모임 탈퇴시 작성하신 모든 게시물들은 삭제됩니다.</p>");
            sbHtml.append("<p>그래도 탈퇴하시겠습니까?</p>");
            sbHtml.append("<div class='btn_area'>");
            sbHtml.append("<div class='align'>");
@@ -257,7 +257,7 @@ nav{
 }
 
 #form_boss {
-   height: 150px;
+   height: 180px;
    border: 2px solid black;
    text-align: center;
    padding: 15px;
@@ -355,112 +355,6 @@ nav{
 
     font-weight: bold;
 }
-
-/***** pagingSec  *****/
-#pagingSec ul{
-    display: flex;
-}
-
-#pagingSec{
-    display: flex;
-    justify-content: center;
-    margin-top: 30px;
-    line-height: 2.5;
-}
-
-#btnSec .search-wrap{
-    right: 0;
-    font-size: 0; 
-    margin-bottom : 8px;
-}
-
-.select{
-    display: inline-block;
-    vertical-align: top;
-    position: relative;
-}
-
-#btnSec .search-wrap .select select{
-    border: 2px solid #5c3018;
-    border-radius: 10px;
-    height: 36px;
-    width: 90px;
-    box-sizing: border-box;
-    padding-left: 10px;
-    z-index: 1;
-    background: transparent;
-}
-
-.search-wrap select option{
-    font-weight: normal;
-    display: block;
-    white-space: nowrap;
-    min-height: 1.2em;
-    padding: 0px 2px 1px;
-}
-
-#pagingSec .search-wrap #search{
-    height: 37.6px;
-    margin-right: 4px;
-}
-
-.search-wrap .input{
-    width: 282px;
-    height: 36px;
-    box-sizing: border-box;
-    -webkit-border-radius: 24px;
-    -moz-border-radius: 24px;
-    border-radius: 24px;
-    border: 2px solid #5c3018;
-    display: inline-block;
-    overflow: hidden;
-    vertical-align: top;
-    position: relative;
-    padding-left: 14px;
-    padding-right: 42px;
-    margin-left: 10px;
-}
-
-.search-wrap .input input{
-    height: 32px;
-    width: 100%;
-    color: #000;
-    font-size: 16px;
-    box-sizing: border-box;
-}
-
-/* width : 30, height : 45 */
-.search-wrap button{
-    width: 30px;
-    height: 25px;
-    right: 5%;
-    top: 10%;
-    text-indent: -9999px;
-    overflow: hidden;
-    background: url( ./images/search2.png) no-repeat ;
-    position: absolute;
-    background-size: 38px 25px;
- 
-}
-
-#pagingSec ul li{
-    width: 42px;
-    height: 42px;
-    text-align: center;
-    line-height: 42px;
-    margin-right: 10px;
-    border: 1px solid #c4c4c4;
-    border-radius: 10%;
-}
-
-#pagingSec .active{
-    color:white;
-    background-color: #de5f47;
-}
-    .board_pagetab { text-align: center; display: inline-flex; position:relative;}
-   .board_pagetab a { text-decoration: none; font: 12px verdana; color: #000; padding: 0 3px 0 3px; }
-    /* .board_pagetab ul a:hover  { background-color:black; } */
-   .on a { font-weight: bold; }
 
 /***** footer  *****/
 footer{
@@ -574,8 +468,8 @@ footer{
       </section>
       <div class="ex" style="width: 1280px; margin:auto">
       <form action="" method="post" name="" id="form_boss" style="width: 800px;
-          margin-top: 100px; margin-left: 210px;">           
-               <span style=" font-family: 'NanumSquareBold'; font-size:20px; display:inline-block; margin-top:10px;">소모임 : <%=tname %></span>
+          margin-top: 100px; margin-left: 210px; padding-top:10px;">           
+               <span style=" font-family: 'NanumSquareBold'; font-size:20px; display:inline-block;">소모임 : <%=tname %></span>
                <%=sbHtml.toString() %>
                <!--  
                <p>소모임 탈퇴시 작성하신 모든 게시물들은 삭제됩니다.</p>

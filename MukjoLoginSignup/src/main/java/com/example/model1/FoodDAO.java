@@ -24,10 +24,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class FoodDAO {
 	
-	@Autowired
-	private JdbcTemplate jdbcTemplate;
+
 	@Autowired
 	private DataSource dataSource;
+	
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 
 	
 	public static JSONObject jsonParser(String content) {
@@ -46,7 +48,12 @@ public class FoodDAO {
 		return jsonObj;
 	}
 
-	public static ArrayList<FoodTO> crawler(String search, String tseq) {
+	public  ArrayList<FoodTO> crawler(String search, String tseq) {
+		
+		String sql = "select avg(star) from review where rest = ? and tseq = ?";
+		
+		
+		
 		
 		ArrayList<FoodTO> lists = new ArrayList<FoodTO>();
 		Document doc = null;
@@ -79,7 +86,7 @@ public class FoodDAO {
 			}
 		}
 		
-		String sql = "select avg(star) from review where rest = ? and tseq = ?";
+		
 		
 		
 		
@@ -91,10 +98,7 @@ public class FoodDAO {
 			to.setLatitude(jsonParser(i.toString()).get("y").toString());
 			to.setLongitude(jsonParser(i.toString()).get("x").toString());
 			to.setThumurl(jsonParser(i.toString()).get("thumUrl").toString());
-			
-			
-			
-			
+			to.setAvgStar(jdbcTemplate.queryForObject(sql, String.class,to.getId(),tseq));
 			
 			
 			
@@ -110,7 +114,7 @@ public class FoodDAO {
 			Connection conn = null;
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
-
+			
 			String tname="";
 			try {
 				conn = this.dataSource.getConnection();

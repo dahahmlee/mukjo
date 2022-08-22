@@ -17,12 +17,12 @@
 		if (!loginedMemberSeq.equals("1")) {
 		   		out.println ( "<script>");
 		   		out.println( "alert('관리자만 관리자페이지에 들어갈 수 있습니다.');" );
-				out.println ( "window.location.href = 'http://localhost:8080/main.do'");
+				out.println ( "window.location.href = 'http://localhost/main.do'");
 				out.println ( "</script>");
 		   	}
 	} else {
 		out.println ( "<script>");
-		out.println ( "window.location.href = 'http://localhost:8080/login.do'");
+		out.println ( "window.location.href = 'http://localhost/login.do'");
 		out.println ( "</script>");
 	}
 	
@@ -561,7 +561,7 @@ footer{
                 </table>
             </div>
             <div id="btn_write">
-				<button type="submit" onclick="location.href='http://localhost:8080/adminnotice_write.do?cpage=<%=cpage %>'">글쓰기</button>
+				<button type="submit" onclick="location.href='http://localhost/adminnotice_write.do?cpage=<%=cpage %>'">글쓰기</button>
 			</div>
 
         </section>

@@ -1,3 +1,4 @@
+<%@page import="ch.qos.logback.core.recovery.ResilientSyslogOutputStream"%>
 <%@page import="com.example.model1.NoticeTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -16,7 +17,7 @@
 		log = "LOGOUT";
 	} else {
 		out.println ( "<script>");
-		out.println ( "window.location.href = 'http://localhost:8080/login.do'");
+		out.println ( "window.location.href = 'http://localhost/login.do'");
 		out.println ( "</script>");
 	}
 
@@ -37,12 +38,15 @@
 		String longitude = to.getLongitude();
 		String latitude = to.getLatitude();
 		String thumurl = to.getThumurl();
+		String avgStar = to.getAvgStar();
+		
+		System.out.println(avgStar);
 		
 		sbHtml.append( "<div class='lists1'>" );
     	sbHtml.append( "<a href='./somoimboard_home.do?tseq=" + tseq + "&id=" + id + "&latitude=" + latitude + "&longitude=" + longitude + "'><img class='list1' style=\"background-image: url('" + thumurl + "');\">");
     	sbHtml.append( "<span class='write1'>"+name+"</span>" );
     	sbHtml.append( "<span class='write2'>"+category+"</span>" );
-    	sbHtml.append( "<span class='write3'><i class='fa fa-star' style='font-size:20px;color:red'></i>    4.8점</span>" );
+    	sbHtml.append( "<span class='write3'><i class='fa fa-star' style='font-size:20px;color:red'></i>"+avgStar+"</span>" );
     	sbHtml.append( "</a>" );
     	sbHtml.append( "</div>" );
     	
