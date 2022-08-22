@@ -21,6 +21,7 @@
        }
     
        ArrayList<FavoriteTO> favList=(ArrayList<FavoriteTO>)request.getAttribute("favList");
+       String search=(String)request.getAttribute("search");
 
        ArrayList<NoticeTO> noticeList=(ArrayList<NoticeTO>)request.getAttribute("noticeList");
         String noticeCount=(String)request.getAttribute("noticeCount").toString();
@@ -33,14 +34,27 @@
             String rloc=favList.get(j).getRestloc();
             String rphone=favList.get(j).getRestphone();
             
-            sbHtml.append("<tr>");
-            sbHtml.append("<td>"+num+"</td>");
-            sbHtml.append("<td>"+rname+"</td>");
-            sbHtml.append("<td>"+rloc+"</td>");
-            sbHtml.append("<td>"+rphone+"</td>");
-            sbHtml.append("</tr>");
+            if (search==null) {
+            	sbHtml.append("<tr>");
+                sbHtml.append("<td>"+num+"</td>");
+                sbHtml.append("<td>"+rname+"</td>");
+                sbHtml.append("<td>"+rloc+"</td>");
+                sbHtml.append("<td>"+rphone+"</td>");
+                sbHtml.append("</tr>");
+                
+                num+=1;
+            }
             
-            num+=1;
+            if (search!=null && rname.contains(search)) {
+            	sbHtml.append("<tr>");
+                sbHtml.append("<td>"+num+"</td>");
+                sbHtml.append("<td>"+rname+"</td>");
+                sbHtml.append("<td>"+rloc+"</td>");
+                sbHtml.append("<td>"+rphone+"</td>");
+                sbHtml.append("</tr>");
+                
+                num+=1;
+            }           
          }
       
 
@@ -535,7 +549,7 @@ footer {
    
    <section id ="btnSec" >
             <div class="search-wrap">
-            <form action="" method="post" name="sfrm">          
+            <form action="./favorite.do" method="post" name="sfrm">          
                 <input type="text" title="검색어 입력" name="search" placeholder="식당 이름 검색">
                 <button type="submit">검색</button>
             </form>
