@@ -32,21 +32,23 @@
 	mHtml.append( "var loc = [" );
 	
 	for(FoodTO to : lists) {
-		String id = to.getId().replaceAll("[^0-9]", "");
+		String id = to.getId();
 		String name = to.getName();
 		String category = to.getCategory();
 		String longitude = to.getLongitude();
 		String latitude = to.getLatitude();
 		String thumurl = to.getThumurl();
 		String avgStar = to.getAvgStar();
+		if (avgStar == null) {
+			avgStar = "  점수없음";
+		}
 		
-		System.out.println(avgStar);
 		
 		sbHtml.append( "<div class='lists1'>" );
     	sbHtml.append( "<a href='./somoimboard_home.do?tseq=" + tseq + "&id=" + id + "&latitude=" + latitude + "&longitude=" + longitude + "'><img class='list1' style=\"background-image: url('" + thumurl + "');\">");
     	sbHtml.append( "<span class='write1'>"+name+"</span>" );
     	sbHtml.append( "<span class='write2'>"+category+"</span>" );
-    	sbHtml.append( "<span class='write3'><i class='fa fa-star' style='font-size:20px;color:red'></i>"+avgStar+"</span>" );
+    	sbHtml.append( "<span class='write3'><i class='fa fa-star' style='font-size:20px;color:red'></i> "+avgStar+"</span>" );
     	sbHtml.append( "</a>" );
     	sbHtml.append( "</div>" );
     	
