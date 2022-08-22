@@ -2,27 +2,27 @@
 <%@page import="com.example.model1.NoticeTO"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+   pageEncoding="UTF-8"%>
 <%
-    	String log = "LOGIN";
+       String log = "LOGIN";
     
-    	HttpSession sess = request.getSession();
-    	
-    	String loginedMemberSeq = (String)sess.getAttribute("loginedMemberSeq");
-    	String welcome = "";
+       HttpSession sess = request.getSession();
+       
+       String loginedMemberSeq = (String)sess.getAttribute("loginedMemberSeq");
+       String welcome = "";
     
-    	if(loginedMemberSeq != null) {
-    		welcome = (String)sess.getAttribute("loginedMemberName")+"님 환영합니다.";
-    		log = "LOGOUT";
-    	} else {
-    		    	out.println ( "<script>");
-			   		out.println ( "window.location.href = 'http://localhost:8080/login.do'");
-			   		out.println ( "</script>");
-    	}
+       if(loginedMemberSeq != null) {
+          welcome = (String)sess.getAttribute("loginedMemberName")+"님 환영합니다.";
+          log = "LOGOUT";
+       } else {
+                 out.println ( "<script>");
+                  out.println ( "window.location.href = 'http://localhost/login.do'");
+                  out.println ( "</script>");
+       }
     
-    	ArrayList<FavoriteTO> favList=(ArrayList<FavoriteTO>)request.getAttribute("favList");
+       ArrayList<FavoriteTO> favList=(ArrayList<FavoriteTO>)request.getAttribute("favList");
 
-    	ArrayList<NoticeTO> noticeList=(ArrayList<NoticeTO>)request.getAttribute("noticeList");
+       ArrayList<NoticeTO> noticeList=(ArrayList<NoticeTO>)request.getAttribute("noticeList");
         String noticeCount=(String)request.getAttribute("noticeCount").toString();
         
         int num=1;
@@ -42,7 +42,7 @@
             
             num+=1;
          }
-		
+      
 
         StringBuilder sb=new StringBuilder();
         for (int i=0; i<noticeList.size(); i++) {
@@ -64,157 +64,158 @@
 
 <!-- 나눔스퀘어 폰트 -->
 <link
-	href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css"
-	rel="stylesheet">
+   href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css"
+   rel="stylesheet">
 <!-- Bootstrap (for modal) -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
 <style>
 /** common **/
 body, ul, li, h1, h2, h3 {
-	margin: 0;
-	padding: 0;
+   margin: 0;
+   padding: 0;
 }
 
 input {
-	writing-mode: horizontal-tb !important;
-	text-rendering: auto;
-	color: fieldtext;
-	letter-spacing: normal;
-	word-spacing: normal;
-	line-height: normal;
-	text-transform: none;
-	text-indent: 0px;
-	text-shadow: none;
-	display: inline-block;
-	text-align: start;
-	appearance: auto;
-	-webkit-rtl-ordering: logical;
-	cursor: text;
-	border: none;
-	outline: none;
+   writing-mode: horizontal-tb !important;
+   text-rendering: auto;
+   color: fieldtext;
+   letter-spacing: normal;
+   word-spacing: normal;
+   line-height: normal;
+   text-transform: none;
+   text-indent: 0px;
+   text-shadow: none;
+   display: inline-block;
+   text-align: start;
+   appearance: auto;
+   -webkit-rtl-ordering: logical;
+   cursor: text;
+   border: none;
+   outline: none;
+   padding: 0 0 0 10px;
 }
 
 ul {
-	list-style: none;
+   list-style: none;
 }
 
 a:link {
-	text-decoration: none
+   text-decoration: none
 }
 
 a:visited {
-	color: black;
-	text-decoration: none;
+   color: black;
+   text-decoration: none;
 }
 
 a:hover {
-	color: #5c3018;
-	text-decoration: none;
+   color: #5c3018;
+   text-decoration: none;
 }
 
 a:active {
-	color: #de5f47;
-	text-decoration: none;
+   color: #de5f47;
+   text-decoration: none;
 }
 
 img {
-	width: 100%;
-	padding-bottom: 5px;
+   width: 100%;
+   padding-bottom: 5px;
 }
 
 table {
-	text-align: center;
+   text-align: center;
 }
 
 :root { -
-	-button-color: #ffffff; -
-	-button-bg-color: #5c3018; -
-	-button-hover-bg-color: #5c3018;
+   -button-color: #ffffff; -
+   -button-bg-color: #5c3018; -
+   -button-hover-bg-color: #5c3018;
 }
 
 button {
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	appearance: none;
-	background: var(- -button-bg-color);
-	color: var(- -button-color);
-	margin: 0;
-	padding: 0.5rem 1rem;
-	font-family: 'Noto Sans KR', sans-serif;
-	font-size: 1rem;
-	font-weight: 400;
-	text-align: center;
-	text-decoration: none;
-	text-transform: none;
-	border: none;
-	border-radius: 4px;
-	display: inline-block;
-	width: auto;
-	cursor: pointer;
-	transition: 0.5s;
+   -webkit-appearance: none;
+   -moz-appearance: none;
+   appearance: none;
+   background: var(- -button-bg-color);
+   color: var(- -button-color);
+   margin: 0;
+   padding: 0.5rem 1rem;
+   font-family: 'Noto Sans KR', sans-serif;
+   font-size: 1rem;
+   font-weight: 400;
+   text-align: center;
+   text-decoration: none;
+   text-transform: none;
+   border: none;
+   border-radius: 4px;
+   display: inline-block;
+   width: auto;
+   cursor: pointer;
+   transition: 0.5s;
 }
 
 button:active, button:hover, button:focus {
-	background: var(- -button-hover-bg-color);
-	outline: 0;
+   background: var(- -button-hover-bg-color);
+   outline: 0;
 }
 
 button:disabled {
-	opacity: 0.5;
+   opacity: 0.5;
 }
 
 /** nav **/
 nav {
-	position: sticky;
-	top: 0;
+   position: sticky;
+   top: 0;
 }
 
 #header {
-	border-bottom: #c7bebe 1px solid;
-	z-index: 1050;
+   border-bottom: #c7bebe 1px solid;
+   z-index: 1050;
 }
 
 #header ul {
-	display: flex;
-	font-family: 'NanumSquareBold';
+   display: flex;
+   font-family: 'NanumSquareBold';
 }
 
 #header ul li {
-	margin-left: 65px;
+   margin-left: 65px;
 }
 
 #header ul li b {
-	line-height: 41.5px;
+   line-height: 41.5px;
 }
 
 #logoSec {
-	width: 8%;
+   width: 8%;
 }
 
 #logout {
-	color: grey;
-	width: 10%;
-	text-decoration: underline;
-	margin-right: 17%;
+   color: grey;
+   width: 10%;
+   text-decoration: underline;
+   margin-right: 17%;
 }
 
 #bell {
-	width: 60px;
-	display: flex;
-	align-items: center;
-	color: red;
+   width: 60px;
+   display: flex;
+   align-items: center;
+   color: red;
 }
 
 #headerWap {
-	width: 1280px;
-	margin: auto;
-	display: flex;
-	justify-content: space-between;
-	height: 98px;
-	align-items: center;
-	background-color: white;
+   width: 1280px;
+   margin: auto;
+   display: flex;
+   justify-content: space-between;
+   height: 98px;
+   align-items: center;
+   background-color: white;
 }
 
 #headerWap h3 {
@@ -227,182 +228,183 @@ nav {
 
 /***** warp  *****/
 #wrap {
-	width: 1280px;
-	margin: auto;
+   width: 1280px;
+   margin: auto;
 }
 
 /* 타이틀 섹션 */
 #titSec strong {
-	font-family: 'NanumSquareExtraBold';
-	font-size: 35px;
-	padding: 30px 0 30px 0;
-	display: inline-block;
+   font-family: 'NanumSquareExtraBold';
+   font-size: 35px;
+   padding: 30px 0 30px 0;
+   display: inline-block;
 }
 
 /* 버튼 섹션*/
 #btnSec {
-	border-bottom: 2px solid #5c3018;
-	display: inline-flex;
-	justify-content: space-between;
-	width: 100%;
+     display: inline-flex;
+     justify-content: right;
+     width: 100%;
 }
 
+
 #btnSec button {
-	margin-left: 10px;
-	margin-bottom: 5px;
+   margin-left: 10px;
+   margin-bottom: 5px;
 }
 
 #btnSec strong {
-	font-family: 'NanumSquareExtraBold';
-	font-size: 25px;
-	display: inline-block;
-	padding-left: 50px;
+   font-family: 'NanumSquareExtraBold';
+   font-size: 25px;
+   display: inline-block;
+   padding-left: 50px;
 }
 
 #btnSec .search-wrap {
-	margin-left: 50%;
+   margin-top: 20px; 
+   margin-left: 50%;
 }
 
 #locationSec {
-	width: 100%;
-	background-color: #f7f7fd;
+   width: 100%;
+   background-color: #f7f7fd;
 }
 
 #locationSec button {
-	font-weight: 500;
-	background: none;
-	cursor: default;
-	outline: none;
-	box-shadow: none;
+   font-weight: 500;
+   background: none;
+   cursor: default;
+   outline: none;
+   box-shadow: none;
 }
 
 #locationwrap {
-	width: 1280px;
-	margin: 0 auto;
-	height: 55px;
-	padding-top: 13px;
+   width: 1280px;
+   margin: 0 auto;
+   height: 55px;
+   padding-top: 13px;
 }
 
 #locationwrap button {
-	font-family: 'NanumSquareBold';
+   font-family: 'NanumSquareBold';
 }
 
 .allbtn {
-	color: #333;
-	position: relative;
+   color: #333;
+   position: relative;
 }
 
 .active {
-	color: #de5f47;
+   color: #de5f47;
 }
 
 /* 테이블 섹션 */
 #tblSec table {
-	width: 100%;
-	border-collapse: collapse;
+   width: 100%;
+   border-collapse: collapse;
 }
-	
+   
 #tblSec table td {
-	height: 50px;
-	width: 90px;
-	border-bottom: 1px solid #c7bebe;
+   height: 50px;
+   width: 90px;
+   border-bottom: 1px solid #c7bebe;
 }
 
 #tblWrap {
-	padding-top: 35px;
+   padding-top: 35px;
 }
 
 /***** pagingSec  *****/
 #pagingSec ul {
-	display: flex;
+   display: flex;
 }
 
 #pagingSec {
-	display: flex;
-	justify-content: center;
-	margin-top: 30px;
-	line-height: 2.5;
+   display: flex;
+   justify-content: center;
+   margin-top: 30px;
+   line-height: 2.5;
 }
 
 #btnSec .search-wrap {
-	align-items: center;
-	width: 282px;
-	height: 36px;
-	box-sizing: border-box;
-	-webkit-border-radius: 24px;
-	-moz-border-radius: 24px;
-	border-radius: 24px;
-	border: 2px solid #5c3018;
-	display: inline-block;
-	overflow: hidden;
-	position: relative;
+   align-items: center;
+   width: 282px;
+   height: 36px;
+   box-sizing: border-box;
+   -webkit-border-radius: 24px;
+   -moz-border-radius: 24px;
+   border-radius: 24px;
+   border: 2px solid #5c3018;
+   display: inline-block;
+   overflow: hidden;
+   position: relative;
 }
 
 #pagingSec .search-wrap #search {
-	height: 37.6px;
-	margin-right: 4px;
+   height: 37.6px;
+   margin-right: 4px;
 }
 
 .search-wrap input {
-	height: 32px;
-	width: 80%;
-	color: #000;
-	font-size: 16px;
-	box-sizing: border-box;
-	margin-left: 5px;
+   height: 32px;
+   width: 80%;
+   color: #000;
+   font-size: 16px;
+   box-sizing: border-box;
+   margin-left: 5px;
 }
 
 /* width : 30, height : 45 */
 .search-wrap button {
-	width: 30px;
-	height: 25px;
-	right: 5%;
-	top: 10%;
-	text-indent: -9999px;
-	overflow: hidden;
-	background: url( ./images/search2.png) no-repeat;
-	position: absolute;
-	background-size: 38px 25px;
+   width: 30px;
+   height: 25px;
+   right: 5%;
+   top: 10%;
+   text-indent: -9999px;
+   overflow: hidden;
+   background: url( ./images/search2.png) no-repeat;
+   position: absolute;
+   background-size: 38px 25px;
 }
 
 #pagingSec ul li {
-	width: 42px;
-	height: 42px;
-	text-align: center;
-	line-height: 42px;
-	margin-right: 10px;
-	border: 1px solid #c4c4c4;
-	border-radius: 10%;
+   width: 42px;
+   height: 42px;
+   text-align: center;
+   line-height: 42px;
+   margin-right: 10px;
+   border: 1px solid #c4c4c4;
+   border-radius: 10%;
 }
 
 #pagingSec .active {
-	color: white;
-	background-color: #de5f47;
+   color: white;
+   background-color: #de5f47;
 }
 
 .board_pagetab {
-	text-align: center;
-	display: inline-flex;
-	position: relative;
+   text-align: center;
+   display: inline-flex;
+   position: relative;
 }
 
 .board_pagetab a {
-	text-decoration: none;
-	font: 12px verdana;
-	color: #000;
-	padding: 0 3px 0 3px;
+   text-decoration: none;
+   font: 12px verdana;
+   color: #000;
+   padding: 0 3px 0 3px;
 }
 
 .on a {
-	font-weight: bold;
+   font-weight: bold;
 }
 
 /***** footer  *****/
 footer {
-	width: 100%;
-	height: 163px;
-	background-color: #d7d7d7;
-	margin-top: 5%;
+   width: 100%;
+   height: 163px;
+   background-color: #d7d7d7;
+   margin-top: 5%;
 }
 
 .modal-dialog {
@@ -414,21 +416,21 @@ footer {
 }
 
 .modal-content {
-	border: 1px solid black;
+   border: 1px solid black;
     height: 100%;
 }
 
 #noticelogo {
-	width: 25%;
+   width: 25%;
 }
 
 .modal-body span {
-	float: right;
-	margin-right: 15px;
+   float: right;
+   margin-right: 15px;
 }
 
 #modalBtn:hover {
-	background-color: #5c3018;
+   background-color: #5c3018;
 }
 
 .divimg{
@@ -437,16 +439,21 @@ footer {
     height: 50px;
 }
 
+.board-table th  {
+   padding-bottom: 10px;
+   border-bottom: 1px solid black;
+}
+
 .th-num {
-   width: 15%;
+   width: 20%;
 }
 
 .th-sikding {
-   width: 25%;
+   width: 30%;
 }
 
 .th-address {
-   width: 35%;
+   width: 30%;
 }
 
 .th-eval {
@@ -456,8 +463,8 @@ footer {
 
 </head>
 <body>
-	<nav id="header">
-		<div class="headermake" style="width:100%; background-color: #fff;">
+   <nav id="header">
+      <div class="headermake" style="width:100%; background-color: #fff;">
         <div id="headerWap">
             <h1 id="logoSec">
                 <a href="main.do"><img src="images/logo.png" alt="logo"></a>
@@ -469,15 +476,15 @@ footer {
                 <li><b><a href="admin.do">관리자페이지</b></li></a>
                 <li><b><a href="favorite.do" style="color : #de5f47;">즐겨찾기</b></li></a>
                 <li id="bell" style="margin-left: 20px;">
-                	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-						<img src="images/bell.png">
-					</button><%=noticeCount %>
-				</li>
+                   <button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  <img src="images/bell.png">
+               </button><%=noticeCount %>
+            </li>
             </ul>
           </div>
         </div> <!--headerWap-->
-		
-		<!-- Modal -->
+      
+      <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
       <div class="modal-content">
@@ -513,102 +520,84 @@ footer {
   </div>
 
 
-		<!--locationSec -->
-		<section id="locationSec">
-			<div id="locationwrap">
-				<button class="allbtn">
-					<a href="#" style="color: #de5f47;">즐겨찾기</a>
-				</button>
-			</div>
-		</section>
-	</nav>
+      <!--locationSec -->
+      <section id="locationSec">
+         <div id="locationwrap">
+            <button class="allbtn">
+               <a href="#" style="color: #de5f47;">즐겨찾기</a>
+            </button>
+         </div>
+      </section>
+   </nav>
 
-	<!-- 전체 요소를 감싸는 div -->
-	<div id="wrap">
-		<section id="tblSec">
-			<div id="tblWrap">
-				<table class="board-table">
-					<thead>
-						<tr>
-							<th scope="col" class="th-num">번호</th>
-							<th scope="col" class="th-sikdang">식당 이름</th>
-							<th scope="col" class="th-address">주소</th>
-							<th scope="col" class="th-eval">전화번호</th>
-						</tr>
-					</thead>
-					<tbody>
-					 
-					<%=sbHtml.toString() %>
-					
-					 <!--
-						<tr>
-							<td><a href="#">1</td>
-							<td><img class='divimg' src="https://search.pstatic.net/common/?autoRotate=true&amp;quality=95&amp;type=f320_320&amp;src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20220718_17%2F1658104749974S1P3g_JPEG%2FKakaoTalk_Photo_2022-07-18-09-33-20_002.jpeg"></td>
-							<td><a href="#">톡톡</a></td>
-							<td><a href="#">서울특별시 강남구 도산대로 5길 12</a></td>
-							<td><a href="#">4.5</a></td>
-						</tr>
-						 
-						<tr>
-							<td><a href="#">2</td>
-							<td><a href="#">베라짜노</a></td>
-							<td><a href="#">서울특별시 강남구 선릉로 158번길</a></td>
-							<td><a href="#">4.7</a></td>
-						</tr>
-						<tr>
-							<td><a href="#">3</td>
-							<td><a href="#">라미띠에</a></td>
-							<td><a href="#">서울특별시 강남구 도산대로 12길 5</a></td>
-							<td><a href="#">3.9</a></td>
-						</tr>
-						<tr>
-							<td><a href="#">4</td>
-							<td><a href="#">곱창이야기</a></td>
-							<td><a href="#">서울특별시 서대문구 연세로안길2</a></td>
-							<td><a href="#">4.2</a></td>
-						</tr>
-						<tr>
-							<td><a href="#">5</td>
-							<td><a href="#">신화쭈꾸미</a></td>
-							<td><a href="#">서울특별시 노원구 동일로 1361</a></td>
-							<td><a href="#">4.9</a></td>
-						</tr>
-						-->
-					</tbody>
-				</table>
-			</div>
+   <!-- 전체 요소를 감싸는 div -->
+   <div id="wrap">
+   
+   <section id ="btnSec" >
+            <div class="search-wrap">
+            <form action="" method="post" name="sfrm">          
+                <input type="text" title="검색어 입력" name="search" placeholder="식당 이름 검색">
+                <button type="submit">검색</button>
+            </form>
+            </div><!-- search-wrap -->
+        </section>
+      <section id="tblSec">
+         <div id="tblWrap">
+            <table class="board-table">
+               <thead>
+                  <tr>
+                     <th scope="col" class="th-num">번호</th>
+                     <th scope="col" class="th-sikdang">식당 이름</th>
+                     <th scope="col" class="th-address">주소</th>
+                     <th scope="col" class="th-eval">전화번호</th>
+                  </tr>
+               </thead>
+               <tbody>
+                
+               <%=sbHtml.toString() %>
+               
+                <!--
+                  <tr>
+                     <td><a href="#">1</td>
+                     <td><img class='divimg' src="https://search.pstatic.net/common/?autoRotate=true&amp;quality=95&amp;type=f320_320&amp;src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20220718_17%2F1658104749974S1P3g_JPEG%2FKakaoTalk_Photo_2022-07-18-09-33-20_002.jpeg"></td>
+                     <td><a href="#">톡톡</a></td>
+                     <td><a href="#">서울특별시 강남구 도산대로 5길 12</a></td>
+                     <td><a href="#">4.5</a></td>
+                  </tr>
+                   
+                  <tr>
+                     <td><a href="#">2</td>
+                     <td><a href="#">베라짜노</a></td>
+                     <td><a href="#">서울특별시 강남구 선릉로 158번길</a></td>
+                     <td><a href="#">4.7</a></td>
+                  </tr>
+                  <tr>
+                     <td><a href="#">3</td>
+                     <td><a href="#">라미띠에</a></td>
+                     <td><a href="#">서울특별시 강남구 도산대로 12길 5</a></td>
+                     <td><a href="#">3.9</a></td>
+                  </tr>
+                  <tr>
+                     <td><a href="#">4</td>
+                     <td><a href="#">곱창이야기</a></td>
+                     <td><a href="#">서울특별시 서대문구 연세로안길2</a></td>
+                     <td><a href="#">4.2</a></td>
+                  </tr>
+                  <tr>
+                     <td><a href="#">5</td>
+                     <td><a href="#">신화쭈꾸미</a></td>
+                     <td><a href="#">서울특별시 노원구 동일로 1361</a></td>
+                     <td><a href="#">4.9</a></td>
+                  </tr>
+                  -->
+               </tbody>
+            </table>
+         </div>
 
-		</section>
-		<!--tblSec-->
-
-
-		<!-- 페이징 처리 -->
-		<section id="pagingSec">
-			<div class="paginate_regular">
-				<div class="board_pagetab">
-
-					<span class="off"><a href="#">&lt;&lt;</a>&nbsp;&nbsp;</span> <span
-						class="off"><a href="#">&lt;</a>&nbsp;&nbsp;</span>
-					<ul>
-						<li class="active"><a href="#">1</a></li>
-						<li><a href="#">2</a></li>
-						<li><a href="#">3</a></li>
-						<li><a href="#">4</a></li>
-						<li><a href="#">5</a></li>
-					</ul>
-					<span class="off">&nbsp;&nbsp;<a href="#">&gt;</a></span> <span
-						class="off">&nbsp;&nbsp;<a href="#">&gt;&gt;</a></span>
-
-				</div>
-				<!-- board_pagetab -->
-
-
-			</div>
-			<!-- paginate_regular -->
-		</section>
-	</div>
-
-	<!-- footer 
+      </section>
+      <!--tblSec-->
+   
+   <!-- footer 
     <footer>
 
     </footer>
