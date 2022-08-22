@@ -152,6 +152,7 @@ img{
 
 table{
     text-align: center;
+    border-spacing: 0px;
 }
 
 :root {
@@ -363,13 +364,11 @@ nav{
     overflow: hidden;
 }
 
-#itemBox ul li a {
-    width: 350px;
-}
+
 
 #itemBox ul li {
     border-bottom: 1px solid #d7d7d7;
-    width:48%;
+    width:50%;
 }
 
 .menu1{
@@ -389,6 +388,7 @@ nav{
 .spanmenu{
     font-weight: bold;
     font-size: 15px;
+    word-break:keep-all;
 }
 
 .price{
@@ -469,21 +469,21 @@ footer{
 }
 
 .iw_inner {
-	margin: 5px;
-	padding: 1px 5px;
-	border-radius: 30px;
-	background-color: rgba(4, 117, 244, 0.9);
+   margin: 5px;
+   padding: 1px 5px;
+   border-radius: 30px;
+   background-color: rgba(4, 117, 244, 0.9);
 }
 
 .checkbox {
-	float: right;
-	
+   float: right;
+   
 }
 
 #star {
-	width: 40px;
-	margin-top: 10px;
-	
+   width: 40px;
+   margin-top: 10px;
+   
 }
 
 input[type="checkbox"]+label {
@@ -588,15 +588,15 @@ input[type="checkbox"] {
                     <div style="width: 50%;">
                          <table border="1" style="width: 100%;    height: 20%;">  
                              <thead>
-                               <td colspan="4" class="homesub"><a href="#" style=" font-weight:bold; margin-left: 40px;"><%= rname %></a>
+                               <td colspan="4" class="homesub" style="height:61px;"><a href="#" style=" font-weight:bold; margin-left: 40px; "><%= rname %></a>
                                      
                                       <div class="checkbox">
                                          <input type="checkbox" id="favCheck" <%=onoff %>>
-										 <label for="favCheck" style="margin-right: 10px;"></label>
-									  </div>
+                               <label for="favCheck" style="margin-right: 10px;"></label>
+                             </div>
                                
                                
-                                  <tr id="tabBox">
+                                  <tr id="tabBox" style="height:61px;">
                                     <th scope="col" class="th-title"><a href="./somoimboard_home.do?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" >홈</a></th>
                                     <th scope="col" class="th-date"><a href="./somoimboard_review.do?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>">리뷰</a></th>
                                     <th scope="col" class="th-num"><a href="./somoimboard_menu.do?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" style="color : #de5f47">메뉴</a></th>
@@ -683,39 +683,39 @@ input[type="checkbox"] {
 </body>
 <script type="text/javascript">
 $(function() {
-	$('#favCheck').on('click', function(){
-		if (document.querySelector('#favCheck').checked == true) {
-			location.href='favoriteadd.do?id=<%=id %>';
-		} else {
-			location.href='favoritedel.do?id=<%=id %>';
-		}
-	});
+   $('#favCheck').on('click', function(){
+      if (document.querySelector('#favCheck').checked == true) {
+         location.href='favoriteadd.do?id=<%=id %>';
+      } else {
+         location.href='favoritedel.do?id=<%=id %>';
+      }
+   });
 
 });
 
 $(function() {
-	initMap();
+   initMap();
 })
 
 function initMap() {
-	var map = new naver.maps.Map('map', {
-	    center: new naver.maps.LatLng(<%=latitude %>, <%=longitude %>),
-	    zoom: 17
-	});
-	
-	var marker = new naver.maps.Marker({
-	   	position: new naver.maps.LatLng(<%=latitude %>, <%=longitude %>),
-	   	map: map
-	});
-	
-	var infoWindow = new naver.maps.InfoWindow({
-    	content: '<div class=\"iw_inner\"><div class=\"div_font\"style=\"font-size:13px;font-weight:600;text-align:center;padding:10px;color:#ffffff;\"><b><%= rname%></b></div></div>',
-	    	borderWidth: 0,
-	    	disableAnchor: true,
-	    	backgroundColor: 'transparent'
+   var map = new naver.maps.Map('map', {
+       center: new naver.maps.LatLng(<%=latitude %>, <%=longitude %>),
+       zoom: 17
+   });
+   
+   var marker = new naver.maps.Marker({
+         position: new naver.maps.LatLng(<%=latitude %>, <%=longitude %>),
+         map: map
+   });
+   
+   var infoWindow = new naver.maps.InfoWindow({
+       content: '<div class=\"iw_inner\"><div class=\"div_font\"style=\"font-size:13px;font-weight:600;text-align:center;padding:10px;color:#ffffff;\"><b><%= rname%></b></div></div>',
+          borderWidth: 0,
+          disableAnchor: true,
+          backgroundColor: 'transparent'
     });
-	
-	infoWindow.open(map, marker);
+   
+   infoWindow.open(map, marker);
 }
 </script>
 </html>
