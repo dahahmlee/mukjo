@@ -26,7 +26,7 @@ public class ReviewDAO {
 	
 	public int reviewWrite(ReviewTO rto) {
 		String sql = "insert into review values ( 0, ?, ?, ?, ?, ?, now())";
-		
+
 		int flag = jdbcTemplate.update(sql,rto.getTseq(),rto.getSeq(),rto.getRest(),rto.getRcontent(),rto.getStar());
 
 		return flag;
@@ -45,6 +45,8 @@ public class ReviewDAO {
 
 		
 	}
+	
+
 	
 	
 	

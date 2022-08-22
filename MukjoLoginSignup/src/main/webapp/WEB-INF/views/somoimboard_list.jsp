@@ -49,6 +49,7 @@
       String writer = "";
       String wdate = "";
       String hit = "";
+      String filename = "";
       String tseq = (String)request.getAttribute("tseq");
       String tname = (String)request.getAttribute("tname");
       
@@ -63,52 +64,59 @@
          writer = to.getWriter();
          wdate = to.getWdate();
          hit = to.getHit();
-         
-         sb.append("<tr>");
-         sb.append("      <td>일반</a></td>");
-         sb.append("      <td>"+ writer+"</a></td>");
-         sb.append("      <td><a href='somoimboard_view.do?tseq="+tseq+"&bseq="+bseq+"&cpage="+cpage+"'>"+ subject+"</a></td>");
-         sb.append("      <td>"+ wdate+"</a></td>");
-         sb.append("      <td>"+ hit+"</a></td>");
-         sb.append("</tr>");
+         filename = to.getFilename();
+
+         if (filename==null) {
+        	 sb.append("<tr>");
+             sb.append("      <td>일반</a></td>");
+             sb.append("      <td>"+ writer+"</a></td>");
+             sb.append("      <td><a href='somoimboard_view.do?tseq="+tseq+"&bseq="+bseq+"&cpage="+cpage+"'>"+ subject+"</a></td>");
+             sb.append("      <td>"+ wdate+"</a></td>");
+             sb.append("      <td>"+ hit+"</a></td>");
+             sb.append("</tr>");
+         } else {
+        	 sb.append("<tr>");
+             sb.append("      <td>일반</a></td>");
+             sb.append("      <td>"+ writer+"</a></td>");
+             sb.append("      <td><a href='somoimboard_view.do?tseq="+tseq+"&bseq="+bseq+"&cpage="+cpage+"'>"+ subject+"</a>&nbsp;<img src='./images/Img_show.png'></td>");
+             sb.append("      <td>"+ wdate+"</a></td>");
+             sb.append("      <td>"+ hit+"</a></td>");
+             sb.append("</tr>");
+         }   
       }
       tseq = request.getParameter("tseq");
-/*        <tr>
-         <td><a href="#">일반</a></td>
-         <td><a href="#">여기 가보신분 있어요?</a></td>
-         <td><a href="#">이다함</a></td>
-         <td><a href="#">2022-07-31</a></td>
-         <td><a href="#">30</a></td>
-     </tr>    */
-     
-/*      <tr class="notice">
-     <td><a href="#">공지</td>
-     <td><a href="#">[중요]게시판 이용시 준수사항</a></td>
-     <td><a href="#">관리자</a></td>
-     <td><a href="#">2022-08-01</a></td>
-     <td><a href="#">13</a></td>
- </tr> --> */
  
-    ArrayList<BoardTO> noticeLists = (ArrayList)request.getAttribute("noticeLists");
-    
-    StringBuilder noticeSb = new StringBuilder();
-    if(cpage == 1) {
-   for( BoardTO to : noticeLists ) {
-      bseq = to.getBseq();
-      subject = to.getSubject();
-      content = to.getContent();
-      writer = to.getWriter();
-      wdate = to.getWdate();
-      hit = to.getHit();
-      
-      noticeSb.append("<tr class='notice'>");
-      noticeSb.append("      <td><a href='#'>공지</a></td>");
-      noticeSb.append("      <td><a href='#'>"+ writer+"</a></td>");
-      noticeSb.append("      <td><a href='somoimboard_nview.do?tseq="+tseq+"&bseq="+bseq+"&cpage="+cpage+"'>"+ subject+"</a></td>");
-      noticeSb.append("      <td><a href='#'>"+ wdate+"</a></td>");
-      noticeSb.append("      <td><a href='#'>"+ hit+"</a></td>");
-      noticeSb.append("</tr>");
-   }
+	   ArrayList<BoardTO> noticeLists = (ArrayList)request.getAttribute("noticeLists");
+	   
+	   StringBuilder noticeSb = new StringBuilder();
+	   if(cpage == 1) {
+	   for( BoardTO to : noticeLists ) {
+	     bseq = to.getBseq();
+	     subject = to.getSubject();
+	     content = to.getContent();
+	     writer = to.getWriter();
+	     wdate = to.getWdate();
+	     hit = to.getHit();
+	     filename = to.getFilename();
+	     
+	     if (filename==null) {
+	   	  	 noticeSb.append("<tr class='notice'>");
+	         noticeSb.append("      <td><a href='#'>공지</a></td>");
+	         noticeSb.append("      <td><a href='#'>"+ writer+"</a></td>");
+	         noticeSb.append("      <td><a href='somoimboard_nview.do?tseq="+tseq+"&bseq="+bseq+"&cpage="+cpage+"'>"+ subject+"</a></td>");
+	         noticeSb.append("      <td><a href='#'>"+ wdate+"</a></td>");
+	         noticeSb.append("      <td><a href='#'>"+ hit+"</a></td>");
+	         noticeSb.append("</tr>");
+	     } else {
+	    	 noticeSb.append("<tr class='notice'>");
+	         noticeSb.append("      <td><a href='#'>공지</a></td>");
+	         noticeSb.append("      <td><a href='#'>"+ writer+"</a></td>");
+	         noticeSb.append("      <td><a href='somoimboard_nview.do?tseq="+tseq+"&bseq="+bseq+"&cpage="+cpage+"'>"+ subject+"</a>&nbsp;<img src='./images/Img_show.png'></td>");
+	         noticeSb.append("      <td><a href='#'>"+ wdate+"</a></td>");
+	         noticeSb.append("      <td><a href='#'>"+ hit+"</a></td>");
+	         noticeSb.append("</tr>");
+	     }
+	  }
     }
     
     ArrayList<NoticeTO> noticeList=(ArrayList<NoticeTO>)request.getAttribute("noticeList");
@@ -549,6 +557,16 @@ footer{
    margin-right: 15px;
 }
 
+.notice img {
+   object-fit: cover;
+   width: 15px;
+}
+
+.board-table img {
+   object-fit: cover;
+   width: 15px;
+}
+
 </style>
 
 </head>
@@ -636,11 +654,11 @@ footer{
             <form action="./somoimboard.do?tseq=<%=tseq %>" method="post" name="sfrm"> 
                 <div class="select">
 
-					<select class="form-select" aria-label="Default select example" name="which">
-						<option value="subject">제목</option>
-						<option value="content">내용</option>
-						<option value="writer">글쓴이</option>
-                	</select> 
+               <select class="form-select" aria-label="Default select example" name="which">
+                  <option value="subject">제목</option>
+                  <option value="content">내용</option>
+                  <option value="writer">글쓴이</option>
+                   </select> 
 
 
                </div><!-- select-->
@@ -669,19 +687,20 @@ footer{
                         </tr>
                     </thead>
                     <tbody>
-<!--                         <tr class="notice">
+                        
+                        <%=noticeSb %>
+                        <%=sb %>
+                        <!-- 
                             <td><a href="#">공지</td>
                             <td><a href="#">[중요]게시판 이용시 준수사항</a></td>
                             <td><a href="#">관리자</a></td>
                             <td><a href="#">2022-08-01</a></td>
                             <td><a href="#">13</a></td>
-                        </tr> -->
-                        <%=noticeSb %>
-                        <%=sb %>
+                        </tr>
 
-<!--                         <tr>
+                       <tr>
                             <td><a href="#">일반</a></td>
-                            <td><a href="#">여기 가보신분 있어요?</a></td>
+                            <td><a href="#">여기 가보신분 있어요?</a>&nbsp;<img src="./images/Img_show.png"></td>
                             <td><a href="#">이다함</a></td>
                             <td><a href="#">2022-07-31</a></td>
                             <td><a href="#">30</a></td>
@@ -694,7 +713,7 @@ footer{
                             <td><a href="#">2022-07-31</a></td>
                             <td><a href="#">30</a></td>
                         </tr>   
-
+  
                         <tr>
                             <td><a href="#">일반</a></td>
                             <td><a href="#">회식장소 괜찮나요?</a></td>
