@@ -469,21 +469,21 @@ footer{
 }
 
 .iw_inner {
-	margin: 5px;
-	padding: 1px 5px;
-	border-radius: 30px;
-	background-color: rgba(4, 117, 244, 0.9);
+   margin: 5px;
+   padding: 1px 5px;
+   border-radius: 30px;
+   background-color: rgba(4, 117, 244, 0.9);
 }
 
 .checkbox {
-	float: right;
-	
+   float: right;
+   
 }
 
 #star {
-	width: 40px;
-	margin-top: 10px;
-	
+   width: 40px;
+   margin-top: 10px;
+   
 }
 
 input[type="checkbox"]+label {
@@ -592,8 +592,8 @@ input[type="checkbox"] {
                                      
                                       <div class="checkbox">
                                          <input type="checkbox" id="favCheck" <%=onoff %>>
-										 <label for="favCheck" style="margin-right: 10px;"></label>
-									  </div>
+                               <label for="favCheck" style="margin-right: 10px;"></label>
+                             </div>
                                
                                
                                   <tr id="tabBox" style="height:61px;">
@@ -683,39 +683,39 @@ input[type="checkbox"] {
 </body>
 <script type="text/javascript">
 $(function() {
-	$('#favCheck').on('click', function(){
-		if (document.querySelector('#favCheck').checked == true) {
-			location.href='favoriteadd.do?id=<%=id %>';
-		} else {
-			location.href='favoritedel.do?id=<%=id %>';
-		}
-	});
+   $('#favCheck').on('click', function(){
+      if (document.querySelector('#favCheck').checked == true) {
+         location.href='favoriteadd.do?id=<%=id %>';
+      } else {
+         location.href='favoritedel.do?id=<%=id %>';
+      }
+   });
 
 });
 
 $(function() {
-	initMap();
+   initMap();
 })
 
 function initMap() {
-	var map = new naver.maps.Map('map', {
-	    center: new naver.maps.LatLng(<%=latitude %>, <%=longitude %>),
-	    zoom: 17
-	});
-	
-	var marker = new naver.maps.Marker({
-	   	position: new naver.maps.LatLng(<%=latitude %>, <%=longitude %>),
-	   	map: map
-	});
-	
-	var infoWindow = new naver.maps.InfoWindow({
-    	content: '<div class=\"iw_inner\"><div class=\"div_font\"style=\"font-size:13px;font-weight:600;text-align:center;padding:10px;color:#ffffff;\"><b><%= rname%></b></div></div>',
-	    	borderWidth: 0,
-	    	disableAnchor: true,
-	    	backgroundColor: 'transparent'
+   var map = new naver.maps.Map('map', {
+       center: new naver.maps.LatLng(<%=latitude %>, <%=longitude %>),
+       zoom: 17
+   });
+   
+   var marker = new naver.maps.Marker({
+         position: new naver.maps.LatLng(<%=latitude %>, <%=longitude %>),
+         map: map
+   });
+   
+   var infoWindow = new naver.maps.InfoWindow({
+       content: '<div class=\"iw_inner\"><div class=\"div_font\"style=\"font-size:13px;font-weight:600;text-align:center;padding:10px;color:#ffffff;\"><b><%= rname%></b></div></div>',
+          borderWidth: 0,
+          disableAnchor: true,
+          backgroundColor: 'transparent'
     });
-	
-	infoWindow.open(map, marker);
+   
+   infoWindow.open(map, marker);
 }
 </script>
 </html>
