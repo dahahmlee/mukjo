@@ -40,7 +40,7 @@
            sbHtml.append("<p>그래도 탈퇴하시겠습니까?</p>");
            sbHtml.append("<div class='btn_area'>");
            sbHtml.append("<div class='align'>");
-           sbHtml.append("<button class='allbtn' id='bsabtn'><a href=''./somoimboard_memberexitok.do?tseq="+tseq+"' style='color : #fff'>탈퇴</a></button>");
+           sbHtml.append("<button class='allbtn' id='bsabtn'><a href='./somoimboard_memberexitok.do?tseq="+tseq+"' style='color : #fff'>탈퇴</a></button>");
         }   
         
         ArrayList<NoticeTO> noticeList=(ArrayList<NoticeTO>)request.getAttribute("noticeList");

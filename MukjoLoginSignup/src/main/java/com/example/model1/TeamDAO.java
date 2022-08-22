@@ -1214,6 +1214,17 @@ public class TeamDAO {
          pstmt.setString(2, tseq);
          pstmt.executeUpdate();
          
+         String jangseq=jangseq(tseq);
+         String tname=tnameFromTseq(tseq);
+         String name=nameFromSeq(seq);
+
+         String words="'"+name+"'님이 ["+tname+"] 소모임을 탈퇴했습니다.";
+         sql = "insert into notice values (?, ?, now())";
+         pstmt = conn.prepareStatement(sql);
+         pstmt.setString(1, jangseq);
+         pstmt.setString(2, words);
+         pstmt.executeUpdate();
+         
       } catch(SQLException e) {
          System.out.println("[에러]: " + e.getMessage());
       } finally {

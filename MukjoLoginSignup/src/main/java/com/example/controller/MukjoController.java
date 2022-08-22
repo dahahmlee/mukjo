@@ -236,7 +236,7 @@ public class MukjoController {
    //가입한 소모임 리스트 + 검색
    @RequestMapping(value = "/main.do")
    public ModelAndView main(HttpSession session, HttpServletRequest request, Model model) {
-	  
+     
       String seq=(String) session.getAttribute("loginedMemberSeq");
       String search = request.getParameter("search");
 
@@ -450,9 +450,9 @@ public class MukjoController {
    //관리자 페이지 - 전체 회원 목록 + 페이징 + 검색 
    @RequestMapping(value = "/adminmemberlists.do")
    public ModelAndView adminmemberlists(HttpServletRequest request, Model model) {
-	   
-	  String search = request.getParameter("search");
-	   
+      
+     String search = request.getParameter("search");
+      
       int cpage = 1;
       if(request.getParameter("cpage") != null && !request.getParameter("cpage").equals("")) {
          cpage = Integer.parseInt(request.getParameter("cpage"));
@@ -464,7 +464,7 @@ public class MukjoController {
       if (search==null) {
           pageMemberTO = mdao.memberList(pageMemberTO);
        } else {
-    	  pageMemberTO = mdao.memberListSearch(pageMemberTO, search);
+         pageMemberTO = mdao.memberListSearch(pageMemberTO, search);
        }
       
        ModelAndView modelAndView = new ModelAndView();
@@ -520,7 +520,7 @@ public class MukjoController {
       if (search==null) {
           pageAdminTeamTO = tdao.teamList(pageAdminTeamTO);
        } else {
-    	  pageAdminTeamTO = tdao.teamListSearch(pageAdminTeamTO, search);
+         pageAdminTeamTO = tdao.teamListSearch(pageAdminTeamTO, search);
        }
 
        ModelAndView modelAndView = new ModelAndView();
@@ -786,30 +786,30 @@ public class MukjoController {
     @RequestMapping(value = "/favoriteadd.do")
     public ModelAndView favoriteadd(HttpSession session, HttpServletRequest request, Model model) {
 
-	     String seq=(String) session.getAttribute("loginedMemberSeq");
-	     String restcode=request.getParameter("id");
+        String seq=(String) session.getAttribute("loginedMemberSeq");
+        String restcode=request.getParameter("id");
 
-	     favdao.favAdd(seq, restcode);
-	     
-	     ModelAndView modelAndView = new ModelAndView();
-	     modelAndView.setViewName("favoriteadd");
-	      
-	     return modelAndView;
+        favdao.favAdd(seq, restcode);
+        
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("favoriteadd");
+         
+        return modelAndView;
     }
     
     //즐찾 취소
     @RequestMapping(value = "/favoritedel.do")
     public ModelAndView favoritedel(HttpSession session, HttpServletRequest request, Model model) {
 
-    	String seq=(String) session.getAttribute("loginedMemberSeq");
-	     String restcode=request.getParameter("id");
+       String seq=(String) session.getAttribute("loginedMemberSeq");
+        String restcode=request.getParameter("id");
 
-	     favdao.favDelete(seq, restcode);
-	     
-	     ModelAndView modelAndView = new ModelAndView();
-	     modelAndView.setViewName("favoritedel");
-	      
-	     return modelAndView;
+        favdao.favDelete(seq, restcode);
+        
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("favoritedel");
+         
+        return modelAndView;
     }
     
     //소모임 게시판 + 검색
@@ -1092,9 +1092,8 @@ public class MukjoController {
          
       String seq=(String) session.getAttribute("loginedMemberSeq");
       String tseq = request.getParameter("tseq");
-
       int flag=tdao.memberExit(seq, tseq);      
-
+      
        ModelAndView modelAndView = new ModelAndView();
        modelAndView.setViewName("somoimboard_memberexitok");
        modelAndView.addObject("flag",flag);
@@ -1163,7 +1162,7 @@ public class MukjoController {
       
    @RequestMapping(value = "/myPage_view.do")
        public ModelAndView myPage_view(HttpSession session, HttpServletRequest request, Model model) {
-	      String seq=(String) session.getAttribute("loginedMemberSeq");
+         String seq=(String) session.getAttribute("loginedMemberSeq");
 
       int cpage = 1;
       if ( request.getParameter( "cpage" ) != null && !request.getParameter( "cpage" ).equals("") ) {
@@ -1222,7 +1221,7 @@ public class MukjoController {
     //글 수정
     @RequestMapping(value = "/myPage_modify.do")
        public ModelAndView myPage_modify(HttpSession session, HttpServletRequest request, Model model) {
-	      String seq=(String) session.getAttribute("loginedMemberSeq");
+         String seq=(String) session.getAttribute("loginedMemberSeq");
 
       int cpage = 1;
       if( request.getParameter("cpage") != null && !request.getParameter("cpage").equals("")) {
@@ -1359,24 +1358,24 @@ public class MukjoController {
    
    @RequestMapping( "/somoimboard_review.do")   
    public ModelAndView boardReview(HttpSession session, HttpServletRequest request,HttpServletResponse response,Model model) {
-	  String seq=(String) session.getAttribute("loginedMemberSeq");
-	  String rescode=request.getParameter("id");
- 	  String tseq = request.getParameter("tseq");
- 	  ReviewTO rto = new ReviewTO();
- 	   
- 	  rto.setRest(rescode);
- 	  rto.setTseq(tseq);
- 	  
- 	  ArrayList<ReviewTO> lists = rdao.reviewLists(rto);
+     String seq=(String) session.getAttribute("loginedMemberSeq");
+     String rescode=request.getParameter("id");
+      String tseq = request.getParameter("tseq");
+      ReviewTO rto = new ReviewTO();
+       
+      rto.setRest(rescode);
+      rto.setTseq(tseq);
+      
+      ArrayList<ReviewTO> lists = rdao.reviewLists(rto);
       String onoff=favdao.onoff(seq, rescode);
 
- 	  model.addAttribute("lists",lists);
+      model.addAttribute("lists",lists);
      
-	   ArrayList<String> resDetail=mapdao.resDetail(rescode);
-	   String rname=resDetail.get(0);
-    	
-	   ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
-	   int noticeCount=ndao.noticeCount(seq);
+      ArrayList<String> resDetail=mapdao.resDetail(rescode);
+      String rname=resDetail.get(0);
+       
+      ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
+      int noticeCount=ndao.noticeCount(seq);
       
       ModelAndView modelAndView = new ModelAndView();
       modelAndView.setViewName("somoimboard_review");
@@ -1390,45 +1389,45 @@ public class MukjoController {
    
    @RequestMapping( "/somoimboard_reviewdelete.do")   
    public ModelAndView boardReviewWrite(HttpSession sess,HttpServletRequest request,HttpServletResponse response,Model model) {
- 	  
- 	  String rseq = request.getParameter("rseq");
+      
+      String rseq = request.getParameter("rseq");
 
- 	  ReviewTO rto = new ReviewTO();
+      ReviewTO rto = new ReviewTO();
 
- 	  rto.setRseq(rseq);
- 	  
- 	  int flag = rdao.reviewDelete(rto);
- 	  
- 	  model.addAttribute("rto",rto);
- 	  model.addAttribute("flag",flag);
- 	  
+      rto.setRseq(rseq);
+      
+      int flag = rdao.reviewDelete(rto);
+      
+      model.addAttribute("rto",rto);
+      model.addAttribute("flag",flag);
+      
 
       return new ModelAndView("somoimboard_reviewdelete"); 
    }
    
    @RequestMapping( "/somoimboard_reviewwrite.do")   
    public ModelAndView boardReviewDelete(HttpSession sess,HttpServletRequest request,HttpServletResponse response,Model model) {
- 	  
- 	  String rescode=request.getParameter("id");
- 	  String tseq = request.getParameter("tseq");
- 	  String content = request.getParameter("content");
- 	  String seq = (String)sess.getAttribute("loginedMemberSeq");
- 	  String star = request.getParameter("star");
- 	  ReviewTO rto = new ReviewTO();
- 	   
+      
+      String rescode=request.getParameter("id");
+      String tseq = request.getParameter("tseq");
+      String content = request.getParameter("content");
+      String seq = (String)sess.getAttribute("loginedMemberSeq");
+      String star = request.getParameter("star");
+      ReviewTO rto = new ReviewTO();
+       
 
- 	  rto.setTseq(tseq);
- 	  rto.setSeq(seq);
- 	  rto.setRest(rescode);
- 	  rto.setRcontent(content);
- 	  // 점수가없음
- 	  rto.setStar(star);
- 	  
- 	  int flag = rdao.reviewWrite(rto);
- 	  
- 	  model.addAttribute("rto",rto);
- 	  model.addAttribute("flag",flag);
- 	  
+      rto.setTseq(tseq);
+      rto.setSeq(seq);
+      rto.setRest(rescode);
+      rto.setRcontent(content);
+      // 점수가없음
+      rto.setStar(star);
+      
+      int flag = rdao.reviewWrite(rto);
+      
+      model.addAttribute("rto",rto);
+      model.addAttribute("flag",flag);
+      
 
       return new ModelAndView("somoimboard_reviewwrite"); 
    }
