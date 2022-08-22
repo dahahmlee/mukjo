@@ -11,7 +11,6 @@
       out.println ( "window.location.href = 'http://localhost:8080/main.do'");
       out.println ( "</script>");
        }
-    
     %>
 <!doctype html>
 <html lang="ko">
