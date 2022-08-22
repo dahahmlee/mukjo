@@ -765,7 +765,8 @@ public class MukjoController {
     public ModelAndView favorite(HttpSession session, HttpServletRequest request, Model model) {
    
         String seq=(String) session.getAttribute("loginedMemberSeq");
-        
+        String search = request.getParameter("search");
+
         ArrayList<FavoriteTO> favList=favdao.favList(seq);
         
         ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
@@ -775,6 +776,7 @@ public class MukjoController {
         modelAndView.setViewName("favorite");
         modelAndView.addObject("favList", favList);
         modelAndView.addObject("noticeList", noticeList);
+        modelAndView.addObject("search", search);
         modelAndView.addObject("noticeCount", noticeCount);
          
         return modelAndView;
