@@ -17,12 +17,12 @@
           if (!loginedMemberSeq.equals("1")) {
                    out.println ( "<script>");
                    out.println( "alert('관리자만 관리자페이지에 들어갈 수 있습니다.');" );
-                out.println ( "window.location.href = 'http://localhost/main.do'");
+                out.println ( "window.location.href = 'http://localhost/main'");
                 out.println ( "</script>");
                 }
        } else {
           out.println ( "<script>");
-         out.println ( "window.location.href = 'http://localhost/login.do'");
+         out.println ( "window.location.href = 'http://localhost/welcome'");
          out.println ( "</script>");
        }
        
@@ -60,7 +60,7 @@
                 if(seq.equals("1")) {
                    sbHtml.append("<td></td>");
                 } else {
-                sbHtml.append("<td><a href='./addeletemember.do?seq="+seq+"&name="+name+"'><button type='sumbit'>추방</button></a></td>");
+                sbHtml.append("<td><a href='../admin/members/del?seq="+seq+"&name="+name+"'><button type='sumbit'>추방</button></a></td>");
                 }
                 sbHtml.append("</tr>");
                 num+=1;
@@ -396,7 +396,7 @@ nav{
     top: 10%;
     text-indent: -9999px;
     overflow: hidden;
-    background: url( ./images/search2.png) no-repeat ;
+    background: url( ../../images/search2.png) no-repeat ;
     position: absolute;
     background-size: 38px 25px;
  
@@ -493,17 +493,17 @@ footer{
         <div class="headermake" style="width:100%; background-color: #fff;">
         <div id="headerWap">
             <h1 id="logoSec">
-                <a href="main.do" class="logoclick"><img src="images/logo.png" alt="logo"></a>
+                <a href="../main" class="logoclick"><img src="../../images/logo.png" alt="logo"></a>
             </h1>
-            <h3><%=welcome %><a href="logoutok.do" id="logout" style="color : gray"><br/><%=log %></a></h3>
+            <h3><%=welcome %><a href="../bye" id="logout" style="color : gray"><br/><%=log %></a></h3>
             <ul>
-                <li><b><a href="myPage.do" class="logoclick">마이페이지</a></b></li>
-                <li><b><a href="boss.do" class="logoclick">소모임장페이지</a></b></li>
-                <li><b><a href="admin.do" style="color : #de5f47;" class="logoclick">관리자페이지</b></li></a>
-                <li><b><a href="favorite.do" class="logoclick">즐겨찾기</b></li></a>
+                <li><b><a href="../mypage" class="logoclick">마이페이지</a></b></li>
+                <li><b><a href="../adgroups" class="logoclick">소모임장페이지</a></b></li>
+                <li><b><a href="../admin" style="color : #de5f47;" class="logoclick">관리자페이지</b></li></a>
+                <li><b><a href="../favorite" class="logoclick">즐겨찾기</b></li></a>
                 <li id="bell" style="margin-left: 20px;">
                    <button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                  <img src="images/bell.png">
+                  <img src="../../images/bell.png">
                </button>0
             </li>
             </ul>
@@ -516,7 +516,7 @@ footer{
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title" id="exampleModalLabel"><b>알림</b></h4>
-          <span id="noticelogo"><img src="images/logo.png"></span>
+          <span id="noticelogo"><img src="../../images/logo.png"></span>
         </div>
 
         <div class="modal-body">
@@ -535,10 +535,10 @@ footer{
       <!--locationSec -->
       <section id="locationSec">
         <div id = "locationwrap">
-             <button class="allbtn"><a href="admin.do">리뷰&게시물 수</a></button>
-             <button class="active"><a href="adminmemberlists.do" style="color: #de5f47">전체 회원 목록</a></button>
-             <button class="active"><a href="adminteam.do">소모임 목록</a></button>
-             <button class="active"><a href="adminnotice.do">공지사항</a></button>
+             <button class="allbtn"><a href="../admin">리뷰&게시물 수</a></button>
+             <button class="active"><a href="../admin/members" style="color: #de5f47">전체 회원 목록</a></button>
+             <button class="active"><a href="../admin/groups">소모임 목록</a></button>
+             <button class="active"><a href="../admin/notice">공지사항</a></button>
         </div>
       </section>
     </nav>  
@@ -548,7 +548,7 @@ footer{
     
        <section id ="btnSec" >
             <div class="search-wrap">
-            <form action="./adminmemberlists.do" method="post" name="sfrm">          
+            <form action="../../admin/members" method="post" name="sfrm">          
                 <input type="text" title="검색어 입력" name="search" placeholder="이름 검색">
                 <button type="submit">검색</button>
             </form>
@@ -640,13 +640,13 @@ footer{
    if (startBlock==1) { //<<
       out.println("<span><a>&lt;&lt;</a>&nbsp;&nbsp;</span>");
    } else {
-      out.println("<span><a href='adminmemberlists.do?cpage="+(startBlock-blockPerPage)+"'>&lt;&lt;</a>&nbsp;&nbsp;</span>");
+      out.println("<span><a href='../../admin/members?cpage="+(startBlock-blockPerPage)+"'>&lt;&lt;</a>&nbsp;&nbsp;</span>");
    }
 
    if (cpage==1) { //<
       out.println("<span><a>&lt;</a>&nbsp;&nbsp;</span>");
    } else {
-      out.println("<span><a href='adminmemberlists.do?cpage="+(cpage-1)+"'>&lt;</a>&nbsp;&nbsp;</span>");
+      out.println("<span><a href='../../admin/members?cpage="+(cpage-1)+"'>&lt;</a>&nbsp;&nbsp;</span>");
    }
    
    out.println("<ul>");
@@ -654,7 +654,7 @@ footer{
       if (cpage==i) {
          out.println("<li class='active'><a>"+i+"</a></li>");
       } else {
-         out.println("<li><a href='adminmemberlists.do?cpage="+i+"'>"+i+"</a></span>");
+         out.println("<li><a href='../../admin/members?cpage="+i+"'>"+i+"</a></span>");
       }
    }
    
@@ -663,13 +663,13 @@ footer{
    if (cpage==totalPage) { //>
       out.println("<span>&nbsp;&nbsp;<a>&gt;</a></span>");
    } else {
-      out.println("<span>&nbsp;&nbsp;<a href='adminmemberlists.do?cpage="+(cpage+1)+"'>&gt;</a></span>");
+      out.println("<span>&nbsp;&nbsp;<a href='../../admin/members?cpage="+(cpage+1)+"'>&gt;</a></span>");
    }
    
    if (endBlock==totalPage) { //>>
       out.println("<span>&nbsp;&nbsp;<a>&gt;&gt;</a></span>");
    } else {
-      out.println("<span>&nbsp;&nbsp;<a href='adminmemberlists.do?cpage="+(startBlock+blockPerPage)+"'>&gt;&gt;</a></span>");
+      out.println("<span>&nbsp;&nbsp;<a href='../../admin/members?cpage="+(startBlock+blockPerPage)+"'>&gt;&gt;</a></span>");
    }
 %>    
                  

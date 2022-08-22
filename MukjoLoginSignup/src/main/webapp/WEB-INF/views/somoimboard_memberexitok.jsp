@@ -17,7 +17,7 @@
 	      log = "LOGOUT";
 	} else {
 	      out.println ( "<script>");
-	     out.println ( "window.location.href = 'http://localhost/login.do'");
+	     out.println ( "window.location.href = 'http://localhost/welcome'");
 	     out.println ( "</script>");
 	}
 
@@ -31,7 +31,7 @@
 		out.println("		text: '성공적으로 소모임으로부터 탈퇴했습니다.',");
 		out.println("		icon: 'success',");
 		out.println("	}).then(() => {");
-		out.println("		location.href='./main.do'");
+		out.println("		location.href='../../../main'");
 		out.println("	})");
 		out.println("});");
 	} else {

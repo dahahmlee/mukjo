@@ -18,12 +18,12 @@
 		if (!loginedMemberSeq.equals("1")) {
 	   		out.println ( "<script>");
 	   		out.println( "alert('관리자만 관리자페이지에 들어갈 수 있습니다.');" );
-			out.println ( "window.location.href = 'http://localhost/main.do'");
+			out.println ( "window.location.href = 'http://localhost/main'");
 			out.println ( "</script>");
 	   	}
 	} else {
 		    	out.println ( "<script>");
-	   		out.println ( "window.location.href = 'http://localhost/login.do'");
+	   		out.println ( "window.location.href = 'http://localhost/welcome'");
 	   		out.println ( "</script>");
 	}
 
@@ -39,7 +39,7 @@
 		out.println("		text: '성공적으로 수정했습니다.',");
 		out.println("		icon: 'success',");
 		out.println("	}).then(() => {");
-		out.println("		location.href='./adminnotice_view.do?cpage="+cpage+"&bseq="+bseq+"'");
+		out.println("		location.href='../../../admin/notice/view?cpage="+cpage+"&bseq="+bseq+"'");
 		out.println("	})");
 		out.println("});");
 	} else {

@@ -15,7 +15,7 @@
 		out.println("		'Welcome to Mukjo',");
 		out.println("		'success'");
 		out.println("	).then(() => {");
-		out.println("		location.href='./login.do'");
+		out.println("		location.href='welcome'");
 		out.println("	})");
 		out.println("});");
 	} else {

@@ -16,7 +16,7 @@
           log = "LOGOUT";
        } else {
                  out.println ( "<script>");
-                  out.println ( "window.location.href = 'http://localhost/login.do'");
+                  out.println ( "window.location.href = 'http://localhost/welcome'");
                   out.println ( "</script>");
        }
     
@@ -488,14 +488,14 @@ footer {
       <div class="headermake" style="width:100%; background-color: #fff;">
         <div id="headerWap">
             <h1 id="logoSec">
-                <a href="main.do" class="logoclick"><img src="images/logo.png" alt="logo"></a>
+                <a href="main" class="logoclick"><img src="images/logo.png" alt="logo"></a>
             </h1>
-            <h3><%=welcome %><a href="logoutok.do" id="logout" style="color : gray"><br/><%=log %></a></h3>
+            <h3><%=welcome %><a href="bye" id="logout" style="color : gray"><br/><%=log %></a></h3>
             <ul>
-                <li><b><a href="myPage.do" class="logoclick">마이페이지</a></b></li>
-                <li><b><a href="boss.do" class="logoclick">소모임장페이지</a></b></li>
-                <li><b><a href="admin.do" class="logoclick">관리자페이지</b></li></a>
-                <li><b><a href="favorite.do" style="color : #de5f47;" class="logoclick">즐겨찾기</b></li></a>
+                <li><b><a href="mypage" class="logoclick">마이페이지</a></b></li>
+                <li><b><a href="adgroups" class="logoclick">소모임장페이지</a></b></li>
+                <li><b><a href="admin" class="logoclick">관리자페이지</b></li></a>
+                <li><b><a href="favorite" style="color : #de5f47;" class="logoclick">즐겨찾기</b></li></a>
                 <li id="bell" style="margin-left: 20px;">
                    <button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
                   <img src="images/bell.png">
@@ -533,7 +533,7 @@ footer {
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><a href="noticedeleteok.do"><b>읽음</b></button>
+          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><a href="notice/read"><b>읽음</b></button>
           <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><a href=""><b>닫기</b></button>
         </div>
       </div>
@@ -556,7 +556,7 @@ footer {
    
    <section id ="btnSec" >
             <div class="search-wrap">
-            <form action="./favorite.do" method="post" name="sfrm">          
+            <form action="./favorite" method="post" name="sfrm">          
                 <input type="text" title="검색어 입력" name="search" placeholder="식당 이름 검색">
                 <button type="submit">검색</button>
             </form>

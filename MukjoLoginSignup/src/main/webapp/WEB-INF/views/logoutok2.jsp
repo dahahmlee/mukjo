@@ -9,7 +9,7 @@
 <body>
 <%	
 	out.println("<script type='text/javascript'>");
-	out.println( "location.href='login.do';" );
+	out.println( "location.href='welcome';" );
 	out.println( "</script>" ); 
 %>
 </body>

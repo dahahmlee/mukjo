@@ -17,7 +17,7 @@
 	   log = "LOGOUT";
 	} else {
 	   	out.println ( "<script>");
-			out.println ( "window.location.href = 'http://localhost/login.do'");
+			out.println ( "window.location.href = 'http://localhost/welcome'");
 			out.println ( "</script>");
 	}
 
@@ -33,7 +33,7 @@
 		out.println("		text: '성공적으로 수정했습니다.',");
 		out.println("		icon: 'success',");
 		out.println("	}).then(() => {");
-		out.println("		location.href='./myPage_view.do?cpage="+cpage+"&bseq="+bseq+"'");
+		out.println("		location.href='../../view?cpage="+cpage+"&bseq="+bseq+"'");
 		out.println("	})");
 		out.println("});");
 	} else {

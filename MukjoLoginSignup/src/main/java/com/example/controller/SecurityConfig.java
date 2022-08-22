@@ -21,7 +21,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	public void configure(HttpSecurity http) throws Exception {
 	    http.csrf().disable()
 	    	.authorizeRequests()
-	    	.antMatchers("/sociallogin").authenticated()
+	    	.antMatchers("/google").authenticated()
 	    	.antMatchers("/*").permitAll()
 	    	.anyRequest().authenticated()
 	    	.and()

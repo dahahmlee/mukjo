@@ -19,7 +19,7 @@
           log = "LOGOUT";
        } else {
              out.println ( "<script>");
-            out.println ( "window.location.href = 'http://localhost/login.do'");
+            out.println ( "window.location.href = 'http://localhost/welcome'");
             out.println ( "</script>");
        }
     
@@ -53,7 +53,7 @@
                sb.append("<tr>");
                sb.append("<td>"+num+"</td>");
                sb.append("<td>"+tname+"</td>");
-               sb.append("<td><a href='myPage_view.do?cpage="+cpage+"&bseq="+bseq+"'>"+subject+"</td>");
+               sb.append("<td><a href='mypage/view?cpage="+cpage+"&bseq="+bseq+"'>"+subject+"</td>");
                sb.append("<td>"+wdate+"</td>");
                sb.append("<td>"+hit+"</td>");
                sb.append("</tr>");
@@ -642,14 +642,14 @@ textarea {
       <div class="headermake" style="width:100%; background-color: #fff;">
         <div id="headerWap">
             <h1 id="logoSec">
-                <a href="main.do" class="logoclick"><img src="images/logo.png" alt="logo"></a>
+                <a href="../main" class="logoclick"><img src="images/logo.png" alt="logo"></a>
             </h1>
-            <h3><%=welcome %><a href="logoutok.do" id="logout" style="color : gray"><br/><%=log %></a></h3>
+            <h3><%=welcome %><a href="bye" id="logout" style="color : gray"><br/><%=log %></a></h3>
             <ul>
-                <li><b><a href="myPage.do" style="color : #de5f47;" class="logoclick">마이페이지</a></b></li>
-                <li><b><a href="boss.do" class="logoclick">소모임장페이지</a></b></li>
-                <li><b><a href="admin.do" class="logoclick">관리자페이지</b></li></a>
-                <li><b><a href="favorite.do" class="logoclick">즐겨찾기</b></li></a>
+                <li><b><a href="mypage" style="color : #de5f47;" class="logoclick">마이페이지</a></b></li>
+                <li><b><a href="adgroups" class="logoclick">소모임장페이지</a></b></li>
+                <li><b><a href="admin" class="logoclick">관리자페이지</b></li></a>
+                <li><b><a href="favorite" class="logoclick">즐겨찾기</b></li></a>
                 <li id="bell" style="margin-left: 20px;">
                    <button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
                   <img src="images/bell.png">
@@ -687,7 +687,7 @@ textarea {
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><a href="noticedeleteok.do"><b>읽음</b></button>
+          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><a href="notice/read"><b>읽음</b></button>
           <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><a href=""><b>닫기</b></button>
         </div>
       </div>
@@ -699,7 +699,7 @@ textarea {
       <section id="locationSec">
         <div id = "locationwrap">
              <button class="allbtn"><a href="#" style="color : #de5f47;">내가 쓴 글 보기</a></button>
-             <button class="active"><a href="myPage_info_modify.do" >내 정보 수정</a></button>
+             <button class="active"><a href="mypage/change" >내 정보 수정</a></button>
         </div>
       </section>
     </nav>  
@@ -787,13 +787,13 @@ textarea {
    if (startBlock==1) { //<<
       out.println("<span><a>&lt;&lt;</a>&nbsp;&nbsp;</span>");
    } else {
-      out.println("<span><a href='myPage.do?cpage="+(startBlock-blockPerPage)+"'>&lt;&lt;</a>&nbsp;&nbsp;</span>");
+      out.println("<span><a href='mypage?cpage="+(startBlock-blockPerPage)+"'>&lt;&lt;</a>&nbsp;&nbsp;</span>");
    }
 
    if (cpage==1) { //<
       out.println("<span><a>&lt;</a>&nbsp;&nbsp;</span>");
    } else {
-      out.println("<span><a href='myPage.do?cpage="+(cpage-1)+"'>&lt;</a>&nbsp;&nbsp;</span>");
+      out.println("<span><a href='mypage?cpage="+(cpage-1)+"'>&lt;</a>&nbsp;&nbsp;</span>");
    }
    
    out.println("<ul>");
@@ -801,7 +801,7 @@ textarea {
       if (cpage==i) {
          out.println("<li class='active'><a>"+i+"</a></li>");
       } else {
-         out.println("<li><a href='myPage.do?cpage="+i+"'>"+i+"</a></span>");
+         out.println("<li><a href='mypage?cpage="+i+"'>"+i+"</a></span>");
       }
    }
    
@@ -810,13 +810,13 @@ textarea {
    if (cpage==totalPage) { //>
       out.println("<span>&nbsp;&nbsp;<a>&gt;</a></span>");
    } else {
-      out.println("<span>&nbsp;&nbsp;<a href='myPage.do?cpage="+(cpage+1)+"'>&gt;</a></span>");
+      out.println("<span>&nbsp;&nbsp;<a href='mypage?cpage="+(cpage+1)+"'>&gt;</a></span>");
    }
    
    if (endBlock==totalPage) { //>>
       out.println("<span>&nbsp;&nbsp;<a>&gt;&gt;</a></span>");
    } else {
-      out.println("<span>&nbsp;&nbsp;<a href='myPage.do?cpage="+(startBlock+blockPerPage)+"'>&gt;&gt;</a></span>");
+      out.println("<span>&nbsp;&nbsp;<a href='mypage?cpage="+(startBlock+blockPerPage)+"'>&gt;&gt;</a></span>");
    }
 %>                   
                 </div><!-- board_pagetab -->

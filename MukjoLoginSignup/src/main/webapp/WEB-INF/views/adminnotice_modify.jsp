@@ -15,12 +15,12 @@
 		if (!loginedMemberSeq.equals("1")) {
 	   		out.println ( "<script>");
 	   		out.println( "alert('관리자만 관리자페이지에 들어갈 수 있습니다.');" );
-			out.println ( "window.location.href = 'http://localhost/main.do'");
+			out.println ( "window.location.href = 'http://localhost/main'");
 			out.println ( "</script>");
 	   	}
 	} else {
 		    	out.println ( "<script>");
-	   		out.println ( "window.location.href = 'http://localhost/login.do'");
+	   		out.println ( "window.location.href = 'http://localhost/welcome'");
 	   		out.println ( "</script>");
 	}
 	
@@ -571,17 +571,17 @@ textarea {
 		<div class="headermake" style="width:100%; background-color: #fff;">
         <div id="headerWap">
             <h1 id="logoSec">
-                <a href="main.do" class="logoclick"><img src="images/logo.png" alt="logo"></a>
+                <a href="main" class="logoclick"><img src="../../images/logo.png" alt="logo"></a>
             </h1>
-            <h3><%=welcome %><a href="logoutok.do" id="logout" style="color : gray"><br/><%=log %></a></h3>
+            <h3><%=welcome %><a href="../../bye" id="logout" style="color : gray"><br/><%=log %></a></h3>
             <ul>
-                <li><b><a href="myPage.do" class="logoclick">마이페이지</a></b></li>
-                <li><b><a href="boss.do" class="logoclick">소모임장페이지</a></b></li>
-                <li><b><a href="admin.do" style="color : #de5f47;" class="logoclick">관리자페이지</b></li></a>
-                <li><b><a href="favorite.do" class="logoclick">즐겨찾기</b></li></a>
+                <li><b><a href="mypage" class="logoclick">마이페이지</a></b></li>
+                <li><b><a href="adgroups" class="logoclick">소모임장페이지</a></b></li>
+                <li><b><a href="admin" style="color : #de5f47;" class="logoclick">관리자페이지</b></li></a>
+                <li><b><a href="favorite" class="logoclick">즐겨찾기</b></li></a>
                 <li id="bell" style="margin-left: 20px;">
                 	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-						<img src="images/bell.png">
+						<img src="../../images/bell.png">
 					</button>0
 				</li>
             </ul>
@@ -594,7 +594,7 @@ textarea {
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title" id="exampleModalLabel"><b>알림</b></h4>
-          <span id="noticelogo"><img src="images/logo.png"></span>
+          <span id="noticelogo"><img src="../../images/logo.png"></span>
         </div>
 
         <div class="modal-body">
@@ -613,16 +613,16 @@ textarea {
 		<section id="locationSec">
 			<div id="locationwrap">
 				<button class="allbtn">
-					<a href="admin.do">리뷰&게시물 수</a>
+					<a href="admin">리뷰&게시물 수</a>
 				</button>
 				<button class="active">
-					<a href="adminmemberlists.do">전체 회원 목록</a>
+					<a href="admin/members">전체 회원 목록</a>
 				</button>
 				<button class="active">
-					<a href="adminteam.do">소모임 목록</a>
+					<a href="admingroups">소모임 목록</a>
 				</button>
 				<button class="active">
-					<a href="adminnotice.do" style="color: #de5f47">공지사항</a>
+					<a href="admin/notice" style="color: #de5f47">공지사항</a>
 				</button>
 			</div>
 		</section>
@@ -631,7 +631,7 @@ textarea {
 	<!-- 전체 요소를 감싸는 div -->
 	<div id="wrap">
 		<div class="con_txt">
-			<form action="./adminnotice_modifyok.do" method="post" name="mfrm" enctype="multipart/form-data">
+			<form action="../../../admin/notice/modify/success" method="post" name="mfrm" enctype="multipart/form-data">
 			<input type="hidden" name="bseq" value="<%=bseq %>" />
 			<input type="hidden" name="cpage" value="<%=cpage %>" />
 				<div class="contents_sub">
@@ -660,10 +660,10 @@ textarea {
 								<div class="align_left">
 									<input type="button" value="목록" class="btn_list btn_txt02"
 										style="cursor: pointer;"
-										onclick="location.href='adminnotice.do?cpage=<%=cpage %>&bseq=<%=bseq %>'" /> <input
+										onclick="location.href='admin/notice?cpage=<%=cpage %>&bseq=<%=bseq %>'" /> <input
 										type="button" value="보기" class="btn_list btn_txt02"
 										style="cursor: pointer;"
-										onclick="location.href='adminnotice_view.do?cpage=<%=cpage %>&bseq=<%=bseq %>'" />
+										onclick="location.href='/admin/notice/view?cpage=<%=cpage %>&bseq=<%=bseq %>'" />
 								</div>
 								<div class="align_right">
 									<input type="button" id="mbtn" value="완료"

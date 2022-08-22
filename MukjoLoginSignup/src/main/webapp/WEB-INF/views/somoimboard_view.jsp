@@ -22,7 +22,7 @@
       log = "LOGOUT";
    } else {
       out.println ( "<script>");
-      out.println ( "window.location.href = 'http://localhost/login.do'");
+      out.println ( "window.location.href = 'http://localhost/welcome'");
       out.println ( "</script>");
    }
    
@@ -61,7 +61,7 @@
          commentSb.append("<tr>");
          commentSb.append("<td class='nick' style='padding-left: 10px; width: 114px; color:blue'>"+cto.getWriter()+"</td>");
          commentSb.append("<td class='comment'>"+cto.getCContent()+"</td>");
-         commentSb.append("<td class='data' style='padding-left: 400px;'>"+cto.getCDate()+"&nbsp;&nbsp;&nbsp;<a href='./somoimcmt_deleteok.do?tseq="+tseq+"&cpage="+cpage+"&bseq="+bseq+"&cseq="+cto.getCseq()+"'>X</a></td>");
+         commentSb.append("<td class='data' style='padding-left: 400px;'>"+cto.getCDate()+"&nbsp;&nbsp;&nbsp;<a href='../../../main/board/view/delcmt?tseq="+tseq+"&cpage="+cpage+"&bseq="+bseq+"&cseq="+cto.getCseq()+"'>X</a></td>");
          commentSb.append("</tr>");
     	 } else {
              commentSb.append("<tr>");
@@ -86,7 +86,7 @@
 
                 
                 																											
-			mdBtn.append("<input type='button' id='modifyBtn' value='수정' class='btn_list btn_txt02' style='cursor: pointer;' onclick=\"location.href='somoimboard_modify.do?tseq="+tseq+"&bseq="+bseq+"&cpage="+cpage+"'\"   />");
+			mdBtn.append("<input type='button' id='modifyBtn' value='수정' class='btn_list btn_txt02' style='cursor: pointer;' onclick=\"location.href='../../../main/board/view/modify?tseq="+tseq+"&bseq="+bseq+"&cpage="+cpage+"'\"   />");
 			mdBtn.append("\n");
 			mdBtn.append("<input type='button' id='deleteBtn' value='삭제' class='btn_list btn_txt02' style='cursor: pointer;'/>");	
 			mdBtn.append("<script>");
@@ -104,7 +104,7 @@
 			mdBtn.append("		reverseButtons: false,");
 			mdBtn.append("	}).then((result) => {");
 			mdBtn.append("		if (result.isConfirmed) {");
-			mdBtn.append("			location.href='./somoimboard_deleteok.do?tseq="+tseq+"&bseq="+bseq+"&cpage="+cpage+"';");
+			mdBtn.append("			location.href='../../../main/board/view/del/success?tseq="+tseq+"&bseq="+bseq+"&cpage="+cpage+"';");
 			mdBtn.append("		} else {");
 
 			mdBtn.append("		}");
@@ -439,7 +439,7 @@ nav {
    top: 10%;
    text-indent: -9999px;
    overflow: hidden;
-   background: url( ./images/search2.png) no-repeat;
+   background: url( ../../../images/search2.png) no-repeat;
    position: absolute;
    background-size: 38px 25px;
 }
@@ -716,17 +716,17 @@ $('.logoclick').click(function(event){
       <div class="headermake" style="width:100%; background-color: #fff;">
         <div id="headerWap">
             <h1 id="logoSec">
-                <a href="./main.do" class="logoclick"><img src="images/logo.png" alt="logo"></a>
+                <a href="../../../main" class="logoclick"><img src="../../../images/logo.png" alt="logo"></a>
             </h1>
-            <h3><%=welcome %><a href="logoutok.do" id="logout" style="color : gray"><br/><%=log %></a></h3>
+            <h3><%=welcome %><a href="../../../bye" id="logout" style="color : gray"><br/><%=log %></a></h3>
             <ul>
-                <li><b><a href="myPage.do" class="logoclick">마이페이지</a></b></li>
-                <li><b><a href="boss.do" class="logoclick">소모임장페이지</a></b></li>
-                <li><b><a href="admin.do" class="logoclick">관리자페이지</b></li></a>
-            	<li><b><a href="favorite.do" class="logoclick">즐겨찾기</b></li></a>
+                <li><b><a href="../../../mypage" class="logoclick">마이페이지</a></b></li>
+                <li><b><a href="../../../adgroups" class="logoclick">소모임장페이지</a></b></li>
+                <li><b><a href="../../../admin" class="logoclick">관리자페이지</b></li></a>
+            	<li><b><a href="../../../favorite" class="logoclick">즐겨찾기</b></li></a>
                 <li id="bell" style="margin-left: 20px;">
                 	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-						<img src="images/bell.png">
+						<img src="../../../images/bell.png">
 					</button><%=noticeCount %>
 				</li>
             </ul>
@@ -738,7 +738,7 @@ $('.logoclick').click(function(event){
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title" id="exampleModalLabel"><b>알림</b></h4>
-          <span id="noticelogo"><img src="images/logo.png"></span>
+          <span id="noticelogo"><img src="../../../images/logo.png"></span>
         </div>
 
         <div class="modal-body">
@@ -760,7 +760,7 @@ $('.logoclick').click(function(event){
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><a href="noticedeleteok.do"><b>읽음</b></button>
+          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><a href="../../../notice/read"><b>읽음</b></button>
           <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><a href=""><b>닫기</b></button>
         </div>
       </div>
@@ -770,10 +770,10 @@ $('.logoclick').click(function(event){
       <!--locationSec -->
       <section id="locationSec">
          <div id="locationwrap">
-            <button class="active"><a href="somoimboard.do?tseq=<%=tseq %>" style="color : #de5f47">게시판</a></button>
-            <button class="allbtn"><a href="somoimboard_search.do?tseq=<%=tseq %>'">식당검색</a></button>
-            <button class="allbtn"><a href="somoimboard_memberlist.do?tseq=<%=tseq %>'">소모임 회원 목록</a></button>
-            <button class="allbtn"><a href="somoimboard_memberexit.do?tseq=<%=tseq %>'">소모임 탈퇴</a></button>
+            <button class="active"><a href="../../../main/board?tseq=<%=tseq %>" style="color : #de5f47">게시판</a></button>
+            <button class="allbtn"><a href="../../../main/search?tseq=<%=tseq %>'">식당검색</a></button>
+            <button class="allbtn"><a href="../../../main/members?tseq=<%=tseq %>'">소모임 회원 목록</a></button>
+            <button class="allbtn"><a href="../../../main/quitgroup?tseq=<%=tseq %>'">소모임 탈퇴</a></button>
          </div>
       </section>
    </nav>
@@ -860,7 +860,7 @@ $('.logoclick').click(function(event){
             <form style="display: block;
             position: relative;
             clear: both;"
-            action="somoimcmt_writeok.do" name="cfrm">
+            action="../../../main/board/view/writecmt" name="cfrm">
             <input type="hidden" name="tseq" value="<%=tseq %>" />         
             <input type="hidden" name="cpage" value="<%=cpage %>" />
             <input type="hidden" name="bseq" value="<%=bseq %>" />
@@ -885,7 +885,7 @@ $('.logoclick').click(function(event){
             <div class="btn_area" >
                <div class="align_left">
                   <input type="button" value="목록" class="btn_list btn_txt02"
-                     style="cursor: pointer; " onclick="location.href='somoimboard.do?tseq=<%=tseq %>&cpage=<%=cpage %>'" />
+                     style="cursor: pointer; " onclick="location.href='../../../main/board?tseq=<%=tseq %>&cpage=<%=cpage %>'" />
                </div>
                
                <div class="align_right">
@@ -894,7 +894,7 @@ $('.logoclick').click(function(event){
 
                      
                   <input type="button" value="글 쓰기" class="btn_write btn_txt01" style="cursor: pointer;"
-                     onclick="location.href='somoimboard_write.do?tseq=<%=tseq %>&bseq=<%=bseq %>&cpage=<%=cpage %>'" />
+                     onclick="location.href='../../../main/board/write?tseq=<%=tseq %>&bseq=<%=bseq %>&cpage=<%=cpage %>'" />
                </div>
             </div>
             <!--//게시판-->

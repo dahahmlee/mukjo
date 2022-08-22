@@ -18,7 +18,7 @@
           log = "LOGOUT";
        } else {
                  out.println ( "<script>");
-                  out.println ( "window.location.href = 'http://localhost/login.do'");
+                  out.println ( "window.location.href = 'http://localhost/welcome'");
                   out.println ( "</script>");
        }
     
@@ -50,7 +50,7 @@
                    
                       sb.append("<tr>");
                       sb.append("<td>"+num+"</td>");
-                      sb.append("<td><a href='somoimboard.do?tseq="+tseq+"'>"+tname+"</td>");
+                      sb.append("<td><a href='main/board?tseq="+tseq+"'>"+tname+"</td>");
                       sb.append("<td>"+jangname+"</td>");
                       sb.append("<td>"+memcount+"명</td>");
                       sb.append("</tr>");
@@ -521,15 +521,15 @@ footer{
         <div class="headermake" style="width:100%; background-color: #fff;">
         <div id="headerWap">
             <h1 id="logoSec">
-                <a href="./main.do" class="logoclick"><img src="images/logo.png" alt="logo"></a>
+                <a href="./main" class="logoclick"><img src="images/logo.png" alt="logo"></a>
             </h1>
-            <h3 > <%=welcome %> <a href="logoutok.do" id="logout" style="color : gray"> <br/><%=log %>   </a></h3>
+            <h3 > <%=welcome %> <a href="bye" id="bye" style="color : gray"> <br/><%=log %>   </a></h3>
             
             <ul>
-            	<li><b><a href="myPage.do" class="logoclick">마이페이지</a></b></li>
-                <li><b><a href="boss.do" class="logoclick">소모임장페이지</a></b></li>
-                <li><b><a href="admin.do" class="logoclick">관리자페이지</b></li></a>
-            	<li><b><a href="favorite.do" class="logoclick">즐겨찾기</b></li></a>
+            	<li><b><a href="mypage" class="logoclick">마이페이지</a></b></li>
+                <li><b><a href="adgroups" class="logoclick">소모임장페이지</a></b></li>
+                <li><b><a href="admin" class="logoclick">관리자페이지</b></li></a>
+            	<li><b><a href="favorite" class="logoclick">즐겨찾기</b></li></a>
             	
                 <li id="bell" style="margin-left: 20px;">
                 	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -569,7 +569,7 @@ footer{
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><a href="noticedeleteok.do"><b>읽음</b></button>
+          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><a href="notice/read"><b>읽음</b></button>
           <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><a href=""><b>닫기</b></button>
         </div>
       </div>
@@ -580,8 +580,8 @@ footer{
       <!--locationSec -->
       <section id="locationSec">
         <div id = "locationwrap">
-             <button class="allbtn"><a href="#" style="color : #de5f47">가입한 소모임</a></button>
-             <button class="active"><a href="./mainall.do" >전체 소모임</a></button>
+             <button class="allbtn"><a href="/main" style="color : #de5f47">가입한 소모임</a></button>
+             <button class="active"><a href="./main/groups" >전체 소모임</a></button>
         </div>
       </section>
     </nav>  
@@ -597,7 +597,7 @@ footer{
             <strong>내 소모임 <b>(<%=totalRecord%>)</b></strong>
 
             <div class="search-wrap">
-            <form action="./main.do" method="post" name="sfrm">          
+            <form action="./main" method="post" name="sfrm">          
                 <input type="text" title="검색어 입력" name="search" placeholder="소모임 이름 검색">
                 <button type="submit">검색</button>
             </form>
@@ -683,13 +683,13 @@ footer{
    if (startBlock==1) { //<<
       out.println("<span><a>&lt;&lt;</a>&nbsp;&nbsp;</span>");
    } else {
-      out.println("<span><a href='main.do?cpage="+(startBlock-blockPerPage)+"'>&lt;&lt;</a>&nbsp;&nbsp;</span>");
+      out.println("<span><a href='main?cpage="+(startBlock-blockPerPage)+"'>&lt;&lt;</a>&nbsp;&nbsp;</span>");
    }
 
    if (cpage==1) { //<
       out.println("<span><a>&lt;</a>&nbsp;&nbsp;</span>");
    } else {
-      out.println("<span><a href='main.do?cpage="+(cpage-1)+"'>&lt;</a>&nbsp;&nbsp;</span>");
+      out.println("<span><a href='main?cpage="+(cpage-1)+"'>&lt;</a>&nbsp;&nbsp;</span>");
    }
    
    out.println("<ul>");
@@ -697,7 +697,7 @@ footer{
       if (cpage==i) {
          out.println("<li class='active'><a>"+i+"</a></li>");
       } else {
-         out.println("<li><a href='main.do?cpage="+i+"'>"+i+"</a></span>");
+         out.println("<li><a href='main?cpage="+i+"'>"+i+"</a></span>");
       }
    }
    
@@ -706,13 +706,13 @@ footer{
    if (cpage==totalPage) { //>
       out.println("<span>&nbsp;&nbsp;<a>&gt;</a></span>");
    } else {
-      out.println("<span>&nbsp;&nbsp;<a href='main.do?cpage="+(cpage+1)+"'>&gt;</a></span>");
+      out.println("<span>&nbsp;&nbsp;<a href='main?cpage="+(cpage+1)+"'>&gt;</a></span>");
    }
    
    if (endBlock==totalPage) { //>>
       out.println("<span>&nbsp;&nbsp;<a>&gt;&gt;</a></span>");
    } else {
-      out.println("<span>&nbsp;&nbsp;<a href='main.do?cpage="+(startBlock+blockPerPage)+"'>&gt;&gt;</a></span>");
+      out.println("<span>&nbsp;&nbsp;<a href='main?cpage="+(startBlock+blockPerPage)+"'>&gt;&gt;</a></span>");
    }
 %>                         
                     

@@ -16,7 +16,7 @@
 	   log = "LOGOUT";
 	} else {
 	   	out.println ( "<script>");
-			out.println ( "window.location.href = 'http://localhost/login.do'");
+			out.println ( "window.location.href = 'http://localhost/welcome'");
 			out.println ( "</script>");
 	}
 
@@ -370,7 +370,7 @@ nav {
    top: 10%;
    text-indent: -9999px;
    overflow: hidden;
-   background: url( ./images/search2.png) no-repeat;
+   background: url( ../../images/search2.png) no-repeat;
    position: absolute;
    background-size: 38px 25px;
 }
@@ -614,17 +614,17 @@ textarea {
         <div class="headermake" style="width:100%; background-color: #fff;">
         <div id="headerWap">
             <h1 id="logoSec">
-                <a href="main.do" class="logoclick"><img src="images/logo.png" alt="logo"></a>
+                <a href="../main" class="logoclick"><img src="../../images/logo.png" alt="logo"></a>
             </h1>
-            <h3><%=welcome %><a href="logoutok.do" id="logout" style="color : gray"><br/><%=log %></a></h3>
+            <h3><%=welcome %><a href="bye" id="logout" style="color : gray"><br/><%=log %></a></h3>
             <ul>
-                <li><b><a href="myPage.do" style="color : #de5f47;" class="logoclick">마이페이지</a></b></li>
-                <li><b><a href="boss.do" class="logoclick">소모임장페이지</a></b></li>
-                <li><b><a href="admin.do" class="logoclick">관리자페이지</b></li></a>
-                <li><b><a href="favorite.do" class="logoclick">즐겨찾기</b></li></a>
+                <li><b><a href="../mypage" style="color : #de5f47;" class="logoclick">마이페이지</a></b></li>
+                <li><b><a href="../adgroups" class="logoclick">소모임장페이지</a></b></li>
+                <li><b><a href="../admin" class="logoclick">관리자페이지</b></li></a>
+                <li><b><a href="../favorite" class="logoclick">즐겨찾기</b></li></a>
                 <li id="bell" style="margin-left: 20px;">
                 	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-						<img src="images/bell.png">
+						<img src="../../images/bell.png">
 					</button><%=noticeCount %>
 				</li>
             </ul>
@@ -637,7 +637,7 @@ textarea {
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title" id="exampleModalLabel"><b>알림</b></h4>
-          <span id="noticelogo"><img src="images/logo.png"></span>
+          <span id="noticelogo"><img src="../../images/logo.png"></span>
         </div>
 
         <div class="modal-body">
@@ -659,40 +659,8 @@ textarea {
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><a href="noticedeleteok.do"><b>읽음</b></button>
+          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><a href="/notice/read"><b>읽음</b></button>
           <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><a href=""><b>닫기</b></button>
-        </div>
-      </div>
-    </div>
-  </div>
-        
-        <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title" id="exampleModalLabel"><b>알림</b></h4>
-          <span id="noticelogo"><img src="images/logo.png"></span>
-        </div>
-
-        <div class="modal-body">
-          <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
-          	<span>2022.07.13</span>
-          </p>
-          <hr />
-          <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
-          	<span>2022.07.13</span>
-          </p>
-          <hr />
-          <p>[맥크리] 소모임 가입 승인이 완료되었습니다.
-          	<span>2022.07.13</span>
-          </p>
-          <hr />
-        </div>
-
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><b>읽음</b></button>
-          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><b>닫기</b></button>
         </div>
       </div>
     </div>
@@ -702,8 +670,8 @@ textarea {
       <!--locationSec -->
       <section id="locationSec">
         <div id = "locationwrap">
-             <button class="allbtn"><a href="myPage.do" style="color : #de5f47;">내가 쓴 글 보기</a></button>
-             <button class="active"><a href="myPage_info_modify.do" >내 정보 수정</a></button>
+             <button class="allbtn"><a href="../mypage" style="color : #de5f47;">내가 쓴 글 보기</a></button>
+             <button class="active"><a href="../mypage/change" >내 정보 수정</a></button>
         </div>
       </section>
    </nav>
@@ -745,15 +713,15 @@ textarea {
             <div class="btn_area">
                <div class="align_left">
                   <input type="button" value="목록" class="btn_list btn_txt02"
-                     style="cursor: pointer;" onclick="location.href='myPage.do?cpage=<%=cpage %>&bseq=<%=bseq %>'" />
+                     style="cursor: pointer;" onclick="location.href='../mypage?cpage=<%=cpage %>&bseq=<%=bseq %>'" />
                </div>
                
                <div class="align_right">
                   <input type="button" value="수정" class="btn_list btn_txt02"   style="cursor: pointer;"
-                  onclick="location.href='myPage_modify.do?cpage=<%=cpage %>&bseq=<%=bseq %>'" /> 
+                  onclick="location.href='../mypage/view/modify?cpage=<%=cpage %>&bseq=<%=bseq %>'" /> 
                      
                   <input type="button" value="삭제" class="btn_list btn_txt02" style="cursor: pointer;" 
-                  onclick="location.href='myPage_delete.do?cpage=<%=cpage %>&bseq=<%=bseq %>'"/>
+                  onclick="location.href='../mypage/view/del?cpage=<%=cpage %>&bseq=<%=bseq %>'"/>
                    
                </div>
             </div>

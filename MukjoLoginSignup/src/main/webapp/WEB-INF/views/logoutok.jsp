@@ -4,18 +4,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>logoutok</title>
+<title>logout</title>
 </head>
 <body>
 <%
 	int flag = (int)request.getAttribute("flag");
-	
+
 	out.println("<script type='text/javascript'>");
 	if(flag == 1) {
 		out.println( "alert('로그아웃에 성공했습니다.');" );
-		out.println( "location.href='login.do';" );
+		out.println( "location.href='welcome';" );
 	} else {
-		out.println( "location.href='login.do';" );
+		out.println( "location.href='welcome';" );
 	}
 	out.println( "</script>" ); 
 %>

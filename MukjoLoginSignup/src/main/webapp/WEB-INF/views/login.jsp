@@ -8,7 +8,7 @@
     
        if(loginedMemberSeq != null) {
       out.println ( "<script>");
-      out.println ( "window.location.href = 'http://localhost/main.do'");
+      out.println ( "window.location.href = 'http://localhost/welcome'");
       out.println ( "</script>");
        }
     %>
@@ -85,7 +85,7 @@
                   <p class="mb-4">Login with e-mail</p>
                </div>
                <!-- 로그인 폼 시작 -->
-               <form action="loginok.do" method="post" name="lfrm"> <!-- form id -->
+               <form action="login" method="post" name="lfrm"> <!-- form id -->
                <div class="form-group first">
                   <label for="username"></label>
                   <input type="text" class="form-control" name="username" placeholder="E-mail">
@@ -96,12 +96,12 @@
                </div>
                <!-- username, password 불러오기 -->
                <div class="d-flex mb-5 align-items-center">
-                  <span class="ml-auto"><a href="forgotpw.do" class="forgot-pass">Forgot Password</a></span> 
+                  <span class="ml-auto"><a href="findpw" class="forgot-pass">Forgot Password</a></span> 
                </div>
                <!-- jsp로 넘겨줄 name 설정 -->
                <input type="button" id="lbtn" value="Log In" class="btn btn-block btn-primary"/>
                <!-- id추가 -->
-               <input type="button" name="" value="Sign Up" class="btn btn-block btn-primary" onclick="location.href='signup.do'"/>
+               <input type="button" name="" value="Sign Up" class="btn btn-block btn-primary" onclick="location.href='signup'"/>
                <span class="d-block text-center my-4 text-muted">&mdash; or &mdash;</span>
                <div class="social-login">
                   <!-- 네이버 버튼 (twitter->naver) 바꿀 시 로딩실패 : svg와 관련돼있는듯  -->
@@ -112,7 +112,7 @@
                   </a>
                   -->
                   <!-- 구글 버튼  -->
-                  <a href="./sociallogin/googlelogin.do" class="google btn d-flex justify-content-center align-items-center">
+                  <a href="./google/login" class="google btn d-flex justify-content-center align-items-center">
                      <span class="icon-google mr-3">
                      </span>Login with  Google
                   </a>

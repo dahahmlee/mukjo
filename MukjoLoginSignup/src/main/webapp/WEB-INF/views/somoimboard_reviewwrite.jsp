@@ -24,7 +24,7 @@
 		out.println("		reverseButtons: false,");
 		out.println("	}).then((result) => {");
 		out.println("		if (result.isConfirmed) {");
-		out.println("		location.href='./somoimboard_review.do?tseq="+rto.getTseq()+"&id="+rto.getRest()+"&latitude="+latitude+"&longitude="+longitude+"'");
+		out.println("		location.href='../../../../main/search/review?tseq="+rto.getTseq()+"&id="+rto.getRest()+"&latitude="+latitude+"&longitude="+longitude+"'");
 		out.println("		}");
 		out.println("	})");
 	} else {

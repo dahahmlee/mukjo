@@ -23,7 +23,7 @@
 		out.println("		text: '성공적으로 삭제했습니다.',");
 		out.println("		icon: 'success',");
 		out.println("	}).then(() => {");
-		out.println("		location.href='./somoimboard.do?tseq="+tseq+"&cpage="+cpage+"'");
+		out.println("		location.href='../../../../main/board?tseq="+tseq+"&cpage="+cpage+"'");
 		out.println("	})");
 		out.println("});");
 	} else {

@@ -147,7 +147,7 @@
       <div class="input-form-backgroud row">
          <div class="input-form col-md-12 mx-auto">
          <h4 class="mb-3">회원가입</h4>
-         <form class="validation-form" action="http://localhost/signup_ok.do" method="post" name="sfrm" novalidate>
+         <form class="validation-form" action="http://localhost/signedup" method="post" name="sfrm" novalidate>
             <!--Name-->
             <div class="row">
                <div class="col-md-12 mb-3">
@@ -232,7 +232,7 @@
                <label class="custom-control-label" for="agreement2">이메일 수신에 동의합니다. (필수)</label>
             </div>
             <div class="mb-4"></div>
-            <input type="button" id="sbtn" value="가입 완료" class="btn btn-primary btn-lg btn-block" onclick="http://localhost/signup_ok.do" />
+            <input type="button" id="sbtn" value="가입 완료" class="btn btn-primary btn-lg btn-block" onclick="http://localhost/signedup" />
          </form>
       </div>
    </div>

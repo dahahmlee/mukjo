@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원탈퇴</title>
+<title>즐겨찾기 삭제</title>
 </head>
 <body>
 <%	

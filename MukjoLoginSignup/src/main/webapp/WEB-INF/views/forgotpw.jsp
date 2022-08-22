@@ -153,7 +153,7 @@ h4 {}
 <body>
     <div class="wrap">
         <div class="login">
-            <form action="forgotpw_ok.do" method="post" name="fpfrm" class="form_1">
+            <form action="/sentpw" method="post" name="fpfrm" class="form_1">
                 <h2>Forgot Password?</h2>
                 <hr />
                 <div class="user_mail">

@@ -95,7 +95,7 @@ public class MukjoController {
    @Autowired
    private FavoriteDAO favdao;
    
-   @RequestMapping(value = "/login.do")
+   @RequestMapping(value = "/welcome")
    public ModelAndView login(HttpServletRequest request, Model model) {
       ModelAndView modelAndView = new ModelAndView();
       modelAndView.setViewName("login");
@@ -103,7 +103,7 @@ public class MukjoController {
       return modelAndView;
    }
 
-   @RequestMapping(value = "/loginok.do")
+   @RequestMapping(value = "/login")
    public ModelAndView loginOk(HttpSession session, HttpServletRequest request, Model model) {
       int flag = 10;
 
@@ -131,7 +131,7 @@ public class MukjoController {
       return modelAndView;
    }
 
-   @RequestMapping(value = "/logoutok.do")
+   @RequestMapping(value = "/bye")
    public ModelAndView logoutOk(HttpSession session, HttpServletRequest request, Model model) {
       String loginedMemberSeq = (String) session.getAttribute("loginedMemberSeq");
 
@@ -150,7 +150,8 @@ public class MukjoController {
       return modelAndView;
    }
    
-   @RequestMapping(value = "/logoutok2.do")
+   //회운탈퇴 때 쓰임
+   @RequestMapping(value = "/byebye")
    public ModelAndView logoutOk2(HttpSession session, HttpServletRequest request, Model model) {
       String loginedMemberSeq = (String) session.getAttribute("loginedMemberSeq");
 
@@ -169,14 +170,14 @@ public class MukjoController {
       return modelAndView;
    }
 
-   @RequestMapping(value="/forgotpw.do")
+   @RequestMapping(value="/findpw")
       public ModelAndView forgotPw(HttpSession session,HttpServletRequest request, Model model) {
 
 
          return new ModelAndView("forgotpw");
     }
       
-   @RequestMapping(value="/forgotpw_ok.do")
+   @RequestMapping(value="/sentpw")
    public ModelAndView forgotPwOk(HttpSession session,HttpServletRequest request, Model model) {
         int flag = 10;
          
@@ -197,7 +198,7 @@ public class MukjoController {
          return new ModelAndView("forgotpw_ok");
    }
 
-   @RequestMapping(value = "/signup.do")
+   @RequestMapping(value = "/signup")
    public ModelAndView signup(HttpServletRequest request, Model model) {
 
       ModelAndView modelAndView = new ModelAndView();
@@ -205,7 +206,7 @@ public class MukjoController {
       return modelAndView;
    }
 
-   @RequestMapping(value = "/signup_ok.do")
+   @RequestMapping(value = "/signedup")
    public ModelAndView signup_ok(HttpServletRequest request, Model model) {
       SignUpTO sto = new SignUpTO();
       sto.setEmail(request.getParameter("email"));
@@ -222,7 +223,7 @@ public class MukjoController {
       return modelAndView;
    }
 
-   @RequestMapping(value = "/checkmail.do")
+   @RequestMapping(value = "/chkmail")
    public ModelAndView checkmail(HttpServletRequest request, Model model) {
       String mail = request.getParameter("email");
       boolean result = sdao.CheckMail(mail);
@@ -234,7 +235,7 @@ public class MukjoController {
    }
 
    //가입한 소모임 리스트 + 검색
-   @RequestMapping(value = "/main.do")
+   @RequestMapping(value = "/main")
    public ModelAndView main(HttpSession session, HttpServletRequest request, Model model) {
      
       String seq=(String) session.getAttribute("loginedMemberSeq");
@@ -266,7 +267,7 @@ public class MukjoController {
       return modelAndView;
    }
    
-   @RequestMapping(value = "/mainjoin.do")
+   @RequestMapping(value = "/main/groups/members")
    public ModelAndView mainjoin(HttpSession session, HttpServletRequest request, Model model) {
       String tseq = request.getParameter("tseq");
       String seq=(String) session.getAttribute("loginedMemberSeq");
@@ -294,7 +295,7 @@ public class MukjoController {
    }
    
    //전체 소모임 + 검색
-   @RequestMapping(value = "/mainall.do")
+   @RequestMapping(value = "/main/groups")
    public ModelAndView mainall(HttpSession session, HttpServletRequest request, Model model) {
       String seq=(String) session.getAttribute("loginedMemberSeq");
       
@@ -325,7 +326,8 @@ public class MukjoController {
        return modelAndView;
    }
    
-   @RequestMapping(value = "/checktname.do")
+   //중복이름검사 & 소모임 만들기
+   @RequestMapping(value = "/main/groups/new")
    public ModelAndView checktname(HttpServletRequest request, Model model) {
       String tname = request.getParameter("tname");
       String seq = request.getParameter("seq");
@@ -338,7 +340,7 @@ public class MukjoController {
    }
    
    // 소모임 가입
-   @RequestMapping(value = "/jointeam.do")
+   @RequestMapping(value = "/main/groups/members/join")
    public ModelAndView jointeam(HttpServletRequest request, Model model) {
       String tseq = request.getParameter("tseq");
       String seq = request.getParameter("seq");
@@ -351,7 +353,7 @@ public class MukjoController {
    }
    
    //구글 - 회원가입? 로그인?
-    @RequestMapping(value="/sociallogin/googlelogin.do")
+   @RequestMapping(value="/google/login")
    public ModelAndView googlelogin(HttpSession session,HttpServletRequest request, Model model) {
       
       OAuth2User user = getCurrentUser();
@@ -389,7 +391,7 @@ public class MukjoController {
    }
       
    //관리자 페이지
-   @RequestMapping(value = "/admin.do")
+   @RequestMapping(value = "/admin")
     public ModelAndView admin(HttpServletRequest request, Model model) {
 
       int btoday=adao.boardToday();
@@ -448,7 +450,7 @@ public class MukjoController {
    }
  
    //관리자 페이지 - 전체 회원 목록 + 페이징 + 검색 
-   @RequestMapping(value = "/adminmemberlists.do")
+   @RequestMapping(value = "/admin/members")
    public ModelAndView adminmemberlists(HttpServletRequest request, Model model) {
       
      String search = request.getParameter("search");
@@ -475,7 +477,7 @@ public class MukjoController {
     }
     
     //회원 추방 확인
-    @RequestMapping(value = "/addeletemember.do")
+    @RequestMapping(value = "/admin/members/del")
        public ModelAndView addeletemember(HttpServletRequest request, Model model) {
    
       String name=request.getParameter("name");
@@ -490,7 +492,7 @@ public class MukjoController {
     }
     
     //회원 추방 확인 후 삭제
-    @RequestMapping(value = "/addeletemember_ok.do")
+    @RequestMapping(value = "/admin/members/del/success")
        public ModelAndView adminmemberdeleteok(HttpServletRequest request, Model model) {
    
       String seq=request.getParameter("seq");
@@ -504,7 +506,7 @@ public class MukjoController {
     }
     
    //소모임 목록
-    @RequestMapping(value = "/adminteam.do")
+    @RequestMapping(value = "/admin/groups")
     public ModelAndView adminteam(HttpServletRequest request, Model model) {
    
       String search = request.getParameter("search");
@@ -531,7 +533,7 @@ public class MukjoController {
     }
     
     //소모임 삭제 확인
-    @RequestMapping(value = "/addeleteteam.do")
+    @RequestMapping(value = "/admin/groups/del")
        public ModelAndView addeleteteam(HttpServletRequest request, Model model) {
    
       String tseq=request.getParameter("tseq");
@@ -546,7 +548,7 @@ public class MukjoController {
     }
     
     //소모임 삭제 확인 후 삭제
-    @RequestMapping(value = "/addeleteteam_ok.do")
+    @RequestMapping(value = "/admin/groups/del/success")
        public ModelAndView addeleteteamok(HttpServletRequest request, Model model) {
    
       String tseq=request.getParameter("tseq");
@@ -559,7 +561,7 @@ public class MukjoController {
        return modelAndView;
     }
     
-    @RequestMapping(value = "/adminnotice.do")
+    @RequestMapping(value = "/admin/notice")
        public ModelAndView adminnotice(HttpServletRequest request, Model model) {
        
       int cpage = 1;
@@ -581,7 +583,7 @@ public class MukjoController {
        return modelAndView;
     }
     
-    @RequestMapping(value = "/adminnotice_write.do")
+    @RequestMapping(value = "/admin/notice/write")
        public ModelAndView adminnotice_write(HttpServletRequest request, Model model) {
    
       int cpage = 1;
@@ -599,7 +601,7 @@ public class MukjoController {
        return modelAndView;
     }
     
-    @RequestMapping(value = "/adminnotice_writeok.do")
+    @RequestMapping(value = "/admin/notice/write/success")
         public ModelAndView adminnotice_writeok(HttpSession sess,HttpServletRequest request,HttpServletResponse response,Model model) {
         String uploadPath=request.getRealPath("upload");
 
@@ -637,7 +639,7 @@ public class MukjoController {
         return modelAndView;
     }
     
-    @RequestMapping(value = "/adminnotice_view.do")
+    @RequestMapping(value = "/admin/notice/view")
        public ModelAndView adminnotice_view(HttpServletRequest request, Model model) {
    
       int cpage = 1;
@@ -660,7 +662,7 @@ public class MukjoController {
        return modelAndView;
     }
       
-    @RequestMapping(value = "/adminnotice_modify.do")
+    @RequestMapping(value = "/admin/notice/modify")
        public ModelAndView adminnotice_modify(HttpServletRequest request, Model model) {
    
       int cpage = 1;
@@ -685,7 +687,7 @@ public class MukjoController {
     }
    
     //공지 수정 - 확인 후 수정
-    @RequestMapping(value = "/adminnotice_modifyok.do")
+    @RequestMapping(value = "/admin/notice/modify/success")
     public ModelAndView adminnotice_modifyok(HttpServletRequest request, Model model) {
       String uploadPath=request.getRealPath("upload");
 
@@ -734,7 +736,7 @@ public class MukjoController {
    
     
     //공지 삭제 확인
-    @RequestMapping(value = "/adminnotice_delete.do")
+    @RequestMapping(value = "/admin/notice/del")
        public ModelAndView adminnotice_delete(HttpServletRequest request, Model model) {
    
       String bseq=request.getParameter("bseq");
@@ -747,7 +749,7 @@ public class MukjoController {
     }
     
     //공지 삭제 확인 후 삭제
-    @RequestMapping(value = "/adminnotice_deleteok.do")
+    @RequestMapping(value = "/admin/notice/del/success")
        public ModelAndView adminnotice_deleteok(HttpServletRequest request, Model model) {
         String uploadPath=request.getRealPath("upload");
       String bseq=request.getParameter("bseq");
@@ -761,7 +763,7 @@ public class MukjoController {
     }
     
     //즐찾 목록
-    @RequestMapping(value = "/favorite.do")
+    @RequestMapping(value = "/favorite")
     public ModelAndView favorite(HttpSession session, HttpServletRequest request, Model model) {
    
         String seq=(String) session.getAttribute("loginedMemberSeq");
@@ -783,7 +785,7 @@ public class MukjoController {
     }
     
     //즐찾 추가
-    @RequestMapping(value = "/favoriteadd.do")
+    @RequestMapping(value = "/favorite/add")
     public ModelAndView favoriteadd(HttpSession session, HttpServletRequest request, Model model) {
 
         String seq=(String) session.getAttribute("loginedMemberSeq");
@@ -798,7 +800,7 @@ public class MukjoController {
     }
     
     //즐찾 취소
-    @RequestMapping(value = "/favoritedel.do")
+    @RequestMapping(value = "/favorite/del")
     public ModelAndView favoritedel(HttpSession session, HttpServletRequest request, Model model) {
 
        String seq=(String) session.getAttribute("loginedMemberSeq");
@@ -813,7 +815,7 @@ public class MukjoController {
     }
     
     //소모임 게시판 + 검색
-   @RequestMapping( "/somoimboard.do")   
+   @RequestMapping( "/main/board")   
    public ModelAndView boardList(HttpSession session, HttpServletRequest request,HttpServletResponse response,Model model) {
       String seq=(String) session.getAttribute("loginedMemberSeq");
       
@@ -853,7 +855,7 @@ public class MukjoController {
       
    }
    
-   @RequestMapping( "/somoimboard_write.do")   
+   @RequestMapping( "/main/board/write")   
    public ModelAndView boardWrite(HttpSession session, HttpServletRequest request,HttpServletResponse response,Model model) {
       String seq=(String) session.getAttribute("loginedMemberSeq");
 
@@ -866,7 +868,7 @@ public class MukjoController {
       return new ModelAndView("somoimboard_write"); 
    }
    
-   @RequestMapping( "/somoimboard_writeok.do")   
+   @RequestMapping( "/main/board/write/success")   
    public ModelAndView boardWriteOk(HttpSession sess,HttpServletRequest request,HttpServletResponse response,Model model) throws IOException {
        String uploadPath=request.getRealPath("upload");
       //String uploadPath = "C:\\Users\\JungGyuJin\\Desktop\\mukjo_project\\새 폴더\\mukjo\\MukjoLoginSignup\\src\\main\\webapp\\upload";
@@ -901,7 +903,7 @@ public class MukjoController {
       return new ModelAndView("somoimboard_writeok"); 
    }
 
-   @RequestMapping( "/somoimboard_view.do")   
+   @RequestMapping( "/main/board/view")   
       public ModelAndView boardView(HttpSession session, HttpServletRequest request,HttpServletResponse response,Model model) {
 
      String seq=(String) session.getAttribute("loginedMemberSeq");
@@ -925,7 +927,7 @@ public class MukjoController {
          return new ModelAndView("somoimboard_view"); 
    }
    
-   @RequestMapping( "/somoimboard_nview.do")   
+   @RequestMapping( "/main/board/view/notice")   
       public ModelAndView boardnView(HttpSession session, HttpServletRequest request,HttpServletResponse response,Model model) {
 
      String seq=(String) session.getAttribute("loginedMemberSeq");
@@ -948,7 +950,7 @@ public class MukjoController {
          return new ModelAndView("somoimboard_nview"); 
    }
    
-   @RequestMapping( "somoimboard_deleteok.do")   
+   @RequestMapping( "/main/board/view/del/success")   
    public ModelAndView boardDeleteOk(HttpServletRequest request,HttpServletResponse response,Model model) {
       BoardTO to = new BoardTO();
       String bseq = request.getParameter("bseq");
@@ -964,7 +966,7 @@ public class MukjoController {
       return new ModelAndView("somoimboard_deleteok");
    }
    
-   @RequestMapping( "somoimboard_modify.do")   
+   @RequestMapping( "main/board/view/modify")   
    public ModelAndView boardModify(HttpSession session, HttpServletRequest request,HttpServletResponse response,Model model) {
       String seq=(String) session.getAttribute("loginedMemberSeq");
 
@@ -986,7 +988,7 @@ public class MukjoController {
       return new ModelAndView("somoimboard_modify");
    }
    
-   @RequestMapping( "somoimboard_modifyok.do")   
+   @RequestMapping( "main/board/view/modify/success")   
    public ModelAndView boardModifyOk(HttpServletRequest request,HttpServletResponse response,Model model) {
        String uploadPath=request.getRealPath("upload");
 
@@ -1028,7 +1030,7 @@ public class MukjoController {
    }
    
    //소모임 회원 목록
-   @RequestMapping(value = "/somoimboard_memberlist.do")
+   @RequestMapping(value = "main/members")
     public ModelAndView somoimboard_memberlist(HttpSession session, HttpServletRequest request, Model model) {
      String seq=(String) session.getAttribute("loginedMemberSeq");
 
@@ -1065,7 +1067,7 @@ public class MukjoController {
        return modelAndView;
     }
    
-   @RequestMapping(value = "/somoimboard_memberexit.do")
+   @RequestMapping(value = "main/quitgroup")
     public ModelAndView somoimboard_memberexit(HttpSession session, HttpServletRequest request, Model model) {
       
       String seq=(String) session.getAttribute("loginedMemberSeq");
@@ -1087,7 +1089,7 @@ public class MukjoController {
        return modelAndView;
     }
    
-   @RequestMapping(value = "/somoimboard_memberexitok.do")
+   @RequestMapping(value = "main/quitgroup/success")
     public ModelAndView somoimboard_memberexitok(HttpSession session, HttpServletRequest request, Model model) {
          
       String seq=(String) session.getAttribute("loginedMemberSeq");
@@ -1102,7 +1104,7 @@ public class MukjoController {
     }
    
    
-   @RequestMapping( "/somoimcmt_writeok.do")   
+   @RequestMapping( "/main/board/view/writecmt")   
       public ModelAndView cmtWriteOk(HttpSession sess,HttpServletRequest request,HttpServletResponse response,Model model) {
       CommentTO cto = new CommentTO();
       
@@ -1119,7 +1121,7 @@ public class MukjoController {
          return new ModelAndView("somoimboardcmt_writeok"); 
    }
    
-   @RequestMapping( "/somoimcmt_deleteok.do")   
+   @RequestMapping( "/main/board/view/delcmt")   
       public ModelAndView cmtDeleteOk(HttpSession sess,HttpServletRequest request,HttpServletResponse response,Model model) {
       CommentTO cto = new CommentTO();
       
@@ -1132,7 +1134,7 @@ public class MukjoController {
          return new ModelAndView("somoimboardcmt_deleteok"); 
    }
    
-   @RequestMapping(value = "/myPage.do")
+   @RequestMapping(value = "/mypage")
        public ModelAndView myPage(HttpSession session, HttpServletRequest request, Model model) {
    
       String seq=(String) session.getAttribute("loginedMemberSeq");
@@ -1160,7 +1162,7 @@ public class MukjoController {
        return modelAndView;
     }
       
-   @RequestMapping(value = "/myPage_view.do")
+   @RequestMapping(value = "/mypage/view")
        public ModelAndView myPage_view(HttpSession session, HttpServletRequest request, Model model) {
          String seq=(String) session.getAttribute("loginedMemberSeq");
 
@@ -1192,7 +1194,7 @@ public class MukjoController {
     }
    
    //내가 쓴 글 보기에서 게시물 삭제 확인
-    @RequestMapping(value = "/myPage_delete.do")
+    @RequestMapping(value = "/mypage/view/del")
        public ModelAndView myPage_delete(HttpServletRequest request, Model model) {
    
       String bseq=request.getParameter("bseq");
@@ -1205,7 +1207,7 @@ public class MukjoController {
     }
     
     //내가 쓴 글 보기에서 게시물 삭제 
-    @RequestMapping(value = "/myPage_deleteok.do")
+    @RequestMapping(value = "/mypage/view/del/success")
        public ModelAndView myPage_deleteok(HttpServletRequest request, Model model) {
         String uploadPath=request.getRealPath("upload");
       String bseq=request.getParameter("bseq");
@@ -1219,7 +1221,7 @@ public class MukjoController {
     }
    
     //글 수정
-    @RequestMapping(value = "/myPage_modify.do")
+    @RequestMapping(value = "/mypage/view/modify")
        public ModelAndView myPage_modify(HttpSession session, HttpServletRequest request, Model model) {
          String seq=(String) session.getAttribute("loginedMemberSeq");
 
@@ -1249,7 +1251,7 @@ public class MukjoController {
     }
    
     //글 수정 - 확인 후 수정
-    @RequestMapping(value = "/myPage_modifyok.do")
+    @RequestMapping(value = "/mypage/view/modify/success")
     public ModelAndView myPage_modifyok(HttpServletRequest request, Model model) {
       String uploadPath=request.getRealPath("upload");
 
@@ -1297,7 +1299,7 @@ public class MukjoController {
     }
     
    //내 정보수정 확인
-   @RequestMapping(value = "/myPage_info_modify.do")
+   @RequestMapping(value = "/mypage/change")
        public ModelAndView mypage_modify(HttpSession session, HttpServletRequest request, Model model) {
    
       String seq=(String) session.getAttribute("loginedMemberSeq");
@@ -1315,7 +1317,7 @@ public class MukjoController {
     }
    
    //내정보수정 
-   @RequestMapping(value = "/myPage_info_modifyok.do")
+   @RequestMapping(value = "/mypage/change/success")
        public ModelAndView mypage_modifyok(HttpSession session, HttpServletRequest request, Model model) {
    
       String seq=(String) session.getAttribute("loginedMemberSeq");
@@ -1336,7 +1338,7 @@ public class MukjoController {
     }
    
    // 소모임페이지
-   @RequestMapping( "/somoimboard_home.do")   
+   @RequestMapping( "/main/search/info")   
    public ModelAndView somoimboard_home(HttpSession session, HttpServletRequest request,HttpServletResponse response,Model model) {
      String seq=(String) session.getAttribute("loginedMemberSeq");
       String rescode=request.getParameter("id");
@@ -1356,7 +1358,7 @@ public class MukjoController {
        return modelAndView;
    }
    
-   @RequestMapping( "/somoimboard_review.do")   
+   @RequestMapping( "/main/search/review")   
    public ModelAndView boardReview(HttpSession session, HttpServletRequest request,HttpServletResponse response,Model model) {
      String seq=(String) session.getAttribute("loginedMemberSeq");
      String rescode=request.getParameter("id");
@@ -1387,7 +1389,7 @@ public class MukjoController {
       return modelAndView;
    }
    
-   @RequestMapping( "/somoimboard_reviewdelete.do")   
+   @RequestMapping( "/main/search/review/del")   
    public ModelAndView boardReviewWrite(HttpSession sess,HttpServletRequest request,HttpServletResponse response,Model model) {
       
       String rseq = request.getParameter("rseq");
@@ -1405,7 +1407,7 @@ public class MukjoController {
       return new ModelAndView("somoimboard_reviewdelete"); 
    }
    
-   @RequestMapping( "/somoimboard_reviewwrite.do")   
+   @RequestMapping( "/main/search/review/write")   
    public ModelAndView boardReviewDelete(HttpSession sess,HttpServletRequest request,HttpServletResponse response,Model model) {
       
       String rescode=request.getParameter("id");
@@ -1432,7 +1434,7 @@ public class MukjoController {
       return new ModelAndView("somoimboard_reviewwrite"); 
    }
    
-   @RequestMapping( "/somoimboard_menu.do")   
+   @RequestMapping( "/main/search/menu")   
    public ModelAndView somoimboard_menu(HttpSession session, HttpServletRequest request,HttpServletResponse response,Model model) {
      String seq=(String) session.getAttribute("loginedMemberSeq");
       String rescode=request.getParameter("id");
@@ -1456,7 +1458,7 @@ public class MukjoController {
        return modelAndView;      
    }
    
-   @RequestMapping( "/somoimboard_picture.do")   
+   @RequestMapping( "/main/search/pic")   
    public ModelAndView somoimboard_picture(HttpSession session, HttpServletRequest request,HttpServletResponse response,Model model) {
      String seq=(String) session.getAttribute("loginedMemberSeq");
       String rescode=request.getParameter("id");
@@ -1480,7 +1482,7 @@ public class MukjoController {
        return modelAndView;
    }
    
-   @RequestMapping( "/somoimboard_search.do")
+   @RequestMapping( "/main/search")
    public ModelAndView boardSearch(HttpSession session, HttpServletRequest request,HttpServletResponse response,Model model) {
    String seq=(String) session.getAttribute("loginedMemberSeq");
 
@@ -1504,7 +1506,7 @@ public class MukjoController {
       return modelAndView;
    }
    
-   @RequestMapping( "/boss.do")   
+   @RequestMapping( "/adgroups")   
       public ModelAndView boss(HttpSession session, HttpServletRequest request,HttpServletResponse response,Model model) {
 
       String seq=(String) session.getAttribute("loginedMemberSeq");
@@ -1530,7 +1532,7 @@ public class MukjoController {
       return modelAndView; 
     }
       
-    @RequestMapping( "/bossmember.do")   
+    @RequestMapping( "/adgroups/members")   
     public ModelAndView bossmember(HttpSession session, HttpServletRequest request,HttpServletResponse response,Model model) {
        String myseq=(String) session.getAttribute("loginedMemberSeq");
       
@@ -1561,7 +1563,7 @@ public class MukjoController {
     }
       
     //권한 위임 확인
-   @RequestMapping(value = "/bosschange.do")
+   @RequestMapping(value = "/adgroups/members/chgleader")
        public ModelAndView bosschange(HttpServletRequest request, Model model) {
    
       String name=request.getParameter("name");
@@ -1578,7 +1580,7 @@ public class MukjoController {
     }
     
    //권한 위임
-   @RequestMapping(value = "/bosschangeok.do")
+   @RequestMapping(value = "/adgroups/members/chgleader/success")
        public ModelAndView bosschangeok(HttpServletRequest request, Model model) {
    
       String seq=request.getParameter("seq");
@@ -1593,7 +1595,7 @@ public class MukjoController {
     }
     
    //소모임으로부터 추방 확인
-    @RequestMapping(value = "/bossdeletemember.do")
+    @RequestMapping(value = "/adgroups/members/delmember")
        public ModelAndView bossdeletemember(HttpServletRequest request, Model model) {
    
       String name=request.getParameter("name");
@@ -1610,7 +1612,7 @@ public class MukjoController {
     }
     
    //소모임으로부터 추방
-    @RequestMapping(value = "/bossdeletememberok.do")
+    @RequestMapping(value = "/adgroups/members/delmember/success")
        public ModelAndView bossdeletememberok(HttpServletRequest request, Model model) {
    
       String seq=request.getParameter("seq");
@@ -1627,7 +1629,7 @@ public class MukjoController {
     }
     
     //소모임 가입신청 리스트
-    @RequestMapping( "/bossaccept.do")   
+    @RequestMapping( "/adgroups/request")   
     public ModelAndView bossaccept(HttpSession session, HttpServletRequest request,HttpServletResponse response,Model model) {
         String seq=(String)session.getAttribute("loginedMemberSeq");
         System.out.println(seq);
@@ -1657,7 +1659,7 @@ public class MukjoController {
     }
     
     //소모임 가입신청 승인 확인
-    @RequestMapping(value = "/bossacceptyes.do")
+    @RequestMapping(value = "/adgroups/request/yes")
        public ModelAndView bossacceptyes(HttpSession session, HttpServletRequest request, Model model) {
 
       String name=request.getParameter("name");
@@ -1676,7 +1678,7 @@ public class MukjoController {
     }
     
    //소모임 가입 승인
-    @RequestMapping(value = "/bossacceptyesok.do")
+    @RequestMapping(value = "/adgroups/request/yes/success")
     public ModelAndView bossacceptyesok(HttpServletRequest request, Model model) {
    
       String seq=request.getParameter("seq");
@@ -1693,7 +1695,7 @@ public class MukjoController {
     }
     
    //소모임 가입 승인
-    @RequestMapping(value = "/bossacceptnook.do")
+    @RequestMapping(value = "/adgroups/request/no/success")
     public ModelAndView bossacceptnook(HttpServletRequest request, Model model) {
    
       String seq=request.getParameter("seq");
@@ -1710,7 +1712,7 @@ public class MukjoController {
     }
     
    //소모임 가입신청 거절 확인
-    @RequestMapping(value = "/bossacceptno.do")
+    @RequestMapping(value = "/adgroups/request/no")
     public ModelAndView bossacceptno(HttpServletRequest request, Model model) {
    
       String name=request.getParameter("name");
@@ -1726,7 +1728,7 @@ public class MukjoController {
        return modelAndView;
     }
     
-    @RequestMapping( "/bossadmin.do")   
+    @RequestMapping( "/adgroups/admin")   
     public ModelAndView bossadmin(HttpSession session, HttpServletRequest request,HttpServletResponse response,Model model) {
        String seq=(String) session.getAttribute("loginedMemberSeq");
 
@@ -1747,7 +1749,7 @@ public class MukjoController {
     }
     
     //중복 이름 확인
-   @RequestMapping(value = "/bosschecktname.do")
+   @RequestMapping(value = "/adgroups/admin/chkgname")
    public ModelAndView bosschecktname(HttpServletRequest request, Model model) {
       String tname = request.getParameter("tname");
       boolean result = tdao.CheckTname(tname);
@@ -1758,7 +1760,7 @@ public class MukjoController {
       return modelAndView;
    }
    
-    @RequestMapping( "/bossadminchange.do")   
+    @RequestMapping( "/adgroups/admin/chggname")   
     public ModelAndView bossadminchange(HttpServletRequest request,HttpServletResponse response,Model model) {
 
        String newname=request.getParameter("newname");
@@ -1776,7 +1778,7 @@ public class MukjoController {
     }
     
     //소모임 삭제 확인
-   @RequestMapping(value = "/bossdeleteteam.do")
+   @RequestMapping(value = "/adgroups/admin/del")
    public ModelAndView bossdeleteteam(HttpServletRequest request, Model model) {
    
       String tseq=request.getParameter("tseq");
@@ -1789,7 +1791,7 @@ public class MukjoController {
     }
     
    //소모임 삭제
-   @RequestMapping(value = "/bossdeleteteamok.do")
+   @RequestMapping(value = "/adgroups/admin/chggname/success")
    public ModelAndView bossdeleteteamok(HttpServletRequest request, Model model) {
    
       String tseq=request.getParameter("tseq");
@@ -1805,7 +1807,7 @@ public class MukjoController {
     }
    
  //회원 탈퇴
-   @RequestMapping(value = "/myPage_info_delete.do")
+   @RequestMapping(value = "/mypage/change/quit")
    public ModelAndView myPage_info_delete(HttpServletRequest request, Model model) {
        
        String seq=request.getParameter("seq");
@@ -1817,7 +1819,7 @@ public class MukjoController {
         return modelAndView;
     }
    
-   @RequestMapping(value = "/myPage_info_deleteok.do")
+   @RequestMapping(value = "/adgroups/admin/del/success")
    public ModelAndView myPage_info_deleteok(HttpServletRequest request, Model model) {
        
        String seq=request.getParameter("seq");
@@ -1831,7 +1833,7 @@ public class MukjoController {
     }
    
  //알림 삭제
-   @RequestMapping(value = "/noticedeleteok.do")
+   @RequestMapping(value = "/notice/read")
    public ModelAndView noticedeleteok(HttpSession session, HttpServletRequest request, Model model) {
    
        String seq=(String) session.getAttribute("loginedMemberSeq");

@@ -18,7 +18,7 @@
           log = "LOGOUT";
        } else {
                  out.println ( "<script>");
-                  out.println ( "window.location.href = 'http://localhost/login.do'");
+                  out.println ( "window.location.href = 'http://localhost/welcome'");
                   out.println ( "</script>");
        }
     
@@ -443,7 +443,7 @@ a{
     top: 10%;
     text-indent: -9999px;
     overflow: hidden;
-    background: url( ./images/search2.png) no-repeat ;
+    background: url( ../../../images/search2.png) no-repeat ;
     position: absolute;
     background-size: 38px 25px;
  
@@ -510,19 +510,19 @@ footer{
         <div class="headermake" style="width:100%; background-color: #fff;">
         <div id="headerWap">
             <h1 id="logoSec">
-                <a href="./main.do"><img src="images/logo.png" alt="logo"></a>
+                <a href="../../../main"><img src="../../../images/logo.png" alt="logo"></a>
             </h1>
-            <h3 > <%=welcome %> <a href="logoutok.do" id="logout" style="color : gray"> <br/><%=log %>   </a></h3>
+            <h3 > <%=welcome %> <a href="../../../bye" id="logout" style="color : gray"> <br/><%=log %>   </a></h3>
             
             <ul>
-                <li><b><a href="myPage.do">마이페이지</a></b></li>
-                <li><b><a href="boss.do">소모임장페이지</a></b></li>
-                <li><b><a href="admin.do">관리자페이지</b></li></a>
-            <li><b><a href="favorite.do">즐겨찾기</b></li></a>
+                <li><b><a href="../../../mypage">마이페이지</a></b></li>
+                <li><b><a href="../../../adgroups">소모임장페이지</a></b></li>
+                <li><b><a href="../../../admin">관리자페이지</b></li></a>
+            <li><b><a href="../../../favorite">즐겨찾기</b></li></a>
             
                 <li id="bell" style="margin-left: 20px;">
                    <button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                  <img src="images/bell.png">
+                  <img src="../../../images/bell.png">
                </button><%=noticeCount %>
             </li>
 
@@ -536,7 +536,7 @@ footer{
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title" id="exampleModalLabel"><b>알림</b></h4>
-          <span id="noticelogo"><img src="images/logo.png"></span>
+          <span id="noticelogo"><img src="../../../images/logo.png"></span>
         </div>
 
         <div class="modal-body">
@@ -558,7 +558,7 @@ footer{
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><a href="noticedeleteok.do"><b>읽음</b></button>
+          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><a href="../../../notice/read"><b>읽음</b></button>
           <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><a href=""><b>닫기</b></button>
         </div>
       </div>
@@ -570,8 +570,8 @@ footer{
       <!--locationSec -->
       <section id="locationSec">
         <div id = "locationwrap">
-             <button class="allbtn"><a href="./main.do">가입한 소모임</a></button>
-             <button class="active"><a href="./mainall.do" style="color : #de5f47">전체 소모임</a></button>
+             <button class="allbtn"><a href="../../../main">가입한 소모임</a></button>
+             <button class="active"><a href="../../../main/groups" style="color : #de5f47">전체 소모임</a></button>
         </div>
       </section>
     </nav>  
@@ -589,7 +589,7 @@ footer{
             <strong>소모임 : <b><%=tname %></b></strong>
 
          
-            <button id="joinsomoim">가입신청</button>
+            <button id="joinsomoim">가입 신청</button>
         </section>
         <!-- 소모임 가입하기 -->
       <script type="text/javascript">
@@ -611,7 +611,7 @@ footer{
                
                $.ajax({
                   type: 'get',
-                    url: 'jointeam.do',
+                    url: '../../../main/groups/members/join',
                     data: { 'tseq': tseq, 'seq': seq },
                     success: function(flag) {
                        console.log($.trim(flag));
@@ -712,13 +712,13 @@ footer{
    if (startBlock==1) { //<<
       out.println("<span><a>&lt;&lt;</a>&nbsp;&nbsp;</span>");
    } else {
-      out.println("<span><a href='mainall.do?cpage="+(startBlock-blockPerPage)+"'>&lt;&lt;</a>&nbsp;&nbsp;</span>");
+      out.println("<span><a href='../../../main/groups/members?cpage="+(startBlock-blockPerPage)+"'>&lt;&lt;</a>&nbsp;&nbsp;</span>");
    }
 
    if (cpage==1) { //<
       out.println("<span><a>&lt;</a>&nbsp;&nbsp;</span>");
    } else {
-      out.println("<span><a href='mainall.do?cpage="+(cpage-1)+"'>&lt;</a>&nbsp;&nbsp;</span>");
+      out.println("<span><a href='../../../main/groups/members?cpage="+(cpage-1)+"'>&lt;</a>&nbsp;&nbsp;</span>");
    }
    
    out.println("<ul>");
@@ -726,7 +726,7 @@ footer{
       if (cpage==i) {
          out.println("<li class='active'><a>"+i+"</a></li>");
       } else {
-         out.println("<li><a href='mainall.do?cpage="+i+"'>"+i+"</a></span>");
+         out.println("<li><a href='../../../main/groups/members?cpage="+i+"'>"+i+"</a></span>");
       }
    }
    
@@ -735,13 +735,13 @@ footer{
    if (cpage==totalPage) { //>
       out.println("<span>&nbsp;&nbsp;<a>&gt;</a></span>");
    } else {
-      out.println("<span>&nbsp;&nbsp;<a href='mainall.do?cpage="+(cpage+1)+"'>&gt;</a></span>");
+      out.println("<span>&nbsp;&nbsp;<a href='../../../main/groups/members?cpage="+(cpage+1)+"'>&gt;</a></span>");
    }
    
    if (endBlock==totalPage) { //>>
       out.println("<span>&nbsp;&nbsp;<a>&gt;&gt;</a></span>");
    } else {
-      out.println("<span>&nbsp;&nbsp;<a href='mainall.do?cpage="+(startBlock+blockPerPage)+"'>&gt;&gt;</a></span>");
+      out.println("<span>&nbsp;&nbsp;<a href='../../../main/groups/members?cpage="+(startBlock+blockPerPage)+"'>&gt;&gt;</a></span>");
    }
 %>
                 </div><!-- board_pagetab -->

@@ -19,7 +19,7 @@
 		out.println("		reverseButtons: false,");
 		out.println("	}).then((result) => {");
 		out.println("		if (result.isConfirmed) {");
-		out.println("		location.href='./adminnotice.do'");
+		out.println("		location.href='../../../admin/notice'");
 		out.println("		}");
 		out.println("	})");
 	} else {

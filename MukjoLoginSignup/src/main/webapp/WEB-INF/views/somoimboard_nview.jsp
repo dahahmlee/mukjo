@@ -19,7 +19,7 @@
       log = "LOGOUT";
    } else {
       out.println ( "<script>");
-      out.println ( "window.location.href = 'http://localhost/login.do'");
+      out.println ( "window.location.href = 'http://localhost/welcome'");
       out.println ( "</script>");
    }
    
@@ -646,14 +646,14 @@ $('.logoclick').click(function(event){
       <div class="headermake" style="width:100%; background-color: #fff;">
         <div id="headerWap">
             <h1 id="logoSec">
-                <a href="./main.do" class="logoclick"><img src="images/logo.png" alt="logo"></a>
+                <a href="./main" class="logoclick"><img src="images/logo.png" alt="logo"></a>
             </h1>
-            <h3><%=welcome %><a href="logoutok.do" id="logout" style="color : gray"><br/><%=log %></a></h3>
+            <h3><%=welcome %><a href="bye" id="logout" style="color : gray"><br/><%=log %></a></h3>
             <ul>
-                <li><b><a href="myPage.do" class="logoclick">마이페이지</a></b></li>
-                <li><b><a href="boss.do" class="logoclick">소모임장페이지</a></b></li>
-                <li><b><a href="admin.do" class="logoclick">관리자페이지</b></li></a>
-            	<li><b><a href="favorite.do" class="logoclick">즐겨찾기</b></li></a>
+                <li><b><a href="mypage" class="logoclick">마이페이지</a></b></li>
+                <li><b><a href="adgroups" class="logoclick">소모임장페이지</a></b></li>
+                <li><b><a href="admin" class="logoclick">관리자페이지</b></li></a>
+            	<li><b><a href="favorite" class="logoclick">즐겨찾기</b></li></a>
                 <li id="bell" style="margin-left: 20px;">
                 	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
 						<img src="images/bell.png">
@@ -692,7 +692,7 @@ $('.logoclick').click(function(event){
         </div>
 
         <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><a href="noticedeleteok.do"><b>읽음</b></button>
+                    <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><a href="notice/read"><b>읽음</b></button>
           <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><a href=""><b>닫기</b></button>
         </div>
       </div>
@@ -702,10 +702,10 @@ $('.logoclick').click(function(event){
       <!--locationSec -->
       <section id="locationSec">
          <div id="locationwrap">
-            <button class="active"><a href="somoimboard.do?tseq=<%=tseq %>'" style="color : #de5f47">게시판</a></button>
-            <button class="allbtn"><a href="somoimboard_search.do?tseq=<%=tseq %>'">식당검색</a></button>
-            <button class="allbtn"><a href="somoimboard_memberlist.do?tseq=<%=tseq %>'">소모임 회원 목록</a></button>
-            <button class="allbtn"><a href="somoimboard_memberexit.do?tseq=<%=tseq %>'">소모임 탈퇴</a></button>
+            <button class="active"><a href="main/board?tseq=<%=tseq %>'" style="color : #de5f47">게시판</a></button>
+            <button class="allbtn"><a href="main/search?tseq=<%=tseq %>'">식당검색</a></button>
+            <button class="allbtn"><a href=main/members?tseq=<%=tseq %>'">소모임 회원 목록</a></button>
+            <button class="allbtn"><a href="main/quitgroup?tseq=<%=tseq %>'">소모임 탈퇴</a></button>
          </div>
       </section>
    </nav>
@@ -744,13 +744,13 @@ $('.logoclick').click(function(event){
             <div class="btn_area" >
                <div class="align_left">
                   <input type="button" value="목록" class="btn_list btn_txt02"
-                     style="cursor: pointer; " onclick="location.href='somoimboard.do?tseq=<%=tseq %>'" />
+                     style="cursor: pointer; " onclick="location.href='main/board?tseq=<%=tseq %>'" />
                </div>
                
                <div class="align_right">
                      
                   <input type="button" value="글 쓰기" class="btn_write btn_txt01" style="cursor: pointer;"
-                  onclick="location.href='somoimboard_write.do?tseq=<%=tseq %>&bseq=<%=bseq %>&cpage=<%=cpage %>'" />
+                  onclick="location.href='main/board/write?tseq=<%=tseq %>&bseq=<%=bseq %>&cpage=<%=cpage %>'" />
                </div>
             </div>
             <!--//게시판-->

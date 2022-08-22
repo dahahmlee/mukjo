@@ -24,7 +24,7 @@
      	   	}
      	} else {
      		out.println ( "<script>");
-  		out.println ( "window.location.href = 'http://localhost/login.do'");
+  		out.println ( "window.location.href = 'http://localhost/welcome'");
   		out.println ( "</script>");
      	}
        
@@ -81,11 +81,11 @@
          alert('이름을 입력하셔야 합니다.');
          return false;            
       }
-      location.href='./bosschecktname.do?tname=' + document.sfrm.newname.value;
+      location.href='../../adgroups/admin/chkgname?tname=' + document.sfrm.newname.value;
    }
    
    function deleteteam() { 
-      location.href='./bossdeleteteam.do?tseq='+<%=tseq %>;
+      location.href='../../adgroups/admin/del?tseq='+<%=tseq %>;
    }
 </script>
 <style>
@@ -450,7 +450,7 @@ nav{
     top: 10%;
     text-indent: -9999px;
     overflow: hidden;
-    background: url( ./images/search2.png) no-repeat ;
+    background: url( ../../images/search2.png) no-repeat ;
     position: absolute;
     background-size: 38px 25px;
  
@@ -505,17 +505,17 @@ footer{
         <div class="headermake" style="width:100%; background-color: #fff;">
         <div id="headerWap">
             <h1 id="logoSec">
-                <a href="main.do" class="logoclick"><img src="images/logo.png" alt="logo"></a>
+                <a href="../../main" class="logoclick"><img src="../../images/logo.png" alt="logo"></a>
             </h1>
-            <h3><%=welcome %><a href="logoutok.do" id="logout" style="color : gray"><br/><%=log %></a></h3>
+            <h3><%=welcome %><a href="../../bye" id="logout" style="color : gray"><br/><%=log %></a></h3>
             <ul>
-                <li><b><a href="myPage.do" class="logoclick">마이페이지</a></b></li>
-                <li><b><a href="boss.do" style="color : #de5f47;" class="logoclick">소모임장페이지</a></b></li>
-                <li><b><a href="admin.do" class="logoclick">관리자페이지</b></li></a>
-                <li><b><a href="favorite.do" class="logoclick">즐겨찾기</b></li></a>
+                <li><b><a href="../../mypage" class="logoclick">마이페이지</a></b></li>
+                <li><b><a href="../../adgroups" style="color : #de5f47;" class="logoclick">소모임장페이지</a></b></li>
+                <li><b><a href="../../admin" class="logoclick">관리자페이지</b></li></a>
+                <li><b><a href="../../favorite" class="logoclick">즐겨찾기</b></li></a>
                 <li id="bell" style="margin-left: 20px;">
                 	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-						<img src="images/bell.png">
+						<img src="../../images/bell.png">
 					</button><%=noticeCount %>
 				</li>
             </ul>
@@ -528,7 +528,7 @@ footer{
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title" id="exampleModalLabel"><b>알림</b></h4>
-          <span id="noticelogo"><img src="images/logo.png"></span>
+          <span id="noticelogo"><img src="../../images/logo.png"></span>
         </div>
 
         <div class="modal-body">
@@ -550,7 +550,7 @@ footer{
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><a href="noticedeleteok.do"><b>읽음</b></button>
+          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><a href="../../notice/read"><b>읽음</b></button>
           <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><a href=""><b>닫기</b></button>
         </div>
       </div>
@@ -561,9 +561,9 @@ footer{
       <!--locationSec -->
       <section id="locationSec">
         <div id = "locationwrap">
-            <button class="allbtn" ><a href="bossmember.do?tseq=<%=tseq %>" >멤버 관리</a></button>
-             <button class="active"><a href="bossaccept.do?tseq=<%=tseq %>">가입 요청</a></button>
-             <button class="active"><a href="bossadmin.do?tseq=<%=tseq %>" style="color: #de5f47">소모임 관리</a></button>
+            <button class="allbtn" ><a href="../../adgroups/members?tseq=<%=tseq %>" >멤버 관리</a></button>
+             <button class="active"><a href="../../adgroups/request?tseq=<%=tseq %>">가입 요청</a></button>
+             <button class="active"><a href="../../adgroups/admin?tseq=<%=tseq %>" style="color: #de5f47">소모임 관리</a></button>
         </div>
       </section>
     </nav>  
@@ -572,7 +572,7 @@ footer{
     <div id="wrap">
     	<span id="tname"><strong>현재 소모임 이름 : <b><%=tname %></b></strong></span>
  
-          <form action="./bossadminchange.do?tseq=<%=tseq %>" method="post" name="sfrm" id="form_boss">           
+          <form action="../../adgroups/admin/chggname?tseq=<%=tseq %>" method="post" name="sfrm" id="form_boss">           
             	<input type="hidden" name="tseq" value="<%=tseq %>" />
             	<span>소모임 이름 변경 : </span>&nbsp;
                 <input type="text" name="newname" value="">
@@ -580,7 +580,7 @@ footer{
             	<div class="btn_area">
             		<div class="align">
             			<button type="button" id="bossdlt" onclick="deleteteam(this.form)">소모임 삭제</button>
-						<button type="submit" id="bossmdf" onclick="./bossadminchange.do?tseq=<%=tseq %>">변경</button>		
+						<button type="submit" id="bossmdf" onclick="../../adgroups/admin/chggname?tseq=<%=tseq %>">변경</button>		
 					</div>
 					
             	</div>

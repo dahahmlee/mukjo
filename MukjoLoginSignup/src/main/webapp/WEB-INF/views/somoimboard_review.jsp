@@ -19,7 +19,7 @@
        log = "LOGOUT";
     } else {
           out.println ( "<script>");
-         out.println ( "window.location.href = 'http://localhost/login.do'");
+         out.println ( "window.location.href = 'http://localhost/welcome'");
          out.println ( "</script>");
     } 
     
@@ -40,7 +40,7 @@
       sb.append("<td>"+rto.getWriter()+"</td>");
       sb.append("<td class='comment'>"+ rto.getRcontent()+"</td>");
       if(loginedMemberSeq.equals(rto.getSeq())||loginedMemberSeq.equals("1")) {
-         sb.append("<td class='data'><a href='./somoimboard_reviewdelete.do?tseq="+tseq+"&id="+id+"&latitude="+latitude+"&longitude="+longitude+"&rseq="+rto.getRseq()+"' style> &nbsp X </a></td> ");
+         sb.append("<td class='data'><a href='../../../main/search/review/del?tseq="+tseq+"&id="+id+"&latitude="+latitude+"&longitude="+longitude+"&rseq="+rto.getRseq()+"' style> &nbsp X </a></td> ");
       } else {
          sb.append("<td class='data'></td> ");
       }
@@ -407,10 +407,10 @@ input[type="checkbox"]+label {
     display: flex;
     width: 28px;
     height: 28px;
-    background: url('./images/staroff2.png') no-repeat 0 0px / contain;
+    background: url('../../../images/staroff2.png') no-repeat 0 0px / contain;
 }
 input[type='checkbox']:checked+label {
-    background: url('./images/star-on.png') no-repeat 0 1px / contain;
+    background: url('../../../images/star-on.png') no-repeat 0 1px / contain;
 }
 input[type="checkbox"] {
     display: none;
@@ -439,17 +439,17 @@ $('.logoclick').click(function(event){
         <div class="headermake" style="width:100%; background-color: #fff;">
         <div id="headerWap">
             <h1 id="logoSec">
-                <a href="./main.do" class="logoclick"><img src="images/logo.png" alt="logo"></a>
+                <a href="/../../../main" class="logoclick"><img src="../../../images/logo.png" alt="logo"></a>
             </h1>
-            <h3><%=welcome %><a href="logoutok.do" id="logout" style="color : gray"><br/><%=log %></a></h3>
+            <h3><%=welcome %><a href="/../../../bye" id="logout" style="color : gray"><br/><%=log %></a></h3>
             <ul>
-                <li><b><a href="myPage.do" class="logoclick">마이페이지</a></b></li>
-                <li><b><a href="boss.do" class="logoclick">소모임장페이지</a></b></li>
-                <li><b><a href="admin.do" class="logoclick">관리자페이지</b></li></a>
-            	<li><b><a href="favorite.do" class="logoclick">즐겨찾기</b></li></a>
+                <li><b><a href="/../../../mypage" class="logoclick">마이페이지</a></b></li>
+                <li><b><a href="/../../../adgroups" class="logoclick">소모임장페이지</a></b></li>
+                <li><b><a href="/../../../admin" class="logoclick">관리자페이지</b></li></a>
+            	<li><b><a href="/../../../favorite" class="logoclick">즐겨찾기</b></li></a>
                 <li id="bell" style="margin-left: 20px;">
                    <button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                  <img src="images/bell.png">
+                  <img src="../../../images/bell.png">
                </button><%=noticeCount %>
             </li>
             </ul>
@@ -460,10 +460,10 @@ $('.logoclick').click(function(event){
        <!--locationSec -->
       <section id="locationSec">
         <div id = "locationwrap">
-             <button class="active"><a href="./somoimboard.do?tseq=<%=tseq %>">게시판</a></button>
-             <button class="allbtn"><a href="./somoimboard_search.do?tseq=<%=tseq %>" style="color : #de5f47">식당검색</a></button>
-             <button class="allbtn"><a href="./somoimboard_memberlist.do?tseq=<%=tseq %>">소모임 회원 목록</a></button>
-             <button class="allbtn" id="bsbtn"><a href="./somoimboard_memberexit.do?tseq=<%=tseq %>">소모임 탈퇴</a></button>
+             <button class="active"><a href="../../../main/board?tseq=<%=tseq %>">게시판</a></button>
+             <button class="allbtn"><a href="../../../main/search?tseq=<%=tseq %>" style="color : #de5f47">식당검색</a></button>
+             <button class="allbtn"><a href="../../../main/members?tseq=<%=tseq %>">소모임 회원 목록</a></button>
+             <button class="allbtn" id="bsbtn"><a href="../../../main/quitgroup?tseq=<%=tseq %>">소모임 탈퇴</a></button>
         </div>
       </section>
     </nav>  
@@ -474,7 +474,7 @@ $('.logoclick').click(function(event){
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title" id="exampleModalLabel"><b>알림</b></h4>
-          <span id="noticelogo"><img src="images/logo.png"></span>
+          <span id="noticelogo"><img src="../../../images/logo.png"></span>
         </div>
 
         <div class="modal-body">
@@ -496,7 +496,7 @@ $('.logoclick').click(function(event){
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><a href="noticedeleteok.do"><b>읽음</b></a></button>
+          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><a href="../../../notice/read"><b>읽음</b></a></button>
           <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><a href=""><b>닫기</b></a></button>
         </div>
       </div>
@@ -526,10 +526,10 @@ $('.logoclick').click(function(event){
                         
                         
                                   <tr id="tabBox" style="height:61px;">
-                                    <th scope="col" class="th-title"><a href="./somoimboard_home.do?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" >홈</a></th>
-                                    <th scope="col" class="th-date"><a href="./somoimboard_review.do?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" style="color : #de5f47">리뷰</a></th>
-                                    <th scope="col" class="th-num"><a href="./somoimboard_menu.do?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" >메뉴</a></th>
-                                    <th scope="col" class="th-date"><a href="./somoimboard_picture.do?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" >사진</a></th>
+                                    <th scope="col" class="th-title"><a href="../../../main/search/info?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" >홈</a></th>
+                                    <th scope="col" class="th-date"><a href="../../../main/search/review?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" style="color : #de5f47">리뷰</a></th>
+                                    <th scope="col" class="th-num"><a href="../../../main/search/menu?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" >메뉴</a></th>
+                                    <th scope="col" class="th-date"><a href="../../../main/search/pic?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" >사진</a></th>
                                 </tr> 
                             </thead>
 
@@ -542,7 +542,7 @@ $('.logoclick').click(function(event){
                            <div class="cmteditor" style="padding: 12px 16px 20px;background: #fcfcfc;border: 1px solid #ddd;
             border-bottom-color: #ccc; border-radius: 8px; box-shadow: 0 1px 3px -1px rgb(0 0 0 / 10%);">
          
-            <form action="./somoimboard_reviewwrite.do" name ="rfrm" style="display: block; position: relative; clear: both;">           
+            <form action="../../../main/search/review/write" name ="rfrm" style="display: block; position: relative; clear: both;">           
                <label for="editorlabel" style="cursor: pointer; position: relative; margin-bottom: 10px;"> 
                
                <strong style="padding-left:5px;font-size:16px;line-height:1.5;">리뷰 쓰기
@@ -601,9 +601,9 @@ $('.logoclick').click(function(event){
 $(function() {
    $('#favCheck').on('click', function(){
       if (document.querySelector('#favCheck').checked == true) {
-         location.href='favoriteadd.do?id=<%=id %>';
+         location.href='../../../favorite/add?id=<%=id %>';
       } else {
-         location.href='favoritedel.do?id=<%=id %>';
+         location.href='../../../favorite/del?id=<%=id %>';
       }
    });
 });
@@ -645,7 +645,7 @@ function initMap() {
 $(function() {
     $('div#star').raty({
         score: 3
-        ,path : "/images/"
+        ,path : "/../../../images/"
         ,width : 130
         ,click: function(score, evt) {
             $("#starRating").val(score);

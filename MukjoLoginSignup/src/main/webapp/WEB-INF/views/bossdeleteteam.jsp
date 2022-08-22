@@ -17,7 +17,7 @@
 	      log = "LOGOUT";
 	} else {
 	      out.println ( "<script>");
-	     out.println ( "window.location.href = 'http://localhost/login.do'");
+	     out.println ( "window.location.href = 'http://localhost/welcome'");
 	     out.println ( "</script>");
 	}
 
@@ -37,7 +37,7 @@
 	out.println("		reverseButtons: false,");
 	out.println("	}).then((result) => {");
 	out.println("		if (result.isConfirmed) {");
-	out.println("			location.href='./bossdeleteteamok.do?tseq="+tseq.toString()+"';");
+	out.println("			location.href='../../../adgroups/admin/chggname/success?tseq="+tseq.toString()+"';");
 	out.println("		} else {");
 	out.println("			history.back();");
 	out.println("		}");
