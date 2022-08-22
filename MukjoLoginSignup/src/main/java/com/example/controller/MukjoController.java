@@ -1487,7 +1487,7 @@ public class MukjoController {
     String tname=fdao.tnameFromTseq(tseq);
     String search = request.getParameter("search");
 
-      ArrayList<FoodTO> lists = fdao.crawler(search);
+      ArrayList<FoodTO> lists = fdao.crawler(search,tseq);
       ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
       int noticeCount=ndao.noticeCount(seq);
       

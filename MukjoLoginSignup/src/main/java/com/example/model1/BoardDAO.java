@@ -240,6 +240,7 @@ public class BoardDAO {
 		
 		sql = "delete from board where bseq=?";
 		flag = jdbcTemplate.update(sql,to.getBseq());
+		System.out.println(flag);
 
 		
 		if( flag == 0 ) {
@@ -250,6 +251,9 @@ public class BoardDAO {
 				File file = new File( uploadPath, filename );
 				file.delete();
 			}
+			
+			
+			
 			sql = "delete from boardcmt where bseq = ?";
 			jdbcTemplate.update(sql,to.getBseq());
 		}

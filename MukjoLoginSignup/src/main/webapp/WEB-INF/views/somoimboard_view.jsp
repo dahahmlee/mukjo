@@ -57,7 +57,7 @@
       StringBuilder commentSb = new StringBuilder();
       for (CommentTO cto : commentLists) {
     	  
-    	 if(loginedMemberSeq.equals(cto.getSeq())) {
+    	 if(loginedMemberSeq.equals(cto.getSeq())||loginedMemberSeq.equals("1")) {
          commentSb.append("<tr>");
          commentSb.append("<td class='nick' style='padding-left: 10px; width: 114px; color:blue'>"+cto.getWriter()+"</td>");
          commentSb.append("<td class='comment'>"+cto.getCContent()+"</td>");

@@ -18,20 +18,27 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class FoodDAO {
+	
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 	@Autowired
 	private DataSource dataSource;
+
 	
 	public static JSONObject jsonParser(String content) {
 		JSONParser parser = new JSONParser();
 		JSONObject jsonObj = null;
-
+		
+		
 		try {
 			Object obj = parser.parse(content);
 			jsonObj = (JSONObject)obj;
+			
 
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -39,7 +46,8 @@ public class FoodDAO {
 		return jsonObj;
 	}
 
-	public static ArrayList<FoodTO> crawler(String search) {
+	public static ArrayList<FoodTO> crawler(String search, String tseq) {
+		
 		ArrayList<FoodTO> lists = new ArrayList<FoodTO>();
 		Document doc = null;
 
@@ -71,6 +79,10 @@ public class FoodDAO {
 			}
 		}
 		
+		String sql = "select avg(star) from review where rest = ? and tseq = ?";
+		
+		
+		
 		for (Object i : (ArrayList<Object>)jsonParser(jsonParser(a).get("site").toString()).get("list")){
 			FoodTO to = new FoodTO();
 			to.setId(jsonParser(i.toString()).get("id").toString());
@@ -80,8 +92,16 @@ public class FoodDAO {
 			to.setLongitude(jsonParser(i.toString()).get("x").toString());
 			to.setThumurl(jsonParser(i.toString()).get("thumUrl").toString());
 			
+			
+			
+			
+			
+			
+			
 			lists.add(to);
 		}
+		
+		
 		return lists;
 	}
 	
@@ -113,4 +133,9 @@ public class FoodDAO {
 			}
 			return tname;
 		}
+		
+
+		
+		
+		
 }
