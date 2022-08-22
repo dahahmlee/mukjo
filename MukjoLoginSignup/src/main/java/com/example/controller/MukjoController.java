@@ -870,7 +870,6 @@ public class MukjoController {
    public ModelAndView boardWriteOk(HttpSession sess,HttpServletRequest request,HttpServletResponse response,Model model) throws IOException {
        String uploadPath=request.getRealPath("upload");
       //String uploadPath = "C:\\Users\\JungGyuJin\\Desktop\\mukjo_project\\새 폴더\\mukjo\\MukjoLoginSignup\\src\\main\\webapp\\upload";
-System.out.println(uploadPath);
       int maxFileSize = 20 * 1024 * 1024;
       String encoding = "utf-8";
       int flag = 10;
