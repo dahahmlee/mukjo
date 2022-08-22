@@ -1,6 +1,9 @@
 package com.example.model1;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,9 +27,6 @@ public class BoardDAO {
    
    @Autowired
    private DataSource dataSource;
-
-   File f=new File("upload");
-   private String uploadPath=f.getAbsolutePath();
    
    //private String uploadPath="C:\\Users\\JungGyuJin\\Desktop\\mukjo_project\\git\\mukjo\\MukjoLoginSignup\\src\\main\\webapp\\upload";
 
@@ -230,13 +230,16 @@ public class BoardDAO {
             return to;
       }
    
-   public int boardDeleteOk(BoardTO to) {
+   public int boardDeleteOk(BoardTO to, String uploadPath) {
 
       
       int flag = 2;
 
       String sql = "select filename from board where bseq=?";
       String filename = jdbcTemplate.queryForObject(sql, String.class,to.getBseq());
+      
+      sql = "delete from boardcmt where bseq = ?";
+      jdbcTemplate.update(sql,to.getBseq());
       
       sql = "delete from board where bseq=?";
       flag = jdbcTemplate.update(sql,to.getBseq());
@@ -249,12 +252,7 @@ public class BoardDAO {
          if( filename != null ) {
             File file = new File( uploadPath, filename );
             file.delete();
-         }
-         
-         
-         
-         sql = "delete from boardcmt where bseq = ?";
-         jdbcTemplate.update(sql,to.getBseq());
+         }   
       }
       
       return flag;
@@ -288,7 +286,7 @@ public class BoardDAO {
             return bto;
       }
    
-   public int boardModifyOk(BoardTO to) {
+   public int boardModifyOk(BoardTO to, String uploadPath) {
 
       
       int flag = 2;
@@ -491,7 +489,7 @@ public class BoardDAO {
    }
    
    //글 modify_ok
-   public int noticeModifyOk(BoardTO to) {
+   public int noticeModifyOk(BoardTO to, String uploadPath) {
       Connection conn=null;
       PreparedStatement pstmt=null;
       ResultSet rs=null;
@@ -545,7 +543,7 @@ public class BoardDAO {
    }
    
    //게시물 삭제
-   public int noticeDelete(String bseq) {
+   public int noticeDelete(String bseq, String uploadPath) {
       Connection conn=null;
       PreparedStatement pstmt=null;
       ResultSet rs=null;

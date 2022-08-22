@@ -718,7 +718,7 @@ public class MukjoController {
             to.setNewFileSize(multi.getFile("upload").length());
          }
          bseq = multi.getParameter("bseq");
-         flag=bdao.noticeModifyOk(to);
+         flag=bdao.noticeModifyOk(to, uploadPath);
       } catch (IOException e) {
          System.out.println( "[에러] " + e.getMessage() );
       }
@@ -749,12 +749,12 @@ public class MukjoController {
     //공지 삭제 확인 후 삭제
     @RequestMapping(value = "/adminnotice_deleteok.do")
        public ModelAndView adminnotice_deleteok(HttpServletRequest request, Model model) {
-   
+        String uploadPath=request.getRealPath("upload");
       String bseq=request.getParameter("bseq");
 
        ModelAndView modelAndView = new ModelAndView();
        modelAndView.setViewName("adminnotice_deleteok");
-       int flag=bdao.noticeDelete(bseq);
+       int flag=bdao.noticeDelete(bseq, uploadPath);
        modelAndView.addObject("flag",flag);
    
        return modelAndView;
@@ -870,7 +870,7 @@ public class MukjoController {
    public ModelAndView boardWriteOk(HttpSession sess,HttpServletRequest request,HttpServletResponse response,Model model) throws IOException {
        String uploadPath=request.getRealPath("upload");
       //String uploadPath = "C:\\Users\\JungGyuJin\\Desktop\\mukjo_project\\새 폴더\\mukjo\\MukjoLoginSignup\\src\\main\\webapp\\upload";
-
+System.out.println(uploadPath);
       int maxFileSize = 20 * 1024 * 1024;
       String encoding = "utf-8";
       int flag = 10;
@@ -953,10 +953,11 @@ public class MukjoController {
    public ModelAndView boardDeleteOk(HttpServletRequest request,HttpServletResponse response,Model model) {
       BoardTO to = new BoardTO();
       String bseq = request.getParameter("bseq");
+      String uploadPath=request.getRealPath("upload");
 
       to.setBseq(bseq);      
 
-      int flag = bdao.boardDeleteOk(to);
+      int flag = bdao.boardDeleteOk(to, uploadPath);
 
       model.addAttribute("flag", flag );
 
@@ -1015,7 +1016,7 @@ public class MukjoController {
          to.setFilesize( multi.getFile( "upload" ).length() );
       }
 
-      int flag = bdao.boardModifyOk(to);
+      int flag = bdao.boardModifyOk(to, uploadPath);
       
 
       model.addAttribute("flag", flag );
@@ -1207,12 +1208,12 @@ public class MukjoController {
     //내가 쓴 글 보기에서 게시물 삭제 
     @RequestMapping(value = "/myPage_deleteok.do")
        public ModelAndView myPage_deleteok(HttpServletRequest request, Model model) {
-   
+        String uploadPath=request.getRealPath("upload");
       String bseq=request.getParameter("bseq");
 
        ModelAndView modelAndView = new ModelAndView();
        modelAndView.setViewName("myPage_deleteok");
-       int flag=bdao.noticeDelete(bseq);
+       int flag=bdao.noticeDelete(bseq, uploadPath);
        modelAndView.addObject("flag",flag);
    
        return modelAndView;
@@ -1282,7 +1283,7 @@ public class MukjoController {
             to.setNewFileSize(multi.getFile("upload").length());
          }
          bseq = multi.getParameter("bseq");
-         flag=bdao.noticeModifyOk(to);
+         flag=bdao.noticeModifyOk(to, uploadPath);
       } catch (IOException e) {
          System.out.println( "[에러] " + e.getMessage() );
       }
