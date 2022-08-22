@@ -49,14 +49,25 @@
 				String writer=boardLists.get(i).getWriter();
 				String wdate=boardLists.get(i).getWdate();
 				String hit=boardLists.get(i).getHit();
-				
-				sb.append("<tr>");
-				sb.append("<td>공지</td>");
-				sb.append("<td>"+writer+"</td>");
-				sb.append("<td><a href='adminnotice_view.do?cpage="+cpage+"&bseq="+bseq+"'>"+subject+"</td>");
-				sb.append("<td>"+wdate+"</td>");
-				sb.append("<td>"+hit+"</td>");
-				sb.append("</tr>");
+				String filename=boardLists.get(i).getFilename();
+
+				if (filename==null) {
+					sb.append("<tr>");
+					sb.append("<td>공지</td>");
+					sb.append("<td>"+writer+"</td>");
+					sb.append("<td><a href='adminnotice_view.do?cpage="+cpage+"&bseq="+bseq+"'>"+subject+"</a></td>");
+					sb.append("<td>"+wdate+"</td>");
+					sb.append("<td>"+hit+"</td>");
+					sb.append("</tr>");
+				} else {
+					sb.append("<tr>");
+					sb.append("<td>공지</td>");
+					sb.append("<td>"+writer+"</td>");
+					sb.append("<td><a href='adminnotice_view.do?cpage="+cpage+"&bseq="+bseq+"'>"+subject+"</a>&nbsp;<img src='./images/Img_show.png'></td>");
+					sb.append("<td>"+wdate+"</td>");
+					sb.append("<td>"+hit+"</td>");
+					sb.append("</tr>");
+				}	
 			}
 		}
 	}
@@ -456,7 +467,10 @@ footer{
 	margin-right: 15px;
 }
 
-
+.board-table img {
+   object-fit: cover;
+   width: 15px;
+}
 
 </style>
 

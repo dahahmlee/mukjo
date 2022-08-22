@@ -24,7 +24,7 @@ public class CommentDAO {
 	
 	public ArrayList<CommentTO> commentView(String bseq) {
 		
-		String sql = "select cseq,boardcmt.seq, member.name as writer, bseq,ccontent,date_format(cdate, '%Y-%m-%d %H:%i') cdate from boardcmt inner join member on boardcmt.seq = member.seq where bseq = ? order by cseq desc ";
+		String sql = "select cseq,boardcmt.seq, member.name as writer, bseq,ccontent,date_format(cdate, '%Y-%m-%d %H:%i') cdate from boardcmt inner join member on boardcmt.seq = member.seq where bseq = ? order by cseq";
 		ArrayList<CommentTO> commentLists = (ArrayList)jdbcTemplate.query(sql, new BeanPropertyRowMapper<CommentTO>(CommentTO.class),bseq);
 		
 		return commentLists;
