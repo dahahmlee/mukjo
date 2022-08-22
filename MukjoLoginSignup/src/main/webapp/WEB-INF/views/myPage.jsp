@@ -617,6 +617,11 @@ textarea {
 	background-color: #5c3018;
 }
 
+.board-table th  {
+   padding-bottom: 10px;
+   border-bottom: 1px solid black;
+}
+
 
 </style>
 
