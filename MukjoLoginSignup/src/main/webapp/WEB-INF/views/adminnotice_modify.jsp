@@ -571,14 +571,14 @@ textarea {
 		<div class="headermake" style="width:100%; background-color: #fff;">
         <div id="headerWap">
             <h1 id="logoSec">
-                <a href="main" class="logoclick"><img src="../../images/logo.png" alt="logo"></a>
+                <a href="../../../main" class="logoclick"><img src="../../images/logo.png" alt="logo"></a>
             </h1>
-            <h3><%=welcome %><a href="../../bye" id="logout" style="color : gray"><br/><%=log %></a></h3>
+            <h3><%=welcome %><a href="../../../bye" id="logout" style="color : gray"><br/><%=log %></a></h3>
             <ul>
-                <li><b><a href="mypage" class="logoclick">마이페이지</a></b></li>
-                <li><b><a href="adgroups" class="logoclick">소모임장페이지</a></b></li>
-                <li><b><a href="admin" style="color : #de5f47;" class="logoclick">관리자페이지</b></li></a>
-                <li><b><a href="favorite" class="logoclick">즐겨찾기</b></li></a>
+                <li><b><a href="../../../mypage" class="logoclick">마이페이지</a></b></li>
+                <li><b><a href="../../../adgroups" class="logoclick">소모임장페이지</a></b></li>
+                <li><b><a href="../../../admin" style="color : #de5f47;" class="logoclick">관리자페이지</b></li></a>
+                <li><b><a href="../../../favorite" class="logoclick">즐겨찾기</b></li></a>
                 <li id="bell" style="margin-left: 20px;">
                 	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
 						<img src="../../images/bell.png">
@@ -613,16 +613,16 @@ textarea {
 		<section id="locationSec">
 			<div id="locationwrap">
 				<button class="allbtn">
-					<a href="admin">리뷰&게시물 수</a>
+					<a href="../../../admin">리뷰&게시물 수</a>
 				</button>
 				<button class="active">
-					<a href="admin/members">전체 회원 목록</a>
+					<a href="../../../admin/members">전체 회원 목록</a>
 				</button>
 				<button class="active">
-					<a href="admingroups">소모임 목록</a>
+					<a href="../../../admingroups">소모임 목록</a>
 				</button>
 				<button class="active">
-					<a href="admin/notice" style="color: #de5f47">공지사항</a>
+					<a href="../../../admin/notice" style="color: #de5f47">공지사항</a>
 				</button>
 			</div>
 		</section>
@@ -660,10 +660,10 @@ textarea {
 								<div class="align_left">
 									<input type="button" value="목록" class="btn_list btn_txt02"
 										style="cursor: pointer;"
-										onclick="location.href='admin/notice?cpage=<%=cpage %>&bseq=<%=bseq %>'" /> <input
+										onclick="location.href='../../../admin/notice?cpage=<%=cpage %>&bseq=<%=bseq %>'" /> <input
 										type="button" value="보기" class="btn_list btn_txt02"
 										style="cursor: pointer;"
-										onclick="location.href='/admin/notice/view?cpage=<%=cpage %>&bseq=<%=bseq %>'" />
+										onclick="location.href='../../../admin/notice/view?cpage=<%=cpage %>&bseq=<%=bseq %>'" />
 								</div>
 								<div class="align_right">
 									<input type="button" id="mbtn" value="완료"
