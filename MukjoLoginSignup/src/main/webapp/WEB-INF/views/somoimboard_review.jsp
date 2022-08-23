@@ -62,6 +62,13 @@
       sbh.append("</div>");
       sbh.append("</p>");
    }
+   
+   StringBuilder sbhh=new StringBuilder();
+   if (avg==null) {
+       sbhh.append("<td colspan='4' class='homesub' style='height:61px; border-top: 2px solid black; border: 2px solid black;'><a href='#' style='font-weight:bold; margin-left: 40px;'>"+rname+"</a>");
+   } else {
+       sbhh.append("<td colspan='4' class='homesub' style='height:61px; border-top: 2px solid black; border: 2px solid black;'><a href='#' style='font-weight:bold; margin-left: 40px;'>"+rname+"&nbsp;(&nbsp;<i class='fa fa-star' style='font-size:20px;color:#f1b654;'></i>&nbsp;<span>"+avg+"점</span>&nbsp;)</a>");
+   }
     %>
 
 <!DOCTYPE html>
@@ -526,9 +533,7 @@ $('.logoclick').click(function(event){
                          <table border="1" style="width: 100%; height: 20%; border-collapse: separate; border-bottom: 2px solid black" >  
                              <thead>
                                <tr style="position:relative; height:61px; border-collapse: separate;">
-                               <td colspan="4" class="homesub" style="border:1.5px solid black;">
-                               <a href="#" style=" font-weight:bold; margin-left: 40px;"><%= rname %>&nbsp;(&nbsp;<i class="fa fa-star" style="font-size:20px;color:#f1b654"></i>&nbsp;<span><%=avg %>점</span>&nbsp;)</a>
-                                     
+<%=sbhh %>                                     
                                       <div class="checkbox">
                                          <input type="checkbox" id="favCheck" <%=onoff %>>
                                <label for="favCheck" style="margin-right: 10px;"></label>

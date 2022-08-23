@@ -449,12 +449,15 @@ footer{
 }
 
 .tblmain table th {
-   border: 1px solid black;
    border-bottom: none;
 }
 
 .tblmain table tr {
    border: 1px solid black;
+}
+
+.line{
+   border-right: 1.5px solid black;
 }
 
 .modal-dialog {
@@ -625,10 +628,10 @@ $('.logoclick').click(function(event){
                                
                                
                                   <tr id="tabBox" style="height:61px; border: 1.5px solid black;">
-                                    <th scope="col" class="th-title" ><a href="../../../main/search/info?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" >홈</a></th>
-                                    <th scope="col" class="th-date"><a href="../../../main/search/review?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>">리뷰</a></th>
-                                    <th scope="col" class="th-num"><a href="../../../main/search/menu?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" style="color : #de5f47">메뉴</a></th>
-                                    <th scope="col" class="th-date"><a href="../../../main/search/pic?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>">사진</a></th>
+                                    <th scope="col" class="th-title line" ><a href="../../../main/search/info?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" >홈</a></th>
+                                    <th scope="col" class="th-date line"><a href="../../../main/search/review?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>">리뷰</a></th>
+                                    <th scope="col" class="th-num line"><a href="../../../main/search/menu?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" style="color : #de5f47">메뉴</a></th>
+                                    <th scope="col" class="th-date line"><a href="../../../main/search/pic?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>">사진</a></th>
                                  
                                 </tr> 
                             </thead>
