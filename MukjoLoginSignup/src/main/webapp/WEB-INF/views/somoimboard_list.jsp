@@ -78,7 +78,7 @@
         	 sb.append("<tr>");
              sb.append("      <td>일반</a></td>");
              sb.append("      <td>"+ writer+"</a></td>");
-             sb.append("      <td><a href='main/board/view?tseq="+tseq+"&bseq="+bseq+"&cpage="+cpage+"'>"+ subject+"</a>&nbsp;<img src='../images/Img_show.png'></td>");
+             sb.append("      <td><a href='../../main/board/view?tseq="+tseq+"&bseq="+bseq+"&cpage="+cpage+"'>"+ subject+"</a>&nbsp;<img src='../images/Img_show.png'></td>");
              sb.append("      <td>"+ wdate+"</a></td>");
              sb.append("      <td>"+ hit+"</a></td>");
              sb.append("</tr>");
@@ -103,7 +103,7 @@
 	   	  	 noticeSb.append("<tr class='notice'>");
 	         noticeSb.append("      <td><a href='#'>공지</a></td>");
 	         noticeSb.append("      <td><a href='#'>"+ writer+"</a></td>");
-	         noticeSb.append("      <td><a href='main/board/view/notice?tseq="+tseq+"&bseq="+bseq+"&cpage="+cpage+"'>"+ subject+"</a></td>");
+	         noticeSb.append("      <td><a href='../../main/board/view/notice?tseq="+tseq+"&bseq="+bseq+"&cpage="+cpage+"'>"+ subject+"</a></td>");
 	         noticeSb.append("      <td><a href='#'>"+ wdate+"</a></td>");
 	         noticeSb.append("      <td><a href='#'>"+ hit+"</a></td>");
 	         noticeSb.append("</tr>");
@@ -111,7 +111,7 @@
 	    	 noticeSb.append("<tr class='notice'>");
 	         noticeSb.append("      <td><a href='#'>공지</a></td>");
 	         noticeSb.append("      <td><a href='#'>"+ writer+"</a></td>");
-	         noticeSb.append("      <td><a href='main/board/view/notice?tseq="+tseq+"&bseq="+bseq+"&cpage="+cpage+"'>"+ subject+"</a>&nbsp;<img src='../images/Img_show.png'></td>");
+	         noticeSb.append("      <td><a href='../../main/board/view/notice?tseq="+tseq+"&bseq="+bseq+"&cpage="+cpage+"'>"+ subject+"</a>&nbsp;<img src='../images/Img_show.png'></td>");
 	         noticeSb.append("      <td><a href='#'>"+ wdate+"</a></td>");
 	         noticeSb.append("      <td><a href='#'>"+ hit+"</a></td>");
 	         noticeSb.append("</tr>");
