@@ -272,7 +272,7 @@ public class TeamDAO {
       try {
          conn=this.dataSource.getConnection();
 
-         String sql="select tseq, tname, name from team inner join member where team.seq=member.seq";
+         String sql="select tseq, tname, name from team inner join member where team.seq=member.seq order by tname";
          pstmt=conn.prepareStatement(sql);
          rs=pstmt.executeQuery();
 
@@ -335,7 +335,7 @@ public class TeamDAO {
       try {
          conn=this.dataSource.getConnection();
 
-         String sql="select tseq, tname, name from team inner join member on (team.seq=member.seq) where tname like '%"+search+"%'";
+         String sql="select tseq, tname, name from team inner join member on (team.seq=member.seq) where tname like '%"+search+"%' order by tname";
          pstmt=conn.prepareStatement(sql);
          rs=pstmt.executeQuery();
 
@@ -367,7 +367,7 @@ public class TeamDAO {
             }
             teamLists.add(to);
          }
-         System.out.println(teamLists.get(0));
+
          pageAdminTeamTO.setTeamLists(teamLists);
          pageAdminTeamTO.setStartBlock((cpage-1)/blockPerPage*blockPerPage+1);
          pageAdminTeamTO.setEndBlock((cpage-1)/blockPerPage*blockPerPage+blockPerPage);

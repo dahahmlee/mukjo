@@ -634,7 +634,7 @@ $('.logoclick').click(function(event){
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><a href="notice/read"><b>읽음</b></button>
+          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><a href="../../notice/read"><b>읽음</b></button>
           <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><a href=""><b>닫기</b></button>
         </div>
       </div>
@@ -814,7 +814,7 @@ $('.logoclick').click(function(event){
                     <span class="off">&nbsp;&nbsp;<a href="#">&gt;</a></span>
                     <span class="off">&nbsp;&nbsp;<a href="#">&gt;&gt;</a></span> -->
                      <div style= "margin-left: 350px;">
-                        <input type="button" value="글쓰기" class="btn_list btn_txt02"  
+                        <input type="button" value="글 쓰기" class="btn_list btn_txt02"  
                         style="cursor: pointer; position: absolute; right: -235px;"
                   onclick="location.href='../../main/board/write?tseq=<%=tseq %>&cpage=<%=cpage %>'" /> 
                         </div>

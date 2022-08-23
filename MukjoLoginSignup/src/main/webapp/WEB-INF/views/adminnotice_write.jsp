@@ -663,7 +663,7 @@ window.onload = function() {
 							<div class="align_left">
 								<input type="button" value="목록" class="btn_list btn_txt02"
 									style="cursor: pointer;"
-									onclick="location.href='admin/notice?cpage=<%=cpage %>'" />
+									onclick="location.href='../../admin/notice?cpage=<%=cpage %>'" />
 							</div>
 							<div class="align_right">
 								<input type="button" id="wbtn" value="완료"

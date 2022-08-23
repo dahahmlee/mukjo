@@ -582,7 +582,7 @@ footer{
                 </table>
             </div>
             <div id="btn_write">
-				<button type="submit" onclick="location.href='http://localhost/admin/notice/write?cpage=<%=cpage %>'">글쓰기</button>
+				<button type="submit" onclick="location.href='http://localhost/admin/notice/write?cpage=<%=cpage %>'">글 쓰기</button>
 			</div>
 
         </section>

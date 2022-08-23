@@ -52,8 +52,8 @@
                 String tname=teamLists.get(i).getTname();
                 String name=teamLists.get(i).getName();
                 int memcount=teamLists.get(i).getMemcount();
-                
-                if (!tseq.equals("1")) {
+                System.out.println(tseq);
+                if (!tseq.equals("1") && !tseq.equals("")) {
                 	sbHtml.append("<tr>");
                     sbHtml.append("<td>"+num+"</td>");
                     sbHtml.append("<td>"+tname+"</td>");

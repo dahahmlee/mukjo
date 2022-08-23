@@ -520,7 +520,7 @@ public class MukjoController {
       pageAdminTeamTO.setCpage(cpage);
       
       if (search==null) {
-          pageAdminTeamTO = tdao.teamList(pageAdminTeamTO);
+         pageAdminTeamTO = tdao.teamList(pageAdminTeamTO);
        } else {
          pageAdminTeamTO = tdao.teamListSearch(pageAdminTeamTO, search);
        }
@@ -1632,7 +1632,7 @@ public class MukjoController {
     @RequestMapping( "/adgroups/request")   
     public ModelAndView bossaccept(HttpSession session, HttpServletRequest request,HttpServletResponse response,Model model) {
         String seq=(String)session.getAttribute("loginedMemberSeq");
-        System.out.println(seq);
+
        int cpage = 1;
       if(request.getParameter("cpage") != null && !request.getParameter("cpage").equals("")) {
          cpage = Integer.parseInt(request.getParameter("cpage"));
