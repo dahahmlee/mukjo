@@ -586,14 +586,14 @@ textarea {
         <div class="headermake" style="width:100%; background-color: #fff;">
         <div id="headerWap">
             <h1 id="logoSec">
-                <a href="main" class="logoclick"><img src="../../../images/logo.png" alt="logo"></a>
+                <a href="../../../main" class="logoclick"><img src="../../../images/logo.png" alt="logo"></a>
             </h1>
-            <h3><%=welcome %><a href="bye" id="logout" style="color : gray"><br/><%=log %></a></h3>
+            <h3><%=welcome %><a href="../../../bye" id="logout" style="color : gray"><br/><%=log %></a></h3>
             <ul>
                 <li><b><a href="mypage" style="color : #de5f47;" class="logoclick">마이페이지</a></b></li>
-                <li><b><a href="../../adgroups" class="logoclick">소모임장페이지</a></b></li>
-                <li><b><a href="../../admin" class="logoclick">관리자페이지</b></li></a>
-                <li><b><a href="../../favorite" class="logoclick">즐겨찾기</b></li></a>
+                <li><b><a href="../../../adgroups" class="logoclick">소모임장페이지</a></b></li>
+                <li><b><a href="../../../admin" class="logoclick">관리자페이지</b></li></a>
+                <li><b><a href="../../../favorite" class="logoclick">즐겨찾기</b></li></a>
                 <li id="bell" style="margin-left: 20px;">
                    <button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
                   <img src="../../../images/bell.png">
@@ -643,8 +643,8 @@ textarea {
       <!--locationSec -->
       <section id="locationSec">
         <div id = "locationwrap">
-             <button class="allbtn"><a href="mypage" style="color : #de5f47;">내가 쓴 글 보기</a></button>
-             <button class="active"><a href="mypage/change" >내 정보 수정</a></button>
+             <button class="allbtn"><a href="../../../mypage" style="color : #de5f47;">내가 쓴 글 보기</a></button>
+             <button class="active"><a href="../../../mypage/change" >내 정보 수정</a></button>
         </div>
       </section>
    </nav>
