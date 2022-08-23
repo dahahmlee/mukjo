@@ -663,7 +663,7 @@ public class BoardDAO {
 
       try {
          conn=this.dataSource.getConnection();
-         String sql="select bseq, board.seq, board.tseq, tname, subject, date_format(wdate, '%Y-%m-%d %H:%i') wdate, hit from board inner join team on (board.tseq=team.tseq) where board.seq=? order by bseq desc";
+         String sql="select bseq, board.seq, board.tseq, tname, filename, subject, date_format(wdate, '%Y-%m-%d %H:%i') wdate, hit from board inner join team on (board.tseq=team.tseq) where board.seq=? order by bseq desc";
          pstmt=conn.prepareStatement(sql);
          pstmt.setString(1,seq);
          
@@ -686,6 +686,7 @@ public class BoardDAO {
             to.setBseq(rs.getString("bseq"));
             to.setSeq(rs.getString("seq"));
             to.setTseq(rs.getString("tseq"));
+            to.setFilename(rs.getString("filename"));
             to.setTname(rs.getString("tname"));
             to.setSubject(rs.getString("subject"));
             to.setWdate(rs.getString("wdate"));
@@ -725,9 +726,9 @@ public class BoardDAO {
          conn=this.dataSource.getConnection();
          
          if (which.equals("subject")) {
-        	 sql="select bseq, board.seq, board.tseq, tname, subject, date_format(wdate, '%Y-%m-%d %H:%i') wdate, hit from board inner join team on (board.tseq=team.tseq) where board.seq=? and subject like '%"+search+"%' order by bseq desc";
+        	 sql="select bseq, board.seq, board.tseq, filename, tname, subject, date_format(wdate, '%Y-%m-%d %H:%i') wdate, hit from board inner join team on (board.tseq=team.tseq) where board.seq=? and subject like '%"+search+"%' order by bseq desc";
          } else if (which.equals("tname")) {
-        	 sql="select bseq, board.seq, board.tseq, tname, subject, date_format(wdate, '%Y-%m-%d %H:%i') wdate, hit from board inner join team on (board.tseq=team.tseq) where board.seq=? and tname like '%"+search+"%' order by bseq desc";
+        	 sql="select bseq, board.seq, board.tseq, filename, tname, subject, date_format(wdate, '%Y-%m-%d %H:%i') wdate, hit from board inner join team on (board.tseq=team.tseq) where board.seq=? and tname like '%"+search+"%' order by bseq desc";
          }
          pstmt=conn.prepareStatement(sql);
          pstmt.setString(1,seq);
@@ -750,6 +751,7 @@ public class BoardDAO {
             BoardTO to=new BoardTO();
             to.setBseq(rs.getString("bseq"));
             to.setSeq(rs.getString("seq"));
+            to.setFilename(rs.getString("filename"));
             to.setTseq(rs.getString("tseq"));
             to.setTname(rs.getString("tname"));
             to.setSubject(rs.getString("subject"));

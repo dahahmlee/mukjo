@@ -48,16 +48,27 @@
                String tname=boardLists.get(i).getTname();
                String subject=boardLists.get(i).getSubject();
                String wdate=boardLists.get(i).getWdate();
+               String filename=boardLists.get(i).getFilename();
                String hit=boardLists.get(i).getHit();
                int cmtcount=boardLists.get(i).getCmtCount();
 
-               sb.append("<tr>");
-               sb.append("<td>"+num+"</td>");
-               sb.append("<td>"+tname+"</td>");               
-               sb.append("<td><a href='mypage/view?cpage="+cpage+"&bseq="+bseq+"'>"+subject+"</a> &nbsp;&nbsp;<span class='numspan'>["+cmtcount+"]</span></td>");
-               sb.append("<td>"+wdate+"</td>");
-               sb.append("<td>"+hit+"</td>");
-               sb.append("</tr>");
+               if (filename==null) {
+                    sb.append("<tr>");
+                    sb.append("		 <td>"+num+"</td>");
+                    sb.append("		 <td>"+tname+"</td>"); 
+                    sb.append("      <td><a href='mypage/view?cpage="+cpage+"&bseq="+bseq+"'>"+ subject+"</a> &nbsp;&nbsp;<span class='numspan'>["+cmtcount+"]</span></td>");
+                    sb.append("      <td>"+ wdate+"</a></td>");
+                    sb.append("      <td>"+ hit+"</a></td>");
+                    sb.append("</tr>");
+                } else {
+                	sb.append("<tr>");
+                    sb.append("		 <td>"+num+"</td>");
+                    sb.append("		 <td>"+tname+"</td>"); 
+                    sb.append("      <td><a href='mypage/view?cpage="+cpage+"&bseq="+bseq+"'>"+ subject+"</a>&nbsp;<img src='../images/Img_show.png'>&nbsp;&nbsp;<span class='numspan'>["+cmtcount+"]</span></td>");
+                    sb.append("      <td>"+ wdate+"</a></td>");
+                    sb.append("      <td>"+ hit+"</a></td>");
+                    sb.append("</tr>");
+                }   
                
                num+=1;
             }
@@ -656,6 +667,11 @@ textarea {
 .board-table th  {
    padding-bottom: 10px;
    border-bottom: 1px solid black;
+}
+
+.board-table img {
+   object-fit: cover;
+   width: 15px;
 }
 
 .logoclick:active {
