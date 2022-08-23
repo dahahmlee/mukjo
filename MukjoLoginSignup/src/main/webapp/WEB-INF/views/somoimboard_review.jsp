@@ -446,7 +446,7 @@ $('.logoclick').click(function(event){
                 <li><b><a href="/../../../mypage" class="logoclick">마이페이지</a></b></li>
                 <li><b><a href="/../../../adgroups" class="logoclick">소모임장페이지</a></b></li>
                 <li><b><a href="/../../../admin" class="logoclick">관리자페이지</b></li></a>
-            	<li><b><a href="/../../../favorite" class="logoclick">즐겨찾기</b></li></a>
+               <li><b><a href="/../../../favorite" class="logoclick">즐겨찾기</b></li></a>
                 <li id="bell" style="margin-left: 20px;">
                    <button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
                   <img src="../../../images/bell.png">
@@ -461,7 +461,7 @@ $('.logoclick').click(function(event){
       <section id="locationSec">
         <div id = "locationwrap">
              <button class="active"><a href="../../../main/board?tseq=<%=tseq %>">게시판</a></button>
-             <button class="allbtn"><a href="../../../main/search?tseq=<%=tseq %>" style="color : #de5f47">식당검색</a></button>
+             <button class="allbtn"><a href="../../../main/search?tseq=<%=tseq %>" style="color : #de5f47">식당 검색</a></button>
              <button class="allbtn"><a href="../../../main/members?tseq=<%=tseq %>">소모임 회원 목록</a></button>
              <button class="allbtn" id="bsbtn"><a href="../../../main/quitgroup?tseq=<%=tseq %>">소모임 탈퇴</a></button>
         </div>
@@ -517,7 +517,7 @@ $('.logoclick').click(function(event){
                          <table border="1" style="width: 100%;    height: 20%; border-collapse: separate;" >  
                              <thead>
                                <tr style="position:relative; height:61px; border-collapse: separate;">
-                               <td colspan="4" class="homesub"><a href="#" style=" font-weight:bold; margin-left: 40px;"><%= rname %></a>
+                               <td colspan="4" class="homesub"><a href="#" style=" font-weight:bold; margin-left: 40px;"><%= rname %>&nbsp;(&nbsp;<i class="fa fa-star" style="font-size:20px;color:#f1b654"></i>&nbsp;<span>3.6점</span>&nbsp;)</a>
                                      
                                       <div class="checkbox">
                                          <input type="checkbox" id="favCheck" <%=onoff %>>

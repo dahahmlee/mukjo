@@ -5,9 +5,9 @@
 <%@page import="ch.qos.logback.core.recovery.ResilientSyslogOutputStream"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
-	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+   <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     
     <%
    String log = "LOGIN";
@@ -56,20 +56,20 @@
 
       StringBuilder commentSb = new StringBuilder();
       for (CommentTO cto : commentLists) {
-    	  
-    	 if(loginedMemberSeq.equals(cto.getSeq())||loginedMemberSeq.equals("1")) {
+         
+        if(loginedMemberSeq.equals(cto.getSeq())||loginedMemberSeq.equals("1")) {
          commentSb.append("<tr>");
          commentSb.append("<td class='nick' style='padding-left: 10px; width: 114px; color:blue'>"+cto.getWriter()+"</td>");
          commentSb.append("<td class='comment'>"+cto.getCContent()+"</td>");
          commentSb.append("<td class='data' style='padding-left: 400px;'>"+cto.getCDate()+"&nbsp;&nbsp;&nbsp;<a href='../../../main/board/view/delcmt?tseq="+tseq+"&cpage="+cpage+"&bseq="+bseq+"&cseq="+cto.getCseq()+"'>X</a></td>");
          commentSb.append("</tr>");
-    	 } else {
+        } else {
              commentSb.append("<tr>");
              commentSb.append("<td class='nick' style='padding-left: 10px; width: 114px; color:blue'>"+cto.getWriter()+"</td>");
              commentSb.append("<td class='comment'>"+cto.getCContent()+"</td>");
              commentSb.append("<td class='data' style='padding-left: 400px;'>"+cto.getCDate()+"&nbsp;&nbsp;&nbsp;</td>");
              commentSb.append("</tr>");
-    	 }
+        }
       }
       
       
@@ -85,33 +85,33 @@
 
 
                 
-                																											
-			mdBtn.append("<input type='button' id='modifyBtn' value='수정' class='btn_list btn_txt02' style='cursor: pointer;' onclick=\"location.href='../../../main/board/view/modify?tseq="+tseq+"&bseq="+bseq+"&cpage="+cpage+"'\"   />");
-			mdBtn.append("\n");
-			mdBtn.append("<input type='button' id='deleteBtn' value='삭제' class='btn_list btn_txt02' style='cursor: pointer;'/>");	
-			mdBtn.append("<script>");
-			mdBtn.append("$().ready(function () {");
-			mdBtn.append("document.getElementById('deleteBtn').onclick = function() {"); 
-			mdBtn.append("	Swal.fire({");
-			mdBtn.append("		title: '삭제 확인',");
-			mdBtn.append("		text: '이 글을 삭제하시겠습니까?',");
-			mdBtn.append("		icon: 'warning',");
-			mdBtn.append("		showCancelButton: true,");
-			mdBtn.append("		confirmButtonColor: '#3085d6',");
-			mdBtn.append("		cancelButtonColor: '#d33',");
-			mdBtn.append("		confirmButtonText: '확인',");
-			mdBtn.append("		cancelButtonText: '취소',");
-			mdBtn.append("		reverseButtons: false,");
-			mdBtn.append("	}).then((result) => {");
-			mdBtn.append("		if (result.isConfirmed) {");
-			mdBtn.append("			location.href='../../../main/board/view/del/success?tseq="+tseq+"&bseq="+bseq+"&cpage="+cpage+"';");
-			mdBtn.append("		} else {");
+                                                                                                 
+         mdBtn.append("<input type='button' id='modifyBtn' value='수정' class='btn_list btn_txt02' style='cursor: pointer;' onclick=\"location.href='../../../main/board/view/modify?tseq="+tseq+"&bseq="+bseq+"&cpage="+cpage+"'\"   />");
+         mdBtn.append("\n");
+         mdBtn.append("<input type='button' id='deleteBtn' value='삭제' class='btn_list btn_txt02' style='cursor: pointer;'/>");   
+         mdBtn.append("<script>");
+         mdBtn.append("$().ready(function () {");
+         mdBtn.append("document.getElementById('deleteBtn').onclick = function() {"); 
+         mdBtn.append("   Swal.fire({");
+         mdBtn.append("      title: '삭제 확인',");
+         mdBtn.append("      text: '이 글을 삭제하시겠습니까?',");
+         mdBtn.append("      icon: 'warning',");
+         mdBtn.append("      showCancelButton: true,");
+         mdBtn.append("      confirmButtonColor: '#3085d6',");
+         mdBtn.append("      cancelButtonColor: '#d33',");
+         mdBtn.append("      confirmButtonText: '확인',");
+         mdBtn.append("      cancelButtonText: '취소',");
+         mdBtn.append("      reverseButtons: false,");
+         mdBtn.append("   }).then((result) => {");
+         mdBtn.append("      if (result.isConfirmed) {");
+         mdBtn.append("         location.href='../../../main/board/view/del/success?tseq="+tseq+"&bseq="+bseq+"&cpage="+cpage+"';");
+         mdBtn.append("      } else {");
 
-			mdBtn.append("		}");
-			mdBtn.append("	})");
-			mdBtn.append("}");
-			mdBtn.append("})");
-			mdBtn.append("</script>");
+         mdBtn.append("      }");
+         mdBtn.append("   })");
+         mdBtn.append("}");
+         mdBtn.append("})");
+         mdBtn.append("</script>");
       }
 
       ArrayList<NoticeTO> noticeList=(ArrayList<NoticeTO>)request.getAttribute("noticeList");
@@ -140,9 +140,9 @@
    href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css"
    rel="stylesheet">
 <!-- Bootstrap (for modal) -->
-	
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+   
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
 <style>
 /** common **/
@@ -152,7 +152,8 @@ body, ul, li, h1, h2, h3 {
 }
 
 p {
-   color: black;
+   font-size: 0.7rem;
+   color: grey;
    font-family: 'Noto Sans KR', sans-serif;
 }
 
@@ -516,12 +517,11 @@ footer {
 }
 
 .board_view td {
-
+    border-bottom: 1px solid #dadada;
    font-family: 'NanumSquareBold';
    height: 25px;
     text-align: left;
     padding: 8px;
-    border-bottom: 1px solid #dadada;
     color: black;
 }
 
@@ -669,27 +669,27 @@ textarea {
     right: 0px;
 }
 .modal-content {
-	border: 1px solid black;
+   border: 1px solid black;
     height: 100%;
 }
 #noticelogo {
-	width: 25%;
+   width: 25%;
 }
 
 .modal-body span {
-	float: right;
-	margin-right: 15px;
-	font-color: black;
-	font-size: 15px;
+   float: right;
+   margin-right: 15px;
+   font-color: black;
+   font-size: 15px;
 }
 
 #somoimp {
-	font-size: 15px;
-	color: black;
+   font-size: 15px;
+   color: black;
 }
 
 #modalBtn:hover {
-	background-color: #5c3018;
+   background-color: #5c3018;
 }
 
 
@@ -722,12 +722,12 @@ $('.logoclick').click(function(event){
                 <li><b><a href="../../../mypage" class="logoclick">마이페이지</a></b></li>
                 <li><b><a href="../../../adgroups" class="logoclick">소모임장페이지</a></b></li>
                 <li><b><a href="../../../admin" class="logoclick">관리자페이지</b></li></a>
-            	<li><b><a href="../../../favorite" class="logoclick">즐겨찾기</b></li></a>
+               <li><b><a href="../../../favorite" class="logoclick">즐겨찾기</b></li></a>
                 <li id="bell" style="margin-left: 20px;">
-                	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-						<img src="../../../images/bell.png">
-					</button><%=noticeCount %>
-				</li>
+                   <button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  <img src="../../../images/bell.png">
+               </button><%=noticeCount %>
+            </li>
             </ul>
           </div>
         </div> <!--headerWap-->
@@ -798,7 +798,7 @@ $('.logoclick').click(function(event){
                   </tr>
                <tr>
                      <td colspan="4" height="100" valign="top"
-                        style="padding: 10px; line-height: 150% overflow: auto;">
+                        style="padding: 50 10 10 10px; line-height: 150% overflow: auto; border:none;">
                         <div class="img_size">
                         <%=sbHtml %>
                         </div>
@@ -812,7 +812,7 @@ $('.logoclick').click(function(event){
             overflow: hidden;
             _height: 1%;
             background: #fff;
-            margin-top:150px;
+            margin-top:100px;
             display: table;
             border-collapse: separate;">
             <div class="tablewrap" style="display : table-cell;">
@@ -869,7 +869,9 @@ $('.logoclick').click(function(event){
                min-height: 4em;
                height: 49px;
                width: 85%;
-               margin-left: 3px;"></textarea>
+               margin-left: 3px;
+               resize : none;
+               "></textarea>
 
             <input type="button" id="cbtn" value="등록" class="btn_list2 btn_txt03"
             style="cursor: pointer; margin-left:40px ;" />

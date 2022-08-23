@@ -34,22 +34,22 @@
    StringBuilder sbHtml = new StringBuilder();
    
    if (filename!=null) {
-	     // 이미지 크기 조정 여기서 하기 width: 500px;
-	      sbHtml.append("<img style='width: 500px;' src='../../../../upload/"+filename+"'/><br />");
-	      
-	   }
-	   sbHtml.append("<div>");
-	   sbHtml.append("<p style='font-size:15px; color:black; word-break: break-all; '>");
-	   sbHtml.append(content);
-	   sbHtml.append("</p>");
-	   sbHtml.append("</div>");
-	   
-	   
-	   String tseq = request.getParameter("tseq");
-	   String bseq = request.getParameter("bseq");
-	   String cpage = request.getParameter("cpage");
+        // 이미지 크기 조정 여기서 하기 width: 500px;
+         sbHtml.append("<img style='width: 500px;' src='../../../../upload/"+filename+"'/><br />");
+         
+      }
+      sbHtml.append("<div>");
+      sbHtml.append("<p style='font-size:15px; color:black; word-break: break-all; '>");
+      sbHtml.append(content);
+      sbHtml.append("</p>");
+      sbHtml.append("</div>");
+      
+      
+      String tseq = request.getParameter("tseq");
+      String bseq = request.getParameter("bseq");
+      String cpage = request.getParameter("cpage");
 
-	   ArrayList<NoticeTO> noticeList=(ArrayList<NoticeTO>)request.getAttribute("noticeList");
+      ArrayList<NoticeTO> noticeList=(ArrayList<NoticeTO>)request.getAttribute("noticeList");
        String noticeCount=(String)request.getAttribute("noticeCount").toString();
        
        StringBuilder sbh=new StringBuilder();
@@ -76,7 +76,7 @@
    rel="stylesheet">
    
 <!-- Bootstrap (for modal) -->
-	
+   
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
    
@@ -454,8 +454,8 @@ footer {
 .board_view td {
    text-align: left;
     padding: 8px;
-    border-bottom: 1px solid #dadada;
     color: black;
+     border-bottom: 1px solid #dadada;
     font-family: 'NanumSquareBold';
 }
 
@@ -600,27 +600,27 @@ textarea {
     right: 0px;
 }
 .modal-content {
-	border: 1px solid black;
+   border: 1px solid black;
     height: 100%;
 }
 #noticelogo {
-	width: 25%;
+   width: 25%;
 }
 
 .modal-body span {
-	float: right;
-	margin-right: 15px;
-	font-color: black;
-	font-size: 15px;
+   float: right;
+   margin-right: 15px;
+   font-color: black;
+   font-size: 15px;
 }
 
 #somoimp {
-	font-size: 15px;
-	color: black;
+   font-size: 15px;
+   color: black;
 }
 
 #modalBtn:hover {
-	background-color: #5c3018;
+   background-color: #5c3018;
 }
 
 
@@ -653,12 +653,12 @@ $('.logoclick').click(function(event){
                 <li><b><a href="../../../../mypage" class="logoclick">마이페이지</a></b></li>
                 <li><b><a href="../../../../adgroups" class="logoclick">소모임장페이지</a></b></li>
                 <li><b><a href="../../../../admin" class="logoclick">관리자페이지</b></li></a>
-            	<li><b><a href="../../../../favorite" class="logoclick">즐겨찾기</b></li></a>
+               <li><b><a href="../../../../favorite" class="logoclick">즐겨찾기</b></li></a>
                 <li id="bell" style="margin-left: 20px;">
-                	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-						<img src="../../../../images/bell.png">
-					</button><%=noticeCount %>
-				</li>
+                   <button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  <img src="../../../../images/bell.png">
+               </button><%=noticeCount %>
+            </li>
             </ul>
           </div>
         </div> <!--headerWap-->
@@ -729,9 +729,9 @@ $('.logoclick').click(function(event){
                      <th>조회수</th>
                      <td><%=hit %></td>
                   </tr>
-					<tr>
+               <tr>
                      <td colspan="4" height="100" valign="top"
-                        style="padding: 10px; line-height: 150% overflow: auto;">
+                        style="padding-top: 50px; line-height: 150%; overflow: auto; border:none;">
                         <div class="img_size">
                         <%=sbHtml %>
                         </div>
@@ -757,18 +757,18 @@ $('.logoclick').click(function(event){
          </div>
       </div>
    </div>
-   	<script type="text/javascript">
-	window.onload = function() {
-		document.getElementById( 'cbtn' ).onclick = function() {
+      <script type="text/javascript">
+   window.onload = function() {
+      document.getElementById( 'cbtn' ).onclick = function() {
 
-			if( document.cfrm.cContent.value.trim() == "" ) {
-				alert( '내용을 입력하셔야 합니다.' );
-				return false;
-			}
-			
-			document.cfrm.submit();
-		};
-	};
+         if( document.cfrm.cContent.value.trim() == "" ) {
+            alert( '내용을 입력하셔야 합니다.' );
+            return false;
+         }
+         
+         document.cfrm.submit();
+      };
+   };
 
 </script>
 </body>

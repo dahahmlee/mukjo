@@ -76,11 +76,11 @@
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet">
     <!-- 부트스트랩 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	
-	<!-- Bootstrap (for modal) -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-	
+   
+   <!-- Bootstrap (for modal) -->
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+   
 <!-- 지도 -->
 <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=f8b62z9xjz&amp;submodules=geocoder"></script>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
@@ -416,21 +416,21 @@ footer{
 }
 
 .iw_inner {
-	margin: 5px;
-	padding: 1px 5px;
-	border-radius: 30px;
-	background-color: rgba(4, 117, 244, 0.9);
+   margin: 5px;
+   padding: 1px 5px;
+   border-radius: 30px;
+   background-color: rgba(4, 117, 244, 0.9);
 }
 
 .checkbox {
-	float: right;
-	
+   float: right;
+   
 }
 
 #star {
-	width: 40px;
-	margin-top: 10px;
-	
+   width: 40px;
+   margin-top: 10px;
+   
 }
 
 input[type="checkbox"]+label {
@@ -477,12 +477,12 @@ $('.logoclick').click(function(event){
                 <li><b><a href="../../../mypage" class="logoclick">마이페이지</a></b></li>
                 <li><b><a href="../../../adgroups" class="logoclick">소모임장페이지</a></b></li>
                 <li><b><a href="../../../admin" class="logoclick">관리자페이지</b></li></a>
-            	<li><b><a href="../../../favorite" class="logoclick">즐겨찾기</b></li></a>
+               <li><b><a href="../../../favorite" class="logoclick">즐겨찾기</b></li></a>
                 <li id="bell" style="margin-left: 20px;">
-                	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-						<img src="../../../images/bell.png">
-					</button><%=noticeCount %>
-				</li>
+                   <button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  <img src="../../../images/bell.png">
+               </button><%=noticeCount %>
+            </li>
             </ul>
           </div>
         </div> <!--headerWap-->
@@ -527,7 +527,7 @@ $('.logoclick').click(function(event){
       <section id="locationSec">
         <div id = "locationwrap">
              <button class="active"><a href="../../../main/board?tseq=<%=tseq %>">게시판</a></button>
-             <button class="allbtn"><a href="../../../main/search?tseq=<%=tseq %>" style="color : #de5f47">식당검색</a></button>
+             <button class="allbtn"><a href="../../../main/search?tseq=<%=tseq %>" style="color : #de5f47">식당 검색</a></button>
              <button class="allbtn"><a href="../../../main/members?tseq=<%=tseq %>">소모임 회원 목록</a></button>
              <button class="allbtn" id="bsbtn"><a href="../../../main/quitgroup?tseq=<%=tseq %>">소모임 탈퇴</a></button>
         </div>
@@ -549,11 +549,11 @@ $('.logoclick').click(function(event){
                     <div style="width: 50%;">
                          <table border="1" style="width: 100%;    height: 20%;">  
                              <thead>
-                               <td colspan="4" class="homesub" style="height:61px;"><a href="#" style=" font-weight:bold; margin-left: 40px;"><%= rname %></a>
+                               <td colspan="4" class="homesub" style="height:61px;"><a href="#" style=" font-weight:bold; margin-left: 40px;"><%= rname %>&nbsp;(&nbsp;<i class="fa fa-star" style="font-size:20px;color:#f1b654"></i>&nbsp;<span>3.6점</span>&nbsp;)</a>
                                       <div class="checkbox">
                                          <input type="checkbox" id="favCheck" <%=onoff %>>
-										 <label for="favCheck" style="margin-right: 10px;"></label>
-									  </div>
+                               <label for="favCheck" style="margin-right: 10px;"></label>
+                             </div>
                                   <tr id="tabBox" style="height:61px;">
                                    <th scope="col" class="th-title"><a href="../../../main/search/info?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" >홈</a></th>
                                     <th scope="col" class="th-date"><a href="../../../main/search/review?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>">리뷰</a></th>
@@ -624,10 +624,10 @@ $('.logoclick').click(function(event){
                         </div><!-- itemBox-->
                     </div><!-- width 50%용-->
                     <div class="maps" style="width:50%;">
-				<div id="map" style="width:100%;height:450px;"></div>
-			</div>
-		</div><!-- tblWrap -->
-	</div>
+            <div id="map" style="width:100%;height:450px;"></div>
+         </div>
+      </div><!-- tblWrap -->
+   </div>
 <!-- footer 
 <footer>
 
@@ -636,39 +636,39 @@ $('.logoclick').click(function(event){
 </body>
 <script type="text/javascript">
 $(function() {
-	$('#favCheck').on('click', function(){
-		if (document.querySelector('#favCheck').checked == true) {
-			location.href='../../../favorite/add?id=<%=id %>';
-		} else {
-			location.href='../../../favorite/del?id=<%=id %>';
-		}
-	});
+   $('#favCheck').on('click', function(){
+      if (document.querySelector('#favCheck').checked == true) {
+         location.href='../../../favorite/add?id=<%=id %>';
+      } else {
+         location.href='../../../favorite/del?id=<%=id %>';
+      }
+   });
 
 });
 
 $(function() {
-	initMap();
+   initMap();
 })
 
 function initMap() {
-	var map = new naver.maps.Map('map', {
-	    center: new naver.maps.LatLng(<%=latitude %>, <%=longitude %>),
-	    zoom: 17
-	});
-	
-	var marker = new naver.maps.Marker({
-	   	position: new naver.maps.LatLng(<%=latitude %>, <%=longitude %>),
-	   	map: map
-	});
-	
-	var infoWindow = new naver.maps.InfoWindow({
-    	content: '<div class=\"iw_inner\"><div class=\"div_font\"style=\"font-size:13px;font-weight:600;text-align:center;padding:10px;color:#ffffff;\"><b><%= rname%></b></div></div>',
-	    	borderWidth: 0,
-	    	disableAnchor: true,
-	    	backgroundColor: 'transparent'
+   var map = new naver.maps.Map('map', {
+       center: new naver.maps.LatLng(<%=latitude %>, <%=longitude %>),
+       zoom: 17
+   });
+   
+   var marker = new naver.maps.Marker({
+         position: new naver.maps.LatLng(<%=latitude %>, <%=longitude %>),
+         map: map
+   });
+   
+   var infoWindow = new naver.maps.InfoWindow({
+       content: '<div class=\"iw_inner\"><div class=\"div_font\"style=\"font-size:13px;font-weight:600;text-align:center;padding:10px;color:#ffffff;\"><b><%= rname%></b></div></div>',
+          borderWidth: 0,
+          disableAnchor: true,
+          backgroundColor: 'transparent'
     });
-	
-	infoWindow.open(map, marker);
+   
+   infoWindow.open(map, marker);
 }
 </script>
 </html>

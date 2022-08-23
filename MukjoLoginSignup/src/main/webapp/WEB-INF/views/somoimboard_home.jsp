@@ -436,7 +436,7 @@ $('.logoclick').click(function(event){
                 <li><b><a href="../../../mypage" class="logoclick">마이페이지</a></b></li>
                 <li><b><a href="../../../adgroups" class="logoclick">소모임장페이지</a></b></li>
                 <li><b><a href="../../../admin" class="logoclick">관리자페이지</b></li></a>
-            	<li><b><a href="../../../favorite" class="logoclick">즐겨찾기</b></li></a>
+               <li><b><a href="../../../favorite" class="logoclick">즐겨찾기</b></li></a>
                 <li id="bell" style="margin-left: 20px;">
                    <button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
                   <img src="../../../images/bell.png">
@@ -487,7 +487,7 @@ $('.logoclick').click(function(event){
       <section id="locationSec" >
         <div id = "locationwrap" >
              <button class="active"><a href="../../../main/board?tseq=<%=tseq %>" >게시판</a></button>
-             <button class="allbtn"><a href="../../../main/search?tseq=<%=tseq %>" style="color : #de5f47">식당검색</a></button>
+             <button class="allbtn"><a href="../../../main/search?tseq=<%=tseq %>" style="color : #de5f47">식당 검색</a></button>
              <button class="allbtn"><a href="../../../main/members?tseq=<%=tseq %>">소모임 회원 목록</a></button>
              <button class="allbtn bsbtn"><a href="../../../main/quitgroup?tseq=<%=tseq %>" id="bstn">소모임 탈퇴</a></button>
         </div>
@@ -513,7 +513,7 @@ $('.logoclick').click(function(event){
                              <tr style="position:relative; height:61px;">
 
                      
-                               <td colspan="4" class="homesub"><a href="#" style=" font-weight:bold;"><%= rname %></a>
+                               <td colspan="4" class="homesub"><a href="#" style=" font-weight:bold;"><%= rname %>&nbsp;(&nbsp;<i class="fa fa-star" style="font-size:20px;color:#f1b654;"></i>&nbsp;<span>3.6점</span>&nbsp;)</a>
                                 <div class="star-container div2" id="star" style="width: 5%;
                                       position: absolute;
                                       right: 1%;
