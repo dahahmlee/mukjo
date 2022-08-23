@@ -31,7 +31,7 @@
 		out.println("		text: '먹조를 사랑해주셔서 감사합니다.',");
 		out.println("		icon: 'success',");
 		out.println("	}).then(() => {");
-		out.println("		location.href='./byebye'");
+		out.println("		location.href='../../../byebye'");
 		out.println("	})");
 		out.println("});");
 	} else {

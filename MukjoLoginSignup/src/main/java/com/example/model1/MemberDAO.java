@@ -310,16 +310,16 @@ public class MemberDAO {
 				pstmt.setString(1, seq);
 				pstmt.executeUpdate();
 				
-				String sql3 = "SET foreign_key_checks = 1";
-				pstmt = conn.prepareStatement(sql3);
-				pstmt.executeUpdate();
-				
 				String sql2 = "delete from member where seq=?";
 				pstmt = conn.prepareStatement(sql2);
 				pstmt.setString(1, seq);
 				if(pstmt.executeUpdate() == 1) {
 					flag = 0;
 				}
+				
+				String sql3 = "SET foreign_key_checks = 1";
+				pstmt = conn.prepareStatement(sql3);
+				pstmt.executeUpdate();				
 			} catch(SQLException e) {
 				System.out.println("[에러]: " + e.getMessage());
 			} finally {

@@ -1819,7 +1819,7 @@ public class MukjoController {
         return modelAndView;
     }
    
-   @RequestMapping(value = "/adgroups/admin/del/success")
+   @RequestMapping(value = "/mypage/change/quit/success")
    public ModelAndView myPage_info_deleteok(HttpServletRequest request, Model model) {
        
        String seq=request.getParameter("seq");

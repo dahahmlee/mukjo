@@ -765,7 +765,7 @@ footer {
             <div class="submit">
                     <input type="button" id="mpBtn1" value="수정" >
                     &nbsp;&nbsp;
-                    <input type="button" id="mpBtn2" value="회원탈퇴" onclick="location.href='./mypage/change/quit?seq=<%=seq %>'">
+                    <input type="button" id="mpBtn2" value="회원 탈퇴" onclick="location.href='../../mypage/change/quit?seq=<%=seq %>'">
             </div>
       </form>
    </div>
@@ -775,7 +775,7 @@ footer {
 
     </footer>
     -->
-<script src="./js/myPage_modify.js"></script>
+<script src="../../js/myPage_modify.js"></script>
 </body>
 
 </html>

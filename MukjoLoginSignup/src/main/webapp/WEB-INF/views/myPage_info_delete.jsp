@@ -38,7 +38,7 @@
 	out.println("		reverseButtons: false,");
 	out.println("	}).then((result) => {");
 	out.println("		if (result.isConfirmed) {");
-	out.println("			location.href='./mypage/change/quit?seq="+seq.toString()+"';");
+	out.println("			location.href='../../mypage/change/quit/success?seq="+seq.toString()+"';");
 	out.println("		} else {");
 	out.println("			history.back();");
 	out.println("		}");

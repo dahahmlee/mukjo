@@ -580,7 +580,7 @@ footer{
             	<div class="btn_area">
             		<div class="align">
             			<button type="button" id="bossdlt" onclick="deleteteam(this.form)">소모임 삭제</button>
-						<button type="submit" id="bossmdf" onclick="../../adgroups/admin/chggname?tseq=<%=tseq %>">변경</button>		
+						<button type="button" id="bossmdf" onclick="../../adgroups/admin/chggname?tseq=<%=tseq %>">변경</button>		
 					</div>
 					
             	</div>
