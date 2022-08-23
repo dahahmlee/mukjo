@@ -264,10 +264,10 @@ nav {
 
 /* 버튼 섹션*/
 #btnSec {
-   border-bottom: 2px solid #5c3018;
    display: inline-flex;
-   justify-content: space-between;
-   width: 100%;
+   justify-content: right;
+   width: 1280px;
+   margin-left: 120px;
 }
 
 #btnSec button {
@@ -283,7 +283,6 @@ nav {
 }
 
 #btnSec .search-wrap {
-   margin-left: 50%;
 }
 
 #locationSec {
@@ -331,7 +330,7 @@ nav {
 }
 
 #tblWrap {
-   padding-top: 30px;
+   padding-top: 10px;
 }
 
 /***** pagingSec  *****/
@@ -347,17 +346,28 @@ nav {
 }
 
 #btnSec .search-wrap {
-   align-items: center;
-   width: 282px;
-   height: 36px;
-   box-sizing: border-box;
-   -webkit-border-radius: 24px;
-   -moz-border-radius: 24px;
-   border-radius: 24px;
-   border: 2px solid #5c3018;
-   display: inline-block;
-   overflow: hidden;
-   position: relative;
+    right: 0;
+    font-size: 0; 
+    margin-bottom : 8px;
+}
+
+.select{
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+}
+.form-select{
+   font-size: 14px;
+    font-weight: 600;
+}
+
+#btnSec .search-wrap .select select{
+    border: 2px solid #5c3018;
+    border-radius: 10px;
+    height: 36px;
+    width: 130px;
+    box-sizing: border-box;
+    padding-left: 10px;
 }
 
 #pagingSec .search-wrap #search {
@@ -365,13 +375,29 @@ nav {
    margin-right: 4px;
 }
 
-.search-wrap input {
-   height: 32px;
-   width: 80%;
-   color: #000;
-   font-size: 16px;
-   box-sizing: border-box;
-   margin-left: 5px;
+.search-wrap .input{
+    width: 282px;
+    height: 36px;
+    box-sizing: border-box;
+    -webkit-border-radius: 24px;
+    -moz-border-radius: 24px;
+    border-radius: 24px;
+    border: 2px solid #5c3018;
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+    position: relative;
+    padding-left: 14px;
+    padding-right: 42px;
+    margin-left: 10px;
+}
+
+.search-wrap .input input{
+    height: 32px;
+    width: 100%;
+    color: #000;
+    font-size: 16px;
+    box-sizing: border-box;
 }
 
 /* width : 30, height : 45 */
@@ -702,9 +728,33 @@ textarea {
              <button class="active"><a href="mypage/change" >내 정보 수정</a></button>
         </div>
       </section>
-    </nav>  
+    </nav>
 
-    <!-- 전체 요소를 감싸는 div -->
+   <section id="btnSec">
+      <div class="search-wrap">
+         <form action="" method="post" name="sfrm">
+            <div class="select">
+
+               <select class="form-select" aria-label="Default select example"
+                  name="which">
+                  <option value="subject">&nbsp;제목</option>
+                  <option value="content">&nbsp;소모임 이름</option>
+               </select>
+
+
+            </div>
+            <!-- select-->
+            <div class="input">
+               <input type="text" title="검색어 입력" name="search" value="">
+               <button type="submit">검색</button>
+            </div>
+            <!-- input -->
+         </form>
+      </div>
+      <!-- search-wrap -->
+   </section>
+
+   <!-- 전체 요소를 감싸는 div -->
     <div id="wrap">
         <!-- 테이블 목록이 있는 섹션입니다 -->
         <section id="tblSec">
