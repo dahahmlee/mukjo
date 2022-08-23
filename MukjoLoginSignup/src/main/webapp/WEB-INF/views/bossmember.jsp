@@ -13,19 +13,19 @@
        String welcome = "";
     
        if(loginedMemberSeq != null) {
-     		welcome = (String)sess.getAttribute("loginedMemberName")+"님 환영합니다.";
-     		log = "LOGOUT";
-     		if (loginedMemberSeq.equals("1")) {
-     	   		out.println ( "<script>");
-     	   		out.println( "alert('관리자는 소모임장 페이지에 들어갈 수 없습니다.');" );
-     			out.println ( "history.back();");
-     			out.println ( "</script>");
-     	   	}
-     	} else {
-     		out.println ( "<script>");
-  		out.println ( "window.location.href = 'http://localhost/welcome'");
-  		out.println ( "</script>");
-     	}
+           welcome = (String)sess.getAttribute("loginedMemberName")+"님 환영합니다.";
+           log = "LOGOUT";
+           if (loginedMemberSeq.equals("1")) {
+                 out.println ( "<script>");
+                 out.println( "alert('관리자는 소모임장 페이지에 들어갈 수 없습니다.');" );
+              out.println ( "history.back();");
+              out.println ( "</script>");
+              }
+        } else {
+           out.println ( "<script>");
+        out.println ( "window.location.href = 'http://localhost/welcome'");
+        out.println ( "</script>");
+        }
        
        PageMemberTO pageMemberTO = (PageMemberTO)request.getAttribute("pageMemberTO");
        String myseq = (String)request.getAttribute("myseq");
@@ -62,10 +62,10 @@
                 sbHtml.append( "<td>" + email + "</td>" );
                 sbHtml.append( "<td>" + birth + "</td>" );
                 if (!myseq.equals(seq)) {
-                	sbHtml.append( "<td><a href='../../adgroups/members/chgleader?seq="+seq+"&name="+name+"&tseq="+tseq+"'><button type='sumbit'>권한 위임</button></a>" );
+                   sbHtml.append( "<td><a href='../../adgroups/members/chgleader?seq="+seq+"&name="+name+"&tseq="+tseq+"'><button type='sumbit'>권한 위임</button></a>" );
                     sbHtml.append( "&nbsp&nbsp<a href='../../adgroups/members/delmember?seq="+seq+"&name="+name+"&tseq="+tseq+"'><button type='sumbit'>추방</button></a></td>" );
                 } else {
-                	sbHtml.append( "<td></td>" );
+                   sbHtml.append( "<td></td>" );
                 }
                 sbHtml.append( "</tr>" );
                 num+=1;
@@ -99,10 +99,10 @@
     <!-- 나눔스퀘어 폰트 -->
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet">
 
-	<!-- Bootstrap (for modal) -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-	
+   <!-- Bootstrap (for modal) -->
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+   
 <style>
 /** common **/
 
@@ -272,7 +272,7 @@ nav{
 #titSec strong{
   font-family: 'NanumSquareExtraBold';
   font-size: 35px;
-  padding: 30px 0 30px 0;
+  padding: 20px 0 20px 0;
   display: inline-block;
 }
 
@@ -280,7 +280,6 @@ nav{
 
 /* 버튼 섹션*/
 #btnSec {
-     border-bottom: 2px solid #5c3018; 
      display: inline-flex;
      justify-content: space-between;
      width: 100%;
@@ -293,9 +292,9 @@ nav{
 
 #btnSec strong{
   font-family: 'NanumSquareExtraBold';
-  font-size: 25px;
+  font-size: 20px;
   display: inline-block;
-  padding-left: 50px;
+  padding-left: 20px;
 }
 
 #btnSec .search-wrap{
@@ -352,7 +351,7 @@ nav{
 
 /* 테이블 섹션 */
 #tblSec {
-	margin-top : 30px;
+   margin-top : 30px;
 }
 
 #tblSec table{
@@ -367,7 +366,7 @@ nav{
 }
 
 #tblWrap{
-    padding-top: 30px;
+    padding-top: 0px;
 }
 
 /***** pagingSec  *****/
@@ -384,7 +383,46 @@ nav{
 }
 
 #btnSec .search-wrap{
-    align-items: center;
+    right: 0;
+    font-size: 0; 
+    margin-bottom : 0px;
+   
+}
+
+.select{
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+}
+.form-select{
+   font-size: 14px;
+    font-weight: 600;
+}
+
+#btnSec .search-wrap .select select{
+    border: 2px solid #5c3018;
+    border-radius: 10px;
+    height: 36px;
+    width: 90px;
+    box-sizing: border-box;
+    padding-left: 10px;
+}
+
+.search-wrap select option{
+    font-weight: normal;
+    display: block;
+    white-space: nowrap;
+    min-height: 1.2em;
+    padding: 0px 2px 1px;
+}
+
+#pagingSec .search-wrap #search{
+    height: 37.6px;
+    margin-right: 4px;
+}
+
+
+.search-wrap .input{
     width: 282px;
     height: 36px;
     box-sizing: border-box;
@@ -394,23 +432,19 @@ nav{
     border: 2px solid #5c3018;
     display: inline-block;
     overflow: hidden;
+    vertical-align: top;
     position: relative;
-   
+    padding-left: 14px;
+    padding-right: 42px;
+    margin-left: 10px;
 }
 
-#pagingSec .search-wrap #search{
-    height: 37.6px;
-    margin-right: 4px;
-}
-
-
-.search-wrap input{
+.search-wrap .input input{
     height: 32px;
-    width: 80%;
+    width: 100%;
     color: #000;
     font-size: 16px;
     box-sizing: border-box;
-    margin-left:5px;
 }
 
 /* width : 30, height : 45 */
@@ -478,7 +512,7 @@ footer{
 }
 
 #tname {
-	font-size: 20px;
+   font-size: 20px;
 }
 
 .modal-dialog {
@@ -489,16 +523,16 @@ footer{
     right: 0px;
 }
 .modal-content {
-	border: 1px solid black;
+   border: 1px solid black;
     height: 100%;
 }
 #noticelogo {
-	width: 25%;
+   width: 25%;
 }
 
 .modal-body span {
-	float: right;
-	margin-right: 15px;
+   float: right;
+   margin-right: 15px;
 }
 
 .logoclick:active {
@@ -524,14 +558,14 @@ footer{
                 <li><b><a href="../../admin" class="logoclick">관리자페이지</b></li></a>
                 <li><b><a href="../../favorite" class="logoclick">즐겨찾기</b></li></a>
                 <li id="bell" style="margin-left: 20px;">
-                	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-						<img src="../../images/bell.png">
-					</button><%=noticeCount %>
-				</li>
+                   <button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  <img src="../../images/bell.png">
+               </button><%=noticeCount %>
+            </li>
             </ul>
           </div>
         </div> <!--headerWap-->
-   		<!-- Modal -->
+         <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
       <div class="modal-content">
@@ -578,8 +612,40 @@ footer{
 
     <!-- 전체 요소를 감싸는 div -->
     <div id="wrap">
-    	<section id="tblSec">
-    	<span id="tname"><strong>소모임 : <b><%=tname %></b></strong></span>
+            <!-- 게시판 이름이 있는 섹션입니다 -->
+        <section id="titSec">
+            <strong></strong>
+        </section>
+        
+      <section id="btnSec">
+         <strong>소모임 : <b><%=tname%></b></strong>
+
+         <div class="search-wrap">
+            <form action="../../main/board?tseq=<%=tseq%>" method="post"
+               name="sfrm">
+               <div class="select">
+
+                  <select class="form-select" aria-label="Default select example"
+                     name="which">
+                     <option value="name">이름</option>
+                     <option value="id">계정</option>
+                  </select>
+               </div>
+               <!-- select-->
+               <div class="input">
+                  <input type="text" title="검색어 입력" name="search" value="">
+                  <button type="submit">검색</button>
+               </div>
+               <!-- input -->
+            </form>
+         </div>
+         <!-- search-wrap -->
+      </section>
+
+
+
+      <section id="tblSec">
+       <!--  <span id="tname"><strong>소모임 : <b></b></strong></span> -->
             <div id="tblWrap">
                 <table class="board-table">
             
