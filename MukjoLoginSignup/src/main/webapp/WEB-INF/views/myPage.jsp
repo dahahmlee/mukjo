@@ -49,11 +49,12 @@
                String subject=boardLists.get(i).getSubject();
                String wdate=boardLists.get(i).getWdate();
                String hit=boardLists.get(i).getHit();
-               
+               int cmtcount=boardLists.get(i).getCmtCount();
+
                sb.append("<tr>");
                sb.append("<td>"+num+"</td>");
-               sb.append("<td>"+tname+"</td>");
-               sb.append("<td><a href='mypage/view?cpage="+cpage+"&bseq="+bseq+"'>"+subject+"</td>");
+               sb.append("<td>"+tname+"</td>");               
+               sb.append("<td><a href='mypage/view?cpage="+cpage+"&bseq="+bseq+"'>"+subject+"</a> &nbsp;&nbsp;<span class='numspan'>["+cmtcount+"]</span></td>");
                sb.append("<td>"+wdate+"</td>");
                sb.append("<td>"+hit+"</td>");
                sb.append("</tr>");

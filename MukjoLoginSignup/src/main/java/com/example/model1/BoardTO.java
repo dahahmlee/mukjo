@@ -21,4 +21,5 @@ public class BoardTO{
 		private long newFileSize;
 		private String newFileName;
 		private String oldFileName;
+		private int cmtCount;
 }

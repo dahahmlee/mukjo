@@ -80,106 +80,173 @@ public class BoardDAO {
    
    //somoimboard.do - 소모임 게시판
    public BoardListTO boardList(BoardListTO listTO) {
+	  Connection conn=null;
+      PreparedStatement pstmt=null;
+      ResultSet rs=null;
       
       ArrayList<BoardTO> noticeLists = this.noticeList();
       
       int cpage = listTO.getCpage();
       int recordPerPage = listTO.getRecordPerPage();
       int blockPerPage = listTO.getBlockPerPage();
-      
+
       int skip = (cpage -1)* recordPerPage;
-         String sql = "";
-         
-         ArrayList<BoardTO> lists = new ArrayList<BoardTO>();
-         if (cpage == 1) {
-            sql = "select bseq,tseq, member.name as writer, subject, filename, date_format(wdate, '%Y-%m-%d') wdate, hit from board inner join member on board.seq = member.seq where tseq = ? order by bseq desc limit ?,?";
-            lists = (ArrayList)jdbcTemplate.query(sql, new BeanPropertyRowMapper<BoardTO>(BoardTO.class),listTO.getTseq(),skip,recordPerPage - noticeLists.size());
-         } else {
-            sql = "select bseq,tseq, member.name as writer, subject, filename, date_format(wdate, '%Y-%m-%d') wdate, hit from board inner join member on board.seq = member.seq where tseq = ? order by bseq desc limit ?,?";
-            lists = (ArrayList)jdbcTemplate.query(sql, new BeanPropertyRowMapper<BoardTO>(BoardTO.class),listTO.getTseq(),skip,recordPerPage);      
-         }
-         
-         sql = "select count(*) from board inner join member on board.seq = member.seq where tseq = ?";
-         
-         int totalRecord = jdbcTemplate.queryForObject(sql,int.class,listTO.getTseq());
-
-         listTO.setTotalRecord( totalRecord );
-
-         
-         listTO.setTotalPage( ( ( listTO.getTotalRecord() -1 ) / recordPerPage ) + 1 );
-
-         
-         listTO.setBoardLists( lists );
-         
-         listTO.setStartBlock( ( ( cpage -1 ) / blockPerPage ) * blockPerPage + 1 );
-         listTO.setEndBlock( ( ( cpage -1 ) / blockPerPage ) * blockPerPage + blockPerPage );
-         if( listTO.getEndBlock() >= listTO.getTotalPage() ) {
-            listTO.setEndBlock( listTO.getTotalPage() );
-         }
-
       
-      return listTO;
+      try {
+         conn=this.dataSource.getConnection();
+         String sql="select bseq, tseq, member.name as writer, subject, filename, date_format(wdate, '%Y-%m-%d') wdate, hit from board inner join member on board.seq = member.seq where tseq = ? order by bseq desc limit ?,?";
+         pstmt=conn.prepareStatement(sql);
+         pstmt.setString(1,listTO.getTseq());
+         pstmt.setInt(2,skip);
+         pstmt.setInt(3,recordPerPage - noticeLists.size());
+         
+         rs=pstmt.executeQuery();
+      
+         rs.last(); //읽기 커서를 맨 마지막 행으로 이동
+         listTO.setTotalRecord(rs.getRow());
+         rs.beforeFirst(); //읽기 커서를 맨 첫행으로 이동
 
+         //전체 페이지
+         listTO.setTotalPage((listTO.getTotalRecord()-1)/recordPerPage+1);
+
+         //시작번호 - 읽을 데이터 위치 지정
+         if (skip!=0) rs.absolute(skip); //커서를 주어진 행으로 이동
+
+         ArrayList<BoardTO> lists=new ArrayList<BoardTO>();
+         for (int i=0;i<recordPerPage && rs.next();i++) {
+            BoardTO to=new BoardTO();
+            to.setBseq(rs.getString("bseq"));
+            to.setTseq(rs.getString("tseq"));
+            to.setWriter(rs.getString("writer"));
+            to.setSubject(rs.getString("subject"));
+            to.setFilename(rs.getString("filename"));
+            to.setWdate(rs.getString("wdate"));
+            to.setHit(rs.getString("hit"));
+
+            to.setCmtCount(cmtCount(rs.getString("bseq")));
+            
+            lists.add(to);
+         }
+         listTO.setBoardLists(lists);
+         listTO.setStartBlock((cpage-1)/blockPerPage*blockPerPage+1);
+         listTO.setEndBlock((cpage-1)/blockPerPage*blockPerPage+blockPerPage);
+         if (listTO.getEndBlock()>=listTO.getTotalPage()) {
+        	 listTO.setEndBlock(listTO.getTotalPage());
+         }
+      } catch (SQLException e) {
+         System.out.println("[에러]:"+e.getMessage());
+      } finally {
+         if (conn!=null) try {conn.close();} catch (SQLException e) {}
+         if (pstmt!=null) try {pstmt.close();} catch (SQLException e) {}
+         if (rs!=null) try {rs.close();} catch (SQLException e) {}
+      }
+      return listTO;
    }
+      
    
-   //somoimboard.do - 소모임 게시판 검색
+   //somoimboard.do - 소모임 게시판 + 검색
    public BoardListTO boardListSearch(BoardListTO listTO, String which, String search) {
+	  Connection conn=null;
+      PreparedStatement pstmt=null;
+      ResultSet rs=null;
       
       ArrayList<BoardTO> noticeLists = this.noticeListSearch(which, search);
       
       int cpage = listTO.getCpage();
       int recordPerPage = listTO.getRecordPerPage();
       int blockPerPage = listTO.getBlockPerPage();
-      
+
       int skip = (cpage -1)* recordPerPage;
-         String sql = "";
-         
-         ArrayList<BoardTO> lists = new ArrayList<BoardTO>();
-         if (cpage == 1) {
-            if (which.equals("subject")) {
-               sql = "select bseq,tseq, member.name as writer, subject, filename, date_format(wdate, '%Y-%m-%d') wdate, hit from board inner join member on board.seq = member.seq where tseq = ? and subject like '%"+search+"%' order by bseq desc limit ?,?";
-               lists = (ArrayList)jdbcTemplate.query(sql, new BeanPropertyRowMapper<BoardTO>(BoardTO.class),listTO.getTseq(),skip,recordPerPage - noticeLists.size());
-            } else if (which.equals("content")) {
-               sql = "select bseq,tseq, member.name as writer, subject, filename, date_format(wdate, '%Y-%m-%d') wdate, hit from board inner join member on board.seq = member.seq where tseq = ? and content like '%"+search+"%' order by bseq desc limit ?,?";
-               lists = (ArrayList)jdbcTemplate.query(sql, new BeanPropertyRowMapper<BoardTO>(BoardTO.class),listTO.getTseq(),skip,recordPerPage - noticeLists.size());
-            } else if (which.equals("writer")) {
-               sql = "select bseq,tseq, member.name as writer, subject, filename, date_format(wdate, '%Y-%m-%d') wdate, hit from board inner join member on board.seq = member.seq where tseq = ? and member.name like '%"+search+"%' order by bseq desc limit ?,?";
-               lists = (ArrayList)jdbcTemplate.query(sql, new BeanPropertyRowMapper<BoardTO>(BoardTO.class),listTO.getTseq(),skip,recordPerPage - noticeLists.size());
-            }
-         } else {
-            if (which.equals("subject")) {
-               sql = "select bseq,tseq, member.name as writer, subject, filename, date_format(wdate, '%Y-%m-%d') wdate, hit from board inner join member on board.seq = member.seq where tseq = ? and subject like '%"+search+"%' order by bseq desc limit ?,?";
-               lists = (ArrayList)jdbcTemplate.query(sql, new BeanPropertyRowMapper<BoardTO>(BoardTO.class),listTO.getTseq(),skip,recordPerPage);   
-            } else if (which.equals("content")) {
-               sql = "select bseq,tseq, member.name as writer, subject, filename, date_format(wdate, '%Y-%m-%d') wdate, hit from board inner join member on board.seq = member.seq where tseq = ? and content like '%"+search+"%' order by bseq desc limit ?,?";
-               lists = (ArrayList)jdbcTemplate.query(sql, new BeanPropertyRowMapper<BoardTO>(BoardTO.class),listTO.getTseq(),skip,recordPerPage);   
-            } else if (which.equals("writer")) {
-               sql = "select bseq,tseq, member.name as writer, subject, filename, date_format(wdate, '%Y-%m-%d') wdate, hit from board inner join member on board.seq = member.seq where tseq = ? and writer like '%"+search+"%' order by bseq desc limit ?,?";
-               lists = (ArrayList)jdbcTemplate.query(sql, new BeanPropertyRowMapper<BoardTO>(BoardTO.class),listTO.getTseq(),skip,recordPerPage);   
-            }   
-         }
-         
-         sql = "select count(*) from board inner join member on board.seq = member.seq where tseq = ? and subject like '%"+search+"%'";
-         
-         int totalRecord = jdbcTemplate.queryForObject(sql,int.class,listTO.getTseq());
-
-         listTO.setTotalRecord( totalRecord );
-
-         
-         listTO.setTotalPage( ( ( listTO.getTotalRecord() -1 ) / recordPerPage ) + 1 );
-
-         
-         listTO.setBoardLists( lists );
-         
-         listTO.setStartBlock( ( ( cpage -1 ) / blockPerPage ) * blockPerPage + 1 );
-         listTO.setEndBlock( ( ( cpage -1 ) / blockPerPage ) * blockPerPage + blockPerPage );
-         if( listTO.getEndBlock() >= listTO.getTotalPage() ) {
-            listTO.setEndBlock( listTO.getTotalPage() );
-         }
-
       
-      return listTO;
+      
+      ArrayList<BoardTO> lists = new ArrayList<BoardTO>();
+      String sql="";
+      
+      try {
+         conn=this.dataSource.getConnection();
+         
+         if (cpage==1) {
+        	 if (which.equals("subject")) {
+        		 sql = "select bseq,tseq, member.name as writer, subject, filename, date_format(wdate, '%Y-%m-%d') wdate, hit from board inner join member on board.seq = member.seq where tseq = ? and subject like '%"+search+"%' order by bseq desc limit ?,?";
+        		 pstmt=conn.prepareStatement(sql);
+        		 pstmt.setString(1,listTO.getTseq());
+                 pstmt.setInt(2,skip);
+                 pstmt.setInt(3,recordPerPage - noticeLists.size());
+        	 } else if (which.equals("content")) {
+        		 sql = "select bseq,tseq, member.name as writer, subject, filename, date_format(wdate, '%Y-%m-%d') wdate, hit from board inner join member on board.seq = member.seq where tseq = ? and content like '%"+search+"%' order by bseq desc limit ?,?";
+        		 pstmt=conn.prepareStatement(sql);
+        		 pstmt.setString(1,listTO.getTseq());
+                 pstmt.setInt(2,skip);
+                 pstmt.setInt(3,recordPerPage - noticeLists.size());
+        	 } else if (which.equals("writer")) {
+        		 sql = "select bseq,tseq, member.name as writer, subject, filename, date_format(wdate, '%Y-%m-%d') wdate, hit from board inner join member on board.seq = member.seq where tseq = ? and member.name like '%"+search+"%' order by bseq desc limit ?,?";
+        		 pstmt=conn.prepareStatement(sql);
+        		 pstmt.setString(1,listTO.getTseq());
+                 pstmt.setInt(2,skip);
+                 pstmt.setInt(3,recordPerPage - noticeLists.size());
+        	 }
+         } else {
+        	 if (which.equals("subject")) {
+        		 sql = "select bseq,tseq, member.name as writer, subject, filename, date_format(wdate, '%Y-%m-%d') wdate, hit from board inner join member on board.seq = member.seq where tseq = ? and subject like '%"+search+"%' order by bseq desc limit ?,?";
+        		 pstmt=conn.prepareStatement(sql);
+        		 pstmt.setString(1,listTO.getTseq());
+                 pstmt.setInt(2,skip);
+                 pstmt.setInt(3,recordPerPage);
+        	 } else if (which.equals("content")) {
+        		 sql = "select bseq,tseq, member.name as writer, subject, filename, date_format(wdate, '%Y-%m-%d') wdate, hit from board inner join member on board.seq = member.seq where tseq = ? and content like '%"+search+"%' order by bseq desc limit ?,?";
+        		 pstmt=conn.prepareStatement(sql);
+        		 pstmt.setString(1,listTO.getTseq());
+                 pstmt.setInt(2,skip);
+                 pstmt.setInt(3,recordPerPage);
+        	 } else if (which.equals("writer")) {
+        		 sql = "select bseq,tseq, member.name as writer, subject, filename, date_format(wdate, '%Y-%m-%d') wdate, hit from board inner join member on board.seq = member.seq where tseq = ? and member.name like '%"+search+"%' order by bseq desc limit ?,?";
+        		 pstmt=conn.prepareStatement(sql);
+        		 pstmt.setString(1,listTO.getTseq());
+                 pstmt.setInt(2,skip);
+                 pstmt.setInt(3,recordPerPage);
+        	 }
+         }
+         
+         rs=pstmt.executeQuery();
+      
+         rs.last(); //읽기 커서를 맨 마지막 행으로 이동
+         listTO.setTotalRecord(rs.getRow());
+         rs.beforeFirst(); //읽기 커서를 맨 첫행으로 이동
 
+         //전체 페이지
+         listTO.setTotalPage((listTO.getTotalRecord()-1)/recordPerPage+1);
+
+         //시작번호 - 읽을 데이터 위치 지정
+         if (skip!=0) rs.absolute(skip); //커서를 주어진 행으로 이동
+
+         for (int i=0;i<recordPerPage && rs.next();i++) {
+            BoardTO to=new BoardTO();
+            to.setBseq(rs.getString("bseq"));
+            to.setTseq(rs.getString("tseq"));
+            to.setWriter(rs.getString("writer"));
+            to.setSubject(rs.getString("subject"));
+            to.setFilename(rs.getString("filename"));
+            to.setWdate(rs.getString("wdate"));
+            to.setHit(rs.getString("hit"));
+
+            to.setCmtCount(cmtCount(rs.getString("bseq")));
+            
+            lists.add(to);
+         }
+         listTO.setBoardLists(lists);
+         listTO.setStartBlock((cpage-1)/blockPerPage*blockPerPage+1);
+         listTO.setEndBlock((cpage-1)/blockPerPage*blockPerPage+blockPerPage);
+         if (listTO.getEndBlock()>=listTO.getTotalPage()) {
+        	 listTO.setEndBlock(listTO.getTotalPage());
+         }
+      } catch (SQLException e) {
+         System.out.println("[에러]:"+e.getMessage());
+      } finally {
+         if (conn!=null) try {conn.close();} catch (SQLException e) {}
+         if (pstmt!=null) try {pstmt.close();} catch (SQLException e) {}
+         if (rs!=null) try {rs.close();} catch (SQLException e) {}
+      }
+      return listTO;
    }
       
    
@@ -623,6 +690,8 @@ public class BoardDAO {
             to.setSubject(rs.getString("subject"));
             to.setWdate(rs.getString("wdate"));
             to.setHit(rs.getString("hit"));
+            
+            to.setCmtCount(cmtCount(rs.getString("bseq")));
 
             boardLists.add(to);
          }
@@ -686,6 +755,8 @@ public class BoardDAO {
             to.setSubject(rs.getString("subject"));
             to.setWdate(rs.getString("wdate"));
             to.setHit(rs.getString("hit"));
+
+            to.setCmtCount(cmtCount(rs.getString("bseq")));
 
             boardLists.add(to);
          }
@@ -775,5 +846,32 @@ public class BoardDAO {
       return tname;
    }
    
- 
+   //댓글 개수
+   public int cmtCount(String bseq) {
+      Connection conn = null;
+      PreparedStatement pstmt = null;
+      ResultSet rs = null;
+
+      int cmtCount=0;
+      try {
+         conn = this.dataSource.getConnection();
+         
+         String sql = "select count(*) from boardcmt where bseq=?";
+         pstmt = conn.prepareStatement(sql);
+         pstmt.setString(1, bseq);
+         rs = pstmt.executeQuery();
+
+         if (rs.next()) {
+        	 cmtCount=rs.getInt("count(*)");
+         }
+         
+      } catch (SQLException e) {
+         System.out.println("[에러]:"+e.getMessage());
+      } finally {
+         if(conn != null) try { conn.close(); } catch(SQLException e) {}
+         if(pstmt != null) try { pstmt.close(); } catch(SQLException e) {}
+         if(rs != null) try { rs.close(); } catch(SQLException e) {}
+      }
+      return cmtCount;
+   }
 }

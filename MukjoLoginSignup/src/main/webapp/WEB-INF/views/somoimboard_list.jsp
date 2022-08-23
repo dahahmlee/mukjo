@@ -50,10 +50,11 @@
       String wdate = "";
       String hit = "";
       String filename = "";
+      int cmtcount=0;
+      
       String tseq = (String)request.getAttribute("tseq");
       String tname = (String)request.getAttribute("tname");
-      
-      
+
       for( int i = 0 ; i < boardLists.size(); i++ ) {
          BoardTO to = boardLists.get(i);
          bseq = to.getBseq();
@@ -65,12 +66,13 @@
          wdate = to.getWdate();
          hit = to.getHit();
          filename = to.getFilename();
+         cmtcount=to.getCmtCount();
 
          if (filename==null) {
             sb.append("<tr>");
              sb.append("      <td>일반</a></td>");
              sb.append("      <td>"+ writer+"</a></td>");
-             sb.append("      <td><a href='../../main/board/view?tseq="+tseq+"&bseq="+bseq+"&cpage="+cpage+"'>"+ subject+"</a> &nbsp;&nbsp;<span class='numspan'>[2]</span></td>");
+             sb.append("      <td><a href='../../main/board/view?tseq="+tseq+"&bseq="+bseq+"&cpage="+cpage+"'>"+ subject+"</a> &nbsp;&nbsp;<span class='numspan'>["+cmtcount+"]</span></td>");
              sb.append("      <td>"+ wdate+"</a></td>");
              sb.append("      <td>"+ hit+"</a></td>");
              sb.append("</tr>");
@@ -78,7 +80,7 @@
             sb.append("<tr>");
              sb.append("      <td>일반</a></td>");
              sb.append("      <td>"+ writer+"</a></td>");
-             sb.append("      <td><a href='../../main/board/view?tseq="+tseq+"&bseq="+bseq+"&cpage="+cpage+"'>"+ subject+"</a>&nbsp;<img src='../images/Img_show.png'>&nbsp;&nbsp;<span class='numspan'>[2]</span></td>");
+             sb.append("      <td><a href='../../main/board/view?tseq="+tseq+"&bseq="+bseq+"&cpage="+cpage+"'>"+ subject+"</a>&nbsp;<img src='../images/Img_show.png'>&nbsp;&nbsp;<span class='numspan'>["+cmtcount+"]</span></td>");
              sb.append("      <td>"+ wdate+"</a></td>");
              sb.append("      <td>"+ hit+"</a></td>");
              sb.append("</tr>");
