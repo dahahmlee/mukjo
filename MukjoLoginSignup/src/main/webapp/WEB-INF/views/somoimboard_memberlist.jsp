@@ -51,12 +51,12 @@
                String name = memberLists.get(i).getName();
                String email = memberLists.get(i).getEmail();
                String birth = memberLists.get(i).getBirth();
-				
+            
                if (!seq.equals("1")) {
-            	   if (seq.equals(jangseq)) {
-                	   sbHtml.append( "<tr class='notice'>" );
+                  if (seq.equals(jangseq)) {
+                      sbHtml.append( "<tr class='notice'>" );
                    } else {
-                	   sbHtml.append( "<tr>" );
+                      sbHtml.append( "<tr>" );
                    }
                    sbHtml.append( "<td>" + num + "</td>" );
                    sbHtml.append( "<td>" + name + "</td>" );
@@ -77,8 +77,10 @@
          String words=noticeList.get(i).getWords();
          String ndate=noticeList.get(i).getNdate();
          
-         sbh.append("<p>"+words);
-         sbh.append("<span>"+ndate+"</span>");
+         sbh.append("<p style='padding-top:25px; margin-bottom:0px;'>"+words);
+         sbh.append("<div>");
+         sbh.append("   <span>"+ndate+"</span>");
+         sbh.append("</div>");
          sbh.append("</p>");
       }
     %>
@@ -93,11 +95,11 @@
     <style href="css/common.css"></style>
     <!-- 나눔스퀘어 폰트 -->
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet">
-	<!-- Bootstrap (for modal) -->
-	
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-	
+   <!-- Bootstrap (for modal) -->
+   
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+   
 
 <style>
 /** common **/
@@ -489,17 +491,22 @@ footer{
     height: 100%;
     right: 0px;
 }
+
+.modal-body {
+   padding-top: 0px;
+   height: 100%;
+}
+
 .modal-content {
-	border: 1px solid black;
+   border: 1px solid black;
     height: 100%;
 }
 #noticelogo {
-	width: 25%;
+   width: 25%;
 }
 
 .modal-body span {
-	float: right;
-	margin-right: 15px;
+   float: right;
 }
 
 /* button */
@@ -531,12 +538,12 @@ $('.logoclick').click(function(event){
                <li><b><a href="../../mypage" class="logoclick">마이페이지</a></b></li>
                 <li><b><a href="../../adgroups" class="logoclick">소모임장페이지</a></b></li>
                 <li><b><a href="../../admin" class="logoclick">관리자페이지</b></li></a>
-            	<li><b><a href="../../favorite" class="logoclick">즐겨찾기</b></li></a>
+               <li><b><a href="../../favorite" class="logoclick">즐겨찾기</b></li></a>
                 <li id="bell" style="margin-left: 20px;">
-                	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-						<img src="../../images/bell.png">
-					</button><%=noticeCount %>
-				</li>
+                   <button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  <img src="../../images/bell.png">
+               </button><%=noticeCount %>
+            </li>
             </ul>
           </div>
         </div> <!--headerWap-->
@@ -565,7 +572,7 @@ $('.logoclick').click(function(event){
              <span>2022.07.13</span>
           </p>
           -->
-          <hr />
+      
         </div>
 
         <div class="modal-footer">
@@ -602,12 +609,12 @@ $('.logoclick').click(function(event){
 
             <div class="search-wrap"> 
             <form action="../../main/members?tseq=<%=tseq %>" method="post" name="sfrm"> 
-	            <div class="input">          
-	            	<input type="text" title="검색어 입력" name="search" placeholder="이름 검색">
-	            	<button type="submit">검색</button>
-	            </div><!-- input -->
-	        </form>
-         	</div><!-- search-wrap -->
+               <div class="input">          
+                  <input type="text" title="검색어 입력" name="search" placeholder="이름 검색">
+                  <button type="submit">검색</button>
+               </div><!-- input -->
+           </form>
+            </div><!-- search-wrap -->
            
         </section>
     

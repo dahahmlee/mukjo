@@ -60,16 +60,11 @@
       String words=noticeList.get(i).getWords();
       String ndate=noticeList.get(i).getNdate();
       
-      sbh.append("<p>"+words);
-      sbh.append("<span>"+ndate+"</span>");
+      sbh.append("<p style='padding-top:25px; margin-bottom:0px;'>"+words);
+      sbh.append("<div>");
+      sbh.append("   <span>"+ndate+"</span>");
+      sbh.append("</div>");
       sbh.append("</p>");
-   }
-
-   StringBuilder sbhh=new StringBuilder();
-   if (avg==null) {
-       sbhh.append("<td colspan='4' class='homesub' style='height:61px;'><a href='#' style='font-weight:bold; margin-left: 40px;'>"+rname+"</a>");
-   } else {
-       sbhh.append("<td colspan='4' class='homesub' style='height:61px;'><a href='#' style='font-weight:bold; margin-left: 40px;'>"+rname+"&nbsp;(&nbsp;<i class='fa fa-star' style='font-size:20px;color:#f1b654;'></i>&nbsp;<span>"+avg+"점</span>&nbsp;)</a>");
    }
     %>
 
@@ -405,6 +400,12 @@ footer{
     right: 0px;
 }
 
+.modal-body {
+   padding-top: 0px;
+   height: 100%;
+}
+
+
 .modal-content {
    border: 1px solid black;
     height: 100%;
@@ -416,7 +417,6 @@ footer{
 
 .modal-body span {
    float: right;
-   margin-right: 15px;
 }
 
 ._21zjL img{
@@ -520,7 +520,7 @@ $('.logoclick').click(function(event){
              <span>2022.07.13</span>
           </p>
           -->
-          <hr />
+       
         </div>
 
         <div class="modal-footer">
@@ -558,11 +558,13 @@ $('.logoclick').click(function(event){
                     <div style="width: 50%;">
                          <table border="1" style="width: 100%;    height: 20%;">  
                              <thead>
-<%=sbhh %>                                      <div class="checkbox">
+                               <td colspan="4" class="homesub" style="height:61px; border-top: 2px solid black; border: 2px solid black;">
+                               <a href="#" style=" font-weight:bold; margin-left: 40px;"><%= rname %>&nbsp;(&nbsp;<i class="fa fa-star" style="font-size:20px;color:#f1b654"></i>&nbsp;<span><%=avg %>점</span>&nbsp;)</a>
+                                      <div class="checkbox">
                                          <input type="checkbox" id="favCheck" <%=onoff %>>
                                <label for="favCheck" style="margin-right: 10px;"></label>
                              </div>
-                                  <tr id="tabBox" style="height:61px;">
+                                  <tr id="tabBox" style="height:61px; border: 1.5px solid black">
                                    <th scope="col" class="th-title"><a href="../../../main/search/info?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" >홈</a></th>
                                     <th scope="col" class="th-date"><a href="../../../main/search/review?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>">리뷰</a></th>
                                     <th scope="col" class="th-num"><a href="../../../main/search/menu?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" >메뉴</a></th>

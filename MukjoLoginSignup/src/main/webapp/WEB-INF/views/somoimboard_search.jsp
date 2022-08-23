@@ -5,61 +5,61 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.example.model1.FoodTO"%>
 <%
-	String log = "LOGIN";
+   String log = "LOGIN";
 
-	HttpSession sess = request.getSession();
+   HttpSession sess = request.getSession();
 
-	String loginedMemberSeq = (String)sess.getAttribute("loginedMemberSeq");
-	String welcome = "";
+   String loginedMemberSeq = (String)sess.getAttribute("loginedMemberSeq");
+   String welcome = "";
 
-	if(loginedMemberSeq != null) {
-		welcome = (String)sess.getAttribute("loginedMemberName")+"님 환영합니다.";
-		log = "LOGOUT";
-	} else {
-		out.println ( "<script>");
-		out.println ( "window.location.href = 'http://localhost/welcome'");
-		out.println ( "</script>");
-	}
+   if(loginedMemberSeq != null) {
+      welcome = (String)sess.getAttribute("loginedMemberName")+"님 환영합니다.";
+      log = "LOGOUT";
+   } else {
+      out.println ( "<script>");
+      out.println ( "window.location.href = 'http://localhost/welcome'");
+      out.println ( "</script>");
+   }
 
-	String tseq = request.getParameter("tseq");
-	
-	String tname = (String)request.getAttribute("tname");
-	ArrayList<FoodTO> lists = (ArrayList<FoodTO>)request.getAttribute("lists");
-	
-	StringBuilder sbHtml = new StringBuilder();
-	StringBuilder mHtml = new StringBuilder();
-	
-	mHtml.append( "var loc = [" );
-	
-	for(FoodTO to : lists) {
-		String id = to.getId();
-		String name = to.getName();
-		String category = to.getCategory();
-		String longitude = to.getLongitude();
-		String latitude = to.getLatitude();
-		String thumurl = to.getThumurl();
-		String avgStar = to.getAvgStar();
-		if (avgStar == null) {
-			avgStar = "  점수없음";
-		}
-		
-		
-		sbHtml.append( "<div class='lists1'>" );
-    	sbHtml.append( "<a href='../../main/search/info?tseq=" + tseq + "&id=" + id + "&latitude=" + latitude + "&longitude=" + longitude + "'><img class='list1' style=\"background-image: url('" + thumurl + "');\">");
-    	sbHtml.append( "<span class='write1'>"+name+"</span>" );
-    	sbHtml.append( "<span class='write2'>"+category+"</span>" );
-    	sbHtml.append( "<span class='write3'><i class='fa fa-star' style='font-size:20px;color:red'></i> "+avgStar+"</span>" );
-    	sbHtml.append( "</a>" );
-    	sbHtml.append( "</div>" );
-    	
-    	mHtml.append( "{ Name: \""+name+"\", " );
-    	mHtml.append( "Lat: \""+latitude+"\", " );
-    	mHtml.append( "Lng: \""+longitude+"\" }," );
-	}
-	mHtml.deleteCharAt(mHtml.length() - 1);
-	mHtml.append( "]" );
-	
-	 ArrayList<NoticeTO> noticeList=(ArrayList<NoticeTO>)request.getAttribute("noticeList");
+   String tseq = request.getParameter("tseq");
+   
+   String tname = (String)request.getAttribute("tname");
+   ArrayList<FoodTO> lists = (ArrayList<FoodTO>)request.getAttribute("lists");
+   
+   StringBuilder sbHtml = new StringBuilder();
+   StringBuilder mHtml = new StringBuilder();
+   
+   mHtml.append( "var loc = [" );
+   
+   for(FoodTO to : lists) {
+      String id = to.getId();
+      String name = to.getName();
+      String category = to.getCategory();
+      String longitude = to.getLongitude();
+      String latitude = to.getLatitude();
+      String thumurl = to.getThumurl();
+      String avgStar = to.getAvgStar();
+      if (avgStar == null) {
+         avgStar = "  점수없음";
+      }
+      
+      
+      sbHtml.append( "<div class='lists1'>" );
+       sbHtml.append( "<a href='../../main/search/info?tseq=" + tseq + "&id=" + id + "&latitude=" + latitude + "&longitude=" + longitude + "'><img class='list1' style=\"background-image: url('" + thumurl + "');\">");
+       sbHtml.append( "<span class='write1'>"+name+"</span>" );
+       sbHtml.append( "<span class='write2'>"+category+"</span>" );
+       sbHtml.append( "<span class='write3'><i class='fa fa-star' style='font-size:20px;color:red'></i> "+avgStar+"</span>" );
+       sbHtml.append( "</a>" );
+       sbHtml.append( "</div>" );
+       
+       mHtml.append( "{ Name: \""+name+"\", " );
+       mHtml.append( "Lat: \""+latitude+"\", " );
+       mHtml.append( "Lng: \""+longitude+"\" }," );
+   }
+   mHtml.deleteCharAt(mHtml.length() - 1);
+   mHtml.append( "]" );
+   
+    ArrayList<NoticeTO> noticeList=(ArrayList<NoticeTO>)request.getAttribute("noticeList");
      String noticeCount=(String)request.getAttribute("noticeCount").toString();
      
      StringBuilder sbh=new StringBuilder();
@@ -67,8 +67,10 @@
         String words=noticeList.get(i).getWords();
         String ndate=noticeList.get(i).getNdate();
         
-        sbh.append("<p>"+words);
-        sbh.append("<span>"+ndate+"</span>");
+        sbh.append("<p style='padding-top:25px; margin-bottom:0px;'>"+words);
+        sbh.append("<div>");
+        sbh.append("   <span>"+ndate+"</span>");
+        sbh.append("</div>");
         sbh.append("</p>");
      }
 %>
@@ -78,7 +80,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>식당 검색</title>
+<title>식당검색</title>
 <style href="css/common.css"></style>
 <!-- 나눔스퀘어 폰트 -->
 <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet">
@@ -243,8 +245,8 @@ nav{
 }
 
 #headerWap h3{
-	font-weight: bold;
-	font-size: 15px;
+   font-weight: bold;
+   font-size: 15px;
     justify-content: left;
     position: absolute;
     margin-left: 120px;
@@ -483,25 +485,31 @@ footer{
     height: 100%;
     right: 0px;
 }
+
+.modal-body {
+   padding-top: 0px;
+   height: 100%;
+}
+
+
 .modal-content {
-	border: 1px solid black;
+   border: 1px solid black;
     height: 100%;
 }
 
 #noticelogo {
-	width: 25%;
+   width: 25%;
 }
 
 .modal-body span {
-	float: right;
-	margin-right: 15px;
+   float: right;
 }
 
 .iw_inner {
-	margin: 5px;
-	padding: 1px 5px;
-	border-radius: 30px;
-	background-color: rgba(4, 117, 244, 0.9);
+   margin: 5px;
+   padding: 1px 5px;
+   border-radius: 30px;
+   background-color: rgba(4, 117, 244, 0.9);
 }
 
 
@@ -534,12 +542,12 @@ $('.logoclick').click(function(event){
                 <li><b><a href="../../mypage" class="logoclick">마이페이지</a></b></li>
                 <li><b><a href="../../adgroups" class="logoclick">소모임장페이지</a></b></li>
                 <li><b><a href="../../admin" class="logoclick">관리자페이지</b></li></a>
-            	<li><b><a href="../../favorite" class="logoclick">즐겨찾기</b></li></a>
+               <li><b><a href="../../favorite" class="logoclick">즐겨찾기</b></li></a>
                 <li id="bell" style="margin-left: 20px;">
-                	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-						<img src="../../images/bell.png">
-					</button><%=noticeCount %>
-				</li>
+                   <button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  <img src="../../images/bell.png">
+               </button><%=noticeCount %>
+            </li>
             </ul>
           </div>
         </div> <!--headerWap-->
@@ -568,7 +576,6 @@ $('.logoclick').click(function(event){
              <span>2022.07.13</span>
           </p>
           -->
-          <hr />
         </div>
 
         <div class="modal-footer">
@@ -607,9 +614,9 @@ $('.logoclick').click(function(event){
             <div class="search-wrap">  
              
             <form class="input" action="/main/search?tseq=<%=tseq %>" method="post" name="sfrm">
-					<input type="text" title="검색어 입력" name="search" placeholder="식당/지역 검색" />
-					<button type="submit">검색</button>
-			</form><!-- input -->
+               <input type="text" title="검색어 입력" name="search" placeholder="식당/지역 검색" />
+               <button type="submit">검색</button>
+         </form><!-- input -->
          </div><!-- search-wrap -->
            
         </section>
@@ -623,40 +630,40 @@ $('.logoclick').click(function(event){
                 <div class="scrollwrap" style="width: 50%;">
                  <div class="scrollbar" >
                     <ul>
-						<li>
-						<%=sbHtml.toString() %>
-						<!-- 
-							<div class="lists1">
-								<a href="./somoimboard_home.do"><img class="list1" style="background-image: url('https://search.pstatic.net/common/?autoRotate=true&type=w278_sharpen&src=https%3A%2F%2Fsearchad-phinf.pstatic.net%2FMjAyMjA0MThfMTYx%2FMDAxNjUwMjc2MTI4OTEz.Iwfc3HzhfZYcIfdtiWx7f4L1x9lOoGg1EUKGy2ZCxAwg.2S0g3cV4uNkldREs__6NEt5ChSUE2EOOV4EwCxJRtv8g.PNG%2F2355050-adba00da-0fad-4f6d-8d3d-9ade8109773c.png');">
-									<span class="write1">경양가츠 강남점</span>
-									<span class="write2">줄서서 먹는 돈까스맛집</span>
-									<span class="write3"><i class="fa fa-star" style="font-size:20px;color:red"></i>    4.8점</span>
-								</a>
-							</div>
-							<div class="lists1">
-								<a href="./somoimboard_home.do"><img class="list1" style="background-image: url('https://search.pstatic.net/common/?autoRotate=true&type=w278_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20220427_237%2F165102764126107Ghf_JPEG%2F1.jpg');">
-									<span class="write1">을지다락 강남</span>
-									<span class="write2">깔끔한 분위기의 파스타</span>
-									<span class="write3"><i class="fa fa-star" style="font-size:20px;color:red"></i>    4.9점</span>
-								</a>
-							</div>
-							<div class="lists1">
-								<a href="./somoimboard_home.do"><img class="list1" style="background-image: url('https://search.pstatic.net/common/?autoRotate=true&type=w278_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20161112_233%2F147894152004419V1R_PNG%2F177062583539881_0.png');">
-									<span class="write1">장인닭갈비 강남점</span>
-									<span class="write2">순수 모짜렐라 치즈를 사용한 닭갈비</span>
-									<span class="write3"><i class="fa fa-star" style="font-size:20px;color:red"></i>    4.5점</span>
-								</a>
-							</div>
-							 -->
-						</li>
-					</ul>
-				</div><!--scrollbar-->
-			</div><!-- scrollwrap -->
-			<div class="maps" style="width:50%;">
-				<div id="map" style="width:100%;height:450px;"></div>
-			</div>
-		</div><!-- tblWrap -->
-	</div>
+                  <li>
+                  <%=sbHtml.toString() %>
+                  <!-- 
+                     <div class="lists1">
+                        <a href="./somoimboard_home.do"><img class="list1" style="background-image: url('https://search.pstatic.net/common/?autoRotate=true&type=w278_sharpen&src=https%3A%2F%2Fsearchad-phinf.pstatic.net%2FMjAyMjA0MThfMTYx%2FMDAxNjUwMjc2MTI4OTEz.Iwfc3HzhfZYcIfdtiWx7f4L1x9lOoGg1EUKGy2ZCxAwg.2S0g3cV4uNkldREs__6NEt5ChSUE2EOOV4EwCxJRtv8g.PNG%2F2355050-adba00da-0fad-4f6d-8d3d-9ade8109773c.png');">
+                           <span class="write1">경양가츠 강남점</span>
+                           <span class="write2">줄서서 먹는 돈까스맛집</span>
+                           <span class="write3"><i class="fa fa-star" style="font-size:20px;color:red"></i>    4.8점</span>
+                        </a>
+                     </div>
+                     <div class="lists1">
+                        <a href="./somoimboard_home.do"><img class="list1" style="background-image: url('https://search.pstatic.net/common/?autoRotate=true&type=w278_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20220427_237%2F165102764126107Ghf_JPEG%2F1.jpg');">
+                           <span class="write1">을지다락 강남</span>
+                           <span class="write2">깔끔한 분위기의 파스타</span>
+                           <span class="write3"><i class="fa fa-star" style="font-size:20px;color:red"></i>    4.9점</span>
+                        </a>
+                     </div>
+                     <div class="lists1">
+                        <a href="./somoimboard_home.do"><img class="list1" style="background-image: url('https://search.pstatic.net/common/?autoRotate=true&type=w278_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20161112_233%2F147894152004419V1R_PNG%2F177062583539881_0.png');">
+                           <span class="write1">장인닭갈비 강남점</span>
+                           <span class="write2">순수 모짜렐라 치즈를 사용한 닭갈비</span>
+                           <span class="write3"><i class="fa fa-star" style="font-size:20px;color:red"></i>    4.5점</span>
+                        </a>
+                     </div>
+                      -->
+                  </li>
+               </ul>
+            </div><!--scrollbar-->
+         </div><!-- scrollwrap -->
+         <div class="maps" style="width:50%;">
+            <div id="map" style="width:100%;height:450px;"></div>
+         </div>
+      </div><!-- tblWrap -->
+   </div>
 <!-- footer 
 <footer>
 
@@ -665,87 +672,87 @@ $('.logoclick').click(function(event){
 </body>
 <script type="text/javascript">
 $(function() {
-	initMap();
+   initMap();
 })
 
 function initMap() {
-	let markers = [];
-	let infoWindows = [];
+   let markers = [];
+   let infoWindows = [];
 
-	<%=mHtml.toString() %>
-	
-	// 지도가 뜰때 중심
-	var map = new naver.maps.Map('map', {
-	    center: new naver.maps.LatLng(loc[0].Lat, loc[0].Lng),
-	    zoom: 16
-	});
-	
-	// 마커들마다 위도 경도
-	for(var i in loc) {
-		var marker = new naver.maps.Marker({
-	    	position: new naver.maps.LatLng(loc[i].Lat, loc[i].Lng),
-	    	map: map
-	    });
+   <%=mHtml.toString() %>
+   
+   // 지도가 뜰때 중심
+   var map = new naver.maps.Map('map', {
+       center: new naver.maps.LatLng(loc[0].Lat, loc[0].Lng),
+       zoom: 16
+   });
+   
+   // 마커들마다 위도 경도
+   for(var i in loc) {
+      var marker = new naver.maps.Marker({
+          position: new naver.maps.LatLng(loc[i].Lat, loc[i].Lng),
+          map: map
+       });
 
-		// 정보창
-	    var infoWindow = new naver.maps.InfoWindow({
-	    	content: '<div class=\"iw_inner\"><div class=\"div_font\"style=\"font-size:13px;font-weight:600;text-align:center;padding:10px;color:#ffffff;\"><b>' + loc[i].Name + '</b></div></div>',
-	    	borderWidth: 0,
-	    	disableAnchor: true,
-	    	backgroundColor: 'transparent'
-	    });
-		
-	    markers.push(marker);
-		infoWindows.push(infoWindow);
-	}
+      // 정보창
+       var infoWindow = new naver.maps.InfoWindow({
+          content: '<div class=\"iw_inner\"><div class=\"div_font\"style=\"font-size:13px;font-weight:600;text-align:center;padding:10px;color:#ffffff;\"><b>' + loc[i].Name + '</b></div></div>',
+          borderWidth: 0,
+          disableAnchor: true,
+          backgroundColor: 'transparent'
+       });
+      
+       markers.push(marker);
+      infoWindows.push(infoWindow);
+   }
     
-	naver.maps.Event.addListener(map, 'idle', function() {
-	    updateMarkers(map, markers);
-	});
+   naver.maps.Event.addListener(map, 'idle', function() {
+       updateMarkers(map, markers);
+   });
 
-	function updateMarkers(map, markers) {
-	    var mapBounds = map.getBounds();
-	    var marker, position;
+   function updateMarkers(map, markers) {
+       var mapBounds = map.getBounds();
+       var marker, position;
 
-	    for (var i = 0 ; i < markers.length ; i++) {
-	        marker = markers[i]
-	        position = marker.getPosition();
+       for (var i = 0 ; i < markers.length ; i++) {
+           marker = markers[i]
+           position = marker.getPosition();
 
-	        if (mapBounds.hasLatLng(position)) {
-	            showMarker(map, marker);
-	        } else {
-	            hideMarker(map, marker);
-	        }
-	    }
-	}
+           if (mapBounds.hasLatLng(position)) {
+               showMarker(map, marker);
+           } else {
+               hideMarker(map, marker);
+           }
+       }
+   }
 
-	function showMarker(map, marker) {
-	    if (marker.setMap()) return;
-	    marker.setMap(map);
-	}
+   function showMarker(map, marker) {
+       if (marker.setMap()) return;
+       marker.setMap(map);
+   }
 
-	function hideMarker(map, marker) {
-	    if (!marker.setMap()) return;
-	    marker.setMap(null);
-	}
+   function hideMarker(map, marker) {
+       if (!marker.setMap()) return;
+       marker.setMap(null);
+   }
 
-	// 해당 마커의 인덱스를 seq라는 클로저 변수로 저장하는 이벤트 핸들러를 반환합니다.
-	function getClickHandler(seq) {
-	    return function(e) {
-	        var marker = markers[seq],
-	            infoWindow = infoWindows[seq];
+   // 해당 마커의 인덱스를 seq라는 클로저 변수로 저장하는 이벤트 핸들러를 반환합니다.
+   function getClickHandler(seq) {
+       return function(e) {
+           var marker = markers[seq],
+               infoWindow = infoWindows[seq];
 
-	        if (infoWindow.getMap()) {
-	            infoWindow.close();
-	        } else {
-	            infoWindow.open(map, marker);
-	        }
-	    }
-	}
+           if (infoWindow.getMap()) {
+               infoWindow.close();
+           } else {
+               infoWindow.open(map, marker);
+           }
+       }
+   }
 
-	for (var i=0 ; i<markers.length ; i++) {
-	    naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i));
-	}
+   for (var i=0 ; i<markers.length ; i++) {
+       naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i));
+   }
 }
 </script>
 </html>

@@ -72,17 +72,13 @@
        String words=noticeList.get(i).getWords();
        String ndate=noticeList.get(i).getNdate();
        
-       sbh.append("<p>"+words);
-       sbh.append("<span>"+ndate+"</span>");
+       sbh.append("<p style='padding-top:25px; margin-bottom:0px;'>"+words);
+       sbh.append("<div>");
+       sbh.append("   <span>"+ndate+"</span>");
+       sbh.append("</div>");
        sbh.append("</p>");
     }
-     
-    StringBuilder sbhh=new StringBuilder();
-    if (avg==null) {
-        sbhh.append("<td colspan='4' class='homesub'><a href='#' style='font-weight:bold;'>"+rname+"</a>");
-    } else {
-        sbhh.append("<td colspan='4' class='homesub'><a href='#' style='font-weight:bold;'>"+rname+"&nbsp;(&nbsp;<i class='fa fa-star' style='font-size:20px;color:#f1b654;'></i>&nbsp;<span>"+avg+"점</span>&nbsp;)</a>");
-    } 
+      
     
     %>
 
@@ -396,6 +392,13 @@ footer{
     height: 100%;
     right: 0px;
 }
+
+.modal-body {
+   padding-top: 0px;
+   height: 100%;
+}
+
+
 .modal-content {
    border: 1px solid black;
     height: 100%;
@@ -405,7 +408,7 @@ footer{
 }
 .modal-body span {
    float: right;
-   margin-right: 15px;
+  
 }
 .iw_inner {
    margin: 5px;
@@ -478,7 +481,7 @@ $('.logoclick').click(function(event){
              <span>2022.07.13</span>
           </p>
           -->
-          <hr />
+        
         </div>
 
         <div class="modal-footer">
@@ -520,8 +523,8 @@ $('.logoclick').click(function(event){
                              <thead>
                              <tr style="position:relative; height:61px;">
 
-                     			<%=sbhh %>
-                               <!--  <td colspan="4" class="homesub"><a href="#" style=" font-weight:bold;"><%= rname %>&nbsp;(&nbsp;<i class="fa fa-star" style="font-size:20px;color:#f1b654;"></i>&nbsp;<span>점</span>&nbsp;)</a> -->
+                     
+                               <td colspan="4" class="homesub"><a href="#" style=" font-weight:bold;"><%= rname %>&nbsp;(&nbsp;<i class="fa fa-star" style="font-size:20px;color:#f1b654;"></i>&nbsp;<span><%=avg %>점</span>&nbsp;)</a>
                                 <div class="star-container div2" id="star" style="width: 5%;
                                       position: absolute;
                                       right: 1%;

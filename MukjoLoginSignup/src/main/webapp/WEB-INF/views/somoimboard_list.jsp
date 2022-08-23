@@ -67,18 +67,18 @@
          filename = to.getFilename();
 
          if (filename==null) {
-        	 sb.append("<tr>");
+            sb.append("<tr>");
              sb.append("      <td>일반</a></td>");
              sb.append("      <td>"+ writer+"</a></td>");
-             sb.append("      <td><a href='../../main/board/view?tseq="+tseq+"&bseq="+bseq+"&cpage="+cpage+"'>"+ subject+"</a></td>");
+             sb.append("      <td><a href='../../main/board/view?tseq="+tseq+"&bseq="+bseq+"&cpage="+cpage+"'>"+ subject+"</a> &nbsp;&nbsp;<span class='numspan'>[2]</span></td>");
              sb.append("      <td>"+ wdate+"</a></td>");
              sb.append("      <td>"+ hit+"</a></td>");
              sb.append("</tr>");
          } else {
-        	 sb.append("<tr>");
+            sb.append("<tr>");
              sb.append("      <td>일반</a></td>");
              sb.append("      <td>"+ writer+"</a></td>");
-             sb.append("      <td><a href='../../main/board/view?tseq="+tseq+"&bseq="+bseq+"&cpage="+cpage+"'>"+ subject+"</a>&nbsp;<img src='../images/Img_show.png'></td>");
+             sb.append("      <td><a href='../../main/board/view?tseq="+tseq+"&bseq="+bseq+"&cpage="+cpage+"'>"+ subject+"</a>&nbsp;<img src='../images/Img_show.png'>&nbsp;&nbsp;<span class='numspan'>[2]</span></td>");
              sb.append("      <td>"+ wdate+"</a></td>");
              sb.append("      <td>"+ hit+"</a></td>");
              sb.append("</tr>");
@@ -86,37 +86,37 @@
       }
       tseq = request.getParameter("tseq");
  
-	   ArrayList<BoardTO> noticeLists = (ArrayList)request.getAttribute("noticeLists");
-	   
-	   StringBuilder noticeSb = new StringBuilder();
-	   if(cpage == 1) {
-	   for( BoardTO to : noticeLists ) {
-	     bseq = to.getBseq();
-	     subject = to.getSubject();
-	     content = to.getContent();
-	     writer = to.getWriter();
-	     wdate = to.getWdate();
-	     hit = to.getHit();
-	     filename = to.getFilename();
-	     
-	     if (filename==null) {
-	   	  	 noticeSb.append("<tr class='notice'>");
-	         noticeSb.append("      <td><a href='#'>공지</a></td>");
-	         noticeSb.append("      <td><a href='#'>"+ writer+"</a></td>");
-	         noticeSb.append("      <td><a href='../../main/board/view/notice?tseq="+tseq+"&bseq="+bseq+"&cpage="+cpage+"'>"+ subject+"</a></td>");
-	         noticeSb.append("      <td><a href='#'>"+ wdate+"</a></td>");
-	         noticeSb.append("      <td><a href='#'>"+ hit+"</a></td>");
-	         noticeSb.append("</tr>");
-	     } else {
-	    	 noticeSb.append("<tr class='notice'>");
-	         noticeSb.append("      <td><a href='#'>공지</a></td>");
-	         noticeSb.append("      <td><a href='#'>"+ writer+"</a></td>");
-	         noticeSb.append("      <td><a href='../../main/board/view/notice?tseq="+tseq+"&bseq="+bseq+"&cpage="+cpage+"'>"+ subject+"</a>&nbsp;<img src='../images/Img_show.png'></td>");
-	         noticeSb.append("      <td><a href='#'>"+ wdate+"</a></td>");
-	         noticeSb.append("      <td><a href='#'>"+ hit+"</a></td>");
-	         noticeSb.append("</tr>");
-	     }
-	  }
+      ArrayList<BoardTO> noticeLists = (ArrayList)request.getAttribute("noticeLists");
+      
+      StringBuilder noticeSb = new StringBuilder();
+      if(cpage == 1) {
+      for( BoardTO to : noticeLists ) {
+        bseq = to.getBseq();
+        subject = to.getSubject();
+        content = to.getContent();
+        writer = to.getWriter();
+        wdate = to.getWdate();
+        hit = to.getHit();
+        filename = to.getFilename();
+        
+        if (filename==null) {
+               noticeSb.append("<tr class='notice'>");
+            noticeSb.append("      <td><a href='#'>공지</a></td>");
+            noticeSb.append("      <td><a href='#'>"+ writer+"</a></td>");
+            noticeSb.append("      <td><a href='../../main/board/view/notice?tseq="+tseq+"&bseq="+bseq+"&cpage="+cpage+"'>"+ subject+"</a></td>");
+            noticeSb.append("      <td><a href='#'>"+ wdate+"</a></td>");
+            noticeSb.append("      <td><a href='#'>"+ hit+"</a></td>");
+            noticeSb.append("</tr>");
+        } else {
+           noticeSb.append("<tr class='notice'>");
+            noticeSb.append("      <td><a href='#'>공지</a></td>");
+            noticeSb.append("      <td><a href='#'>"+ writer+"</a></td>");
+            noticeSb.append("      <td><a href='../../main/board/view/notice?tseq="+tseq+"&bseq="+bseq+"&cpage="+cpage+"'>"+ subject+"</a>&nbsp;<img src='../images/Img_show.png'></td>");
+            noticeSb.append("      <td><a href='#'>"+ wdate+"</a></td>");
+            noticeSb.append("      <td><a href='#'>"+ hit+"</a></td>");
+            noticeSb.append("</tr>");
+        }
+     }
     }
     
     ArrayList<NoticeTO> noticeList=(ArrayList<NoticeTO>)request.getAttribute("noticeList");
@@ -127,8 +127,10 @@
        String words=noticeList.get(i).getWords();
        String ndate=noticeList.get(i).getNdate();
        
-       sbh.append("<p>"+words);
-       sbh.append("<span>"+ndate+"</span>");
+       sbh.append("<p style='padding-top:25px; margin-bottom:0px;'>"+words);
+       sbh.append("<div>");
+       sbh.append("	<span>"+ndate+"</span>");
+       sbh.append("</div>");
        sbh.append("</p>");
     }
     %>
@@ -150,7 +152,13 @@
 
 <style>
 /** common **/
-
+.numspan{
+   display: inline-block;
+   line-height:1px;
+   margin-left : 5px;
+   color : black;
+   font-weight: bold;
+}
 
 body,ul ,li, h1,h2,h3{
     margin: 0;
@@ -440,7 +448,7 @@ nav{
     position: relative;
 }
 .form-select{
-	font-size: 14px;
+   font-size: 14px;
     font-weight: 600;
 }
 
@@ -552,9 +560,13 @@ footer{
    width: 25%;
 }
 
+.modal-body {
+	padding-top: 0px;
+	height: 100%;
+}
+
 .modal-body span {
    float: right;
-   margin-right: 15px;
 }
 
 .notice img {
@@ -596,7 +608,7 @@ $('.logoclick').click(function(event){
                 <li><b><a href="../../mypage" class="logoclick">마이페이지</a></b></li>
                 <li><b><a href="../../adgroups" class="logoclick">소모임장페이지</a></b></li>
                 <li><b><a href="../../admin" class="logoclick">관리자페이지</b></li></a>
-            	<li><b><a href="../../favorite" class="logoclick">즐겨찾기</b></li></a>
+               <li><b><a href="../../favorite" class="logoclick">즐겨찾기</b></li></a>
                 <li id="bell" style="margin-left: 20px;">
                    <button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
                   <img src="../images/bell.png">
@@ -630,11 +642,10 @@ $('.logoclick').click(function(event){
              <span>2022.07.13</span>
           </p>
           -->
-          <hr />
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><a href="../../notice/read"><b>읽음</b></button>
+          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><a href="notice/read"><b>읽음</b></button>
           <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><a href=""><b>닫기</b></button>
         </div>
       </div>

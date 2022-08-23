@@ -51,9 +51,12 @@
            String words=noticeList.get(i).getWords();
            String ndate=noticeList.get(i).getNdate();
            
-           sbh.append("<p>"+words);
-           sbh.append("<span>"+ndate+"</span>");
+           sbh.append("<p style='padding-top:25px; margin-bottom:0px;'>"+words);
+           sbh.append("<div>");
+           sbh.append("   <span>"+ndate+"</span>");
+           sbh.append("</div>");
            sbh.append("</p>");
+
         }
     %>
 
@@ -383,6 +386,13 @@ footer{
     height: 100%;
     right: 0px;
 }
+
+
+.modal-body {
+   padding-top: 0px;
+   height: 100%;
+}
+
 .modal-content {
    border: 1px solid black;
     height: 100%;
@@ -393,7 +403,6 @@ footer{
 
 .modal-body span {
    float: right;
-   margin-right: 15px;
 }
 
 
@@ -426,7 +435,7 @@ $('.logoclick').click(function(event){
                 <li><b><a href="../../mypage" class="logoclick">마이페이지</a></b></li>
                 <li><b><a href="../../adgroups" class="logoclick">소모임장페이지</a></b></li>
                 <li><b><a href="../../admin" class="logoclick">관리자페이지</b></li></a>
-            	<li><b><a href="../../favorite" class="logoclick">즐겨찾기</b></li></a>
+               <li><b><a href="../../favorite" class="logoclick">즐겨찾기</b></li></a>
                 <li id="bell" style="margin-left: 20px;">
                    <button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
                   <img src="../../images/bell.png">
@@ -459,7 +468,6 @@ $('.logoclick').click(function(event){
              <span>2022.07.13</span>
           </p>
           -->
-          <hr />
         </div>
 
         <div class="modal-footer">

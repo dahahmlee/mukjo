@@ -78,8 +78,10 @@
           String words=noticeList.get(i).getWords();
           String ndate=noticeList.get(i).getNdate();
           
-          sb.append("<p>"+words);
-          sb.append("<span>"+ndate+"</span>");
+          sb.append("<p style='padding-top:25px; margin-bottom:0px;'>"+words);
+          sb.append("<div>");
+          sb.append("	<span>"+ndate+"</span>");
+          sb.append("</div>");
           sb.append("</p>");
        }
 %>
@@ -493,9 +495,13 @@ footer{
 	width: 25%;
 }
 
+.modal-body {
+	padding-top: 0px;
+	height: 100%;
+}
+
 .modal-body span {
 	float: right;
-	margin-right: 15px;
 }
 
 .logoclick:active {
@@ -554,7 +560,6 @@ footer{
              <span>2022.07.13</span>
           </p>
           -->
-          <hr />
         </div>
 
         <div class="modal-footer">

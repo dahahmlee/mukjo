@@ -57,8 +57,10 @@
           String words=noticeList.get(i).getWords();
           String ndate=noticeList.get(i).getNdate();
           
-          sbh.append("<p>"+words);
-          sbh.append("<span>"+ndate+"</span>");
+          sbh.append("<p style='padding-top:25px; margin-bottom:0px;'>"+words);
+          sbh.append("<div>");
+          sbh.append("	<span>"+ndate+"</span>");
+          sbh.append("</div>");
           sbh.append("</p>");
        }
    %>
@@ -88,8 +90,7 @@ body, ul, li, h1, h2, h3 {
 }
 
 p {
-   font-size: 0.7rem;
-   color: grey;
+   color: black;
    font-family: 'Noto Sans KR', sans-serif;
 }
 
@@ -607,11 +608,13 @@ textarea {
    width: 25%;
 }
 
+.modal-body {
+	padding-top: 0px;
+	height: 100%;
+}
+
 .modal-body span {
    float: right;
-   margin-right: 15px;
-   font-color: black;
-   font-size: 15px;
 }
 
 #somoimp {
@@ -688,7 +691,6 @@ $('.logoclick').click(function(event){
              <span>2022.07.13</span>
           </p>
           -->
-          <hr />
         </div>
 
         <div class="modal-footer">

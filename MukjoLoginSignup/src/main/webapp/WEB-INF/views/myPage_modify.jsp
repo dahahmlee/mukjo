@@ -36,8 +36,10 @@
       String words=noticeList.get(i).getWords();
       String ndate=noticeList.get(i).getNdate();
       
-      sbh.append("<p>"+words);
-      sbh.append("<span>"+ndate+"</span>");
+      sbh.append("<p style='padding-top:25px; margin-bottom:0px;'>"+words);
+      sbh.append("<div>");
+      sbh.append("	<span>"+ndate+"</span>");
+      sbh.append("</div>");
       sbh.append("</p>");
    }
    
@@ -563,9 +565,13 @@ textarea {
    width: 25%;
 }
 
+.modal-body {
+	padding-top: 0px;
+	height: 100%;
+}
+
 .modal-body span {
    float: right;
-   margin-right: 15px;
 }
 
 #modalBtn:hover {
@@ -609,7 +615,7 @@ textarea {
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title" id="exampleModalLabel"><b>알림</b></h4>
-          <span id="noticelogo"><img src="images/logo.png"></span>
+          <span id="noticelogo"><img src="../../../images/logo.png"></span>
         </div>
 
         <div class="modal-body">
@@ -628,7 +634,6 @@ textarea {
           </p>
           -->
           
-          <hr />
         </div>
 
         <div class="modal-footer">
