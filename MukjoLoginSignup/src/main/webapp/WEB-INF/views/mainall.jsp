@@ -441,7 +441,7 @@ footer{
       <div class="headermake" style="width:100%; background-color: #fff;">
          <div id="headerWap">
             <h1 id="logoSec">
-               <a href="./main"><img src="../../images/logo.png" alt="logo"></a>
+               <a href="../../main"><img src="../../images/logo.png" alt="logo"></a>
             </h1>
             <h3 ><%=welcome %><a href="../../bye" id="logout" style="color : gray"><br/><%=log %></a></h3>
 
