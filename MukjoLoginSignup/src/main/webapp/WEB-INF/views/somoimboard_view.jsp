@@ -152,8 +152,7 @@ body, ul, li, h1, h2, h3 {
 }
 
 p {
-   font-size: 0.7rem;
-   color: grey;
+   color: black;
    font-family: 'Noto Sans KR', sans-serif;
 }
 
