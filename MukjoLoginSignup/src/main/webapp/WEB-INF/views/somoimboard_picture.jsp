@@ -439,11 +439,11 @@ input[type="checkbox"]+label {
     display: flex;
     width: 28px;
     height: 28px;
-    background: url('../../../images/staroff2.png') no-repeat 0 0px / contain;
+    background: url('../../../images/heart1.png') no-repeat 0 0px / contain;
 }
 
 input[type='checkbox']:checked+label {
-    background: url('../../../images/star-on.png') no-repeat 0 1px / contain;
+    background: url('../../../images/heart2.png') no-repeat 0 1px / contain;
 }
 
 input[type="checkbox"] {
