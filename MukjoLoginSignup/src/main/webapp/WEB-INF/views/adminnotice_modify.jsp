@@ -619,7 +619,7 @@ textarea {
 					<a href="../../../admin/members">전체 회원 목록</a>
 				</button>
 				<button class="active">
-					<a href="../../../admingroups">소모임 목록</a>
+					<a href="../../../admin/groups">소모임 목록</a>
 				</button>
 				<button class="active">
 					<a href="../../../admin/notice" style="color: #de5f47">공지사항</a>
