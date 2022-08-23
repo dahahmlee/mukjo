@@ -1550,9 +1550,10 @@ public class MukjoController {
       
     @RequestMapping( "/adgroups/members")   
     public ModelAndView bossmember(HttpSession session, HttpServletRequest request,HttpServletResponse response,Model model) {
-       String myseq=(String) session.getAttribute("loginedMemberSeq");
+      String myseq=(String) session.getAttribute("loginedMemberSeq");
+      String search = request.getParameter("search");
       
-       int cpage = 1;
+      int cpage = 1;
       if(request.getParameter("cpage") != null && !request.getParameter("cpage").equals("")) {
          cpage = Integer.parseInt(request.getParameter("cpage"));
       }
@@ -1561,7 +1562,12 @@ public class MukjoController {
       PageMemberTO pageMemberTO=new PageMemberTO();
       pageMemberTO.setCpage(cpage);
       
-      pageMemberTO = tdao.bossMember(pageMemberTO, tseq);
+      if (search==null) {
+    	  pageMemberTO = tdao.bossMember(pageMemberTO, tseq);
+       } else {
+    	   pageMemberTO = tdao.bossMemberSearch(pageMemberTO, tseq, search);
+       }
+      
       String tname=tdao.tnameFromTseq(tseq);
       ArrayList<NoticeTO> noticeList=ndao.noticeList(myseq);
       int noticeCount=ndao.noticeCount(myseq);

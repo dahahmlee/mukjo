@@ -621,19 +621,12 @@ footer{
          <strong>소모임 : <b><%=tname%></b></strong>
 
          <div class="search-wrap">
-            <form action="../../main/board?tseq=<%=tseq%>" method="post"
+            <form action="../../adgroups/members?tseq=<%=tseq%>" method="post"
                name="sfrm">
-               <div class="select">
 
-                  <select class="form-select" aria-label="Default select example"
-                     name="which">
-                     <option value="name">이름</option>
-                     <option value="id">계정</option>
-                  </select>
-               </div>
                <!-- select-->
                <div class="input">
-                  <input type="text" title="검색어 입력" name="search" value="">
+                  <input type="text" title="검색어 입력" name="search" placeholder="이름 검색" value="">
                   <button type="submit">검색</button>
                </div>
                <!-- input -->
@@ -732,13 +725,13 @@ footer{
    if (startBlock==1) { //<<
       out.println("<span><a>&lt;&lt;</a>&nbsp;&nbsp;</span>");
    } else {
-      out.println("<span><a href='adgroups/members?cpage="+(startBlock-blockPerPage)+"'>&lt;&lt;</a>&nbsp;&nbsp;</span>");
+      out.println("<span><a href='../../adgroups/members?cpage="+(startBlock-blockPerPage)+"'>&lt;&lt;</a>&nbsp;&nbsp;</span>");
    }
 
    if (cpage==1) { //<
       out.println("<span><a>&lt;</a>&nbsp;&nbsp;</span>");
    } else {
-      out.println("<span><a href='adgroups/members?cpage="+(cpage-1)+"'>&lt;</a>&nbsp;&nbsp;</span>");
+      out.println("<span><a href='../../adgroups/members?cpage="+(cpage-1)+"'>&lt;</a>&nbsp;&nbsp;</span>");
    }
    
    out.println("<ul>");
@@ -746,7 +739,7 @@ footer{
       if (cpage==i) {
          out.println("<li class='active'><a>"+i+"</a></li>");
       } else {
-         out.println("<li><a href='adgroups/members?cpage="+i+"'>"+i+"</a></span>");
+         out.println("<li><a href='../../adgroups/members?cpage="+i+"'>"+i+"</a></span>");
       }
    }
    
@@ -755,13 +748,13 @@ footer{
    if (cpage==totalPage) { //>
       out.println("<span>&nbsp;&nbsp;<a>&gt;</a></span>");
    } else {
-      out.println("<span>&nbsp;&nbsp;<a href='adgroups/members?cpage="+(cpage+1)+"'>&gt;</a></span>");
+      out.println("<span>&nbsp;&nbsp;<a href='../../adgroups/members?cpage="+(cpage+1)+"'>&gt;</a></span>");
    }
    
    if (endBlock==totalPage) { //>>
       out.println("<span>&nbsp;&nbsp;<a>&gt;&gt;</a></span>");
    } else {
-      out.println("<span>&nbsp;&nbsp;<a href='adgroups/members?cpage="+(startBlock+blockPerPage)+"'>&gt;&gt;</a></span>");
+      out.println("<span>&nbsp;&nbsp;<a href='../../adgroups/members?cpage="+(startBlock+blockPerPage)+"'>&gt;&gt;</a></span>");
    }
 %>  
                 </div><!-- board_pagetab -->         

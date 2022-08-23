@@ -672,6 +672,64 @@ public class TeamDAO {
       return pageMemberTO;
    }
    
+   //소모임장 페이지 - 멤버관리 리스트 + 검색(bossmember.do)
+   public PageMemberTO bossMemberSearch(PageMemberTO pageMemberTO, String tseq, String search) {
+      Connection conn=null;
+      PreparedStatement pstmt=null;
+      ResultSet rs=null;
+
+      int cpage=pageMemberTO.getCpage();
+      int recordPerPage=pageMemberTO.getRecordPerPage();
+      int blockPerPage=pageMemberTO.getBlockPerPage();
+
+      String jangseq="";
+      int accept = 0;
+      try {
+         conn=this.dataSource.getConnection();
+         String sql="select member.seq as seq, name, birth, email from member inner join teammember on (teammember.seq=member.seq and member.seq!=1) where tseq=? and accept=1 and name like '%"+search+"%' order by name";
+         pstmt=conn.prepareStatement(sql);
+         pstmt.setString(1,tseq);
+         
+         rs=pstmt.executeQuery();
+      
+         rs.last(); //읽기 커서를 맨 마지막 행으로 이동
+         pageMemberTO.setTotalRecord(rs.getRow());
+         rs.beforeFirst(); //읽기 커서를 맨 첫행으로 이동
+
+         //전체 페이지
+         pageMemberTO.setTotalPage((pageMemberTO.getTotalRecord()-1)/recordPerPage+1);
+
+         //시작번호 - 읽을 데이터 위치 지정
+         int skip=(cpage-1)*recordPerPage;
+         if (skip!=0) rs.absolute(skip); //커서를 주어진 행으로 이동
+
+         ArrayList<MemberTO> memberLists=new ArrayList<MemberTO>();
+         for (int i=0;i<recordPerPage && rs.next();i++) {
+            MemberTO to=new MemberTO();
+            to.setSeq(rs.getString("seq"));
+            to.setName(rs.getString("name"));
+            to.setBirth(rs.getString("birth"));
+            to.setEmail(rs.getString("email"));
+            
+            memberLists.add(to);
+         }
+         pageMemberTO.setMemberLists(memberLists);
+         pageMemberTO.setStartBlock((cpage-1)/blockPerPage*blockPerPage+1);
+         pageMemberTO.setEndBlock((cpage-1)/blockPerPage*blockPerPage+blockPerPage);
+         if (pageMemberTO.getEndBlock()>=pageMemberTO.getTotalPage()) {
+            pageMemberTO.setEndBlock(pageMemberTO.getTotalPage());
+         }
+
+      } catch (SQLException e) {
+         System.out.println("[에러]:"+e.getMessage());
+      } finally {
+         if (conn!=null) try {conn.close();} catch (SQLException e) {}
+         if (pstmt!=null) try {pstmt.close();} catch (SQLException e) {}
+         if (rs!=null) try {rs.close();} catch (SQLException e) {}
+      }
+      return pageMemberTO;
+   }
+   
    // 소모임장 변경
    public int BossChange(String seq, String tseq) {
       Connection conn = null;
