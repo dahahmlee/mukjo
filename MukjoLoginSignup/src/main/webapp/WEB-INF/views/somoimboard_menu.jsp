@@ -84,6 +84,13 @@
          sbh.append("<span>"+ndate+"</span>");
          sbh.append("</p>");
       }
+
+      StringBuilder sbhh=new StringBuilder();
+      if (avg==null) {
+          sbhh.append("<td colspan='4' class='homesub' style='height:61px;'><a href='#' style='font-weight:bold; margin-left: 40px;'>"+rname+"</a>");
+      } else {
+          sbhh.append("<td colspan='4' class='homesub' style='height:61px;'><a href='#' style='font-weight:bold; margin-left: 40px;'>"+rname+"&nbsp;(&nbsp;<i class='fa fa-star' style='font-size:20px;color:#f1b654;'></i>&nbsp;<span>"+avg+"점</span>&nbsp;)</a>");
+      }
     %>
 
 <!DOCTYPE html>
@@ -604,7 +611,7 @@ $('.logoclick').click(function(event){
                     <div style="width: 50%;">
                          <table border="1" style="width: 100%;    height: 20%;">  
                              <thead>
-                               <td colspan="4" class="homesub" style="height:61px;"><a href="#" style=" font-weight:bold; margin-left: 40px; "><%= rname %>&nbsp;(&nbsp;<i class="fa fa-star" style="font-size:20px;color:#f1b654;"></i>&nbsp;<span><%=avg %>점</span>&nbsp;)</a>
+                             <%=sbhh %>
                                      
                                       <div class="checkbox">
                                          <input type="checkbox" id="favCheck" <%=onoff %>>

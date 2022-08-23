@@ -76,7 +76,13 @@
        sbh.append("<span>"+ndate+"</span>");
        sbh.append("</p>");
     }
-      
+     
+    StringBuilder sbhh=new StringBuilder();
+    if (avg==null) {
+        sbhh.append("<td colspan='4' class='homesub'><a href='#' style='font-weight:bold;'>"+rname+"</a>");
+    } else {
+        sbhh.append("<td colspan='4' class='homesub'><a href='#' style='font-weight:bold;'>"+rname+"&nbsp;(&nbsp;<i class='fa fa-star' style='font-size:20px;color:#f1b654;'></i>&nbsp;<span>"+avg+"점</span>&nbsp;)</a>");
+    } 
     
     %>
 
@@ -514,8 +520,8 @@ $('.logoclick').click(function(event){
                              <thead>
                              <tr style="position:relative; height:61px;">
 
-                     
-                               <td colspan="4" class="homesub"><a href="#" style=" font-weight:bold;"><%= rname %>&nbsp;(&nbsp;<i class="fa fa-star" style="font-size:20px;color:#f1b654;"></i>&nbsp;<span><%=avg %>점</span>&nbsp;)</a>
+                     			<%=sbhh %>
+                               <!--  <td colspan="4" class="homesub"><a href="#" style=" font-weight:bold;"><%= rname %>&nbsp;(&nbsp;<i class="fa fa-star" style="font-size:20px;color:#f1b654;"></i>&nbsp;<span>점</span>&nbsp;)</a> -->
                                 <div class="star-container div2" id="star" style="width: 5%;
                                       position: absolute;
                                       right: 1%;
