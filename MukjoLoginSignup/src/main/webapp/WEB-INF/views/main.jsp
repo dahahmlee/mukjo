@@ -87,12 +87,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
     <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
-	
-	<!-- Bootstrap (for modal) -->
-	
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+   
+   <!-- Bootstrap (for modal) -->
+   
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-	
+   
 
 <style>
 /** common **/
@@ -316,7 +316,7 @@ nav{
     background: none;
     cursor: default;
     outline: none;
- 	box-shadow: none;
+    box-shadow: none;
 }
 
 #locationwrap{
@@ -479,16 +479,21 @@ footer{
     right: 0px;
 }
 .modal-content {
-	border: 1px solid black;
+   border: 1px solid black;
     height: 100%;
+    display: flex;
 }
+
 #noticelogo {
-	width: 25%;
+   width: 25%;
+}
+
+.modal-body {
+   height: 100%;
 }
 
 .modal-body span {
-	float: right;
-	margin-right: 15px;
+   float: right;
 }
 
 .th-num {
@@ -526,17 +531,17 @@ footer{
             <h3 > <%=welcome %> <a href="bye" id="logout" style="color : gray"> <br/><%=log %>   </a></h3>
             
             <ul>
-            	<li><b><a href="mypage" class="logoclick">마이페이지</a></b></li>
+               <li><b><a href="mypage" class="logoclick">마이페이지</a></b></li>
                 <li><b><a href="adgroups" class="logoclick">소모임장페이지</a></b></li>
                 <li><b><a href="admin" class="logoclick">관리자페이지</b></li></a>
-            	<li><b><a href="favorite" class="logoclick">즐겨찾기</b></li></a>
-            	
+               <li><b><a href="favorite" class="logoclick">즐겨찾기</b></li></a>
+               
                 <li id="bell" style="margin-left: 20px;">
-                	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-						<img src="images/bell.png">
-					</button><%=noticeCount %>
-				</li>
-			</ul>
+                   <button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  <img src="images/bell.png">
+               </button><%=noticeCount %>
+            </li>
+         </ul>
         </div> <!--headerWap-->
     </div>
     
@@ -565,7 +570,6 @@ footer{
              <span>2022.07.13</span>
           </p>
           -->
-          <hr />
         </div>
 
         <div class="modal-footer">
@@ -735,6 +739,6 @@ footer{
 
 </body>
 <script>
-    	
+       
     </script>
 </html>
