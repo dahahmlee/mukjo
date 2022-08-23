@@ -523,7 +523,7 @@ footer{
             <h1 id="logoSec">
                 <a href="./main" class="logoclick"><img src="images/logo.png" alt="logo"></a>
             </h1>
-            <h3 > <%=welcome %> <a href="bye" id="bye" style="color : gray"> <br/><%=log %>   </a></h3>
+            <h3 > <%=welcome %> <a href="bye" id="logout" style="color : gray"> <br/><%=log %>   </a></h3>
             
             <ul>
             	<li><b><a href="mypage" class="logoclick">마이페이지</a></b></li>
