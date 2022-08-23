@@ -1349,11 +1349,13 @@ public class MukjoController {
    public ModelAndView somoimboard_home(HttpSession session, HttpServletRequest request,HttpServletResponse response,Model model) {
      String seq=(String) session.getAttribute("loginedMemberSeq");
       String rescode=request.getParameter("id");
+      String tseq=request.getParameter("tseq");
       
       ArrayList<String> resDetail=mapdao.resDetail(rescode);
       ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
       int noticeCount=ndao.noticeCount(seq);
       String onoff=favdao.onoff(seq, rescode);
+      String avg=fdao.avg(rescode, tseq);
       
       ModelAndView modelAndView = new ModelAndView();
        modelAndView.setViewName("somoimboard_home");
@@ -1361,6 +1363,7 @@ public class MukjoController {
        modelAndView.addObject("noticeList", noticeList);
        modelAndView.addObject("noticeCount", noticeCount);
        modelAndView.addObject("onoff", onoff);
+       modelAndView.addObject("avg", avg);
        
        return modelAndView;
    }
@@ -1377,7 +1380,8 @@ public class MukjoController {
       
       ArrayList<ReviewTO> lists = rdao.reviewLists(rto);
       String onoff=favdao.onoff(seq, rescode);
-
+      String avg=fdao.avg(rescode, tseq);
+      
       model.addAttribute("lists",lists);
      
       ArrayList<String> resDetail=mapdao.resDetail(rescode);
@@ -1392,6 +1396,7 @@ public class MukjoController {
       modelAndView.addObject("noticeCount", noticeCount);
       modelAndView.addObject("rname",rname);
       modelAndView.addObject("onoff", onoff);
+      modelAndView.addObject("avg", avg);
 
       return modelAndView;
    }
@@ -1445,6 +1450,7 @@ public class MukjoController {
    public ModelAndView somoimboard_menu(HttpSession session, HttpServletRequest request,HttpServletResponse response,Model model) {
      String seq=(String) session.getAttribute("loginedMemberSeq");
       String rescode=request.getParameter("id");
+      String tseq=request.getParameter("tseq");
       
       ArrayList<String> resDetail=mapdao.resDetail(rescode);
       String rname=resDetail.get(0);
@@ -1453,6 +1459,7 @@ public class MukjoController {
       ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
       int noticeCount=ndao.noticeCount(seq);
       String onoff=favdao.onoff(seq, rescode);
+      String avg=fdao.avg(rescode, tseq);
 
       ModelAndView modelAndView = new ModelAndView();
        modelAndView.setViewName("somoimboard_menu");
@@ -1461,7 +1468,8 @@ public class MukjoController {
        modelAndView.addObject("noticeList", noticeList);
        modelAndView.addObject("noticeCount", noticeCount);
        modelAndView.addObject("onoff", onoff);
-
+       modelAndView.addObject("avg", avg);
+       
        return modelAndView;      
    }
    
@@ -1469,6 +1477,7 @@ public class MukjoController {
    public ModelAndView somoimboard_picture(HttpSession session, HttpServletRequest request,HttpServletResponse response,Model model) {
      String seq=(String) session.getAttribute("loginedMemberSeq");
       String rescode=request.getParameter("id");
+      String tseq=request.getParameter("tseq");
       
       ArrayList<String> resDetail=mapdao.resDetail(rescode);
       String rname=resDetail.get(0);
@@ -1477,7 +1486,8 @@ public class MukjoController {
       ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
       int noticeCount=ndao.noticeCount(seq);
       String onoff=favdao.onoff(seq, rescode);
-
+      String avg=fdao.avg(rescode, tseq);
+      
       ModelAndView modelAndView = new ModelAndView();
        modelAndView.setViewName("somoimboard_picture");
        modelAndView.addObject("pic",pic);
@@ -1485,6 +1495,7 @@ public class MukjoController {
        modelAndView.addObject("noticeList", noticeList);
        modelAndView.addObject("noticeCount", noticeCount);
        modelAndView.addObject("onoff", onoff);
+       modelAndView.addObject("avg", avg);
 
        return modelAndView;
    }
@@ -1497,8 +1508,6 @@ public class MukjoController {
     String tname=fdao.tnameFromTseq(tseq);
     String search = request.getParameter("search");
     
-
-
       ArrayList<FoodTO> lists = fdao.crawler(search,tseq);
       ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
       int noticeCount=ndao.noticeCount(seq);

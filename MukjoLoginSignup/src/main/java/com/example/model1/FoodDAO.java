@@ -110,36 +110,61 @@ public class FoodDAO {
 	}
 	
 	// tseq로 소모임 이름 알아내기
-		public String tnameFromTseq(String tseq) {
-			Connection conn = null;
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
+	public String tnameFromTseq(String tseq) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		String tname="";
+		try {
+			conn = this.dataSource.getConnection();
 			
-			String tname="";
-			try {
-				conn = this.dataSource.getConnection();
-				
-				String sql = "select tname from team where tseq=?";
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, tseq);
-				rs = pstmt.executeQuery();
+			String sql = "select tname from team where tseq=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, tseq);
+			rs = pstmt.executeQuery();
 
-				if (rs.next()) {
-					tname=rs.getString("tname");
-				}
-				
-			} catch (SQLException e) {
-				System.out.println("[에러]:"+e.getMessage());
-			} finally {
-				if(conn != null) try { conn.close(); } catch(SQLException e) {}
-				if(pstmt != null) try { pstmt.close(); } catch(SQLException e) {}
-				if(rs != null) try { rs.close(); } catch(SQLException e) {}
+			if (rs.next()) {
+				tname=rs.getString("tname");
 			}
-			return tname;
+			
+		} catch (SQLException e) {
+			System.out.println("[에러]:"+e.getMessage());
+		} finally {
+			if(conn != null) try { conn.close(); } catch(SQLException e) {}
+			if(pstmt != null) try { pstmt.close(); } catch(SQLException e) {}
+			if(rs != null) try { rs.close(); } catch(SQLException e) {}
 		}
+		return tname;
+	}
+	
+	// 평점 평균
+	public String avg(String rest, String tseq) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
+		String avg="";
+		try {
+			conn = this.dataSource.getConnection();
+			
+			String sql = "select round(avg(star),2) as avg from review where rest = ? and tseq = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, rest);
+			pstmt.setString(2, tseq);
+			rs = pstmt.executeQuery();
 
-		
-		
-		
+			if (rs.next()) {
+				avg=rs.getString("avg");
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("[에러]:"+e.getMessage());
+		} finally {
+			if(conn != null) try { conn.close(); } catch(SQLException e) {}
+			if(pstmt != null) try { pstmt.close(); } catch(SQLException e) {}
+			if(rs != null) try { rs.close(); } catch(SQLException e) {}
+		}
+		return avg;
+	}
 }

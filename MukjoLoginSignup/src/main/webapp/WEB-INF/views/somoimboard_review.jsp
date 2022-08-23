@@ -24,6 +24,8 @@
     } 
     
    String onoff=(String)request.getAttribute("onoff");
+   String avg=(String)request.getAttribute("avg");
+   
    String tseq=request.getParameter("tseq");
    String rname = (String)request.getAttribute("rname");
    String id=request.getParameter("id");
@@ -517,7 +519,7 @@ $('.logoclick').click(function(event){
                          <table border="1" style="width: 100%;    height: 20%; border-collapse: separate;" >  
                              <thead>
                                <tr style="position:relative; height:61px; border-collapse: separate;">
-                               <td colspan="4" class="homesub"><a href="#" style=" font-weight:bold; margin-left: 40px;"><%= rname %>&nbsp;(&nbsp;<i class="fa fa-star" style="font-size:20px;color:#f1b654"></i>&nbsp;<span>3.6점</span>&nbsp;)</a>
+                               <td colspan="4" class="homesub"><a href="#" style=" font-weight:bold; margin-left: 40px;"><%= rname %>&nbsp;(&nbsp;<i class="fa fa-star" style="font-size:20px;color:#f1b654"></i>&nbsp;<span><%=avg %>점</span>&nbsp;)</a>
                                      
                                       <div class="checkbox">
                                          <input type="checkbox" id="favCheck" <%=onoff %>>

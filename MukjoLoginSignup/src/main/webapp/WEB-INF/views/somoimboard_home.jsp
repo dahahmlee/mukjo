@@ -21,6 +21,8 @@
     
    ArrayList<String> resDetail=(ArrayList)request.getAttribute("resDetail");
    String onoff=(String)request.getAttribute("onoff");
+   String avg=(String)request.getAttribute("avg");
+
    String tseq=request.getParameter("tseq");
    
    String id=request.getParameter("id");
@@ -513,7 +515,7 @@ $('.logoclick').click(function(event){
                              <tr style="position:relative; height:61px;">
 
                      
-                               <td colspan="4" class="homesub"><a href="#" style=" font-weight:bold;"><%= rname %>&nbsp;(&nbsp;<i class="fa fa-star" style="font-size:20px;color:#f1b654;"></i>&nbsp;<span>3.6점</span>&nbsp;)</a>
+                               <td colspan="4" class="homesub"><a href="#" style=" font-weight:bold;"><%= rname %>&nbsp;(&nbsp;<i class="fa fa-star" style="font-size:20px;color:#f1b654;"></i>&nbsp;<span><%=avg %>점</span>&nbsp;)</a>
                                 <div class="star-container div2" id="star" style="width: 5%;
                                       position: absolute;
                                       right: 1%;
