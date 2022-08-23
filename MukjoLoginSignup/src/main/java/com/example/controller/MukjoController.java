@@ -1144,12 +1144,19 @@ public class MukjoController {
          cpage = Integer.parseInt( request.getParameter( "cpage" ) );
       }
       
+      String search=request.getParameter("search");
+      String which=request.getParameter("which");
+      
       BoardListTO boardListTO = new BoardListTO();
-   
       boardListTO.setCpage(cpage);
       
-      boardListTO = bdao.myPageList(boardListTO, seq);
-      
+      ArrayList<BoardTO> boardList = new ArrayList<BoardTO>();
+      if (search==null) {
+    	  boardListTO = bdao.myPageList(boardListTO, seq);
+      } else {
+    	  boardListTO = bdao.myPageListSearch(boardListTO, seq, which, search);
+      }
+            
       ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
       int noticeCount=ndao.noticeCount(seq);
       

@@ -581,7 +581,7 @@ $('.logoclick').click(function(event){
       <section id="locationSec">
         <div id = "locationwrap">
              <button class="active"><a href="../../main/board?tseq=<%=tseq %>" >게시판</a></button>
-             <button class="allbtn"><a href="../../main/search?tseq=<%=tseq %>" >식당검색</a></button>
+             <button class="allbtn"><a href="../../main/search?tseq=<%=tseq %>" >식당 검색</a></button>
              <button class="allbtn"><a href="../../main/members?tseq=<%=tseq %>" style="color : #de5f47">소모임 회원 목록</a></button>
              <button class="allbtn bsbtn"><a href="../../main/quitgroup?tseq=<%=tseq %>" id="bstn">소모임 탈퇴</a></button>
         </div>

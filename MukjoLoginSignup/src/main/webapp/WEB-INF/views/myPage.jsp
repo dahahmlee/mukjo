@@ -738,7 +738,7 @@ textarea {
                <select class="form-select" aria-label="Default select example"
                   name="which">
                   <option value="subject">&nbsp;제목</option>
-                  <option value="content">&nbsp;소모임 이름</option>
+                  <option value="tname">&nbsp;소모임 이름</option>
                </select>
 
 

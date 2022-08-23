@@ -78,7 +78,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>식당검색</title>
+<title>식당 검색</title>
 <style href="css/common.css"></style>
 <!-- 나눔스퀘어 폰트 -->
 <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet">
@@ -583,7 +583,7 @@ $('.logoclick').click(function(event){
       <section id="locationSec">
         <div id = "locationwrap">
              <button class="active"><a href="../../main/board?tseq=<%=tseq %>" >게시판</a></button>
-             <button class="allbtn"><a href="../../main/search?tseq=<%=tseq %>" style="color : #de5f47">식당검색</a></button>
+             <button class="allbtn"><a href="../../main/search?tseq=<%=tseq %>" style="color : #de5f47">식당 검색</a></button>
              <button class="allbtn"><a href="../../main/members?tseq=<%=tseq %>">소모임 회원 목록</a></button>
              <button class="allbtn bsbtn"><a href="../../main/quitgroup?tseq=<%=tseq %>" id="bstn">소모임 탈퇴</a></button>
         </div>
