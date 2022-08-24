@@ -85,6 +85,7 @@
     <title>내 소모임</title>
     <style href="css/common.css"></style>
     <!-- 나눔스퀘어 폰트 -->
+    <link href="https://fonts.googleapis.com/css?family=Sunflower:500" rel="stylesheet">
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
@@ -103,6 +104,7 @@
 body,ul ,li, h1,h2,h3{
     margin: 0;
     padding: 0;
+    font-family: 'Sunflower' !important;
 }
 
 input{
@@ -222,7 +224,6 @@ nav{
 
 
 #headerWap h3 {
-   font-weight: bold;
    font-size: 15px;
    justify-content: left;
    position: absolute;
@@ -296,7 +297,7 @@ nav{
 }
 
 #btnSec strong{
-  font-family: 'NanumSquareExtraBold';
+  font-family: 'Sunflower' !important;
   font-size: 25px;
   display: inline-block;
   padding-left: 50px;
@@ -329,7 +330,7 @@ nav{
 }
 
 #locationwrap button{
-    font-family: 'NanumSquareBold';
+    font-family: 'Sunflower' !important;
 }
 
 .allbtn{

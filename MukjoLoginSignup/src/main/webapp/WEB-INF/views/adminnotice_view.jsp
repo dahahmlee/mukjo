@@ -59,6 +59,7 @@
 <link
    href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css"
    rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Sunflower:500" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 
@@ -67,14 +68,15 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
 <style>
-body, ul, li, h1, h2, h3 {
-   margin: 0;
-   padding: 0;
+body,ul ,li, h1,h2,h3{
+    margin: 0;
+    padding: 0;
+    font-family: 'Sunflower' !important;
 }
 
 p {
    color: black;
-   font-family: 'Noto Sans KR', sans-serif;
+   font-family: 'Sunflower' !important;
 }
 
 input {
@@ -218,7 +220,6 @@ nav {
 }
 
 #headerWap h3 {
-   font-weight: bold;
    font-size: 15px;
    justify-content: left;
    position: absolute;
@@ -283,8 +284,8 @@ nav {
    padding-top: 13px;
 }
 
-#locationwrap button {
-   font-family: 'NanumSquareBold';
+#locationwrap button{
+    font-family: 'Sunflower' !important;
 }
 
 .allbtn {
@@ -437,7 +438,6 @@ footer {
 }
 
 .board_view td {
-   font-family: 'NanumSquareBold';
    height: 25px;
    text-align: left;
    padding: 8px;
@@ -540,12 +540,10 @@ textarea {
 
 .btn_txt01 {
    color: white;
-   font-weight: 600;
 }
 
 .btn_txt02 {
    color: white;
-   font-weight: 600;
 }
 
 .align_center {
@@ -563,6 +561,7 @@ textarea {
    width: 1280px;
    height: 400px;
    overflow: auto;
+   
 }
 
 .modal-dialog {

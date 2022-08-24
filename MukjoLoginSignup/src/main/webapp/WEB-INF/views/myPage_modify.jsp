@@ -56,6 +56,7 @@
 <link
    href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css"
    rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Sunflower:500" rel="stylesheet">
 <!-- Bootstrap (for modal) -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
@@ -74,14 +75,15 @@
 </script>
 <style>
 /** common **/
-body, ul, li, h1, h2, h3 {
-   margin: 0;
-   padding: 0;
+body,ul ,li, h1,h2,h3{
+    margin: 0;
+    padding: 0;
+    font-family: 'Sunflower' !important;
 }
 
 p {
    color: black;
-   font-family: 'Noto Sans KR', sans-serif;
+   font-family: 'Sunflower' !important;
 }
 
 input {
@@ -150,7 +152,7 @@ button {
    color: var(- -button-color);
    margin: 0;
    padding: 0.5rem 1rem;
-   font-family: 'Noto Sans KR', sans-serif;
+   font-family: 'Sunflower' !important;
    font-size: 1rem;
    font-weight: 400;
    text-align: center;
@@ -226,7 +228,6 @@ nav {
 }
 
 #headerWap h3 {
-   font-weight: bold;
    font-size: 15px;
    justify-content: left;
    position: absolute;
@@ -292,7 +293,7 @@ nav {
 }
 
 #locationwrap button {
-   font-family: 'NanumSquareBold';
+   font-family: 'Sunflower' !important;
 }
 
 .allbtn {
@@ -435,7 +436,7 @@ footer {
    text-align: left;
    padding: 8px;
    border-bottom: 1px solid #dadada;
-   font-family: 'Noto Sans KR', sans-serif;
+   font-family: 'Sunflower' !important;
 }
 
 .board_write th {
@@ -497,7 +498,6 @@ footer {
    border-bottom: 1px solid #dadada;
    background-color: #f9f9fb;
    color: #464646;
-   font-weight: 600;
    word-wrap: break-word;
    border-top: 1px solid #464646;
    word-break: break-all;
@@ -530,22 +530,18 @@ textarea {
    width: 100%;
    height: 120px;
    border: 1px solid #cecece;
-   font-weight: 600;
 }
 
 .board_view_input {
    border: 1px solid #d1d1d1;
-   font-weight: 600;
 }
 
 .btn_txt01 {
    color: white;
-   font-weight: 600;
 }
 
 .btn_txt02 {
    color: white;
-   font-weight: 600;
 }
 
 .modal-dialog {

@@ -90,6 +90,7 @@
     <title>내가 쓴 글 보기</title>
     <style href="css/common.css"></style>
     <!-- 나눔스퀘어 폰트 -->
+    <link href="https://fonts.googleapis.com/css?family=Sunflower:500" rel="stylesheet">
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet">
 
    <!-- Bootstrap (for modal) -->
@@ -98,9 +99,10 @@
    
 
 <style>
-body, ul, li, h1, h2, h3 {
-   margin: 0;
-   padding: 0;
+body,ul ,li, h1,h2,h3{
+    margin: 0;
+    padding: 0;
+    font-family: 'Sunflower' !important;
 }
 
 .numspan{
@@ -253,7 +255,6 @@ nav {
 }
 
 #headerWap h3 {
-   font-weight: bold;
    font-size: 15px;
    justify-content: left;
    position: absolute;
@@ -317,8 +318,8 @@ nav {
    padding-top: 13px;
 }
 
-#locationwrap button {
-   font-family: 'NanumSquareBold';
+#locationwrap button{
+    font-family: 'Sunflower' !important;
 }
 
 .allbtn {

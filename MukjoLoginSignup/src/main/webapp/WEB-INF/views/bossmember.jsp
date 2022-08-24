@@ -100,7 +100,7 @@
    
     <!-- 나눔스퀘어 폰트 -->
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet">
-
+	<link href="https://fonts.googleapis.com/css?family=Sunflower:500" rel="stylesheet">
    <!-- Bootstrap (for modal) -->
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
@@ -112,6 +112,7 @@
 body,ul ,li, h1,h2,h3{
     margin: 0;
     padding: 0;
+    font-family: 'Sunflower' !important;
 }
 
 input{
@@ -256,7 +257,6 @@ nav{
 }
 
 #headerWap h3 {
-   font-weight: bold;
    font-size: 15px;
    justify-content: left;
    position: absolute;
@@ -293,7 +293,7 @@ nav{
 }
 
 #btnSec strong{
-  font-family: 'NanumSquareExtraBold';
+  font-family: 'Sunflower' !important;
   font-size: 20px;
   display: inline-block;
   padding-left: 20px;
@@ -325,7 +325,7 @@ nav{
 }
 
 #locationwrap button{
-    font-family: 'NanumSquareBold';
+    font-family: 'Sunflower' !important;
 }
 
 .allbtn{

@@ -6,6 +6,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+   <link href="https://fonts.googleapis.com/css?family=Sunflower:500" rel="stylesheet">
    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     
@@ -124,7 +125,7 @@
          
          sbh.append("<p style='padding-top:25px; margin-bottom:0px;'>"+words);
          sbh.append("<div>");
-         sbh.append("	<span>"+ndate+"</span>");
+         sbh.append("   <span>"+ndate+"</span>");
          sbh.append("</div>");
          sbh.append("</p>");
       }
@@ -151,6 +152,11 @@
 body, ul, li, h1, h2, h3 {
    margin: 0;
    padding: 0;
+   font-family: 'Sunflower' !important;
+}
+
+button{
+    font-family: 'Sunflower' !important;
 }
 
 p {
@@ -299,11 +305,14 @@ nav {
 }
 
 #headerWap h3 {
-   font-weight: bold;
    font-size: 15px;
    justify-content: left;
    position: absolute;
    margin-left: 120px;
+}
+
+td {
+   font-family: 'Sunflower' !important;
 }
 
 /***** warp  *****/
@@ -629,22 +638,22 @@ textarea {
 
 .board_view_input {
    border: 1px solid #d1d1d1;
-   font-weight: 600;
+   
 }
 
 .btn_txt01 {
    color: white;
-   font-weight: 600;
+  
 }
 
 .btn_txt02 {
    color: white;
-   font-weight: 600;
+  
 }
 
 .btn_txt03 {
    color: #000;
-   font-weight: 600;
+  
 }
 
 .cmttable tr{
@@ -678,8 +687,8 @@ textarea {
 }
 
 .modal-body {
-	padding-top: 0px;
-	height: 100%;
+   padding-top: 0px;
+   height: 100%;
 }
 
 .modal-body span {

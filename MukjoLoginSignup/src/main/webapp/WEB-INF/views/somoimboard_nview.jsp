@@ -59,7 +59,7 @@
           
           sbh.append("<p style='padding-top:25px; margin-bottom:0px;'>"+words);
           sbh.append("<div>");
-          sbh.append("	<span>"+ndate+"</span>");
+          sbh.append("   <span>"+ndate+"</span>");
           sbh.append("</div>");
           sbh.append("</p>");
        }
@@ -77,6 +77,8 @@
    href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css"
    rel="stylesheet">
    
+   <link href="https://fonts.googleapis.com/css?family=Sunflower:500" rel="stylesheet">
+   
 <!-- Bootstrap (for modal) -->
    
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -87,6 +89,15 @@
 body, ul, li, h1, h2, h3 {
    margin: 0;
    padding: 0;
+   font-family: 'Sunflower' !important;
+}
+
+ button {
+    font-family: 'Sunflower' !important;
+}
+
+ td {
+    font-family: 'Sunflower' !important;
 }
 
 p {
@@ -270,7 +281,7 @@ nav {
 }
 
 #btnSec strong {
-   font-family: 'NanumSquareExtraBold';
+   font-family: 'Sunflower' !important;
    font-size: 25px;
    display: inline-block;
    padding-left: 50px;
@@ -555,27 +566,27 @@ textarea {
    width: 100%;
    height: 120px;
    border: 1px solid #cecece;
-   font-weight: 600;
+  
 }
 
 .board_view_input {
    border: 1px solid #d1d1d1;
-   font-weight: 600;
+ 
 }
 
 .btn_txt01 {
    color: white;
-   font-weight: 600;
+ 
 }
 
 .btn_txt02 {
    color: white;
-   font-weight: 600;
+ 
 }
 
 .btn_txt03 {
    color: #000;
-   font-weight: 600;
+  
 }
 
 .cmttable tr{
@@ -609,8 +620,8 @@ textarea {
 }
 
 .modal-body {
-	padding-top: 0px;
-	height: 100%;
+   padding-top: 0px;
+   height: 100%;
 }
 
 .modal-body span {

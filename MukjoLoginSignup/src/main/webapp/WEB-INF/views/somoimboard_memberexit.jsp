@@ -70,6 +70,7 @@
     <style href="css/common.css"></style>
     <!-- 나눔스퀘어 폰트 -->
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Sunflower:500" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
     <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
@@ -86,7 +87,13 @@
 body,ul ,li, h1,h2,h3{
     margin: 0;
     padding: 0;
+      font-family: 'Sunflower' !important;
 }
+
+ button{
+    font-family: 'Sunflower' !important;
+}
+
 
 input{
     writing-mode: horizontal-tb !important;
@@ -242,7 +249,7 @@ nav{
 }
 
 #headerWap h3 {
-   font-weight: bold;
+  
    font-size: 15px;
    justify-content: left;
    position: absolute;
@@ -376,7 +383,7 @@ footer{
 }
 
 .ex p{
- font-family: 'NanumSquareBold';
+  font-family: 'Sunflower' !important;
  }
 
 .modal-dialog {
@@ -490,7 +497,7 @@ $('.logoclick').click(function(event){
       <div class="ex" style="width: 1280px; margin:auto">
       <form action="" method="post" name="" id="form_boss" style="width: 800px;
           margin-top: 100px; margin-left: 210px; height:210px;">           
-               <span style=" font-family: 'NanumSquareBold'; font-size:20px; display:inline-block; margin-top:30px;">소모임 : <%=tname %></span>
+               <span style="  font-family: 'Sunflower' !important; font-size:20px; display:inline-block; margin-top:30px;">소모임 : <%=tname %></span>
                <%=sbHtml.toString() %>
                <!--  
                <p>소모임 탈퇴시 작성하신 모든 게시물들은 삭제됩니다.</p>

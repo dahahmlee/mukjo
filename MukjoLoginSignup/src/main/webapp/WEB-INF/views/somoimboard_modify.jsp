@@ -61,6 +61,7 @@
 <link
    href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css"
    rel="stylesheet">
+   <link href="https://fonts.googleapis.com/css?family=Sunflower:500" rel="stylesheet">
 <!-- Bootstrap (for modal) -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
@@ -71,9 +72,23 @@
 body, ul, li, h1, h2, h3 {
    margin: 0;
    padding: 0;
+    font-family: 'Sunflower' !important;
 }
+
+ button{
+    font-family: 'Sunflower' !important;
+}
+
 p {
-   font-family: 'Noto Sans KR', sans-serif;
+   font-family: 'Sunflower' !important;
+}
+
+th{
+   font-family: 'Sunflower' !important;
+}
+
+td{
+   font-family: 'Sunflower' !important;
 }
 
 input {
@@ -525,23 +540,23 @@ textarea {
    width: 100%;
    height: 120px;
    border: 1px solid #cecece;
-   font-weight: 600;
+ 
 }
 
 .board_view_input {
    border: 1px solid #d1d1d1;
-   font-weight: 600;
+  
    
 }
 
 .btn_txt01 {
    color: white;
-   font-weight: 600;
+  
 }
 
 .btn_txt02 {
    color: white;
-   font-weight: 600;
+  
 }
 
 .modal-dialog {

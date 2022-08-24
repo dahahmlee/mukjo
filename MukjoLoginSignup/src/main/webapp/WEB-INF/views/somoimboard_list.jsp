@@ -145,6 +145,7 @@
     <title>소모임게시판</title>
     <style href="css/common.css"></style>
     <!-- 나눔스퀘어 폰트 -->
+    <link href="https://fonts.googleapis.com/css?family=Sunflower:500" rel="stylesheet">
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet">
    
    <!-- Bootstrap (for modal) -->
@@ -166,7 +167,14 @@
 body,ul ,li, h1,h2,h3{
     margin: 0;
     padding: 0;
+     font-family: 'Sunflower' !important;
 }
+
+button{
+    font-family: 'Sunflower' !important;
+}
+
+
 
 input{
     writing-mode: horizontal-tb !important;
@@ -255,7 +263,6 @@ button {
 
 .btn_txt02 {
    color: white;
-   font-weight: 600;
 }
 
 
@@ -300,7 +307,6 @@ nav{
 }
 
 #logout{
-   font-weight: bold;
     color : grey;
     width:10%;
     text-decoration: underline;
@@ -325,7 +331,7 @@ nav{
 }
 
 #headerWap h3 {
-   font-weight: bold;
+  
    justify-content: left;
    position: absolute;
    margin-left: 120px;
@@ -363,7 +369,7 @@ nav{
 }
 
 #btnSec strong{
-  font-family: 'NanumSquareExtraBold';
+   font-family: 'Sunflower' !important;
   font-size: 20px;
   display: inline-block;
   padding-left: 20px;
