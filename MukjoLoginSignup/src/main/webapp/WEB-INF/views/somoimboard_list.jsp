@@ -131,7 +131,7 @@
        
        sbh.append("<p style='padding-top:25px; margin-bottom:0px;'>"+words);
        sbh.append("<div>");
-       sbh.append("	<span>"+ndate+"</span>");
+       sbh.append("   <span>"+ndate+"</span>");
        sbh.append("</div>");
        sbh.append("</p>");
     }
@@ -160,6 +160,7 @@
    margin-left : 5px;
    color : black;
    font-weight: bold;
+   font-size: 13px;
 }
 
 body,ul ,li, h1,h2,h3{
@@ -563,8 +564,8 @@ footer{
 }
 
 .modal-body {
-	padding-top: 0px;
-	height: 100%;
+   padding-top: 0px;
+   height: 100%;
 }
 
 .modal-body span {

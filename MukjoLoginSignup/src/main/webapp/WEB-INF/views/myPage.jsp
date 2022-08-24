@@ -48,27 +48,16 @@
                String tname=boardLists.get(i).getTname();
                String subject=boardLists.get(i).getSubject();
                String wdate=boardLists.get(i).getWdate();
-               String filename=boardLists.get(i).getFilename();
                String hit=boardLists.get(i).getHit();
                int cmtcount=boardLists.get(i).getCmtCount();
 
-               if (filename==null) {
-                    sb.append("<tr>");
-                    sb.append("		 <td>"+num+"</td>");
-                    sb.append("		 <td>"+tname+"</td>"); 
-                    sb.append("      <td><a href='mypage/view?cpage="+cpage+"&bseq="+bseq+"'>"+ subject+"</a> &nbsp;&nbsp;<span class='numspan'>["+cmtcount+"]</span></td>");
-                    sb.append("      <td>"+ wdate+"</a></td>");
-                    sb.append("      <td>"+ hit+"</a></td>");
-                    sb.append("</tr>");
-                } else {
-                	sb.append("<tr>");
-                    sb.append("		 <td>"+num+"</td>");
-                    sb.append("		 <td>"+tname+"</td>"); 
-                    sb.append("      <td><a href='mypage/view?cpage="+cpage+"&bseq="+bseq+"'>"+ subject+"</a>&nbsp;<img src='../images/Img_show.png'>&nbsp;&nbsp;<span class='numspan'>["+cmtcount+"]</span></td>");
-                    sb.append("      <td>"+ wdate+"</a></td>");
-                    sb.append("      <td>"+ hit+"</a></td>");
-                    sb.append("</tr>");
-                }   
+               sb.append("<tr>");
+               sb.append("<td>"+num+"</td>");
+               sb.append("<td>"+tname+"</td>");               
+               sb.append("<td><a href='mypage/view?cpage="+cpage+"&bseq="+bseq+"'>"+subject+"</a> &nbsp;&nbsp;<span class='numspan'>["+cmtcount+"]</span></td>");
+               sb.append("<td>"+wdate+"</td>");
+               sb.append("<td>"+hit+"</td>");
+               sb.append("</tr>");
                
                num+=1;
             }
@@ -85,7 +74,7 @@
        
        sbh.append("<p style='padding-top:25px; margin-bottom:0px;'>"+words);
        sbh.append("<div>");
-       sbh.append("	<span>"+ndate+"</span>");
+       sbh.append("   <span>"+ndate+"</span>");
        sbh.append("</div>");
        sbh.append("</p>");
     }
@@ -112,6 +101,15 @@
 body, ul, li, h1, h2, h3 {
    margin: 0;
    padding: 0;
+}
+
+.numspan{
+   display: inline-block;
+   line-height:1px;
+   margin-left : 5px;
+   color : black;
+   font-weight: bold;
+   font-size: 13px;
 }
 
 input {
@@ -642,8 +640,8 @@ textarea {
 }
 
 .modal-body {
-	padding-top: 0px;
-	height: 100%;
+   padding-top: 0px;
+   height: 100%;
 }
 
 .modal-body span {
@@ -667,11 +665,6 @@ textarea {
 .board-table th  {
    padding-bottom: 10px;
    border-bottom: 1px solid black;
-}
-
-.board-table img {
-   object-fit: cover;
-   width: 15px;
 }
 
 .logoclick:active {
