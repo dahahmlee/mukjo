@@ -16,7 +16,7 @@
           log = "LOGOUT";
        } else {
              out.println ( "<script>");
-            out.println ( "window.location.href = 'http://localhost/welcome'");
+            out.println ( "window.location.href = 'https://mukjo.herokuapp.com/welcome'");
             out.println ( "</script>");
        }   
     
@@ -48,24 +48,20 @@
             if(i%2 == 0) {
                sb.append("<div class='fl'>");
                sb.append("<li>");
-               sb.append("<a href='#' class='menu1'>");
                sb.append("<div class='divimg 'style='background-image: url("+rmenuimage+")';>");
-               sb.append("</div>");
                sb.append("<div class='st1'><span class='spanmenu'>"+rmenuname+"</span>");
                sb.append("<div class='price'><p>"+rmenuprice+"</p></div>");
                sb.append("</div>");
-               sb.append("</a>");
+               sb.append("</div>");
                sb.append("</li>");
                } else { //오른쪽 꺼
                   
                    sb.append("<li>");
-                   sb.append("<a href='#' class='menu1'>");
                    sb.append("<div class='divimg 'style='background-image: url("+rmenuimage+")';>");
-                   sb.append("</div>");
                    sb.append("<div class='st1'><span class='spanmenu'>"+rmenuname+"</span>");
                    sb.append("<div class='price'><p>"+rmenuprice+"</p></div>");
                    sb.append("</div>");
-                   sb.append("</a>");
+                   sb.append("</div>");
                    sb.append("</li>");
                   sb.append("</div>");
             }
@@ -89,9 +85,9 @@
 
       StringBuilder sbhh=new StringBuilder();
       if (avg==null) {
-          sbhh.append("<td colspan='4' class='homesub' style='height:61px; border-top: 2px solid black; border: 2px solid black;'><a href='#' style='font-weight:bold; margin-left: 40px;'>"+rname+"</a>");
+          sbhh.append("<td colspan='4' class='homesub' style='height:61px; border-left: none;  border: 2px solid black;'><a href='#' style='font-weight:bold; margin-left: 40px;'>"+rname+"</a>");
       } else {
-          sbhh.append("<td colspan='4' class='homesub' style='height:61px; border-top: 2px solid black; border: 2px solid black;'><a href='#' style='font-weight:bold; margin-left: 40px;'>"+rname+"&nbsp;(&nbsp;<i class='fa fa-star' style='font-size:20px;color:#f1b654;'></i>&nbsp;<span>"+avg+"점</span>&nbsp;)</a>");
+          sbhh.append("<td colspan='4' class='homesub' style='height:61px; border-left: none;  border: 2px solid black;'><a href='#' style='font-weight:bold; margin-left: 40px;'>"+rname+"&nbsp;(&nbsp;<i class='fa fa-star' style='font-size:20px;color:#f1b654;'></i>&nbsp;<span>"+avg+"점</span>&nbsp;)</a>");
       }
     %>
 
@@ -114,7 +110,7 @@
    
 <!-- 지도 -->
 <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=f8b62z9xjz&amp;submodules=geocoder"></script>
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 
 <style>
 /** common **/
@@ -380,14 +376,10 @@ nav{
 #itemBox ul li {
     border-bottom: 1px solid #d7d7d7;
     width:50%;
+    padding : 20px 15px 20px 15px;
 }
 
-.menu1{
-    display: flex;
-    align-items: center;
-    position: relative;
-    padding: 22px 18px 22px 18px
-}
+
 .divimg{
     background-repeat: no-repeat;
     background-position: 50% 50%;
@@ -400,6 +392,10 @@ nav{
     font-weight: bold;
     font-size: 15px;
     word-break:keep-all;
+   width: 100px;
+   display:inline-block;
+   word-break: break-all;
+   letter-spacing : 3px;
 }
 
 .price{
@@ -408,6 +404,7 @@ nav{
     color: #ff5757;
     font-size: 13px;
     line-height: 1.7rem;
+    width: 60px;
 }
 
 .price p {
@@ -415,7 +412,8 @@ nav{
 }
 
 .st1{
-    margin-left: 20px;
+    margin-left: 170px;
+    padding-top: 35px;
 }
 
 .fl{
@@ -432,6 +430,10 @@ nav{
 
 .tblmain table th{
     background-color: #f7f7fd;
+}
+
+.homesub{
+   border-left: none;
 }
 
 
@@ -617,7 +619,7 @@ $('.logoclick').click(function(event){
 
                <div class="tblmain" style= "display: flex; justify-content: space-around;">
                     <div style="width: 50%;">
-                         <table border="1" style="width: 100%;    height: 20%;">  
+                         <table border="1" style="width: 100%;    height: 20%; ">  
                              <thead>
                              <%=sbhh %>
                                      

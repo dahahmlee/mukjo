@@ -17,12 +17,12 @@
 		if (!loginedMemberSeq.equals("1")) {
 		   		out.println ( "<script>");
 		   		out.println( "alert('관리자만 관리자페이지에 들어갈 수 있습니다.');" );
-				out.println ( "window.location.href = 'http://localhost/main'");
+				out.println ( "window.location.href = 'https://mukjo.herokuapp.com/main'");
 				out.println ( "</script>");
 		   	}
 	} else {
 		out.println ( "<script>");
-		out.println ( "window.location.href = 'http://localhost/welcome'");
+		out.println ( "window.location.href = 'https://mukjo.herokuapp.com/welcome'");
 		out.println ( "</script>");
 	}
 	
@@ -582,7 +582,7 @@ footer{
                 </table>
             </div>
             <div id="btn_write">
-				<button type="submit" onclick="location.href='http://localhost/admin/notice/write?cpage=<%=cpage %>'">글 쓰기</button>
+				<button type="submit" onclick="location.href='https://mukjo.herokuapp.com/admin/notice/write?cpage=<%=cpage %>'">글 쓰기</button>
 			</div>
 
         </section>

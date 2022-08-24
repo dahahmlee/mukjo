@@ -16,7 +16,7 @@
 	   log = "LOGOUT";
 	} else {
 	   	out.println ( "<script>");
-			out.println ( "window.location.href = 'http://localhost/welcome'");
+			out.println ( "window.location.href = 'https://mukjo.herokuapp.com/welcome'");
 			out.println ( "</script>");
 	}
 
@@ -72,7 +72,7 @@
    href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css"
    rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
-<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script  src="https://code.jquery.com/jquery-latest.min.js"></script>
 
 <!-- Bootstrap (for modal) -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
