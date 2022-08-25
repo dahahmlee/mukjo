@@ -32,9 +32,11 @@ public class CommentDAO {
 		String tname=tnameFromBseq(cto.getBseq());
 		String subject=subjectFromBseq(cto.getBseq());
 
-		String words="'"+name+"'님이 ["+tname+"] 소모임의 '"+subject+"' 게시물에 댓글을 달았습니다.";
-		sql = "insert into notice values (?, ?, now())";
-		jdbcTemplate.update(sql,seq,words);
+		if (!seq.equals(cto.getSeq())) {
+			String words="'"+name+"'님이 ["+tname+"] 소모임의 '"+subject+"' 게시물에 댓글을 달았습니다.";
+			sql = "insert into notice values (?, ?, now())";
+			jdbcTemplate.update(sql,seq,words);
+		}
 		
 		return flag;
 	}
