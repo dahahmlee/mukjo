@@ -102,7 +102,7 @@ body, ul, li, h1, h2, h3 {
 
 p {
    color: black;
-   font-family: 'Noto Sans KR', sans-serif;
+   font-family: 'Sunflower' !important;
 }
 
 input {

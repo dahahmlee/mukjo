@@ -292,7 +292,7 @@ nav{
 	text-align: center;
 	margin-top: 10px;
 	padding: 5px;
-	font-family: 'NanumSquareExtraBold';
+	font-family: 'Sunflower' !important;
 	display: inline-block;
 }
 
@@ -304,7 +304,7 @@ nav{
 	margin-bottom: 20px;
 	padding-left: 10px;
 	border: 1px solid black;
-	font-family: 'NanumSquareExtraBold';
+	font-family: 'Sunflower' !important;
 }
 
 #bossdlt {

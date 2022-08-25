@@ -161,7 +161,7 @@ button{
 
 p {
    color: black;
-   font-family: 'Noto Sans KR', sans-serif;
+   font-family: 'Sunflower' !important;
 }
 
 input {
