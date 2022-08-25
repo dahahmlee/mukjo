@@ -13,7 +13,7 @@
 	String cpage = request.getParameter("cpage");
 	if(flag == 1) {
 		out.println("	Swal.fire({");
-		out.println("		title: '댓글 작성 성공',");
+		out.println("		title: '댓글작성 성공',");
 		out.println("		text: '댓글 작성이 완료되었습니다.',");
 		out.println("		icon: 'success',");
 		out.println("		confirmButtonColor: '#3085d6',");

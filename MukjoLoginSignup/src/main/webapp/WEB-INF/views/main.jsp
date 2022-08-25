@@ -535,7 +535,7 @@ footer{
             <h3 > <%=welcome %> <a href="bye" id="logout" style="color : gray"> <br/><%=log %>   </a></h3>
             
             <ul>
-               <li><b><a href="mypage" class="logoclick">마이페이지</a></b></li>
+               <li><b><a href="mypage.do" class="logoclick">마이페이지</a></b></li>
                 <li><b><a href="adgroups" class="logoclick">소모임장페이지</a></b></li>
                 <li><b><a href="admin" class="logoclick">관리자페이지</b></li></a>
                <li><b><a href="favorite" class="logoclick">즐겨찾기</b></li></a>

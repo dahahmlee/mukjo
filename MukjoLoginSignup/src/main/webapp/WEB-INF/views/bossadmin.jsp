@@ -14,19 +14,19 @@
        String welcome = "";
     
        if(loginedMemberSeq != null) {
-           welcome = (String)sess.getAttribute("loginedMemberName")+"님 환영합니다.";
-           log = "LOGOUT";
-           if (loginedMemberSeq.equals("1")) {
-                 out.println ( "<script>");
-                 out.println( "alert('관리자는 소모임장 페이지에 들어갈 수 없습니다.');" );
-              out.println ( "history.back();");
-              out.println ( "</script>");
-              }
-        } else {
-           out.println ( "<script>");
-        out.println ( "window.location.href = 'http://localhost/welcome'");
-        out.println ( "</script>");
-        }
+     		welcome = (String)sess.getAttribute("loginedMemberName")+"님 환영합니다.";
+     		log = "LOGOUT";
+     		if (loginedMemberSeq.equals("1")) {
+     	   		out.println ( "<script>");
+     	   		out.println( "alert('관리자는 소모임장 페이지에 들어갈 수 없습니다.');" );
+     			out.println ( "history.back();");
+     			out.println ( "</script>");
+     	   	}
+     	} else {
+     		out.println ( "<script>");
+  		out.println ( "window.location.href = 'http://localhost/welcome'");
+  		out.println ( "</script>");
+     	}
        
        String tseq = (String)request.getAttribute("tseq");
        String tname = (String)request.getAttribute("tname");
@@ -41,7 +41,7 @@
           
           sb.append("<p style='padding-top:25px; margin-bottom:0px;'>"+words);
           sb.append("<div>");
-          sb.append("   <span>"+ndate+"</span>");
+          sb.append("	<span>"+ndate+"</span>");
           sb.append("</div>");
           sb.append("</p>");
        }
@@ -58,8 +58,8 @@
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Sunflower:500" rel="stylesheet">
     <!-- Bootstrap (for modal) -->
-   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     
 <script type="text/javascript">
    window.onload = function() {
@@ -98,10 +98,6 @@
 body,ul ,li, h1,h2,h3{
     margin: 0;
     padding: 0;
-     font-family: 'Sunflower' !important;
-}
-
- button{
     font-family: 'Sunflower' !important;
 }
 
@@ -145,7 +141,7 @@ table{
 
 :root {
   --button-color: #ffffff;
-  --button-bg-color: #5c3018;   
+  --button-bg-color: #5c3018;	
   --button-hover-bg-color: #5c3018;
 }
 
@@ -160,7 +156,7 @@ button {
   margin: 0;
   padding: 0.5rem 1rem;
   
-  font-family: 'Noto Sans KR', sans-serif;
+  font-family: 'Sunflower' !important;
   font-size: 1rem;
   font-weight: 400;
   text-align: center;
@@ -264,20 +260,20 @@ nav{
     right: 0px;
 }
 .modal-content {
-   border: 1px solid black;
+	border: 1px solid black;
     height: 100%;
 }
 #noticelogo {
-   width: 25%;
+	width: 25%;
 }
 
 .modal-body {
-   padding-top: 0px;
-   height: 100%;
+	padding-top: 0px;
+	height: 100%;
 }
 
 .modal-body span {
-   float: right;
+	float: right;
 }
 
 /***** warp  *****/
@@ -290,39 +286,39 @@ nav{
 }
 
 #form_boss {
-   width: 650px;
-   height: 200px;
-   border: 3px solid #5c3018;
-   text-align: center;
-   margin-top: 10px;
-   padding: 5px;
-   font-family: 'Sunflower' !important;
-   display: inline-block;
+	width: 650px;
+	height: 200px;
+	border: 3px solid #5c3018;
+	text-align: center;
+	margin-top: 10px;
+	padding: 5px;
+	font-family: 'NanumSquareExtraBold';
+	display: inline-block;
 }
 
 #form_boss input {
-   width: 300px;
-   height: 30px;
-   border-radius: 10px;
-   margin-top: 20px;
-   margin-bottom: 20px;
-   padding-left: 10px;
-   border: 1px solid black;
-   font-family: 'NanumSquareExtraBold';
+	width: 300px;
+	height: 30px;
+	border-radius: 10px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	padding-left: 10px;
+	border: 1px solid black;
+	font-family: 'NanumSquareExtraBold';
 }
 
 #bossdlt {
-   margin-left: 45px;
-   float: left;
+	margin-left: 45px;
+	float: left;
 }
 
 #bossmdf {
-   margin-right: 45px;
-   float: right;
+	margin-right: 45px;
+	float: right;
 }
 
 .align {
-   margin-top : 65px;
+	margin-top : 65px;
 }
 
 /* 타이틀 섹션 */
@@ -381,7 +377,7 @@ nav{
 }
 
 #locationwrap button{
-    font-family: 'NanumSquareBold';
+    font-family: 'Sunflower' !important;
 }
 
 .allbtn{
@@ -496,15 +492,15 @@ footer{
     margin-top: 5%;
 
 .btn_area {
-   display; inline-block;
+	display; inline-block;
 }
 
 .align {
-   margin-top: 100px;
+	margin-top: 100px;
 }
 
 #tname {
-   font-size: 20px;
+	font-size: 20px;
 }
 
 
@@ -525,10 +521,10 @@ footer{
                 <li><b><a href="../../admin" class="logoclick">관리자페이지</b></li></a>
                 <li><b><a href="../../favorite" class="logoclick">즐겨찾기</b></li></a>
                 <li id="bell" style="margin-left: 20px;">
-                   <button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                  <img src="../../images/bell.png">
-               </button><%=noticeCount %>
-            </li>
+                	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+						<img src="../../images/bell.png">
+					</button><%=noticeCount %>
+				</li>
             </ul>
           </div>
         </div> <!--headerWap-->
@@ -580,21 +576,21 @@ footer{
 
     <!-- 전체 요소를 감싸는 div -->
     <div id="wrap">
-       <span id="tname"><strong>현재 소모임 이름 : <b><%=tname %></b></strong></span>
+    	<span id="tname"><strong>현재 소모임 이름 : <b><%=tname %></b></strong></span>
  
           <form action="../../adgroups/admin/chggname?tseq=<%=tseq %>" method="post" name="sfrm" id="form_boss">           
-               <input type="hidden" name="tseq" value="<%=tseq %>" />
-               <span>소모임 이름 변경 : </span>&nbsp;
+            	<input type="hidden" name="tseq" value="<%=tseq %>" />
+            	<span>소모임 이름 변경 : </span>&nbsp;
                 <input type="text" name="newname" value="">
-               &nbsp;&nbsp;&nbsp;<button type="button" onclick="tnamechk(this.form)">중복확인</button>
-               <div class="btn_area">
-                  <div class="align">
-                     <button type="button" id="bossdlt" onclick="deleteteam(this.form)">소모임 삭제</button>
-                  <button type="button" id="bossmdf" onclick="../../adgroups/admin/chggname?tseq=<%=tseq %>">변경</button>      
-               </div>
-               
-               </div>
-            </form>
+            	&nbsp;&nbsp;&nbsp;<button type="button" onclick="tnamechk(this.form)">중복확인</button>
+            	<div class="btn_area">
+            		<div class="align">
+            			<button type="button" id="bossdlt" onclick="deleteteam(this.form)">소모임 삭제</button>
+						<button type="button" id="bossmdf" onclick="../../adgroups/admin/chggname?tseq=<%=tseq %>">변경</button>		
+					</div>
+					
+            	</div>
+         	</form>
  
     </div>
 
