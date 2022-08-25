@@ -41,14 +41,12 @@
 
             rmenuimage = to.getRmenuimage();
             rmenuname = to.getRmenuname();
-            rmenuprice = to.getRmenuprice();
-            
-            
+            rmenuprice = to.getRmenuprice();          
             
             if(i%2 == 0) {
                sb.append("<div class='fl'>");
                sb.append("<li>");
-               sb.append("<a href='#' class='menu1'>");
+               sb.append("<a href='"+rmenuimage+"' class='menu1'>");
                sb.append("<div class='divimg 'style='background-image: url("+rmenuimage+")';>");
                sb.append("</div>");
                sb.append("<div class='st1'><span class='spanmenu'>"+rmenuname+"</span>");
@@ -59,7 +57,7 @@
                } else { //오른쪽 꺼
                   
                    sb.append("<li>");
-                   sb.append("<a href='#' class='menu1'>");
+                   sb.append("<a href='"+rmenuimage+"' class='menu1'>");
                    sb.append("<div class='divimg 'style='background-image: url("+rmenuimage+")';>");
                    sb.append("</div>");
                    sb.append("<div class='st1'><span class='spanmenu'>"+rmenuname+"</span>");
