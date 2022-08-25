@@ -66,7 +66,6 @@ public class MukjoController {
    
    @Autowired
    private BoardDAO bdao;
-   //private String uploadPath="C:/Github/mukjo/MukjoLoginSignup/src/main/webapp/upload";
 
    @Autowired
    private TeamDAO tdao;
@@ -605,7 +604,6 @@ public class MukjoController {
         public ModelAndView adminnotice_writeok(HttpSession sess,HttpServletRequest request,HttpServletResponse response,Model model) {
         String uploadPath=request.getRealPath("upload");
 
-       //String uploadPath = "C:\\Users\\JungGyuJin\\Desktop\\mukjo_project\\gitMukjo\\mukjo\\MukjoLoginSignup\\src\\main\\webapp\\upload";
        int maxFileSize = 20 * 1024 * 1024;
        String encoding = "utf-8";
    
@@ -871,7 +869,6 @@ public class MukjoController {
    @RequestMapping( "/main/board/write/success")   
    public ModelAndView boardWriteOk(HttpSession sess,HttpServletRequest request,HttpServletResponse response,Model model) throws IOException {
        String uploadPath=request.getRealPath("upload");
-      //String uploadPath = "C:\\Users\\JungGyuJin\\Desktop\\mukjo_project\\새 폴더\\mukjo\\MukjoLoginSignup\\src\\main\\webapp\\upload";
       int maxFileSize = 20 * 1024 * 1024;
       String encoding = "utf-8";
       int flag = 10;

@@ -28,8 +28,6 @@ public class BoardDAO {
    @Autowired
    private DataSource dataSource;
    
-   //private String uploadPath="C:\\Users\\JungGyuJin\\Desktop\\mukjo_project\\git\\mukjo\\MukjoLoginSignup\\src\\main\\webapp\\upload";
-
    public TeamTO teamName(String tseq) {
       TeamTO tto = new TeamTO();
       String sql = "select tname from team where tseq = ?";
