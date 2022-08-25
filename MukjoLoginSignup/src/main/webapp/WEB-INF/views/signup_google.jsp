@@ -14,7 +14,7 @@
 <!-- SweetAlert창 바꾸기-->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 <%
    out.println("<script type='text/javascript'>");
    out.println( "alert('회원이 아닙니다. 회원가입창으로 이동합니다.');" );
@@ -147,7 +147,7 @@
       <div class="input-form-backgroud row">
          <div class="input-form col-md-12 mx-auto">
          <h4 class="mb-3">회원가입</h4>
-         <form class="validation-form" action="http://localhost/signedup" method="post" name="sfrm" novalidate>
+         <form class="validation-form" action="https://mukjo.herokuapp.com/signedup" method="post" name="sfrm" novalidate>
             <!--Name-->
             <div class="row">
                <div class="col-md-12 mb-3">
@@ -232,7 +232,7 @@
                <label class="custom-control-label" for="agreement2">이메일 수신에 동의합니다. (필수)</label>
             </div>
             <div class="mb-4"></div>
-            <input type="button" id="sbtn" value="가입 완료" class="btn btn-primary btn-lg btn-block" onclick="http://localhost/signedup" />
+            <input type="button" id="sbtn" value="가입 완료" class="btn btn-primary btn-lg btn-block" onclick="https://mukjo.herokuapp.com/signedup" />
          </form>
       </div>
    </div>

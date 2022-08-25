@@ -15,12 +15,12 @@
       if (!loginedMemberSeq.equals("1")) {
                out.println ( "<script>");
                out.println( "alert('관리자만 관리자페이지에 들어갈 수 있습니다.');" );
-            out.println ( "window.location.href = 'http://localhost/main'");
+            out.println ( "window.location.href = 'https://mukjo.herokuapp.com/main'");
             out.println ( "</script>");
             }
    } else {
       out.println ( "<script>");
-      out.println ( "window.location.href = 'http://localhost/welcome'");
+      out.println ( "window.location.href = 'https://mukjo.herokuapp.com/welcome'");
       out.println ( "</script>");
    }
 
@@ -61,7 +61,7 @@
    rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Sunflower:500" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
-<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script  src="https://code.jquery.com/jquery-latest.min.js"></script>
 
 <!-- Bootstrap (for modal) -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">

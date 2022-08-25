@@ -16,7 +16,7 @@
        log = "LOGOUT";
     } else {
           out.println ( "<script>");
-         out.println ( "window.location.href = 'http://localhost/welcome'");
+         out.println ( "window.location.href = 'https://mukjo.herokuapp.com/welcome'");
          out.println ( "</script>");
     } 
    
@@ -95,7 +95,7 @@
    
 <!-- 지도 -->
 <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=f8b62z9xjz&amp;submodules=geocoder"></script>
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 
 <style>
 /** common **/

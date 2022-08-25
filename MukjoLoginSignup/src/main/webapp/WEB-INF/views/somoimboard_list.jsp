@@ -19,7 +19,7 @@
 
       } else {
          out.println ( "<script>");
-         out.println ( "window.location.href = 'http://localhost/welcome'");
+         out.println ( "window.location.href = 'https://mukjo.herokuapp.com/welcome'");
          out.println ( "</script>");
       }   
     

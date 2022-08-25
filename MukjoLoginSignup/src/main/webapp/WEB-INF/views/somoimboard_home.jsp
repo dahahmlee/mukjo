@@ -15,7 +15,7 @@
        log = "LOGOUT";
     } else {
           out.println ( "<script>");
-         out.println ( "window.location.href = 'http://localhost/welcome'");
+         out.println ( "window.location.href = 'https://mukjo.herokuapp.com/welcome'");
          out.println ( "</script>");
     }  
     
@@ -102,7 +102,7 @@
     <!-- 부트스트랩 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-   <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/raty/3.1.1/jquery.raty.min.js" integrity="sha512-Isj3SyFm+B8u/cErwzYj2iEgBorGyWqdFVb934Y+jajNg9kiYQQc9pbmiIgq/bDcar9ijmw4W+bd72UK/tzcsA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
    <!-- Bootstrap (for modal) -->
@@ -114,7 +114,7 @@
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <!-- 지도 -->
 <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=f8b62z9xjz&amp;submodules=geocoder"></script>
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 
 
 <style>
@@ -583,7 +583,7 @@ $('.logoclick').click(function(event){
                                    </tr>
                                    <tr>
                                     <td>홈페이지</td>
-                                    <td>http://www.naver.com</td>   
+                                    <td>https://www.naver.com</td>   
                                    </tr>
                                    <tr>
                                     <td style="padding:45px;">영업시간</td>

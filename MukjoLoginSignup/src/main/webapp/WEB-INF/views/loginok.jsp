@@ -13,7 +13,7 @@
 	out.println("<script type='text/javascript'>");
 	if(flag == 1) {
 		out.println( "alert('로그인에 성공했습니다.');" );
-		out.println( "location.href='http://localhost/main'" );
+		out.println( "location.href='https://mukjo.herokuapp.com/main'" );
 	} else if(flag == 2) {
 		out.println( "alert('비밀번호가 틀렸습니다.');" );
 		out.println( "history.back();");
