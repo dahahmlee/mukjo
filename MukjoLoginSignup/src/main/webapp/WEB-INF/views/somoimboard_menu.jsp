@@ -16,7 +16,7 @@
           log = "LOGOUT";
        } else {
              out.println ( "<script>");
-            out.println ( "window.location.href = 'https://mukjo.herokuapp.com/welcome'");
+            out.println ( "window.location.href = 'http://localhost/welcome'");
             out.println ( "</script>");
        }   
     
@@ -24,6 +24,8 @@
        String avg=(String)request.getAttribute("avg");
        
        String tseq = request.getParameter("tseq");
+       String search=request.getParameter("search");
+
        String id=request.getParameter("id");
        String latitude=request.getParameter("latitude");
        String longitude=request.getParameter("longitude");
@@ -41,33 +43,27 @@
 
             rmenuimage = to.getRmenuimage();
             rmenuname = to.getRmenuname();
-            rmenuprice = to.getRmenuprice();
-            
-            
+            rmenuprice = to.getRmenuprice();          
             
             if(i%2 == 0) {
-               sb.append("<div class='fl'>");
-               sb.append("<li>");
-               sb.append("<a href='"+rmenuimage+"' class='menu1'>");
-               sb.append("<div class='divimg 'style='background-image: url("+rmenuimage+")';>");
-               sb.append("</div>");
-               sb.append("<div class='st1'><span class='spanmenu'>"+rmenuname+"</span>");
-               sb.append("<div class='price'><p>"+rmenuprice+"</p></div>");
-               sb.append("</div>");
-               sb.append("</a>");
-               sb.append("</li>");
-               } else { //오른쪽 꺼
-                  
-                   sb.append("<li>");
-                   sb.append("<a href='"+rmenuimage+"' class='menu1'>");
-                   sb.append("<div class='divimg 'style='background-image: url("+rmenuimage+")';>");
+                sb.append("<div class='fl'>");
+                sb.append("<li>");
+                sb.append("<div class='divimg 'style='background-image: url("+rmenuimage+")';>");
+                sb.append("<div class='st1'><span class='spanmenu'>"+rmenuname+"</span>");
+                sb.append("<div class='price'><p>"+rmenuprice+"</p></div>");
+                sb.append("</div>");
+                sb.append("</div>");
+                sb.append("</li>");
+                } else { //오른쪽 꺼
+                   
+                    sb.append("<li>");
+                    sb.append("<div class='divimg 'style='background-image: url("+rmenuimage+")';>");
+                    sb.append("<div class='st1'><span class='spanmenu'>"+rmenuname+"</span>");
+                    sb.append("<div class='price'><p>"+rmenuprice+"</p></div>");
+                    sb.append("</div>");
+                    sb.append("</div>");
+                    sb.append("</li>");
                    sb.append("</div>");
-                   sb.append("<div class='st1'><span class='spanmenu'>"+rmenuname+"</span>");
-                   sb.append("<div class='price'><p>"+rmenuprice+"</p></div>");
-                   sb.append("</div>");
-                   sb.append("</a>");
-                   sb.append("</li>");
-                  sb.append("</div>");
             }
             
          }
@@ -109,21 +105,21 @@
     <link href="https://fonts.googleapis.com/css?family=Sunflower:500" rel="stylesheet">
     <!-- 부트스트랩 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-   
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
    <!-- Bootstrap (for modal) -->
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
    
 <!-- 지도 -->
 <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=f8b62z9xjz&amp;submodules=geocoder"></script>
-<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 
 <style>
 /** common **/
 
 a:link {  color: black; text-decoration: none}
     a:visited {color: black; text-decoration: none;}
-    a:hover {color: #de5f47;; text-decoration: none;}
+    a:hover {color: #f1b654;; text-decoration: none;}
     a:active {color: #de5f47; text-decoration: none;}
 
 
@@ -177,7 +173,7 @@ table{
 :root {
   --button-color: #ffffff;
   --button-bg-color: #5c3018;
-  --button-hover-bg-color: #5c3018;
+  --button-hover-bg-color: none;
 }
 
 button {
@@ -388,6 +384,7 @@ nav{
 #itemBox ul li {
     border-bottom: 1px solid #d7d7d7;
     width:50%;
+    padding : 10px;
 }
 
 .menu1{
@@ -396,6 +393,7 @@ nav{
     position: relative;
     padding: 22px 18px 22px 18px
 }
+
 .divimg{
     background-repeat: no-repeat;
     background-position: 50% 50%;
@@ -408,6 +406,10 @@ nav{
     font-weight: bold;
     font-size: 15px;
     word-break:keep-all;
+   width: 100px;
+   display:inline-block;
+   word-break: break-all;
+   letter-spacing : 3px;
 }
 
 .price{
@@ -416,6 +418,7 @@ nav{
     color: #ff5757;
     font-size: 13px;
     line-height: 1.7rem;
+    width: 60px;
 }
 
 .price p {
@@ -423,7 +426,8 @@ nav{
 }
 
 .st1{
-    margin-left: 20px;
+    margin-left: 170px;
+    padding-top: 35px;
 }
 
 .fl{
@@ -535,6 +539,21 @@ input[type="checkbox"] {
   position: relative;
 }
 
+#btnarrow {
+   position: absolute;
+    float: left;
+    top: 10px;
+    left: 0;
+}
+
+#btnarrow i{
+    font-size: 20px;
+}
+
+#btnarrow title{
+    font-size: 20px;
+}
+
 </style>
 
 <script>
@@ -627,7 +646,11 @@ $('.logoclick').click(function(event){
                     <div style="width: 50%;">
                          <table border="1" style="width: 100%;    height: 20%;">  
                              <thead>
+                             <tr style="position:relative; height:61px; border-collapse: separate;">
                              <%=sbhh %>
+                             <button id="btnarrow" type="button" class="btn btn-outline-none" data-bs-toggle="tooltip" data-bs-placement="top" title="검색결과 다시보기">
+                             <a href="../../main/search?tseq=<%=tseq %>&search=<%=search%>"><i class="bi bi-arrow-90deg-left"></i></a>
+                      </button>
                                      
                                       <div class="checkbox">
                                          <input type="checkbox" id="favCheck" <%=onoff %>>
@@ -636,10 +659,10 @@ $('.logoclick').click(function(event){
                                
                                
                                   <tr id="tabBox" style="height:61px; border: 1.5px solid black;">
-                                    <th scope="col" class="th-title line" ><a href="../../../main/search/info?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" >홈</a></th>
-                                    <th scope="col" class="th-date line"><a href="../../../main/search/review?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>">리뷰</a></th>
-                                    <th scope="col" class="th-num line"><a href="../../../main/search/menu?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" style="color : #de5f47">메뉴</a></th>
-                                    <th scope="col" class="th-date line"><a href="../../../main/search/pic?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>">사진</a></th>
+                                    <th scope="col" class="th-title line" ><a href="../../../main/search/info?tseq=<%=tseq%>&search=<%=search %>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" >홈</a></th>
+                                    <th scope="col" class="th-date line"><a href="../../../main/search/review?tseq=<%=tseq%>&search=<%=search %>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>">리뷰</a></th>
+                                    <th scope="col" class="th-num line"><a href="../../../main/search/menu?tseq=<%=tseq%>&search=<%=search %>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" style="color : #de5f47">메뉴</a></th>
+                                    <th scope="col" class="th-date line"><a href="../../../main/search/pic?tseq=<%=tseq%>&search=<%=search %>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>">사진</a></th>
                                  
                                 </tr> 
                             </thead>

@@ -4,73 +4,73 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.example.model1.BoardListTO"%>
 <%
-	String log = "LOGIN";
-	
-	HttpSession sess = request.getSession();
-	
-	String loginedMemberSeq = (String)sess.getAttribute("loginedMemberSeq");
-	String welcome = "";
-	
-	if(loginedMemberSeq != null) {
-		welcome = (String)sess.getAttribute("loginedMemberName")+"님 환영합니다.";
-		log = "LOGOUT";
-		if (!loginedMemberSeq.equals("1")) {
-		   		out.println ( "<script>");
-		   		out.println( "alert('관리자만 관리자페이지에 들어갈 수 있습니다.');" );
-				out.println ( "window.location.href = 'https://mukjo.herokuapp.com/main'");
-				out.println ( "</script>");
-		   	}
-	} else {
-		out.println ( "<script>");
-		out.println ( "window.location.href = 'https://mukjo.herokuapp.com/welcome'");
-		out.println ( "</script>");
-	}
-	
-	BoardListTO boardListTO = (BoardListTO)request.getAttribute("boardListTO");
-	int cpage = boardListTO.getCpage();
-	int recordPerPage = boardListTO.getRecordPerPage();
-	int totalRecord = boardListTO.getTotalRecord();
-	int totalPage = boardListTO.getTotalPage();
-	int blockPerPage = boardListTO.getBlockPerPage();
-	int startBlock = boardListTO.getStartBlock();
-	int endBlock = boardListTO.getEndBlock();
-	ArrayList<BoardTO> boardLists = boardListTO.getBoardLists();
-	
-	StringBuilder sb = new StringBuilder();
-	
-	for (int j=0; j<boardLists.size(); j=j+20) {
-		for (int i=j; i<j+20; i++) {
-			
-			if (i>=boardLists.size()) {
+   String log = "LOGIN";
+   
+   HttpSession sess = request.getSession();
+   
+   String loginedMemberSeq = (String)sess.getAttribute("loginedMemberSeq");
+   String welcome = "";
+   
+   if(loginedMemberSeq != null) {
+      welcome = (String)sess.getAttribute("loginedMemberName")+"님 환영합니다.";
+      log = "LOGOUT";
+      if (!loginedMemberSeq.equals("1")) {
+               out.println ( "<script>");
+               out.println( "alert('관리자만 관리자페이지에 들어갈 수 있습니다.');" );
+            out.println ( "window.location.href = 'http://localhost/main'");
+            out.println ( "</script>");
+            }
+   } else {
+      out.println ( "<script>");
+      out.println ( "window.location.href = 'http://localhost/welcome'");
+      out.println ( "</script>");
+   }
+   
+   BoardListTO boardListTO = (BoardListTO)request.getAttribute("boardListTO");
+   int cpage = boardListTO.getCpage();
+   int recordPerPage = boardListTO.getRecordPerPage();
+   int totalRecord = boardListTO.getTotalRecord();
+   int totalPage = boardListTO.getTotalPage();
+   int blockPerPage = boardListTO.getBlockPerPage();
+   int startBlock = boardListTO.getStartBlock();
+   int endBlock = boardListTO.getEndBlock();
+   ArrayList<BoardTO> boardLists = boardListTO.getBoardLists();
+   
+   StringBuilder sb = new StringBuilder();
+   
+   for (int j=0; j<boardLists.size(); j=j+20) {
+      for (int i=j; i<j+20; i++) {
+         
+         if (i>=boardLists.size()) {
 
-			} else {
-				String bseq=boardLists.get(i).getBseq();
-				String subject=boardLists.get(i).getSubject();
-				String writer=boardLists.get(i).getWriter();
-				String wdate=boardLists.get(i).getWdate();
-				String hit=boardLists.get(i).getHit();
-				String filename=boardLists.get(i).getFilename();
+         } else {
+            String bseq=boardLists.get(i).getBseq();
+            String subject=boardLists.get(i).getSubject();
+            String writer=boardLists.get(i).getWriter();
+            String wdate=boardLists.get(i).getWdate();
+            String hit=boardLists.get(i).getHit();
+            String filename=boardLists.get(i).getFilename();
 
-				if (filename==null) {
-					sb.append("<tr>");
-					sb.append("<td>공지</td>");
-					sb.append("<td>"+writer+"</td>");
-					sb.append("<td><a href='../../admin/notice/view?cpage="+cpage+"&bseq="+bseq+"'>"+subject+"</a></td>");
-					sb.append("<td>"+wdate+"</td>");
-					sb.append("<td>"+hit+"</td>");
-					sb.append("</tr>");
-				} else {
-					sb.append("<tr>");
-					sb.append("<td>공지</td>");
-					sb.append("<td>"+writer+"</td>");
-					sb.append("<td><a href='../../admin/notice/view?cpage="+cpage+"&bseq="+bseq+"'>"+subject+"</a>&nbsp;<img src='../../images/Img_show.png'></td>");
-					sb.append("<td>"+wdate+"</td>");
-					sb.append("<td>"+hit+"</td>");
-					sb.append("</tr>");
-				}	
-			}
-		}
-	}
+            if (filename==null) {
+               sb.append("<tr>");
+               sb.append("<td>공지</td>");
+               sb.append("<td>"+writer+"</td>");
+               sb.append("<td><a href='../../admin/notice/view?cpage="+cpage+"&bseq="+bseq+"'>"+subject+"</a></td>");
+               sb.append("<td>"+wdate+"</td>");
+               sb.append("<td>"+hit+"</td>");
+               sb.append("</tr>");
+            } else {
+               sb.append("<tr>");
+               sb.append("<td>공지</td>");
+               sb.append("<td>"+writer+"</td>");
+               sb.append("<td><a href='../../admin/notice/view?cpage="+cpage+"&bseq="+bseq+"'>"+subject+"</a>&nbsp;<img src='../../images/Img_show.png'></td>");
+               sb.append("<td>"+wdate+"</td>");
+               sb.append("<td>"+hit+"</td>");
+               sb.append("</tr>");
+            }   
+         }
+      }
+   }
 
     %>
 <!DOCTYPE html>
@@ -83,11 +83,11 @@
    
     <!-- 나눔스퀘어 폰트 -->
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Sunflower:500" rel="stylesheet">
-	<!-- Bootstrap (for modal) -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-	
+   <link href="https://fonts.googleapis.com/css?family=Sunflower:500" rel="stylesheet">
+   <!-- Bootstrap (for modal) -->
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+   
 <style>
 /** common **/
 
@@ -240,10 +240,10 @@ nav{
 }
 
 #headerWap h3 {
-	font-size: 15px;
-	justify-content: left;
-	position: absolute;
-	margin-left: 120px;
+   font-size: 15px;
+   justify-content: left;
+   position: absolute;
+   margin-left: 120px;
 }
 
 /***** warp  *****/
@@ -412,14 +412,14 @@ nav{
 }
 
     .board_pagetab { text-align: center; display: inline-flex; position:relative;}
-	.board_pagetab a { text-decoration: none; font: 12px verdana; color: #000; padding: 0 3px 0 3px; }
+   .board_pagetab a { text-decoration: none; font: 12px verdana; color: #000; padding: 0 3px 0 3px; }
     /* .board_pagetab ul a:hover  { background-color:black; } */
-	.on a { font-weight: bold; }
+   .on a { font-weight: bold; }
 
 
 #btn_write {
-	float: right;
-	padding: 10px;
+   float: right;
+   padding: 10px;
 }
 
 
@@ -454,17 +454,17 @@ footer{
 }
 
 .modal-content {
-	border: 1px solid black;
+   border: 1px solid black;
     height: 100%;
 }
 
 #noticelogo {
-	width: 25%;
+   width: 25%;
 }
 
 .modal-body span {
-	float: right;
-	margin-right: 15px;
+   float: right;
+   margin-right: 15px;
 }
 
 .board-table img {
@@ -496,10 +496,10 @@ footer{
                 <li><b><a href="../admin" style="color : #de5f47;" class="logoclick">관리자페이지</b></li></a>
                 <li><b><a href="../favorite" class="logoclick">즐겨찾기</b></li></a>
                 <li id="bell" style="margin-left: 20px;">
-                	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-						<img src="../../images/bell.png">
-					</button>0
-				</li>
+                   <button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  <img src="../../images/bell.png">
+               </button>0
+            </li>
             </ul>
           </div>
         </div> <!--headerWap-->
@@ -539,7 +539,7 @@ footer{
 
     <!-- 전체 요소를 감싸는 div -->
     <div id="wrap">
-   		<section id="tblSec">
+         <section id="tblSec">
             <div id="tblWrap">
                 <table class="board-table">
                     <thead>
@@ -577,17 +577,17 @@ footer{
                             <td>2022-07-05</a></td>
                             <td>300</a></td>
                         </tr>   
-					-->
+               -->
                     </tbody>
                 </table>
             </div>
             <div id="btn_write">
-				<button type="submit" onclick="location.href='https://mukjo.herokuapp.com/admin/notice/write?cpage=<%=cpage %>'">글 쓰기</button>
-			</div>
+            <button type="submit" onclick="location.href='http://localhost/admin/notice/write?cpage=<%=cpage %>'">글 쓰기</button>
+         </div>
 
         </section>
-		<!--tblSec-->
-		
+      <!--tblSec-->
+      
 
         <!-- 페이징 처리 -->
         <section id="pagingSec">
@@ -606,41 +606,41 @@ footer{
                     <span class="off">&nbsp;&nbsp;<a href="#">&gt;</a></span>
                     <span class="off">&nbsp;&nbsp;<a href="#">&gt;&gt;</a></span>
                 -->
-        <%	
-	if (startBlock==1) { //<<
-		out.println("<span><a>&lt;&lt;</a>&nbsp;&nbsp;</span>");
-	} else {
-		out.println("<span><a href='../admin/notice?cpage="+(startBlock-blockPerPage)+"'>&lt;&lt;</a>&nbsp;&nbsp;</span>");
-	}
+        <%   
+   if (startBlock==1) { //<<
+      out.println("<span><a>&lt;&lt;</a>&nbsp;&nbsp;</span>");
+   } else {
+      out.println("<span><a href='../admin/notice?cpage="+(startBlock-blockPerPage)+"'>&lt;&lt;</a>&nbsp;&nbsp;</span>");
+   }
 
-	if (cpage==1) { //<
-		out.println("<span><a>&lt;</a>&nbsp;&nbsp;</span>");
-	} else {
-		out.println("<span><a href='../admin/notice?cpage="+(cpage-1)+"'>&lt;</a>&nbsp;&nbsp;</span>");
-	}
-	
-	out.println("<ul>");
-	for (int i=startBlock;i<=endBlock;i++) {
-		if (cpage==i) {
-			out.println("<li class='active'><a>"+i+"</a></li>");
-		} else {
-			out.println("<li><a href='../admin/notice?cpage="+i+"'>"+i+"</a></span>");
-		}
-	}
-	
-	out.println("</ul>");
-	
-	if (cpage==totalPage) { //>
-		out.println("<span>&nbsp;&nbsp;<a>&gt;</a></span>");
-	} else {
-		out.println("<span>&nbsp;&nbsp;<a href='../admin/notice?cpage="+(cpage+1)+"'>&gt;</a></span>");
-	}
-	
-	if (endBlock==totalPage) { //>>
-		out.println("<span>&nbsp;&nbsp;<a>&gt;&gt;</a></span>");
-	} else {
-		out.println("<span>&nbsp;&nbsp;<a href='../admin/notice?cpage="+(startBlock+blockPerPage)+"'>&gt;&gt;</a></span>");
-	}
+   if (cpage==1) { //<
+      out.println("<span><a>&lt;</a>&nbsp;&nbsp;</span>");
+   } else {
+      out.println("<span><a href='../admin/notice?cpage="+(cpage-1)+"'>&lt;</a>&nbsp;&nbsp;</span>");
+   }
+   
+   out.println("<ul>");
+   for (int i=startBlock;i<=endBlock;i++) {
+      if (cpage==i) {
+         out.println("<li class='active'><a>"+i+"</a></li>");
+      } else {
+         out.println("<li><a href='../admin/notice?cpage="+i+"'>"+i+"</a></span>");
+      }
+   }
+   
+   out.println("</ul>");
+   
+   if (cpage==totalPage) { //>
+      out.println("<span><a>&gt;</a></span>");
+   } else {
+      out.println("<span>&nbsp;&nbsp;<a href='../admin/notice?cpage="+(cpage+1)+"'>&gt;</a></span>");
+   }
+   
+   if (endBlock==totalPage) { //>>
+      out.println("<span>&nbsp;&nbsp;<a>&gt;&gt;</a></span>");
+   } else {
+      out.println("<span>&nbsp;&nbsp;<a href='../admin/notice?cpage="+(startBlock+blockPerPage)+"'>&gt;&gt;</a></span>");
+   }
 %>            
                     
                 </div><!-- board_pagetab -->

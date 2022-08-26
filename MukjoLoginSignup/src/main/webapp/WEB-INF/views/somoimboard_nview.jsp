@@ -19,7 +19,7 @@
       log = "LOGOUT";
    } else {
       out.println ( "<script>");
-      out.println ( "window.location.href = 'https://mukjo.herokuapp.com/welcome'");
+      out.println ( "window.location.href = 'http://localhost/welcome'");
       out.println ( "</script>");
    }
    
@@ -246,7 +246,6 @@ nav {
 }
 
 #headerWap h3 {
-   font-weight: bold;
    font-size: 15px;
    justify-content: left;
    position: absolute;

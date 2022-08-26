@@ -18,7 +18,7 @@
           log = "LOGOUT";
        } else {
                  out.println ( "<script>");
-                  out.println ( "window.location.href = 'https://mukjo.herokuapp.com/welcome'");
+                  out.println ( "window.location.href = 'http://localhost/welcome'");
                   out.println ( "</script>");
        }
     
@@ -89,7 +89,7 @@
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
-    <script  src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
    
    <!-- Bootstrap (for modal) -->
    
@@ -535,7 +535,7 @@ footer{
             <h3 > <%=welcome %> <a href="bye" id="logout" style="color : gray"> <br/><%=log %>   </a></h3>
             
             <ul>
-               <li><b><a href="mypage.do" class="logoclick">마이페이지</a></b></li>
+               <li><b><a href="mypage" class="logoclick">마이페이지</a></b></li>
                 <li><b><a href="adgroups" class="logoclick">소모임장페이지</a></b></li>
                 <li><b><a href="admin" class="logoclick">관리자페이지</b></li></a>
                <li><b><a href="favorite" class="logoclick">즐겨찾기</b></li></a>
@@ -712,9 +712,9 @@ footer{
    out.println("</ul>");
    
    if (cpage==totalPage) { //>
-      out.println("<span>&nbsp;&nbsp;<a>&gt;</a></span>");
+      out.println("<span><a>&gt;</a></span>");
    } else {
-      out.println("<span>&nbsp;&nbsp;<a href='main?cpage="+(cpage+1)+"'>&gt;</a></span>");
+      out.println("<span><a href='main?cpage="+(cpage+1)+"'>&gt;</a></span>");
    }
    
    if (endBlock==totalPage) { //>>

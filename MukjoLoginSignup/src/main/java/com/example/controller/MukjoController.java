@@ -1149,9 +1149,9 @@ public class MukjoController {
       
       ArrayList<BoardTO> boardList = new ArrayList<BoardTO>();
       if (search==null) {
-    	  boardListTO = bdao.myPageList(boardListTO, seq);
+         boardListTO = bdao.myPageList(boardListTO, seq);
       } else {
-    	  boardListTO = bdao.myPageListSearch(boardListTO, seq, which, search);
+         boardListTO = bdao.myPageListSearch(boardListTO, seq, which, search);
       }
             
       ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
@@ -1181,8 +1181,10 @@ public class MukjoController {
       BoardTO to=new BoardTO();
       to.setBseq(request.getParameter("bseq"));
       to=bdao.myPageView(to);
+      ArrayList<CommentTO> commentLists = cdao.commentView(request.getParameter("bseq"));
       int noticeCount=ndao.noticeCount(seq);
-      String tname=bdao.myPageViewTname(to.getTseq());
+      String tseq=to.getTseq();
+      String tname=bdao.myPageViewTname(tseq);
          
       ArrayList<NoticeTO> noticeList=ndao.noticeList(seq);
 
@@ -1191,11 +1193,42 @@ public class MukjoController {
        modelAndView.addObject("to",to);
       modelAndView.addObject("cpage",cpage);
       modelAndView.addObject("tname",tname);
+      modelAndView.addObject("tseq",tseq);
+      modelAndView.addObject("commentLists",commentLists);
       modelAndView.addObject("noticeList", noticeList);
       modelAndView.addObject("noticeCount", noticeCount);
       
        return modelAndView;
     }
+   
+   @RequestMapping( "/mypage/view/writecmt")   
+   public ModelAndView mypagecmtWriteOk(HttpSession sess,HttpServletRequest request,HttpServletResponse response,Model model) {
+      CommentTO cto = new CommentTO();
+      
+      cto.setSeq((String)sess.getAttribute("loginedMemberSeq"));
+      cto.setBseq( request.getParameter("bseq") );
+      cto.setCContent( request.getParameter( "cContent" ) ); 
+   
+      int flag = cdao.commentWrite(cto);
+      
+      model.addAttribute("flag",flag);
+      
+ 
+      return new ModelAndView("myPage_cmt_writeok"); 
+   }
+
+   @RequestMapping( "/mypage/view/delcmt")   
+      public ModelAndView mypagecmtDeleteOk(HttpSession sess,HttpServletRequest request,HttpServletResponse response,Model model) {
+      CommentTO cto = new CommentTO();
+      
+      cto.setCseq(request.getParameter("cseq"));
+   
+      int flag = cdao.commentDelete(cto);
+      
+      model.addAttribute("flag",flag);
+   
+         return new ModelAndView("myPage_cmt_deleteok"); 
+   }
    
    //내가 쓴 글 보기에서 게시물 삭제 확인
     @RequestMapping(value = "/mypage/view/del")
@@ -1560,9 +1593,9 @@ public class MukjoController {
       pageMemberTO.setCpage(cpage);
       
       if (search==null) {
-    	  pageMemberTO = tdao.bossMember(pageMemberTO, tseq);
+         pageMemberTO = tdao.bossMember(pageMemberTO, tseq);
        } else {
-    	   pageMemberTO = tdao.bossMemberSearch(pageMemberTO, tseq, search);
+          pageMemberTO = tdao.bossMemberSearch(pageMemberTO, tseq, search);
        }
       
       String tname=tdao.tnameFromTseq(tseq);
@@ -1825,7 +1858,7 @@ public class MukjoController {
        return modelAndView;
     }
    
- //회원 탈퇴
+   //회원 탈퇴
    @RequestMapping(value = "/mypage/change/quit")
    public ModelAndView myPage_info_delete(HttpServletRequest request, Model model) {
        
@@ -1837,32 +1870,17 @@ public class MukjoController {
     
         return modelAndView;
     }
-   
-   @RequestMapping(value = "/mypage/change/quit/success")
-   public ModelAndView myPage_info_deleteok(HttpServletRequest request, Model model) {
-       
-       String seq=request.getParameter("seq");
-       
-       ModelAndView modelAndView = new ModelAndView();
-       modelAndView.setViewName("myPage_info_deleteok");
-       int flag=mdao.adDeleteMember(seq);
-       modelAndView.addObject("flag",flag);
-   
-       return modelAndView;
-    }
-   
- //알림 삭제
+   //알림 읽음
    @RequestMapping(value = "/notice/read")
-   public ModelAndView noticedeleteok(HttpSession session, HttpServletRequest request, Model model) {
-   
+   public ModelAndView readNotice(HttpSession session, HttpServletRequest request, Model model) {
+       
        String seq=(String) session.getAttribute("loginedMemberSeq");
-
        ndao.noticeDeleteOk(seq);
        
-       ModelAndView modelAndView = new ModelAndView();
-       modelAndView.setViewName("noticedeleteok");
-   
-       return modelAndView;
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("noticedeleteok");
+        modelAndView.addObject("seq",seq);
+    
+        return modelAndView;
     }
-
 }

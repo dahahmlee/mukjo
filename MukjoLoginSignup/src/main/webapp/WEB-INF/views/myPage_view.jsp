@@ -1,28 +1,30 @@
+<%@page import="com.example.model1.CommentTO"%>
 <%@page import="com.example.model1.NoticeTO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.example.model1.BoardTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
 <%
-	String log = "LOGIN";
-	
-	HttpSession sess = request.getSession();
-	
-	String loginedMemberSeq = (String)sess.getAttribute("loginedMemberSeq");
-	String welcome = "";
-	
-	if(loginedMemberSeq != null) {
-	   welcome = (String)sess.getAttribute("loginedMemberName")+"님 환영합니다.";
-	   log = "LOGOUT";
-	} else {
-	   	out.println ( "<script>");
-			out.println ( "window.location.href = 'https://mukjo.herokuapp.com/welcome'");
-			out.println ( "</script>");
-	}
+   String log = "LOGIN";
+   
+   HttpSession sess = request.getSession();
+   
+   String loginedMemberSeq = (String)sess.getAttribute("loginedMemberSeq");
+   String welcome = "";
+   
+   if(loginedMemberSeq != null) {
+      welcome = (String)sess.getAttribute("loginedMemberName")+"님 환영합니다.";
+      log = "LOGOUT";
+   } else {
+         out.println ( "<script>");
+         out.println ( "window.location.href = 'http://localhost/welcome'");
+         out.println ( "</script>");
+   }
 
    int cpage = (Integer)request.getAttribute("cpage");
    BoardTO to = (BoardTO)request.getAttribute("to");   
    String tname = (String)request.getAttribute("tname");
+   String tseq = (String)request.getAttribute("tseq");
 
    String bseq=to.getBseq();
    String subject=to.getSubject();
@@ -44,6 +46,25 @@
    sbHtml.append("</p>");
    sbHtml.append("</div>");
    
+   ArrayList<CommentTO> commentLists = (ArrayList)request.getAttribute("commentLists");
+   StringBuilder commentSb = new StringBuilder();
+   for (CommentTO cto : commentLists) {
+      if(loginedMemberSeq.equals(cto.getSeq())||loginedMemberSeq.equals("1")) {
+         commentSb.append("<tr>");
+         commentSb.append("<td class='nick' style='padding-left: 10px; width: 114px; color:blue'>"+cto.getWriter()+"</td>");
+         commentSb.append("<td class='comment'>"+cto.getCContent()+"</td>");
+         commentSb.append("<td class='data' style='padding-left: 400px;'>"+cto.getCDate()+"&nbsp;&nbsp;&nbsp;<a href='../../../mypage/view/delcmt?tseq="+tseq+"&cpage="+cpage+"&bseq="+bseq+"&cseq="+cto.getCseq()+"'>X</a></td>");
+         commentSb.append("</tr>");
+        } else {
+             commentSb.append("<tr>");
+             commentSb.append("<td class='nick' style='padding-left: 10px; width: 114px; color:blue'>"+cto.getWriter()+"</td>");
+             commentSb.append("<td class='comment'>"+cto.getCContent()+"</td>");
+             commentSb.append("<td class='data' style='padding-left: 400px;'>"+cto.getCDate()+"&nbsp;&nbsp;&nbsp;</td>");
+             commentSb.append("</tr>");
+        }
+   }
+   
+   
    ArrayList<NoticeTO> noticeList=(ArrayList<NoticeTO>)request.getAttribute("noticeList");
    String noticeCount=(String)request.getAttribute("noticeCount").toString();
    
@@ -54,7 +75,7 @@
       
       sbh.append("<p style='padding-top:25px; margin-bottom:0px;'>"+words);
       sbh.append("<div>");
-      sbh.append("	<span>"+ndate+"</span>");
+      sbh.append("   <span>"+ndate+"</span>");
       sbh.append("</div>");
       sbh.append("</p>");
    }
@@ -73,7 +94,7 @@
    rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Sunflower:500" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
-<script  src="https://code.jquery.com/jquery-latest.min.js"></script>
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 
 <!-- Bootstrap (for modal) -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -115,7 +136,7 @@ ul {
 }
 
 a:link {
-	color : black;
+   color : black;
    text-decoration: none
 }
 
@@ -542,7 +563,7 @@ textarea {
    width: 100%;
    height: 120px;
    border: 1px solid #cecece;
-   font-weight: 600;
+  
 }
 
 .board_view_input {
@@ -551,7 +572,19 @@ textarea {
 
 .btn_txt01 {
    color: white;
-   font-weight: 600;
+   
+}
+
+.btn_list2 {
+   display: inline-block;
+   background: #f3f3f3;
+   border: 1px solid;
+    border-color: #ccc #c6c6c6 #c3c3c3 #ccc;
+   padding: 6px 17px 7px 17px;
+}
+
+.btn_txt03 {
+   color: #000;
 }
 
 .btn_txt02 {
@@ -571,7 +604,6 @@ textarea {
 
 .img_size {
    width: 1280px;
-   height: 400px;
    overflow: auto;
 }
 
@@ -584,25 +616,42 @@ textarea {
 }
 
 .modal-content {
-	border: 1px solid black;
+   border: 1px solid black;
     height: 100%;
 }
+.cmttable tr{
+   border-bottom: 2px solid #c4b2b2;
+   border-top: 2px solid #aa9d9d;
+
+   border-right: none;
+   border-left: none;
+}
+
+.cmttable td{
+   vertical-align: top;
+   border-right: none;
+   border-left: none;
+   padding: 10px 0; 
+   text-align : left;
+}
+
+
 
 #noticelogo {
-	width: 25%;
+   width: 25%;
 }
 
 .modal-body {
-	padding-top: 0px;
-	height: 100%;
+   padding-top: 0px;
+   height: 100%;
 }
 
 .modal-body span {
-	float: right;
+   float: right;
 }
 
 #modalBtn:hover {
-	background-color: #5c3018;
+   background-color: #5c3018;
 }
 
 .logoclick:active {
@@ -628,10 +677,10 @@ textarea {
                 <li><b><a href="../admin" class="logoclick">관리자페이지</b></li></a>
                 <li><b><a href="../favorite" class="logoclick">즐겨찾기</b></li></a>
                 <li id="bell" style="margin-left: 20px;">
-                	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-						<img src="../../images/bell.png">
-					</button><%=noticeCount %>
-				</li>
+                   <button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  <img src="../../images/bell.png">
+               </button><%=noticeCount %>
+            </li>
             </ul>
           </div>
         </div> <!--headerWap-->
@@ -700,7 +749,7 @@ textarea {
                      <td><%=hit %></td>
                   </tr>
                   <tr>
-                  	 <th width="10%">소모임</th>
+                      <th width="10%">소모임</th>
                      <td width="20%" colspan="3"><%=tname %></td>
                   </tr>
                   <tr>
@@ -713,6 +762,82 @@ textarea {
                   </tr>
                </table>
             </div>
+
+<div class="cmttable" style="clear: both;
+            margin-bottom: 8px;
+            overflow: hidden;
+            _height: 1%;
+            background: #fff;
+            margin-top:100px;
+            display: table;
+            border-collapse: separate;">
+            <div class="tablewrap" style="display : table-cell;">
+            <table width="100%" cellpadding="0" cellspacing="0" style="table-layout : fixed; ">
+               <tbody>
+               
+               <%=commentSb %>
+<!--                   <tr>
+                     <td class="nick" style="padding-left: 10px;
+                     width: 114px; color:blue">김영규</td>
+                     <td class="comment">맛있음 굿굿</td>
+                     <td class="data" style="padding-left: 400px;">2022-08-09&nbsp;&nbsp;&nbsp;&nbsp;X</td>
+                     
+                  </tr>
+
+                  <tr>
+                     <td class="nick" style="padding-left: 10px;
+                     width: 114px; color:blue">정규진</td>
+                     <td class="comment">예전에 가봤는데 별로였음</td>
+                     <td class="data" style="padding-left: 400px;">2022-08-09&nbsp;&nbsp;&nbsp;&nbsp;X</td>
+                     
+                  </tr> -->
+
+
+               </tbody>
+
+            </table>
+            </div>
+         </div><!-- cmttable -->
+
+            <div class="cmteditor" style=" margin-bottom: 15px;
+            padding: 12px 16px 20px;
+            background: #fcfcfc;
+            border: 1px solid #ddd;
+            border-bottom-color: #ccc;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px -1px rgb(0 0 0 / 10%);">
+
+            <label for="editorlabel" style="cursor: pointer; position: relative;
+            margin-bottom: 10px;"> 
+               <strong style="padding-left:5px;font-size:16px;line-height:1.5;">댓글 쓰기</strong>
+            </label>
+
+            <form style="display: block;
+            position: relative;
+            clear: both;"
+            action="../../../mypage/view/writecmt" name="cfrm">
+            <input type="hidden" name="tseq" value="<%=tseq %>" />         
+            <input type="hidden" name="cpage" value="<%=cpage %>" />
+            <input type="hidden" name="bseq" value="<%=bseq %>" />
+            <div class="textcmt" style="display: flex; margin-top: 10px;">
+               <textarea name="cContent" style="background: rgb(255, 255, 255);
+               overflow: hidden;
+               min-height: 4em;
+               height: 49px;
+               width: 85%;
+               margin-left: 3px;
+               resize : none;
+               "></textarea>
+
+            <input type="button" id="cbtn" value="등록" class="btn_list2 btn_txt03"
+            style="cursor: pointer; margin-left:40px ;" />
+            </div>
+
+            </form>
+
+
+
+            </div> <!-- cmteditor -->
 
             <div class="btn_area">
                <div class="align_left">
@@ -733,6 +858,22 @@ textarea {
          </div>
       </div>
    </div>
+         <script type="text/javascript">
+   window.onload = function() {
+      document.getElementById( 'cbtn' ).onclick = function() {
+
+         if( document.cfrm.cContent.value.trim() == "" ) {
+            alert( '내용을 입력하셔야 합니다.' );
+            return false;
+         }
+         
+         document.cfrm.submit();
+      };
+      
+
+   };
+
+</script>
 </body>
 
 </html>

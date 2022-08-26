@@ -18,7 +18,7 @@
              log = "LOGOUT";
        } else {
              out.println ( "<script>");
-            out.println ( "window.location.href = 'https://mukjo.herokuapp.com/welcome'");
+            out.println ( "window.location.href = 'http://localhost/welcome'");
             out.println ( "</script>");
        }
     
@@ -59,7 +59,7 @@
    href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css"
    rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Sunflower:500" rel="stylesheet">
-<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <!-- Bootstrap (for modal) -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
@@ -736,7 +736,7 @@ footer {
    <!-- 전체 요소를 감싸는 div -->
    <div id="wrap">
       <form action="./change/success" method="post" name="mpfrm" class="validation-form">
-            <h2>내 정보수정</h2>
+            <h2>내 정보 수정</h2>
             <hr />
             <div class="user_id">
                <h4>계정</h4>

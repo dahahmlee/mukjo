@@ -17,13 +17,17 @@
       log = "LOGOUT";
    } else {
       out.println ( "<script>");
-      out.println ( "window.location.href = 'https://mukjo.herokuapp.com/welcome'");
+      out.println ( "window.location.href = 'http://localhost/welcome'");
       out.println ( "</script>");
    }
 
    String tseq = request.getParameter("tseq");
-   
+   String search = request.getParameter("search");
+   if (search==null) {
+      search="강남역";
+   }
    String tname = (String)request.getAttribute("tname");
+   
    ArrayList<FoodTO> lists = (ArrayList<FoodTO>)request.getAttribute("lists");
    
    StringBuilder sbHtml = new StringBuilder();
@@ -45,7 +49,7 @@
       
       
       sbHtml.append( "<div class='lists1'>" );
-       sbHtml.append( "<a href='../../main/search/info?tseq=" + tseq + "&id=" + id + "&latitude=" + latitude + "&longitude=" + longitude + "'><img class='list1' style=\"background-image: url('" + thumurl + "');\">");
+       sbHtml.append( "<a href='../../main/search/info?tseq=" + tseq +"&search="+search+"&id=" + id + "&latitude=" + latitude + "&longitude=" + longitude + "'><img class='list1' style=\"background-image: url('" + thumurl + "');\">");
        sbHtml.append( "<span class='write1'>"+name+"</span>" );
        sbHtml.append( "<span class='write2'>"+category+"</span>" );
        sbHtml.append( "<span class='write3'><i class='fa fa-star' style='font-size:20px;color:red'></i> "+avgStar+"</span>" );
@@ -89,7 +93,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <!-- 지도 -->
 <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=f8b62z9xjz&amp;submodules=geocoder"></script>
-<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <!-- Bootstrap (for modal) -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
@@ -134,9 +138,6 @@ input{
 ul{
     list-style:none;
 }
-
-
-
 
 img{
     width: 100%;
@@ -619,8 +620,9 @@ $('.logoclick').click(function(event){
           
             <div class="search-wrap">  
              
-            <form class="input" action="/main/search?tseq=<%=tseq %>" method="post" name="sfrm">
-               <input type="text" title="검색어 입력" name="search" placeholder="식당/지역 검색" />
+            <form class="input" action="/main/search" method="get" name="sfrm">
+               <input type="hidden" name="tseq" value="<%=tseq %>" />
+               <input type="text" title="검색어 입력" name="search" placeholder="<%=search %>" />
                <button type="submit">검색</button>
          </form><!-- input -->
          </div><!-- search-wrap -->

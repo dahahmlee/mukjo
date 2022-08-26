@@ -20,29 +20,32 @@ body,ul ,li, h1,h2,h3 {
 
 <%
    int flag = (int)request.getAttribute("flag");
-
-   out.println("<script type='text/javascript'>");
-   out.println("$().ready(function () {");
    String tseq = request.getParameter("tseq");
    String bseq = request.getParameter("bseq");
+   String cseq = request.getParameter("cseq");
    String cpage = request.getParameter("cpage");
+   
+   out.println("<script type='text/javascript'>");
+   out.println("$().ready(function () {");
+
+   
    if(flag == 1) {
       out.println("   Swal.fire({");
-      out.println("      title: '댓글 작성 성공',");
-      out.println("      text: '댓글 작성이 완료되었습니다.',");
+      out.println("      title: '댓글 삭제 성공',");
+      out.println("      text: '댓글 삭제를 완료되었습니다.',");
       out.println("      icon: 'success',");
       out.println("      confirmButtonColor: '#3085d6',");
       out.println("      confirmButtonText: '확인',");
       out.println("      reverseButtons: false,");
       out.println("   }).then((result) => {");
       out.println("      if (result.isConfirmed) {");
-      out.println("      location.href='../../../main/board/view?tseq="+tseq+"&cpage="+cpage+"&bseq="+bseq+"'");
+      out.println("      location.href='../../../mypage/view?cpage="+cpage+"&bseq="+bseq+"'");
       out.println("      }");
       out.println("   })");
    } else {
       out.println("   Swal.fire({");
-      out.println("      title: '댓글 작성 실패',");
-      out.println("      text: '댓글 작성을 실패했습니다.',");
+      out.println("      title: '댓글 삭제 실패',");
+      out.println("      text: '댓글 삭제를 실패했습니다.',");
       out.println("      icon: 'error',");
       out.println("      confirmButtonColor: '#3085d6',");
       out.println("      confirmButtonText: '확인',");

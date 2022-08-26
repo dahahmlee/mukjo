@@ -19,7 +19,7 @@
 
       } else {
          out.println ( "<script>");
-         out.println ( "window.location.href = 'https://mukjo.herokuapp.com/welcome'");
+         out.println ( "window.location.href = 'http://localhost/welcome'");
          out.println ( "</script>");
       }   
     
@@ -167,7 +167,6 @@
 body,ul ,li, h1,h2,h3{
     margin: 0;
     padding: 0;
-     font-family: 'Sunflower' !important;
 }
 
 button{
@@ -184,6 +183,7 @@ input{
     word-spacing: normal;
     line-height: normal;
     text-transform: none;
+    font-family: 'Sunflower' !important;
     text-indent: 0px;
     text-shadow: none;
     display: inline-block;
@@ -250,6 +250,7 @@ button {
 }
 
 .btn_list {
+   font-family: 'Sunflower' !important;
    display: inline-block;
    background: #5c3018;
    border: 1px solid #404144;
@@ -295,6 +296,7 @@ nav{
 }
 
 #header ul li{
+	font-family: 'Sunflower' !important;
     margin-left: 65px;
 }
 
@@ -331,7 +333,7 @@ nav{
 }
 
 #headerWap h3 {
-  
+   font-family: 'Sunflower' !important;
    justify-content: left;
    position: absolute;
    margin-left: 120px;
@@ -423,6 +425,8 @@ nav{
 
 #tblWrap{
     padding-top: 30px;
+    font-family: 'Sunflower' !important;
+    
 }
 .notice {
    background-color: #F2F2F2;
@@ -457,7 +461,8 @@ nav{
     position: relative;
 }
 .form-select{
-   font-size: 14px;
+	font-family: 'Sunflower' !important;
+    font-size: 14px;
     font-weight: 600;
 }
 
@@ -536,7 +541,7 @@ nav{
     color:white;
     background-color: #de5f47;
 }
-    .board_pagetab { text-align: center; display: inline-flex; position:relative;}
+   .board_pagetab { text-align: center; display: inline-flex; position:relative;}
    .board_pagetab a { text-decoration: none; font: 12px verdana; color: #000; padding: 0 3px 0 3px; }
     /* .board_pagetab ul a:hover  { background-color:black; } */
    .on a { font-weight: bold; }
@@ -562,7 +567,8 @@ footer{
 }
 
 .modal-content {
-   border: 1px solid black;
+	font-family: 'Sunflower' !important;
+    border: 1px solid black;
     height: 100%;
 }
 #noticelogo {
@@ -570,12 +576,14 @@ footer{
 }
 
 .modal-body {
+   font-family: 'Sunflower' !important;
    padding-top: 0px;
    height: 100%;
 }
 
 .modal-body span {
-   float: right;
+	font-family: 'Sunflower' !important;
+	float: right;
 }
 
 .notice img {
@@ -783,7 +791,7 @@ $('.logoclick').click(function(event){
                   out.println( "<span class='off'><a href='../../main/board?tseq="+tseq+"&cpage=" + ( startBlock - blockPerPage ) + "'>&lt;&lt;</a></span>" );
                }
                
-               out.println( "&nbsp;" );
+               out.println( "&nbsp;&nbsp;&nbsp;" );
             
                if( cpage == 1 ) {
                   out.println( "<span class='on'>&lt;</span>" );
@@ -791,9 +799,9 @@ $('.logoclick').click(function(event){
                   out.println( "<span class='off'><a href='../../main/board?tseq="+tseq+"&cpage=" + ( cpage - 1 )+ "'>&lt;&nbsp;</a></span>" );
                }
                
-               out.println( "&nbsp;&nbsp;" );
-               out.println( "<ul>");
+               out.println( "&nbsp;&nbsp;&nbsp;" );
                
+               out.println( "<ul>");
                
                for( int i=startBlock ; i<=endBlock ; i++ ) {
                   if( cpage == i ) {
@@ -802,10 +810,10 @@ $('.logoclick').click(function(event){
                      out.println( "<li class='off'><a href='../../main/board?tseq="+tseq+"&cpage=" + i + "'>" + i + "</a></li>" );
                   }
                }
-            
-               out.println( "</ul>");
+            	
                
-               out.println( "&nbsp;&nbsp;" );
+               out.println( "</ul>");
+               out.println( "&nbsp;" );
                
                if( cpage == totalPage ) {
                   out.println( "<span class='on'>&gt;</span>" );
@@ -813,7 +821,7 @@ $('.logoclick').click(function(event){
                   out.println( "<span class='off'><a href='../../main/board?tseq="+tseq+"&cpage=" + ( cpage + 1 )+ "'>&gt;</a></span>" );
                }
                
-               out.println( "&nbsp;" );
+               out.println( "&nbsp;&nbsp;&nbsp;" );
                
                if( endBlock == totalPage ) {
                   out.println( "<span class='on'>&gt;&gt;</span>" );

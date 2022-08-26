@@ -19,7 +19,7 @@
        log = "LOGOUT";
     } else {
           out.println ( "<script>");
-         out.println ( "window.location.href = 'https://mukjo.herokuapp.com/welcome'");
+         out.println ( "window.location.href = 'http://localhost/welcome'");
          out.println ( "</script>");
     } 
     
@@ -27,6 +27,7 @@
    String avg=(String)request.getAttribute("avg");
    
    String tseq=request.getParameter("tseq");
+   String search=request.getParameter("search");
    String rname = (String)request.getAttribute("rname");
    String id=request.getParameter("id");
    String latitude=request.getParameter("latitude");
@@ -42,7 +43,7 @@
       sb.append("<td>"+rto.getWriter()+"</td>");
       sb.append("<td class='comment'>"+ rto.getRcontent()+"</td>");
       if(loginedMemberSeq.equals(rto.getSeq())||loginedMemberSeq.equals("1")) {
-         sb.append("<td class='data'><a href='../../../main/search/review/del?tseq="+tseq+"&id="+id+"&latitude="+latitude+"&longitude="+longitude+"&rseq="+rto.getRseq()+"' style> &nbsp X </a></td> ");
+         sb.append("<td class='data'><a href='../../../main/search/review/del?tseq="+tseq+"&search="+search+"&id="+id+"&latitude="+latitude+"&longitude="+longitude+"&rseq="+rto.getRseq()+"' style> &nbsp X </a></td> ");
       } else {
          sb.append("<td class='data'></td> ");
       }
@@ -84,8 +85,9 @@
     <link href="https://fonts.googleapis.com/css?family=Sunflower:500" rel="stylesheet">
     <!-- 부트스트랩 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
     <!-- 제이쿼리 -->
-    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/raty/3.1.1/jquery.raty.min.js" integrity="sha512-Isj3SyFm+B8u/cErwzYj2iEgBorGyWqdFVb934Y+jajNg9kiYQQc9pbmiIgq/bDcar9ijmw4W+bd72UK/tzcsA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
    
    <!-- Bootstrap (for modal) -->
@@ -100,7 +102,7 @@
 /** common **/
 a:link {  color: black; text-decoration: none}
     a:visited {color: black; text-decoration: none;}
-    a:hover {color: #de5f47; text-decoration: none;}
+    a:hover {color: #f1b654; text-decoration: none;}
     a:active {color: #de5f47; text-decoration: none;}
 body,ul ,li, h1,h2,h3{
     margin: 0;
@@ -146,7 +148,7 @@ table{
 :root {
   --button-color: #ffffff;
   --button-bg-color: #5c3018;
-  --button-hover-bg-color: #5c3018;
+  --button-hover-bg-color: none;
 }
 button {
   -webkit-appearance: none;
@@ -439,13 +441,27 @@ input[type="checkbox"] {
     display: none;
 }
 
-
 /* button */
 .logoclick:active {
   top: 3px;
   border-color: rgba(0,0,0,0.34) rgba(0,0,0,0.21) rgba(0,0,0,0.21);
   box-shadow: 0 1px 0 rgba(255,255,255,0.89),0 1px rgba(0,0,0,0.05) inset;
   position: relative;
+}
+
+#btnarrow {
+   position: absolute;
+    float: left;
+    top: 10px;
+    left: 0;
+}
+
+#btnarrow i{
+    font-size: 20px;
+}
+
+#btnarrow title{
+    font-size: 20px;
 }
 
 </style>
@@ -540,7 +556,10 @@ $('.logoclick').click(function(event){
                          <table border="1" style="width: 100%; height: 20%; border-collapse: separate; border-bottom: 2px solid black" >  
                              <thead>
                                <tr style="position:relative; height:61px; border-collapse: separate;">
-<%=sbhh %>                                     
+                        <%=sbhh %>      
+                        <button id="btnarrow" type="button" class="btn btn-outline-none" data-bs-toggle="tooltip" data-bs-placement="top" title="검색결과 다시보기">
+                             <a href="../../main/search?tseq=<%=tseq %>&search=<%=search%>"><i class="bi bi-arrow-90deg-left"></i></a>
+                        </button>                               
                                       <div class="checkbox">
                                          <input type="checkbox" id="favCheck" <%=onoff %>>
                                <label for="favCheck" style="margin-right: 10px;"></label>
@@ -548,10 +567,10 @@ $('.logoclick').click(function(event){
                         
                         
                                   <tr id="tabBox" style="height:61px; border: 1.5px solid black">
-                                    <th scope="col" class="th-title"><a href="../../../main/search/info?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" >홈</a></th>
-                                    <th scope="col" class="th-date"><a href="../../../main/search/review?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" style="color : #de5f47">리뷰</a></th>
-                                    <th scope="col" class="th-num"><a href="../../../main/search/menu?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" >메뉴</a></th>
-                                    <th scope="col" class="th-date"><a href="../../../main/search/pic?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" >사진</a></th>
+                                    <th scope="col" class="th-title"><a href="../../../main/search/info?tseq=<%=tseq%>&search=<%=search %>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" >홈</a></th>
+                                    <th scope="col" class="th-date"><a href="../../../main/search/review?tseq=<%=tseq%>&search=<%=search %>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" style="color : #de5f47">리뷰</a></th>
+                                    <th scope="col" class="th-num"><a href="../../../main/search/menu?tseq=<%=tseq%>&search=<%=search %>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" >메뉴</a></th>
+                                    <th scope="col" class="th-date"><a href="../../../main/search/pic?tseq=<%=tseq%>&search=<%=search %>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" >사진</a></th>
                                 </tr> 
                             </thead>
 
@@ -574,6 +593,7 @@ $('.logoclick').click(function(event){
                </label>
             <input type="hidden" id="starRating" name="star" value="3" />
             <input type="hidden" name="tseq" value="<%=tseq %>" />         
+            <input type="hidden" name="search" value="<%=search %>" />         
             <input type="hidden" name="id" value="<%=id %>" />
             <input type="hidden" name="latitude" value="<%=latitude %>" />         
             <input type="hidden" name="longitude" value="<%=longitude %>" />

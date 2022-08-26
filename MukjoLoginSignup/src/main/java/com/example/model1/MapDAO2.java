@@ -39,9 +39,9 @@ public class MapDAO2 {
          
          while ((line=br.readLine())!=null) {
             
-            if (line.contains("<div class=\"place_section_content\"><ul class=\"_2yHts\">")) {
+             if (line.contains("<ul class=\"ZUYk_\">")) {     
                
-               what=line.split("</div></div></a></li></ul><div class=\"_3KJkk\">")[0];
+                 what=line;
 
                }
             }
@@ -53,7 +53,7 @@ public class MapDAO2 {
             if (br!=null) try {br.close();} catch(IOException e) {}
          }
       
-         link="<a href=\"/restaurant/"+rescode+"/menu/"+rescode+"_";
+      link="<a href=\"/restaurant/"+rescode+"/menu/"+rescode+"_";
 
          for (int i=1; i<what.split(link).length; i++) {
             MenuTO to=new MenuTO();
@@ -67,9 +67,17 @@ public class MapDAO2 {
                to.setRmenuimage(what.split(link)[i].replace("&quot;","").split("background-image:url")[1].split("<span class=\"place_blind\">")[0].replace(")\">","").replace("(",""));
             }
             
-            to.setRmenuname(what.split(link)[i].split("\"_3yfZ1\">")[1].split("</span></div></div><div class")[0].replace("</span><span class=\"_1-N1N\"><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 29 16\" class=\"_3mZLQ\" aria-hidden=\"true\"><path fill=\"#ffaf3b\" d=\"M8 0h13c4.4 0 8 3.6 8 8s-3.6 8-8 8H8c-4.4 0-8-3.6-8-8s3.6-8 8-8z\"></path><path fill=\"#fff\" d=\"M13.7 12.9h-1.2V8h-.9v4.5h-1.2V3.2h1.2v3.7h.9V3.1h1.2v9.8zM6.9 9.5c1 0 2.2-.1 2.8-.2l.1 1c-.7.2-2.2.3-3.3.3h-.9V4.2h3.7v1H6.9v4.3zm16.5 2.1h-8.9v-1h2.2V8.7H18v1.9h1.9V8.7h1.3v1.9h2.2v1zm-.9-3.3h-7.2v-1h1.4l-.2-1.8 1.3-.1.1 2H20l.3-2 1.2.2-.3 1.8h1.3v.9zm.1-3.5h-7.2v-1h7.2v1z\"></path></svg><span class=\"place_blind\">대표</span>", "").replace("&amp;", "&"));
-
-            to.setRmenuprice(what.split(link)[i].split("=\"_3qFuX\">")[1].split("</div></div></a></li><li class=\"_3j-Cj\">")[0]);
+            rmenuname=what.split(link)[i].split("<span class=\"Sqg65\">")[1].split("</span><span class=\"GPETv\">")[0].replaceAll("&amp;", "&");
+           if (rmenuname.contains("</span></div></div><div class=\"TvLl7\">")) {
+              rmenuname=rmenuname.split("</span></div></div><div class=\"TvLl7\">")[0].replaceAll("&amp;", "&");
+           }
+            to.setRmenuname(rmenuname);
+            
+            rmenuprice=what.split(link)[i].split("<div class=\"SSaNE\">")[1].split("</div></div></a></li><li class=\"P_Yxm\">")[0];
+           if (rmenuprice.contains("</div></div></a></li></ul><div class=\"KPQDP\">")) {
+              rmenuprice=rmenuprice.split("</div></div></a></li></ul><div class=\"KPQDP\">")[0];
+           }
+            to.setRmenuprice(rmenuprice);
             
             resMenu.add(to);
          }

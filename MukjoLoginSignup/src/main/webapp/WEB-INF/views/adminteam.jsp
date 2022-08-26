@@ -18,12 +18,12 @@
           if (!loginedMemberSeq.equals("1")) {
                    out.println ( "<script>");
                    out.println( "alert('관리자만 관리자페이지에 들어갈 수 있습니다.');" );
-                out.println ( "window.location.href = 'https://mukjo.herokuapp.com/main'");
+                out.println ( "window.location.href = 'http://localhost/main'");
                 out.println ( "</script>");
                 }
        } else {
           out.println ( "<script>");
-         out.println ( "window.location.href = 'https://mukjo.herokuapp.com/welcome'");
+         out.println ( "window.location.href = 'http://localhost/welcome'");
          out.println ( "</script>");
        }
        
@@ -54,7 +54,7 @@
                 int memcount=teamLists.get(i).getMemcount();
 
                 if (!tseq.equals("1") && !tseq.equals("")) {
-                	sbHtml.append("<tr>");
+                   sbHtml.append("<tr>");
                     sbHtml.append("<td>"+num+"</td>");
                     sbHtml.append("<td>"+tname+"</td>");
                     sbHtml.append("<td>"+name+"</td>");
@@ -643,7 +643,7 @@ footer{
    out.println("</ul>");
    
    if (cpage==totalPage) { //>
-      out.println("<span>&nbsp;&nbsp;<a>&gt;</a></span>");
+      out.println("<span><a>&gt;</a></span>");
    } else {
       out.println("<span>&nbsp;&nbsp;<a href='../admin/groups?cpage="+(cpage+1)+"'>&gt;</a></span>");
    }

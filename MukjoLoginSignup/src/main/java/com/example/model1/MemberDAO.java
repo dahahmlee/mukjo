@@ -485,77 +485,77 @@ public class MemberDAO {
 		return pageTeamMemberTO;
 	}
 	
-	//회원 탈퇴
-		public int myPage_info_delete(String seq) {
-			Connection conn = null;
-			PreparedStatement pstmt = null;
+//회원 탈퇴
+	public int myPage_info_delete(String seq) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+	
+		int flag=1;
 		
-			int flag=1;
-			
-			if (seq.equals("1")) {
-				flag=50;
-			} else {
-				try {
-					conn = this.dataSource.getConnection();
-					
-					String sql = "SET foreign_key_checks = 0";
-					pstmt = conn.prepareStatement(sql);
-					pstmt.executeUpdate();
-					
-					sql = "delete from favorite where seq=?";
-					pstmt = conn.prepareStatement(sql);
-					pstmt.setString(1, seq);
-					pstmt.executeUpdate();
-					
-					sql = "delete from teammember where seq=?";
-					pstmt = conn.prepareStatement(sql);
-					pstmt.setString(1, seq);
-					pstmt.executeUpdate();
-					
-					sql = "delete from team where seq=?";
-					pstmt = conn.prepareStatement(sql);
-					pstmt.setString(1, seq);
-					pstmt.executeUpdate();
-					
-					sql = "delete from boardcmt where seq=?";
-					pstmt = conn.prepareStatement(sql);
-					pstmt.setString(1, seq);
-					pstmt.executeUpdate();
-					
-					sql = "delete from board where seq=?";
-					pstmt = conn.prepareStatement(sql);
-					pstmt.setString(1, seq);
-					pstmt.executeUpdate();
-					
-					/*
-					sql = "delete from reviewcmt where seq=?";
-					pstmt = conn.prepareStatement(sql);
-					pstmt.setString(1, seq);
-					pstmt.executeUpdate();
-					*/
-					
-					sql = "delete from review where seq=?";
-					pstmt = conn.prepareStatement(sql);
-					pstmt.setString(1, seq);
-					pstmt.executeUpdate();
-					
-					String sql3 = "SET foreign_key_checks = 1";
-					pstmt = conn.prepareStatement(sql3);
-					pstmt.executeUpdate();
-					
-					String sql2 = "delete from member where seq=?";
-					pstmt = conn.prepareStatement(sql2);
-					pstmt.setString(1, seq);
-					if(pstmt.executeUpdate() == 1) {
-						flag = 0;
-					}
-				} catch(SQLException e) {
-					System.out.println("[에러]: " + e.getMessage());
-				} finally {
-					if(pstmt != null) try{ pstmt.close(); } catch(SQLException e) {}
-					if(conn != null) try{ conn.close(); } catch(SQLException e) {}
+		if (seq.equals("1")) {
+			flag=50;
+		} else {
+			try {
+				conn = this.dataSource.getConnection();
+				
+				String sql = "SET foreign_key_checks = 0";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.executeUpdate();
+				
+				sql = "delete from favorite where seq=?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, seq);
+				pstmt.executeUpdate();
+				
+				sql = "delete from teammember where seq=?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, seq);
+				pstmt.executeUpdate();
+				
+				sql = "delete from team where seq=?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, seq);
+				pstmt.executeUpdate();
+				
+				sql = "delete from boardcmt where seq=?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, seq);
+				pstmt.executeUpdate();
+				
+				sql = "delete from board where seq=?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, seq);
+				pstmt.executeUpdate();
+				
+				/*
+				sql = "delete from reviewcmt where seq=?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, seq);
+				pstmt.executeUpdate();
+				*/
+				
+				sql = "delete from review where seq=?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, seq);
+				pstmt.executeUpdate();
+				
+				String sql3 = "SET foreign_key_checks = 1";
+				pstmt = conn.prepareStatement(sql3);
+				pstmt.executeUpdate();
+				
+				String sql2 = "delete from member where seq=?";
+				pstmt = conn.prepareStatement(sql2);
+				pstmt.setString(1, seq);
+				if(pstmt.executeUpdate() == 1) {
+					flag = 0;
 				}
+			} catch(SQLException e) {
+				System.out.println("[에러]: " + e.getMessage());
+			} finally {
+				if(pstmt != null) try{ pstmt.close(); } catch(SQLException e) {}
+				if(conn != null) try{ conn.close(); } catch(SQLException e) {}
 			}
-			return flag;
 		}
+		return flag;
+	}
 }

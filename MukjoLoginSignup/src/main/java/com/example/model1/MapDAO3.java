@@ -41,8 +41,7 @@ public class MapDAO3 {
          } catch (IOException e) {
             e.printStackTrace();
          }
-         Elements scripts = doc.getElementsByClass("cb7hz _div");
-         //System.out.println(scripts.get(1).attr("style").split("background-image:")[1].replace("url(\"", "").split("background")[0].replace("\");", ""));
+         Elements scripts = doc.getElementsByClass("K0PDV _div");
 
          for(Element element : scripts) {
             lists.add(element.attr("style").split("background-image:")[1].replace("url(\"", "").split("background")[0].replace("\");", ""));

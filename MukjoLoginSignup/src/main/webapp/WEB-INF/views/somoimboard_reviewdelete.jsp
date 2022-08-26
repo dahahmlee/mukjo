@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
 <link href="https://fonts.googleapis.com/css?family=Sunflower:500" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
-<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 
 <style>
 
@@ -23,6 +23,7 @@ body,ul ,li, h1,h2,h3 {
 <%
    int flag = (int)request.getAttribute("flag");
    String tseq = request.getParameter("tseq");
+   String search = request.getParameter("search");
    String id = request.getParameter("id");
    String longitude = request.getParameter("longitude");
    String latitude = request.getParameter("latitude");
@@ -41,7 +42,7 @@ body,ul ,li, h1,h2,h3 {
       out.println("      reverseButtons: false,");
       out.println("   }).then((result) => {");
       out.println("      if (result.isConfirmed) {");
-      out.println("      location.href='../../../../main/search/review?tseq="+tseq+"&id="+id+"&latitude="+latitude+"&longitude="+longitude+"'");
+      out.println("      location.href='../../../../main/search/review?tseq="+tseq+"&search="+search+"&id="+id+"&latitude="+latitude+"&longitude="+longitude+"'");
       out.println("      }");
       out.println("   })");
    } else {

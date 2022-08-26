@@ -18,7 +18,7 @@
 
       } else {
          out.println ( "<script>");
-         out.println ( "window.location.href = 'https://mukjo.herokuapp.com/welcome'");
+         out.println ( "window.location.href = 'http://localhost/welcome'");
          out.println ( "</script>");
       }   
     
@@ -719,9 +719,9 @@ $('.logoclick').click(function(event){
    out.println("</ul>");
    
    if (cpage==totalPage) { //>
-      out.println("<span>&nbsp;&nbsp;<a>&gt;</a></span>");
+      out.println("<span><a>&gt;</a></span>");
    } else {
-      out.println("<span>&nbsp;&nbsp;<a href='main/members?cpage="+(cpage+1)+"'>&gt;</a></span>");
+      out.println("<span><a href='main/members?cpage="+(cpage+1)+"'>&gt;</a></span>");
    }
    
    if (endBlock==totalPage) { //>>

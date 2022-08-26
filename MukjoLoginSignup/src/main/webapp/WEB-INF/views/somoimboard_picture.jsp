@@ -16,7 +16,7 @@
        log = "LOGOUT";
     } else {
           out.println ( "<script>");
-         out.println ( "window.location.href = 'https://mukjo.herokuapp.com/welcome'");
+         out.println ( "window.location.href = 'http://localhost/welcome'");
          out.println ( "</script>");
     } 
    
@@ -24,6 +24,8 @@
    String avg=(String)request.getAttribute("avg");
    
    String tseq=request.getParameter("tseq");
+   String search=request.getParameter("search");
+
    String id=request.getParameter("id");
    String latitude=request.getParameter("latitude");
    String longitude=request.getParameter("longitude");
@@ -88,21 +90,22 @@
     <link href="https://fonts.googleapis.com/css?family=Sunflower:500" rel="stylesheet">
     <!-- 부트스트랩 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-   
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
+      
    <!-- Bootstrap (for modal) -->
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
    
 <!-- 지도 -->
 <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=f8b62z9xjz&amp;submodules=geocoder"></script>
-<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 
 <style>
 /** common **/
 
 a:link {  color: black; text-decoration: none}
     a:visited {color: black; text-decoration: none;}
-    a:hover {color: #de5f47;; text-decoration: none;}
+    a:hover {color: #f1b654;; text-decoration: none;}
     a:active {color: #de5f47; text-decoration: none;}
 
 
@@ -156,7 +159,7 @@ table{
 :root {
   --button-color: #ffffff;
   --button-bg-color: #5c3018;
-  --button-hover-bg-color: #5c3018;
+  --button-hover-bg-color: none;
 }
 
 button {
@@ -483,13 +486,28 @@ input[type="checkbox"] {
   position: relative;
 }
 
+#btnarrow {
+   position: absolute;
+    float: left;
+    top: 10px;
+    left: 0;
+}
+
+#btnarrow i{
+    font-size: 20px;
+}
+
+#btnarrow title{
+    font-size: 20px;
+}
+
 </style>
 
 <script>
 $('.logoclick').click(function(event){
 
   });
-    </script>
+</script>
 
 </head>
 <body>
@@ -576,16 +594,21 @@ $('.logoclick').click(function(event){
                     <div style="width: 50%;">
                          <table border="1" style="width: 100%;    height: 20%;">  
                              <thead>
-<%=sbhh %>                                      
+                             <tr style="position:relative; height:61px; border-collapse: separate;">
+                      <%=sbhh %>  
+                  <button id="btnarrow" type="button" class="btn btn-outline-none" data-bs-toggle="tooltip" data-bs-placement="top" title="검색결과 다시보기">
+                       <a href="../../main/search?tseq=<%=tseq %>&search=<%=search%>"><i class="bi bi-arrow-90deg-left"></i></a>
+                  </button>                 
+                   
                         <div class="checkbox">
                                 <input type="checkbox" id="favCheck" <%=onoff %>>
                                <label for="favCheck" style="margin-right: 10px;"></label>
                              </div>
                                   <tr id="tabBox" style="height:61px; border: 1.5px solid black">
-                                   <th scope="col" class="th-title line"><a href="../../../main/search/info?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" >홈</a></th>
-                                    <th scope="col" class="th-date line"><a href="../../../main/search/review?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>">리뷰</a></th>
-                                    <th scope="col" class="th-num line"><a href="../../../main/search/menu?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" >메뉴</a></th>
-                                    <th scope="col" class="th-date line"><a href="../../../main/search/pic?tseq=<%=tseq%>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" style="color : #de5f47">사진</a></th>
+                                   <th scope="col" class="th-title line"><a href="../../../main/search/info?tseq=<%=tseq%>&search=<%=search %>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" >홈</a></th>
+                                    <th scope="col" class="th-date line"><a href="../../../main/search/review?tseq=<%=tseq%>&search=<%=search %>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>">리뷰</a></th>
+                                    <th scope="col" class="th-num line"><a href="../../../main/search/menu?tseq=<%=tseq%>&search=<%=search %>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" >메뉴</a></th>
+                                    <th scope="col" class="th-date line"><a href="../../../main/search/pic?tseq=<%=tseq%>&search=<%=search %>&id=<%=id %>&latitude=<%=latitude %>&longitude=<%=longitude %>" style="color : #de5f47">사진</a></th>
                                  
                                 </tr> 
                             </thead>

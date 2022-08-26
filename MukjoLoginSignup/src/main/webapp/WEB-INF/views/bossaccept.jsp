@@ -14,19 +14,19 @@
        String welcome = "";
     
        if(loginedMemberSeq != null) {
-     		welcome = (String)sess.getAttribute("loginedMemberName")+"님 환영합니다.";
-     		log = "LOGOUT";
-     		if (loginedMemberSeq.equals("1")) {
-     	   		out.println ( "<script>");
-     	   		out.println( "alert('관리자는 소모임장 페이지에 들어갈 수 없습니다.');" );
-     			out.println ( "history.back();");
-     			out.println ( "</script>");
-     	   	}
-     	} else {
-     		out.println ( "<script>");
-  		out.println ( "window.location.href = 'https://mukjo.herokuapp.com/welcome'");
-  		out.println ( "</script>");
-     	}
+           welcome = (String)sess.getAttribute("loginedMemberName")+"님 환영합니다.";
+           log = "LOGOUT";
+           if (loginedMemberSeq.equals("1")) {
+                 out.println ( "<script>");
+                 out.println( "alert('관리자는 소모임장 페이지에 들어갈 수 없습니다.');" );
+              out.println ( "history.back();");
+              out.println ( "</script>");
+              }
+        } else {
+           out.println ( "<script>");
+        out.println ( "window.location.href = 'http://localhost/welcome'");
+        out.println ( "</script>");
+        }
        
        PageMemberTO pageMemberTO = (PageMemberTO)request.getAttribute("pageMemberTO");
        String tseq = (String)request.getAttribute("tseq");
@@ -61,7 +61,7 @@
                 sbHtml.append( "<td>" + name + "</td>" );
                 sbHtml.append( "<td>" + email + "</td>" );
                 sbHtml.append( "<td>" + birth + "</td>" );
-               	sbHtml.append( "<td><a href='../../adgroups/request/yes?seq="+seq+"&name="+name+"&tseq="+tseq+"'><button type='sumbit'>승인</button></a>" );
+                  sbHtml.append( "<td><a href='../../adgroups/request/yes?seq="+seq+"&name="+name+"&tseq="+tseq+"'><button type='sumbit'>승인</button></a>" );
                 sbHtml.append( "&nbsp&nbsp<a href='../../adgroups/request/no?seq="+seq+"&name="+name+"&tseq="+tseq+"'><button type='sumbit'>거절</button></a></td>" );
                 sbHtml.append( "</tr>" );
                 num+=1;
@@ -80,7 +80,7 @@
           
           sb.append("<p style='padding-top:25px; margin-bottom:0px;'>"+words);
           sb.append("<div>");
-          sb.append("	<span>"+ndate+"</span>");
+          sb.append("   <span>"+ndate+"</span>");
           sb.append("</div>");
           sb.append("</p>");
        }
@@ -95,11 +95,11 @@
    
     <!-- 나눔스퀘어 폰트 -->
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Sunflower:500" rel="stylesheet">
-	<!-- Bootstrap (for modal) -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-	
+   <link href="https://fonts.googleapis.com/css?family=Sunflower:500" rel="stylesheet">
+   <!-- Bootstrap (for modal) -->
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+   
 <style>
 /** common **/
 
@@ -351,7 +351,7 @@ nav{
 /* 테이블 섹션 */
 
 #tblSec {
-	margin-top : 30px;
+   margin-top : 30px;
 }
 
 #tblSec table{
@@ -477,7 +477,7 @@ footer{
 }
 
 #tname {
-	font-size: 20px;
+   font-size: 20px;
 }
 
 .modal-dialog {
@@ -488,20 +488,20 @@ footer{
     right: 0px;
 }
 .modal-content {
-	border: 1px solid black;
+   border: 1px solid black;
     height: 100%;
 }
 #noticelogo {
-	width: 25%;
+   width: 25%;
 }
 
 .modal-body {
-	padding-top: 0px;
-	height: 100%;
+   padding-top: 0px;
+   height: 100%;
 }
 
 .modal-body span {
-	float: right;
+   float: right;
 }
 
 .logoclick:active {
@@ -528,10 +528,10 @@ footer{
                 <li><b><a href="../../admin" class="logoclick">관리자페이지</b></li></a>
                 <li><b><a href="../../favorite" class="logoclick">즐겨찾기</b></li></a>
                 <li id="bell" style="margin-left: 20px;">
-                	<button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-						<img src="../../images/bell.png">
-					</button><%=noticeCount %>
-				</li>
+                   <button type="button" id="modalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  <img src="../../images/bell.png">
+               </button><%=noticeCount %>
+            </li>
             </ul>
           </div>
         </div> <!--headerWap-->
@@ -583,8 +583,8 @@ footer{
 
     <!-- 전체 요소를 감싸는 div -->
     <div id="wrap">
-    	<section id="tblSec">
-    	 <span id="tname"><strong>소모임 : <b><%=tname %></b></strong></span>
+       <section id="tblSec">
+        <span id="tname"><strong>소모임 : <b><%=tname %></b></strong></span>
             <div id="tblWrap">
                 <table class="board-table">
             
@@ -668,7 +668,7 @@ footer{
    out.println("</ul>");
    
    if (cpage==totalPage) { //>
-      out.println("<span>&nbsp;&nbsp;<a>&gt;</a></span>");
+      out.println("<span><a>&gt;</a></span>");
    } else {
       out.println("<span>&nbsp;&nbsp;<a href='../../adgroups/request?cpage="+(cpage+1)+"'>&gt;</a></span>");
    }
