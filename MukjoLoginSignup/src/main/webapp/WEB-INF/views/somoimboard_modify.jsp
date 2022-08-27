@@ -36,7 +36,7 @@
        
        ArrayList<NoticeTO> noticeList=(ArrayList<NoticeTO>)request.getAttribute("noticeList");
         String noticeCount=(String)request.getAttribute("noticeCount").toString();
-        
+        String trash="no";
         StringBuilder sbh=new StringBuilder();
         for (int i=0; i<noticeList.size(); i++) {
            String words=noticeList.get(i).getWords();
@@ -598,6 +598,22 @@ textarea {
   position: relative;
 }
 
+.checkbox {
+   display: inline-block;
+   height: 18%;
+}
+input[type="checkbox"]+label {
+    display: flex;
+    width: 20px;
+    height: 20px;
+    background: url('../../../images/trash1.png') no-repeat 0 0px / contain;
+}
+input[type='checkbox']:checked+label {
+    background: url('../../../images/trash2.png') no-repeat 0 1px / contain;
+}
+input[type="checkbox"] {
+    display: none;
+}
 </style>
 
 <script>
@@ -682,6 +698,7 @@ $('.logoclick').click(function(event){
          <input type="hidden" name="tseq" value=<%=tseq %> >
          <input type="hidden" name="bseq" value=<%=bseq %> >
          <input type="hidden" name="cpage" value=<%=cpage %> >
+         <input type="hidden" name="trash" value=<%=trash %> >
             <div class="contents_sub">
                <!--게시판-->
                <div class="board_write">
@@ -697,7 +714,12 @@ $('.logoclick').click(function(event){
                      </tr>
                      <tr>
                               <th>파일첨부</th>
-                        <td>기존이미지 : <%=filename %> <br /> <br />
+                        <td class="textdeco">기존 이미지 : <%=filename %>
+                           <div class="checkbox">
+                               <input type="checkbox" id="delCheck">
+                               <label for="delCheck"></label>
+                             </div>
+                         <br /> <br />
                            <input type="file" name="upload" value=""
                            class="board_view_point">
                         </td>
@@ -721,8 +743,9 @@ $('.logoclick').click(function(event){
       </div>
    </div>
    
-   <script type="text/javascript">
+<script type="text/javascript">
    window.onload = function() {
+	  var str='<%=filename %>';
       document.getElementById( 'mbtn' ).onclick = function() {
 
          if( document.mfrm.subject.value.trim() == "" ) {
@@ -733,9 +756,21 @@ $('.logoclick').click(function(event){
             alert( '내용을 입력하셔야 합니다.' );
             return false;
          }
-         
-         document.mfrm.submit();
+         if (document.querySelector('#delCheck').checked == true && str!="") {
+        	 document.mfrm.trash.value="deleteImage";
+         }
+         document.mfrm.submit(); 
       };
+      
+      document.getElementById( 'delCheck' ).onclick = function() {
+         let x = document.getElementsByClassName("textdeco")[0];        
+         if (document.querySelector('#delCheck').checked == true && str!="") {
+        	 x.style.textDecoration = "line-through";  
+         } else {
+            x.style.textDecoration = "none";
+         }
+          
+       };
    };
 
 </script>

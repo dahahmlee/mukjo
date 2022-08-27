@@ -24,8 +24,6 @@ body,ul ,li, h1,h2,h3 {
    String bseq = (String)request.getAttribute("bseq");
    String cpage = (String)request.getAttribute("cpage");
    
-   System.out.println("ok tseq : " + tseq);
-
    out.println("<script type='text/javascript'>");
    out.println("$().ready(function () {");
    

@@ -1004,6 +1004,7 @@ public class MukjoController {
       String tseq = multi.getParameter("tseq");
       String bseq = multi.getParameter("bseq");
       String cpage = multi.getParameter("cpage");
+      String trash = multi.getParameter("trash");
 
       BoardTO to = new BoardTO();
       to.setBseq( bseq );
@@ -1014,7 +1015,7 @@ public class MukjoController {
          to.setFilesize( multi.getFile( "upload" ).length() );
       }
 
-      int flag = bdao.boardModifyOk(to, uploadPath);
+      int flag = bdao.boardModifyOk(to, uploadPath, trash);
       
 
       model.addAttribute("flag", flag );

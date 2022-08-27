@@ -351,7 +351,7 @@ public class BoardDAO {
             return bto;
       }
    
-   public int boardModifyOk(BoardTO to, String uploadPath) {
+   public int boardModifyOk(BoardTO to, String uploadPath, String trash) {
 
       
       int flag = 2;
@@ -360,8 +360,6 @@ public class BoardDAO {
 
          String oldFilename = jdbcTemplate.queryForObject(sql,String.class,to.getBseq());
 
-
-         
          if( to.getFilename() != null ) {
             sql = "update board set subject=?, content=?, filename=?, filesize=? where bseq=?";
             flag = jdbcTemplate.update(sql,to.getSubject(),to.getContent(),to.getFilename(),to.getFilesize(),to.getBseq());
@@ -370,7 +368,8 @@ public class BoardDAO {
             flag = jdbcTemplate.update(sql,to.getSubject(),to.getContent(),to.getBseq());
 
          }
-            
+           
+         
          if( flag == 0 ) {
 
             if( to.getFilename() != null ) {
@@ -378,11 +377,17 @@ public class BoardDAO {
                file.delete();
             }
          } else if( flag == 1 ) {
-
-            if( to.getFilename() != null && oldFilename != null ) {
-               File file = new File( uploadPath, oldFilename );
-               file.delete();
-            }
+        	 if (trash.equals("deleteImage")) { //휴지통 아이콘 눌리면
+            	 File file = new File( uploadPath, oldFilename );
+                 file.delete();
+                 sql = "update board set filename=null, filesize=0 where bseq=?";
+                 flag = jdbcTemplate.update(sql,to.getBseq());
+             } else {
+            	 if( to.getFilename() != null && oldFilename != null ) {
+                     File file = new File( uploadPath, oldFilename );
+                     file.delete();
+                  }
+             }           
          }
 
       return flag;
