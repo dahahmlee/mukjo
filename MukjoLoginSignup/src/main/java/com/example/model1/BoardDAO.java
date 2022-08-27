@@ -559,12 +559,13 @@ public class BoardDAO {
    }
    
    //글 modify_ok
-   public int noticeModifyOk(BoardTO to, String uploadPath) {
+   public int noticeModifyOk(BoardTO to, String uploadPath, String trash) {
       Connection conn=null;
       PreparedStatement pstmt=null;
       ResultSet rs=null;
       
       int flag=2; 
+      String oldFilename="";
       try {
          conn=this.dataSource.getConnection();
             
@@ -575,7 +576,8 @@ public class BoardDAO {
          
          to.setOldFileName("");
          if (rs.next()) { //기존 파일명
-            to.setOldFileName(rs.getString("filename"));
+             oldFilename=rs.getString("filename");
+        	 to.setOldFileName(oldFilename);
          }
          if (to.getNewFileName()!=null) { //새 첨부파일 있는 경우
             sql = "update board set subject=?, content=?, filename=?, filesize=? where bseq=?";
@@ -595,14 +597,27 @@ public class BoardDAO {
          }
          
          int result=pstmt.executeUpdate();
-         if (result==1) {
-            flag=0;
-            //기존 파일 삭제
-            if (to.getNewFileName()!=null) {
-               File file=new File(uploadPath,to.getOldFileName());
-               file.delete();
-            }
+         if (result==0) {
+        	 flag=1; //오류
+        	 if( to.getFilename() != null ) {
+                 File file = new File( uploadPath, to.getFilename() );
+                 file.delete();
+              }
+         } else if (result==1) { //성공
+        	 flag=0;
+        	 if (trash.equals("deleteImage")) { //휴지통 아이콘 눌리면
+            	 File file = new File( uploadPath, to.getOldFileName() );
+                 file.delete();
+                 sql = "update board set filename=null, filesize=0 where bseq=?";
+                 jdbcTemplate.update(sql,to.getBseq());
+             } else {
+            	 if( to.getFilename() != null && oldFilename != null ) {
+                     File file = new File( uploadPath, to.getOldFileName() );
+                     file.delete();
+                  }
+             } 
          }
+
       } catch (SQLException e) {
          System.out.println("[에러]:"+e.getMessage());
       } finally {

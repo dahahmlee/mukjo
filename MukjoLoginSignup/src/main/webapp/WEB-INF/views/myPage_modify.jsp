@@ -26,7 +26,11 @@
    String bseq=to.getBseq();
    String subject=to.getSubject();
    String content=to.getContent();
-   String fileName=to.getFilename();   
+   String fileName=to.getFilename();
+   if (fileName==null) {
+	   fileName="";
+   }
+   String trash="no";
    
    ArrayList<NoticeTO> noticeList=(ArrayList<NoticeTO>)request.getAttribute("noticeList");
    String noticeCount=(String)request.getAttribute("noticeCount").toString();
@@ -61,18 +65,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
-<script type="text/javascript">
-   window.onload=function() {
-      document.getElementById('mbtn').onclick=function() { //버튼 이벤트
-         if (document.mfrm.subject.value.trim()=='') {
-            alert('제목을 입력하셔야 합니다.');
-            return false;
-         }
-         //데이터 전송
-         document.mfrm.submit();
-      }
-   }
-</script>
+
 <style>
 /** common **/
 body,ul ,li, h1,h2,h3{
@@ -580,6 +573,23 @@ textarea {
   box-shadow: 0 1px 0 rgba(255,255,255,0.89),0 1px rgba(0,0,0,0.05) inset;
   position: relative;
 }
+
+.checkbox {
+   display: inline-block;
+   height: 18%;
+}
+input[type="checkbox"]+label {
+    display: flex;
+    width: 20px;
+    height: 20px;
+    background: url('../../../images/trash1.png') no-repeat 0 0px / contain;
+}
+input[type='checkbox']:checked+label {
+    background: url('../../../images/trash2.png') no-repeat 0 1px / contain;
+}
+input[type="checkbox"] {
+    display: none;
+}
 </style>
 
 </head>
@@ -656,6 +666,8 @@ textarea {
          <form action="./modify/success" method="post" name="mfrm" enctype="multipart/form-data">
          <input type="hidden" name="bseq" value="<%=bseq %>" />
          <input type="hidden" name="cpage" value="<%=cpage %>" />
+         <input type="hidden" name="trash" value=<%=trash %> >
+            
             <div class="contents_sub">
                <!--게시판-->
                <div class="board_write">
@@ -671,7 +683,12 @@ textarea {
                      </tr>
                      <tr>
                         <th>파일첨부</th>
-                        <td>기존이미지 : <%=fileName %> <br /> <br />
+                        <td class="textdeco">기존이미지 : <%=fileName %> 
+								<div class="checkbox">
+                               		<input type="checkbox" id="delCheck">
+                               		<label for="delCheck"></label>
+                             	</div>
+								<br /> <br />
                            <input type="file" name="upload" value=""
                            class="board_view_point">
                         </td>
@@ -698,6 +715,36 @@ textarea {
          </form>
       </div>
    </div>
+   <script type="text/javascript">
+window.onload = function() {
+	  var str='<%=fileName %>';
+  document.getElementById( 'mbtn' ).onclick = function() {
+
+     if( document.mfrm.subject.value.trim() == "" ) {
+        alert( '제목을 입력하셔야 합니다.' );
+        return false;            
+     }
+     if( document.mfrm.content.value.trim() == "" ) {
+        alert( '내용을 입력하셔야 합니다.' );
+        return false;
+     }
+     if (document.querySelector('#delCheck').checked == true && str!="") {
+    	 document.mfrm.trash.value="deleteImage";
+     }
+     document.mfrm.submit(); 
+  };
+  
+  document.getElementById( 'delCheck' ).onclick = function() {
+     let x = document.getElementsByClassName("textdeco")[0];        
+     if (document.querySelector('#delCheck').checked == true && str!="") {
+    	 x.style.textDecoration = "line-through";  
+     } else {
+        x.style.textDecoration = "none";
+     }
+      
+   };
+};
+</script>
 </body>
 
    </html>

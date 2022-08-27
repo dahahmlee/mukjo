@@ -710,7 +710,8 @@ public class MukjoController {
          to.setBseq(multi.getParameter("bseq"));
          to.setSubject(multi.getParameter("subject"));
          to.setContent(multi.getParameter("content"));
-
+         String trash=multi.getParameter("trash");
+         
          //새 파일명
          to.setNewFileName(multi.getFilesystemName("upload"));
          to.setNewFileSize(0);
@@ -718,7 +719,7 @@ public class MukjoController {
             to.setNewFileSize(multi.getFile("upload").length());
          }
          bseq = multi.getParameter("bseq");
-         flag=bdao.noticeModifyOk(to, uploadPath);
+         flag=bdao.noticeModifyOk(to, uploadPath, trash);
       } catch (IOException e) {
          System.out.println( "[에러] " + e.getMessage() );
       }
@@ -1314,6 +1315,7 @@ public class MukjoController {
          to.setBseq(multi.getParameter("bseq"));
          to.setSubject(multi.getParameter("subject"));
          to.setContent(multi.getParameter("content"));
+         String trash = multi.getParameter("trash");
 
          //새 파일명
          to.setNewFileName(multi.getFilesystemName("upload"));
@@ -1322,7 +1324,7 @@ public class MukjoController {
             to.setNewFileSize(multi.getFile("upload").length());
          }
          bseq = multi.getParameter("bseq");
-         flag=bdao.noticeModifyOk(to, uploadPath);
+         flag=bdao.noticeModifyOk(to, uploadPath, trash);
       } catch (IOException e) {
          System.out.println( "[에러] " + e.getMessage() );
       }
